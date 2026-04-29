@@ -1,0 +1,49 @@
+/*
+ * MD3: Expressive New Tab
+ * Copyright (c) 2026 SnowMint
+ * Licensed under the GNU General Public License v3.0 (GPL-3.0)
+ * You should have received a copy of the GNU General Public License along with this program.
+ * If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.display-widget {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 12vh;
+  margin-bottom: 2.5rem;
+  width: 100%;
+}
+
+.clock-expressive {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.time-card {
+  background-color: var(--color-tertiary);
+  border-radius: 2rem;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 4rem;
+}
+
+#hourDisplay,
+#minuteDisplay {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.time-separator {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  opacity: 0.5;
+  padding-bottom: 1rem;
+}

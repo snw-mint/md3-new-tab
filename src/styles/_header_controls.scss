@@ -1,0 +1,131 @@
+.main-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  z-index: 100;
+}
+
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.weather-widget {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-md);
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--color-secondary);
+  }
+}
+
+.weather-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-link {
+  font-size: 0.875rem;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: text-decoration 0.2s ease;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.icon-btn,
+.settings-control-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--color-secondary);
+  }
+
+  svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: currentColor;
+  }
+}
+
+.settings-control-btn {
+  width: 3rem;
+  height: 3rem;
+
+  &:hover .shape-layer {
+    transform: scale(1.05);
+  }
+
+  &:active .shape-layer {
+    transform: scale(0.95);
+  }
+}
+
+.settings-visual-stack {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.shape-layer,
+.icon-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shape-layer {
+  color: var(--color-secondary);
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+
+  svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+}
+
+.icon-layer {
+  color: var(--color-text);
+
+  svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: currentColor;
+  }
+}
