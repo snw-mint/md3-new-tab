@@ -1,0 +1,152 @@
+<!doctype html>
+<!--
+ - MD3: Expressive New Tab
+ - Copyright (c) 2025-2026 SnowMint
+ - Licensed under the GNU General Public License v3.0 (GPL-3.0)
+ - You should have received a copy of the GNU General Public License along with this program.
+ - If not, see <https://www.gnu.org/licenses/>.
+ -->
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Tab</title>
+
+    <link rel="preconnect" href="https://api.open-meteo.com" />
+    <link rel="preconnect" href="https://geocoding-api.open-meteo.com" />
+    <link rel="preconnect" href="https://peapix.com" />
+    <link rel="preconnect" href="https://api.nasa.gov" />
+    <link rel="preconnect" href="https://suggestqueries.google.com" crossorigin />
+
+    <link rel="preload" href="style.css" as="style" />
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="scripts/theme-loader.js"></script>
+
+</head>
+<header class="main-header">
+    <div class="header-left">
+        <a href="#" id="weatherWidget" class="weather-widget" target="_blank">
+            <div id="weatherIcon" class="weather-icon"></div>
+            <span id="weatherTemp" class="weather-temp">--°</span>
+            <span id="weatherCity" class="weather-city">...</span>
+        </a>
+    </div>
+
+    <nav class="header-right">
+        <a href="https://mail.google.com/mail/" class="header-link" id="gmailLink">Gmail</a>
+        <a href="https://www.google.com/imghp" class="header-link" id="imagesLink">Images</a>
+
+        <button id="appLauncherBtn" class="icon-btn" title="Apps">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                fill="currentColor">
+                <path
+                    d="M183.5-183.5Q160-207 160-240t23.5-56.5Q207-320 240-320t56.5 23.5Q320-273 320-240t-23.5 56.5Q273-160 240-160t-56.5-23.5Zm240 0Q400-207 400-240t23.5-56.5Q447-320 480-320t56.5 23.5Q560-273 560-240t-23.5 56.5Q513-160 480-160t-56.5-23.5Zm240 0Q640-207 640-240t23.5-56.5Q687-320 720-320t56.5 23.5Q800-273 800-240t-23.5 56.5Q753-160 720-160t-56.5-23.5Zm-480-240Q160-447 160-480t23.5-56.5Q207-560 240-560t56.5 23.5Q320-513 320-480t-23.5 56.5Q273-400 240-400t-56.5-23.5Zm240 0Q400-447 400-480t23.5-56.5Q447-560 480-560t56.5 23.5Q560-513 560-480t-23.5 56.5Q513-400 480-400t-56.5-23.5Zm240 0Q640-447 640-480t23.5-56.5Q687-560 720-560t56.5 23.5Q800-513 800-480t-23.5 56.5Q753-400 720-400t-56.5-23.5Zm-480-240Q160-687 160-720t23.5-56.5Q207-800 240-800t56.5 23.5Q320-753 320-720t-23.5 56.5Q273-640 240-640t-56.5-23.5Zm240 0Q400-687 400-720t23.5-56.5Q447-800 480-800t56.5 23.5Q560-753 560-720t-23.5 56.5Q513-640 480-640t-56.5-23.5Zm240 0Q640-687 640-720t23.5-56.5Q687-800 720-800t56.5 23.5Q800-753 800-720t-23.5 56.5Q753-640 720-640t-56.5-23.5Z" />
+            </svg>
+        </button>
+
+        <button id="settingsBtn" class="settings-control-btn" title="Settings">
+            <div class="settings-visual-stack">
+                <div class="shape-layer">
+                    <svg width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M166.697 39.846c.541-.53.811-.795 1.046-1.016 12.503-11.773 32.011-11.773 44.514 0 .235.22.505.486 1.046 1.016.325.318.487.477.642.624a32.47 32.47 0 0 0 30.083 8.061c.207-.05.428-.107.868-.22.733-.189 1.1-.283 1.414-.357 16.714-3.944 33.609 5.81 38.55 22.257.093.309.195.674.398 1.403.122.438.184.657.244.862a32.47 32.47 0 0 0 22.022 22.023c.205.06.424.12.862.243a77 77 0 0 1 1.403.398c16.447 4.941 26.201 21.836 22.257 38.55-.074.314-.168.681-.357 1.414-.113.44-.17.661-.22.868a32.46 32.46 0 0 0 8.061 30.083c.147.155.306.317.624.642.53.541.795.811 1.016 1.046 11.773 12.503 11.773 32.011 0 44.514-.221.235-.486.505-1.016 1.046-.318.325-.477.487-.624.642a32.46 32.46 0 0 0-8.061 30.083c.05.207.107.428.22.868.189.733.283 1.1.357 1.414 3.944 16.714-5.81 33.609-22.257 38.55a77 77 0 0 1-1.403.398c-.438.123-.657.184-.862.244a32.47 32.47 0 0 0-22.022 22.022c-.06.205-.121.424-.244.862a77 77 0 0 1-.398 1.403c-4.941 16.447-21.836 26.201-38.55 22.257a75 75 0 0 1-1.414-.357c-.44-.113-.661-.17-.868-.22a32.46 32.46 0 0 0-30.083 8.061c-.155.147-.317.306-.642.624-.541.53-.811.795-1.046 1.016-12.503 11.773-32.011 11.773-44.514 0-.235-.221-.505-.486-1.046-1.016-.325-.318-.487-.477-.642-.624a32.46 32.46 0 0 0-30.083-8.061c-.207.05-.428.107-.868.22-.733.189-1.1.283-1.414.357-16.714 3.944-33.609-5.81-38.55-22.257a77 77 0 0 1-.398-1.403c-.123-.438-.184-.657-.243-.862a32.47 32.47 0 0 0-22.023-22.022c-.205-.06-.424-.122-.862-.244a74 74 0 0 1-1.403-.398c-16.447-4.941-26.201-21.836-22.257-38.55.074-.314.168-.681.357-1.414.113-.44.17-.661.22-.868a32.47 32.47 0 0 0-8.06-30.083c-.148-.155-.307-.317-.625-.642-.53-.541-.795-.811-1.016-1.046-11.773-12.503-11.773-32.011 0-44.514.22-.235.486-.505 1.016-1.046.318-.325.477-.487.624-.642a32.47 32.47 0 0 0 8.061-30.083 71 71 0 0 0-.22-.868c-.189-.733-.283-1.1-.357-1.414-3.944-16.714 5.81-33.609 22.257-38.55a77 77 0 0 1 1.403-.398c.438-.123.657-.184.862-.243a32.47 32.47 0 0 0 22.023-22.023c.06-.205.12-.424.243-.862.203-.73.305-1.094.398-1.403 4.941-16.447 21.836-26.201 38.55-22.257.314.074.681.168 1.414.357.44.113.661.17.868.22a32.47 32.47 0 0 0 30.083-8.06c.155-.148.317-.307.642-.625"
+                            fill="#eaddff" />
+                    </svg>
+                </div>
+                <div class="icon-layer">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                        fill="currentColor">
+                        <path
+                            d="M433-80q-27 0-46.5-18T363-142l-9-66q-13-5-24.5-12T307-235l-62 26q-25 11-50 2t-39-32l-47-82q-14-23-8-49t27-43l53-40q-1-7-1-13.5v-27q0-6.5 1-13.5l-53-40q-21-17-27-43t8-49l47-82q14-23 39-32t50 2l62 26q11-8 23-15t24-12l9-66q4-26 23.5-44t46.5-18h94q27 0 46.5 18t23.5 44l9 66q13 5 24.5 12t22.5 15l62-26q25-11 50-2t39 32l47 82q14 23 8 49t-27 43l-53 40q1 7 1 13.5v27q0 6.5-2 13.5l53 40q21 17 27 43t-8 49l-48 82q-14 23-39 32t-50-2l-60-26q-11 8-23 15t-24 12l-9 66q-4 26-23.5 44T527-80h-94Zm7-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm-2-140Z" />
+                    </svg>
+                </div>
+            </div>
+        </button>
+    </nav>
+</header>
+
+<body>
+    <div class="container">
+        <div id="displayWidget" class="display-widget">
+            <div class="clock-expressive">
+                <div class="time-card hour-card">
+                    <span id="hourDisplay">00</span>
+                </div>
+                <div class="time-separator">:</div>
+                <div class="time-card minute-card">
+                    <span id="minuteDisplay">00</span>
+                </div>
+            </div>
+        </div>
+
+        <form id="searchForm" action="https://www.google.com/search" method="GET" class="search-bar">
+            <div class="search-engine-selector">
+                <button type="button" id="engineBtn" class="engine-circle-btn">
+                    <img id="currentEngineIcon" src="assets/search-engines/google.svg" alt="Search Engine" />
+                </button>
+
+                <div id="engineDropdown" class="dropdown-menu">
+                    <div class="dropdown-item" data-engine="google">
+                        <img src="assets/search-engines/google.svg" alt="Google" />
+                        <span>Google</span>
+                    </div>
+                    <div class="dropdown-item" data-engine="bing">
+                        <img src="assets/search-engines/bing.svg" alt="Bing" />
+                        <span>Bing</span>
+                    </div>
+                    <div class="dropdown-item" data-engine="duck">
+                        <img src="assets/search-engines/ddg.svg" alt="DuckDuckGo" />
+                        <span>DuckDuckGo</span>
+                    </div>
+                    <div class="dropdown-item" data-engine="brave">
+                        <img src="assets/search-engines/brave.svg" alt="Brave" />
+                        <span>Brave Search</span>
+                    </div>
+                    <div class="dropdown-item" data-engine="ecosia">
+                        <img src="assets/search-engines/ecosia.svg" alt="Ecosia Search" />
+                        <span>Ecosia Search</span>
+                    </div>
+                    <div class="dropdown-item" data-engine="startpage">
+                        <img src="assets/search-engines/startpg.svg" alt="Start Page" />
+                        <span>Start Page</span>
+                    </div>
+                    <div class="dropdown-item" data-engine="kagi">
+                        <img src="assets/search-engines/kagi.svg" alt="Kagi" />
+                        <span>Kagi</span>
+                    </div>
+                </div>
+            </div>
+
+            <input type="text" name="q" id="searchInput" placeholder="Search the web" autocomplete="off"
+                data-i18n="searchPlaceholder" />
+
+            <div class="search-actions">
+                <button type="button" id="voiceSearchBtn" class="action-btn voice-btn" title="Voice search"
+                    aria-label="Voice search">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                        fill="currentColor">
+                        <path
+                            d="M395-435q-35-35-35-85v-240q0-50 35-85t85-35q50 0 85 35t35 85v240q0 50-35 85t-85 35q-50 0-85-35Zm45 275v-83q-92-13-157.5-78T203-479q-2-17 9-29t28-12q17 0 28.5 11.5T284-480q14 70 69.5 115T480-320q72 0 127-45.5T676-480q4-17 15.5-28.5T720-520q17 0 28 12t9 29q-14 91-79 157t-158 79v83q0 17-11.5 28.5T480-120q-17 0-28.5-11.5T440-160Z" />
+                    </svg>
+                </button>
+                <button type="submit" class="action-btn search-btn" aria-label="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                        fill="currentColor">
+                        <path
+                            d="M380-320q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l224 224q11 11 11 28t-11 28q-11 11-28 11t-28-11L532-372q-30 24-69 38t-83 14Zm0-80q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+                    </svg>
+                </button>
+            </div>
+
+            <div id="suggestionsContainer" class="suggestions-container"></div>
+        </form>
+
+        <div id="shortcutsGrid" class="shortcuts-grid"></div>
+    </div>
+    <script src="scripts/i18n.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

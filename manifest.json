@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "MD3: Expressive New Tab",
+  "version": "1.0",
+  "description": "A minimalist, customizable New Tab page inspired by Google's Material Design.",
+  "default_locale": "en",
+  "icons": {
+    "48": "assets/icon-48.png",
+    "128": "assets/icon-128.png"
+  },
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "background": {
+    "service_worker": "scripts/background.js"
+  },
+  "permissions": ["storage", "unlimitedStorage"],
+  "optional_host_permissions": [
+    "https://suggestqueries.google.com/*",
+    "https://peapix.com/*",
+    "https://img.peapix.com/*",
+    "https://api.nasa.gov/*",
+    "https://apod.nasa.gov/*",
+    "https://commons.wikimedia.org/*",
+    "https://upload.wikimedia.org/*",
+    "https://geocoding-api.open-meteo.com/*",
+    "https://api.open-meteo.com/*"
+  ]
+}
