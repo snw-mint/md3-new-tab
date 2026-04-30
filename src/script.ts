@@ -6,7 +6,8 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-/// <reference path="./core/sidebar.ts" />
+import './core/palette';
+import { initSidebarControls, initThemeControls } from './core/sidebar';
 
 document.addEventListener('DOMContentLoaded', () => {
   initSidebarControls();

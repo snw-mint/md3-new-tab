@@ -6,7 +6,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-function initSidebarControls(): void {
+export function initSidebarControls(): void {
   const settingsBtn = document.getElementById(
     'settingsBtn',
   ) as HTMLButtonElement | null;
@@ -14,28 +14,21 @@ function initSidebarControls(): void {
     'closeSettingsBtn',
   ) as HTMLButtonElement | null;
   const body = document.body;
-
   const toggleSidebar = () => {
     body.classList.toggle('sidebar-open');
   };
-
   if (settingsBtn) {
     settingsBtn.addEventListener('click', toggleSidebar);
   }
-
   if (closeSettingsBtn) {
     closeSettingsBtn.addEventListener('click', toggleSidebar);
   }
 }
 
-// Theme //
-
-function initThemeControls(): void {
+export function initThemeControls(): void {
   const buttons = document.querySelectorAll('.segmented-btn');
   const html = document.documentElement;
-
   if (buttons.length === 0) return;
-
   const applyTheme = (theme: string) => {
     if (theme === 'device') {
       html.removeAttribute('data-theme');
@@ -43,24 +36,18 @@ function initThemeControls(): void {
       html.setAttribute('data-theme', theme);
     }
   };
-
   const savedTheme = localStorage.getItem('theme') || 'device';
   applyTheme(savedTheme);
-
   buttons.forEach((btn) => {
     if (btn.getAttribute('data-theme-value') === savedTheme) {
       btn.classList.add('active');
     }
-
     btn.addEventListener('click', (e) => {
       const target = e.currentTarget as HTMLButtonElement;
       const theme = target.getAttribute('data-theme-value');
-
       if (!theme) return;
-
       buttons.forEach((b) => b.classList.remove('active'));
       target.classList.add('active');
-
       localStorage.setItem('theme', theme);
       applyTheme(theme);
     });

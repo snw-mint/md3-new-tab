@@ -12,63 +12,58 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>New Tab</title>
-
     <link rel="preconnect" href="https://api.open-meteo.com" />
     <link rel="preconnect" href="https://geocoding-api.open-meteo.com" />
     <link rel="preconnect" href="https://peapix.com" />
     <link rel="preconnect" href="https://api.nasa.gov" />
     <link rel="preconnect" href="https://suggestqueries.google.com" crossorigin />
-
     <link rel="preload" href="style.css" as="style" />
     <link rel="stylesheet" href="style.css" />
-
     <script src="scripts/theme-loader.js"></script>
-
 </head>
-<header class="main-header">
-    <div class="header-left">
-        <a href="https://www.google.com/search?q=weather+google" id="weatherWidget" class="weather-widget"
-            target="_blank">
-            <div class="weather-icon-wrapper">
-                <div class="weather-shape-layer">
-                    <svg width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M166.697 39.846c.541-.53.811-.795 1.046-1.016 12.503-11.773 32.011-11.773 44.514 0 .235.22.505.486 1.046 1.016.325.318.487.477.642.624a32.47 32.47 0 0 0 30.083 8.061c.207-.05.428-.107.868-.22.733-.189 1.1-.283 1.414-.357 16.714-3.944 33.609 5.81 38.55 22.257.093.309.195.674.398 1.403.122.438.184.657.244.862a32.47 32.47 0 0 0 22.022 22.023c.205.06.424.12.862.243a77 77 0 0 1 1.403.398c16.447 4.941 26.201 21.836 22.257 38.55-.074.314-.168.681-.357 1.414-.113.44-.17.661-.22.868a32.46 32.46 0 0 0 8.061 30.083c.147.155.306.317.624.642.53.541.795.811 1.016 1.046 11.773 12.503 11.773 32.011 0 44.514-.221.235-.486.505-1.016 1.046-.318.325-.477.487-.624.642a32.46 32.46 0 0 0-8.061 30.083c.05.207.107.428.22.868.189.733.283 1.1.357 1.414 3.944 16.714-5.81 33.609-22.257 38.55a77 77 0 0 1-1.403.398c-.438.123-.657.184-.862.244a32.47 32.47 0 0 0-22.022 22.022c-.06.205-.121.424-.244.862a77 77 0 0 1-.398 1.403c-4.941 16.447-21.836 26.201-38.55 22.257a75 75 0 0 1-1.414-.357c-.44-.113-.661-.17-.868-.22a32.46 32.46 0 0 0-30.083 8.061c-.155.147-.317.306-.642.624-.541.53-.811.795-1.046 1.016-12.503 11.773-32.011 11.773-44.514 0-.235-.221-.505-.486-1.046-1.016-.325-.318-.487-.477-.642-.624a32.46 32.46 0 0 0-30.083-8.061c-.207.05-.428.107-.868.22-.733.189-1.1.283-1.414.357-16.714 3.944-33.609-5.81-38.55-22.257a77 77 0 0 1-.398-1.403c-.123-.438-.184-.657-.243-.862a32.47 32.47 0 0 0-22.023-22.022c-.205-.06-.424-.122-.862-.244a74 74 0 0 1-1.403-.398c-16.447-4.941-26.201-21.836-22.257-38.55.074-.314.168-.681.357-1.414.113-.44.17-.661.22-.868a32.47 32.47 0 0 0-8.06-30.083c-.148-.155-.307-.317-.625-.642-.53-.541-.795-.811-1.016-1.046-11.773-12.503-11.773-32.011 0-44.514.22-.235.486-.505 1.016-1.046.318-.325.477-.487.624-.642a32.47 32.47 0 0 0 8.061-30.083 71 71 0 0 0-.22-.868c-.189-.733-.283-1.1-.357-1.414-3.944-16.714 5.81-33.609 22.257-38.55a77 77 0 0 1 1.403-.398c.438-.123.657-.184.862-.243a32.47 32.47 0 0 0 22.023-22.023c.06-.205.12-.424.243-.862.203-.73.305-1.094.398-1.403 4.941-16.447 21.836-26.201 38.55-22.257.314.074.681.168 1.414.357.44.113.661.17.868.22a32.47 32.47 0 0 0 30.083-8.06c.155-.148.317-.307.642-.625"
-                            fill="currentColor" />
-                    </svg>
-                </div>
-                <img id="weatherIcon" src="assets/weather/sunny.svg" alt="Weather" class="weather-icon-img" />
-            </div>
-            <div class="weather-text-wrapper">
-                <span id="weatherTemp" class="weather-temp">24°C</span>
-                <span id="weatherCity" class="weather-city">Local City</span>
-            </div>
-        </a>
-    </div>
-
-    <nav class="header-right">
-        <a href="https://mail.google.com/mail/" class="header-link" id="gmailLink">Gmail</a>
-        <a href="https://www.google.com/imghp" class="header-link" id="imagesLink">Images</a>
-
-        <button id="appLauncherBtn" class="icon-btn" title="Apps">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                fill="currentColor">
-                <path
-                    d="M183.5-183.5Q160-207 160-240t23.5-56.5Q207-320 240-320t56.5 23.5Q320-273 320-240t-23.5 56.5Q273-160 240-160t-56.5-23.5Zm240 0Q400-207 400-240t23.5-56.5Q447-320 480-320t56.5 23.5Q560-273 560-240t-23.5 56.5Q513-160 480-160t-56.5-23.5Zm240 0Q640-207 640-240t23.5-56.5Q687-320 720-320t56.5 23.5Q800-273 800-240t-23.5 56.5Q753-160 720-160t-56.5-23.5Zm-480-240Q160-447 160-480t23.5-56.5Q207-560 240-560t56.5 23.5Q320-513 320-480t-23.5 56.5Q273-400 240-400t-56.5-23.5Zm240 0Q400-447 400-480t23.5-56.5Q447-560 480-560t56.5 23.5Q560-513 560-480t-23.5 56.5Q513-400 480-400t-56.5-23.5Zm240 0Q640-447 640-480t23.5-56.5Q687-560 720-560t56.5 23.5Q800-513 800-480t-23.5 56.5Q753-400 720-400t-56.5-23.5Zm-480-240Q160-687 160-720t23.5-56.5Q207-800 240-800t56.5 23.5Q320-753 320-720t-23.5 56.5Q273-640 240-640t-56.5-23.5Zm240 0Q400-687 400-720t23.5-56.5Q447-800 480-800t56.5 23.5Q560-753 560-720t-23.5 56.5Q513-640 480-640t-56.5-23.5Zm240 0Q640-687 640-720t23.5-56.5Q687-800 720-800t56.5 23.5Q800-753 800-720t-23.5 56.5Q753-640 720-640t-56.5-23.5Z" />
-            </svg>
-        </button>
-
-        <button id="settingsBtn" class="icon-btn" title="Settings">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                fill="currentColor">
-                <path
-                    d="M433-80q-27 0-46.5-18T363-142l-9-66q-13-5-24.5-12T307-235l-62 26q-25 11-50 2t-39-32l-47-82q-14-23-8-49t27-43l53-40q-1-7-1-13.5v-27q0-6.5 1-13.5l-53-40q-21-17-27-43t8-49l47-82q14-23 39-32t50 2l62 26q11-8 23-15t24-12l9-66q4-26 23.5-44t46.5-18h94q27 0 46.5 18t23.5 44l9 66q13 5 24.5 12t22.5 15l62-26q25-11 50-2t39 32l47 82q14 23 8 49t-27 43l-53 40q1 7 1 13.5v27q0 6.5-2 13.5l53 40q21 17 27 43t-8 49l-48 82q-14 23-39 32t-50-2l-60-26q-11 8-23 15t-24 12l-9 66q-4 26-23.5 44T527-80h-94Zm7-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm-2-140Z" />
-            </svg>
-        </button>
-    </nav>
-</header>
 
 <body>
+    <header class="main-header">
+        <div class="header-left">
+            <a href="https://www.google.com/search?q=weather+google" id="weatherWidget" class="weather-widget"
+                target="_blank">
+                <div class="weather-icon-wrapper">
+                    <div class="weather-shape-layer">
+                        <svg width="380" height="380" viewBox="0 0 380 380" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M166.697 39.846c.541-.53.811-.795 1.046-1.016 12.503-11.773 32.011-11.773 44.514 0 .235.22.505.486 1.046 1.016.325.318.487.477.642.624a32.47 32.47 0 0 0 30.083 8.061c.207-.05.428-.107.868-.22.733-.189 1.1-.283 1.414-.357 16.714-3.944 33.609 5.81 38.55 22.257.093.309.195.674.398 1.403.122.438.184.657.244.862a32.47 32.47 0 0 0 22.022 22.023c.205.06.424.12.862.243a77 77 0 0 1 1.403.398c16.447 4.941 26.201 21.836 22.257 38.55-.074.314-.168.681-.357 1.414-.113.44-.17.661-.22.868a32.46 32.46 0 0 0 8.061 30.083c.147.155.306.317.624.642.53.541.795.811 1.016 1.046 11.773 12.503 11.773 32.011 0 44.514-.221.235-.486.505-1.016 1.046-.318.325-.477.487-.624.642a32.46 32.46 0 0 0-8.061 30.083c.05.207.107.428.22.868.189.733.283 1.1.357 1.414 3.944 16.714-5.81 33.609-22.257 38.55a77 77 0 0 1-1.403.398c-.438.123-.657.184-.862.244a32.47 32.47 0 0 0-22.022 22.022c-.06.205-.121.424-.244.862a77 77 0 0 1-.398 1.403c-4.941 16.447-21.836-26.201-38.55 22.257a75 75 0 0 1-1.414-.357c-.44-.113-.661-.17-.868-.22a32.46 32.46 0 0 0-30.083 8.061c-.155.147-.317.306-.642.624-.541.53-.811.795-1.046 1.016-12.503 11.773-32.011 11.773-44.514 0-.235-.221-.505-.486-1.046-1.016-.325-.318-.487-.477-.642-.624a32.46 32.46 0 0 0-30.083-8.061c-.207.05-.428.107-.868.22-.733.189-1.1.283-1.414.357-16.714 3.944-33.609-5.81-38.55-22.257a77 77 0 0 1-.398-1.403c-.123-.438-.184-.657-.243-.862a32.47 32.47 0 0 0-22.023-22.022c-.205-.06-.424-.122-.862-.244a74 74 0 0 1-1.403-.398c-16.447-4.941-26.201-21.836-22.257-38.55.074-.314.168-.681.357-1.414.113-.44.17-.661.22-.868a32.47 32.47 0 0 0-8.06-30.083c-.148-.155-.307-.317-.625-.642-.53-.541-.795-.811-1.016-1.046-11.773-12.503-11.773-32.011 0-44.514.22-.235.486-.505 1.016-1.046.318-.325.477-.487.624-.642a32.47 32.47 0 0 0 8.061-30.083 71 71 0 0 0-.22-.868c-.189-.733-.283-1.1-.357-1.414-3.944-16.714 5.81-33.609 22.257-38.55a77 77 0 0 1 1.403-.398c.438-.123.657-.184.862-.243a32.47 32.47 0 0 0 22.023-22.023c.06-.205.12-.424.243-.862.203-.73.305-1.094.398-1.403 4.941-16.447 21.836-26.201 38.55-22.257.314.074.681.168 1.414.357.44.113.661.17.868.22a32.47 32.47 0 0 0 30.083-8.06c.155-.148.317-.307.642-.625"
+                                fill="currentColor" />
+                        </svg>
+                    </div>
+                    <img id="weatherIcon" src="assets/weather/sunny.svg" alt="Weather" class="weather-icon-img" />
+                </div>
+                <div class="weather-text-wrapper">
+                    <span id="weatherTemp" class="weather-temp">24 C</span>
+                    <span id="weatherCity" class="weather-city">Local City</span>
+                </div>
+            </a>
+        </div>
+        <nav class="header-right">
+            <a href="https://mail.google.com/mail/" class="header-link" id="gmailLink">Gmail</a>
+            <a href="https://www.google.com/imghp" class="header-link" id="imagesLink">Images</a>
+            <button id="appLauncherBtn" class="icon-btn" title="Apps">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                    fill="currentColor">
+                    <path
+                        d="M183.5-183.5Q160-207 160-240t23.5-56.5Q207-320 240-320t56.5 23.5Q320-273 320-240t-23.5 56.5Q273-160 240-160t-56.5-23.5Zm240 0Q400-207 400-240t23.5-56.5Q447-320 480-320t56.5 23.5Q560-273 560-240t-23.5 56.5Q513-160 480-160t-56.5-23.5Zm240 0Q640-207 640-240t23.5-56.5Q687-320 720-320t56.5 23.5Q800-273 800-240t-23.5 56.5Q753-160 720-160t-56.5-23.5Zm-480-240Q160-447 160-480t23.5-56.5Q207-560 240-560t56.5 23.5Q320-513 320-480t-23.5 56.5Q273-400 240-400t-56.5-23.5Zm240 0Q400-447 400-480t23.5-56.5Q447-560 480-560t56.5 23.5Q560-513 560-480t-23.5 56.5Q513-400 480-400t-56.5-23.5Zm240 0Q640-447 640-480t23.5-56.5Q687-560 720-560t56.5 23.5Q800-513 800-480t-23.5 56.5Q753-400 720-400t-56.5-23.5Zm-480-240Q160-687 160-720t23.5-56.5Q207-800 240-800t56.5 23.5Q320-753 320-720t-23.5 56.5Q273-640 240-640t-56.5-23.5Zm240 0Q400-687 400-720t23.5-56.5Q447-800 480-800t56.5 23.5Q560-753 560-720t-23.5 56.5Q513-640 480-640t-56.5-23.5Zm240 0Q640-687 640-720t23.5-56.5Q687-800 720-800t56.5 23.5Q800-753 800-720t-23.5 56.5Q753-640 720-640t-56.5-23.5Z" />
+                </svg>
+            </button>
+            <button id="settingsBtn" class="icon-btn" title="Settings">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                    fill="currentColor">
+                    <path
+                        d="M433-80q-27 0-46.5-18T363-142l-9-66q-13-5-24.5-12T307-235l-62 26q-25 11-50 2t-39-32l-47-82q-14-23-8-49t27-43l53-40q-1-7-1-13.5v-27q0-6.5 1-13.5l-53-40q-21-17-27-43t8-49l47-82q14-23 39-32t50 2l62 26q11-8 23-15t24-12l9-66q4-26 23.5-44t46.5-18h94q27 0 46.5 18t23.5 44l9 66q13 5 24.5 12t22.5 15l62-26q25-11 50-2t39 32l47 82q14 23 8 49t-27 43l-53 40q1 7 1 13.5v27q0 6.5-2 13.5l53 40q21 17 27 43t-8 49l-48 82q-14 23-39 32t-50-2l-60-26q-11 8-23 15t-24 12l-9 66q-4 26-23.5 44T527-80h-94Zm7-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm-2-140Z" />
+                </svg>
+            </button>
+        </nav>
+    </header>
+
     <div class="container">
         <div id="displayWidget" class="display-widget">
             <div class="clock-expressive">
@@ -81,13 +76,11 @@
                 </div>
             </div>
         </div>
-
         <form id="searchForm" action="https://www.google.com/search" method="GET" class="search-bar">
             <div class="search-engine-selector">
                 <button type="button" id="engineBtn" class="engine-circle-btn">
                     <img id="currentEngineIcon" src="assets/search-engines/google.svg" alt="Search Engine" />
                 </button>
-
                 <div id="engineDropdown" class="dropdown-menu">
                     <div class="dropdown-item" data-engine="google">
                         <img src="assets/search-engines/google.svg" alt="Google" />
@@ -119,10 +112,8 @@
                     </div>
                 </div>
             </div>
-
             <input type="text" name="q" id="searchInput" placeholder="Search the web" autocomplete="off"
                 data-i18n="searchPlaceholder" />
-
             <div class="search-actions">
                 <button type="button" id="voiceSearchBtn" class="action-btn voice-btn" title="Voice search"
                     aria-label="Voice search">
@@ -140,10 +131,8 @@
                     </svg>
                 </button>
             </div>
-
             <div id="suggestionsContainer" class="suggestions-container"></div>
         </form>
-
         <div id="shortcutsGrid" class="shortcuts-grid"></div>
     </div>
 
@@ -158,13 +147,10 @@
                 </svg>
             </button>
         </header>
-
         <div class="sidebar-scroll-container">
             <div class="settings-inner-card">
-
                 <div class="settings-group-card">
                     <h3 class="settings-group-title" data-i18n="appearanceTitle">Appearance</h3>
-
                     <div class="segmented-button-group" id="themeSelector">
                         <button type="button" class="segmented-btn" data-theme-value="light">
                             <span class="btn-icon">
@@ -181,7 +167,6 @@
                             </span>
                             <span class="btn-label" data-i18n="themeLight">Light</span>
                         </button>
-
                         <button type="button" class="segmented-btn" data-theme-value="device">
                             <span class="btn-icon">
                                 <svg class="icon-default" xmlns="http://www.w3.org/2000/svg" height="24"
@@ -197,7 +182,6 @@
                             </span>
                             <span class="btn-label" data-i18n="themeDevice">Device</span>
                         </button>
-
                         <button type="button" class="segmented-btn" data-theme-value="dark">
                             <span class="btn-icon">
                                 <svg class="icon-default" xmlns="http://www.w3.org/2000/svg" height="24"
@@ -213,10 +197,64 @@
                             </span>
                             <span class="btn-label" data-i18n="themeDark">Dark</span>
                         </button>
+                    </div>
+                    <hr class="settings-divider" />
+                    <div class="color-palette-group" id="colorPaletteSelector">
+                        <button type="button" class="color-circle-btn active" data-palette="default"
+                            style="--theme-light: #A8C7FA; --theme-dark: #0842A0; --theme-on-base: #FFFFFF;"
+                            title="Default Theme" aria-label="Default Color">
+                            <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
+                                viewBox="0 -960 960 960" width="24" fill="currentColor">
+                                <path
+                                    d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
+                            </svg>
+                        </button>
+                        <button type="button" class="color-circle-btn" data-palette="expressive"
+                            style="--theme-light: #D0BCFF; --theme-dark: #4A4458; --theme-on-base: #FFFFFF;"
+                            title="Expressive Theme" aria-label="Expressive Color">
+                            <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
+                                viewBox="0 -960 960 960" width="24" fill="currentColor">
+                                <path
+                                    d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
+                            </svg>
+                        </button>
+                        <button type="button" class="color-circle-btn" data-palette="green"
+                            style="--theme-light: #C4EED0; --theme-dark: #0F5223; --theme-on-base: #FFFFFF;"
+                            title="Green Theme" aria-label="Green Color">
+                            <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
+                                viewBox="0 -960 960 960" width="24" fill="currentColor">
+                                <path
+                                    d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
+                            </svg>
+                        </button>
+                        <button type="button" class="color-circle-btn" data-palette="sun"
+                            style="--theme-light: #FFB59D; --theme-dark: #492500; --theme-on-base: #FFFFFF;"
+                            title="Sun Theme" aria-label="Sun Color">
+                            <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
+                                viewBox="0 -960 960 960" width="24" fill="currentColor">
+                                <path
+                                    d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
+                            </svg>
+                        </button>
 
+                        <label class="color-circle-btn custom-picker-btn" id="customColorPickerBtn"
+                            data-palette="custom"
+                            style="--theme-light: #E3E3E3; --theme-dark: #3C3C3C; --theme-on-base: #1F1F1F;"
+                            title="Custom Color" aria-label="Custom Color">
+                            <input type="color" id="customColorInput" class="hidden-color-input" />
+                            <svg class="icon-picker" xmlns="http://www.w3.org/2000/svg" height="24"
+                                viewBox="0 -960 960 960" width="24" fill="currentColor">
+                                <path
+                                    d="M120-160v-117q0-16 6-30.5t17-25.5l335-335-58-56 58-56 76 76 124-124q5-5 12.5-8t15.5-3 15 3 13 8l94 94q5 6 8 13t3 15-3 15.5-8 12.5L705-555l76 78-57 57-56-58-335 335q-11 11-25.5 17t-30.5 6H160q-17 0-28.5-11.5T120-160m80-40h78l332-334-76-76-334 332z" />
+                            </svg>
+                            <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
+                                viewBox="0 -960 960 960" width="24" fill="currentColor">
+                                <path
+                                    d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
+                            </svg>
+                        </label>
                     </div>
                 </div>
-
             </div>
         </div>
     </aside>

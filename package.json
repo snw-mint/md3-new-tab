@@ -6,19 +6,23 @@
   "scripts": {
     "clean": "rimraf dist",
     "build:assets": "node tools/build.mjs",
-    "build:ts": "tsc -p tsconfig.json",
+    "build:ts": "esbuild src/script.ts --bundle --outfile=dist/script.js --minify --target=es2020",
     "build:scss": "sass src/style.scss dist/style.css --no-source-map",
     "build:scss:min": "sass src/style.scss dist/style.css --no-source-map --style=compressed",
     "build": "npm run clean && npm run build:assets && npm run build:ts && npm run build:scss",
     "build:release": "npm run clean && npm run build:ts && npm run build:scss:min && node tools/build.mjs --release",
-    "watch:ts": "tsc -p tsconfig.json --watch",
+    "watch:ts": "esbuild src/script.ts --bundle --outfile=dist/script.js --watch --target=es2020",
     "watch:scss": "sass --watch src/style.scss:dist/style.css --no-source-map",
     "update-policy": "gh gist edit c9d8f1959b8377ab1b2b046deca70224 -f manifest.json ./manifest.json"
   },
   "devDependencies": {
+    "esbuild": "^0.20.0",
     "rimraf": "^6.0.1",
     "sass": "^1.92.1",
     "terser": "^5.44.0",
     "typescript": "^6.0.2"
+  },
+  "dependencies": {
+    "@material/material-color-utilities": "^0.2.7"
   }
 }

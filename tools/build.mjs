@@ -1,10 +1,9 @@
-/**
- * Fluent New Tab — Build Script
- * Copies static assets and minifies JS, JSON (_locales), and HTML for release builds.
- *
- * Usage:
- *   node tools/build.mjs           → dev build (copy only, no minification)
- *   node tools/build.mjs --release → full minification of all dist files
+/*
+ * MD3: Expressive New Tab
+ * Copyright (c) 2026 SnowMint
+ * Licensed under the GNU General Public License v3.0 (GPL-3.0)
+ * You should have received a copy of the GNU General Public License along with this program.
+ * If not, see <https://www.gnu.org/licenses/>.
  */
 
 import {
@@ -58,9 +57,12 @@ const jsTargets = ['dist/script.js'];
 for (const target of jsTargets) {
   const full = resolve(root, target);
   if (!existsSync(full)) continue;
-  execSync(`npx terser "${full}" --compress --mangle --output "${full}"`, {
-    stdio: 'inherit',
-  });
+  execSync(
+    `npx esbuild "${full}" --minify --outfile="${full}" --allow-overwrite`,
+    {
+      stdio: 'inherit',
+    },
+  );
   console.log(`  ✔ JS minified: ${target}`);
 }
 
@@ -71,9 +73,12 @@ const jsScripts = readdirSync(scriptsDir).filter(
 
 for (const file of jsScripts) {
   const full = join(scriptsDir, file);
-  execSync(`npx terser "${full}" --compress --mangle --output "${full}"`, {
-    stdio: 'inherit',
-  });
+  execSync(
+    `npx esbuild "${full}" --minify --outfile="${full}" --allow-overwrite`,
+    {
+      stdio: 'inherit',
+    },
+  );
   console.log(`  ✔ Script minified: scripts/${file}`);
 }
 

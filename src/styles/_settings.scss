@@ -28,8 +28,8 @@ body {
   right: 0;
   width: 22rem;
   height: 100vh;
-  background-color: var(--color-surface);
-  border-left: 1px solid #dddddd;
+  background-color: var(--color-surface-container);
+  border-left: 0.0625rem solid var(--color-outline);
   transform: translateX(100%);
   transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
   display: flex;
@@ -123,15 +123,15 @@ body {
   transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
 
   &:first-child {
-    border-radius: var(--radius-full) 25rem 25rem var(--radius-full);
+    border-radius: var(--radius-full) 17rem 17rem var(--radius-full);
   }
 
   &:nth-child(2) {
-    border-radius: 0.65rem;
+    border-radius: 0.45rem;
   }
 
   &:last-child {
-    border-radius: 25rem var(--radius-full) var(--radius-full) 25rem;
+    border-radius: 17rem var(--radius-full) var(--radius-full) 17rem;
   }
 
   &:hover {
@@ -171,5 +171,94 @@ body {
   }
   .icon-check {
     display: block;
+  }
+}
+
+.settings-divider {
+  border: none;
+  height: 0.0625rem;
+  background-color: var(--color-outline);
+  opacity: 0.3;
+  margin: 0.5rem 0;
+  width: 100%;
+}
+
+.color-palette-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.color-circle-btn {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-full);
+  border: none;
+  background: linear-gradient(
+    135deg,
+    var(--theme-light) 50%,
+    var(--theme-dark) 50%
+  );
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition:
+    transform 0.2s cubic-bezier(0.2, 0, 0, 1),
+    outline 0.2s cubic-bezier(0.2, 0, 0, 1);
+  outline: 0.125rem solid transparent;
+  outline-offset: 0.125rem;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &.active {
+    outline-color: var(--color-primary);
+  }
+
+  .icon-check {
+    position: absolute;
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: var(--theme-on-base);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+    z-index: 2;
+    filter: drop-shadow(0 0.125rem 0.25rem rgba(0, 0, 0, 0.4));
+  }
+
+  &.active .icon-check {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.custom-picker-btn {
+  .icon-picker {
+    position: absolute;
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: var(--theme-on-base);
+    opacity: 1;
+    transform: scale(1);
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+    z-index: 2;
+  }
+
+  &.active .icon-picker {
+    opacity: 0;
+    transform: scale(0.5);
+    pointer-events: none;
   }
 }
