@@ -27,3 +27,42 @@ function initSidebarControls(): void {
     closeSettingsBtn.addEventListener('click', toggleSidebar);
   }
 }
+
+// Theme //
+
+function initThemeControls(): void {
+  const buttons = document.querySelectorAll('.segmented-btn');
+  const html = document.documentElement;
+
+  if (buttons.length === 0) return;
+
+  const applyTheme = (theme: string) => {
+    if (theme === 'device') {
+      html.removeAttribute('data-theme');
+    } else {
+      html.setAttribute('data-theme', theme);
+    }
+  };
+
+  const savedTheme = localStorage.getItem('theme') || 'device';
+  applyTheme(savedTheme);
+
+  buttons.forEach((btn) => {
+    if (btn.getAttribute('data-theme-value') === savedTheme) {
+      btn.classList.add('active');
+    }
+
+    btn.addEventListener('click', (e) => {
+      const target = e.currentTarget as HTMLButtonElement;
+      const theme = target.getAttribute('data-theme-value');
+
+      if (!theme) return;
+
+      buttons.forEach((b) => b.classList.remove('active'));
+      target.classList.add('active');
+
+      localStorage.setItem('theme', theme);
+      applyTheme(theme);
+    });
+  });
+}

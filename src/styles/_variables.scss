@@ -1,21 +1,54 @@
+/*
+ * MD3: Expressive New Tab
+ * Copyright (c) 2026 SnowMint
+ * Licensed under the GNU General Public License v3.0 (GPL-3.0)
+ * You should have received a copy of the GNU General Public License along with this program.
+ * If not, see <https://www.gnu.org/licenses/>.
+ */
+
 :root {
-  --md-primary-light: #0b57d0;
-  --md-secondary-light: #d3e3fd;
-  --md-tertiary-light: #edf2fa;
-  --md-neutral-light: #ffffff;
-  --md-text-light: #1f1f1f;
+  --md-sys-color-primary-40: #0b57d0;
+  --md-sys-color-primary-80: #a8c7fa;
+  --md-sys-color-primary-90: #d3e3fd;
 
-  --md-primary-dark: #a8c7fa;
-  --md-secondary-dark: #004a77;
-  --md-tertiary-dark: #282828;
-  --md-neutral-dark: #3c3c3c;
-  --md-text-dark: #e3e3e3;
+  --md-sys-color-secondary-30: #004a77;
+  --md-sys-color-secondary-90: #c2e7ff;
 
-  --color-primary: var(--md-primary-light);
-  --color-secondary: var(--md-secondary-light);
-  --color-tertiary: var(--md-tertiary-light);
-  --color-neutral: var(--md-neutral-light);
-  --color-text: var(--md-text-light);
+  --md-sys-color-tertiary-20: #0a3818;
+  --md-sys-color-tertiary-30: #0f5223;
+  --md-sys-color-tertiary-90: #c4eed0;
+
+  --md-sys-color-neutral-10: #1f1f1f;
+  --md-sys-color-neutral-20: #282828;
+  --md-sys-color-neutral-30: #3c3c3c;
+  --md-sys-color-neutral-90: #e3e3e3;
+  --md-sys-color-neutral-100: #ffffff;
+
+  --md-sys-color-neutral-variant-30: #444746;
+  --md-sys-color-neutral-variant-90: #edf2fa;
+
+  --md-sys-color-error-40: #b3261e;
+  --md-sys-color-error-80: #f2b8b5;
+
+  --color-primary: var(--md-sys-color-primary-40);
+  --color-on-primary: var(--md-sys-color-neutral-100);
+
+  --color-primary-container: var(--md-sys-color-primary-90);
+  --color-on-primary-container: var(--md-sys-color-primary-40);
+
+  --color-secondary-container: var(--md-sys-color-secondary-90);
+  --color-on-secondary-container: var(--md-sys-color-secondary-30);
+
+  --color-surface: var(--md-sys-color-neutral-100);
+  --color-on-surface: var(--md-sys-color-neutral-10);
+
+  --color-surface-variant: var(--md-sys-color-neutral-variant-90);
+  --color-on-surface-variant: var(--md-sys-color-neutral-variant-30);
+
+  --color-outline: var(--md-sys-color-neutral-30);
+
+  --color-error: var(--md-sys-color-error-40);
+  --color-on-error: var(--md-sys-color-neutral-100);
 
   --font-family: 'Google Sans', sans-serif;
   --radius-sm: 0.5rem;
@@ -24,30 +57,36 @@
   --radius-full: 50rem;
 }
 
+@mixin dark-theme-mapping {
+  --color-primary: var(--md-sys-color-primary-80);
+  --color-on-primary: var(--md-sys-color-neutral-20);
+
+  --color-primary-container: var(--md-sys-color-primary-40);
+  --color-on-primary-container: var(--md-sys-color-primary-90);
+
+  --color-secondary-container: var(--md-sys-color-secondary-30);
+  --color-on-secondary-container: var(--md-sys-color-secondary-90);
+
+  --color-surface: var(--md-sys-color-neutral-10);
+  --color-on-surface: var(--md-sys-color-neutral-90);
+
+  --color-surface-variant: var(--md-sys-color-neutral-variant-30);
+  --color-on-surface-variant: var(--md-sys-color-neutral-variant-90);
+
+  --color-outline: var(--md-sys-color-neutral-90);
+
+  --color-error: var(--md-sys-color-error-80);
+  --color-on-error: var(--md-sys-color-neutral-20);
+}
+
 @media (prefers-color-scheme: dark) {
-  :root {
-    --color-primary: var(--md-primary-dark);
-    --color-secondary: var(--md-secondary-dark);
-    --color-tertiary: var(--md-tertiary-dark);
-    --color-neutral: var(--md-neutral-dark);
-    --color-text: var(--md-text-dark);
+  :root:not([data-theme='light']) {
+    @include dark-theme-mapping;
   }
 }
 
 html[data-theme='dark'] {
-  --color-primary: var(--md-primary-dark);
-  --color-secondary: var(--md-secondary-dark);
-  --color-tertiary: var(--md-tertiary-dark);
-  --color-neutral: var(--md-neutral-dark);
-  --color-text: var(--md-text-dark);
-}
-
-html[data-theme='light'] {
-  --color-primary: var(--md-primary-light);
-  --color-secondary: var(--md-secondary-light);
-  --color-tertiary: var(--md-tertiary-light);
-  --color-neutral: var(--md-neutral-light);
-  --color-text: var(--md-text-light);
+  @include dark-theme-mapping;
 }
 
 *,
@@ -60,8 +99,8 @@ html[data-theme='light'] {
 
 body {
   font-family: var(--font-family);
-  background-color: var(--color-neutral);
-  color: var(--color-text);
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
   min-height: 100vh;
   display: flex;
   flex-direction: column;

@@ -14,14 +14,14 @@
 .header-right {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 .weather-widget {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: var(--color-text);
+  color: var(--color-on-surface);
   text-decoration: none;
   font-size: 0.875rem;
   font-weight: 500;
@@ -30,7 +30,7 @@
   transition: background-color 0.2s ease;
 
   &:hover {
-    background-color: var(--color-secondary);
+    background-color: var(--color-secondary-container);
   }
 }
 
@@ -44,34 +44,31 @@
 
 .header-link {
   font-size: 0.875rem;
-  color: var(--color-text);
+  color: var(--color-on-surface);
   text-decoration: none;
   transition: text-decoration 0.2s ease;
+  padding: 0 0.5rem;
 
   &:hover {
     text-decoration: underline;
   }
 }
 
-.icon-btn,
-.settings-control-btn {
+.icon-btn {
   background: transparent;
   border: none;
   cursor: pointer;
-  color: var(--color-text);
+  color: var(--color-on-surface);
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.icon-btn {
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
   transition: background-color 0.2s ease;
 
   &:hover {
-    background-color: var(--color-secondary);
+    background-color: var(--color-secondary-container);
   }
 
   svg {
@@ -110,7 +107,7 @@
 }
 
 .shape-layer {
-  color: var(--color-secondary);
+  color: var(--color-secondary-container);
   transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
 
   svg {
@@ -121,7 +118,7 @@
 }
 
 .icon-layer {
-  color: var(--color-text);
+  color: var(--color-on-surface);
 
   svg {
     width: 1.5rem;

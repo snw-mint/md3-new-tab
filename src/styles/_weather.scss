@@ -16,7 +16,7 @@
   transition: background-color 0.2s ease;
 
   &:hover {
-    background-color: var(--color-tertiary);
+    background-color: var(--color-surface-variant);
   }
 }
 
@@ -33,7 +33,7 @@
 .weather-shape-layer {
   position: absolute;
   inset: 0;
-  color: var(--color-secondary);
+  color: var(--color-secondary-container);
   animation: weather-shape-spin 20s linear infinite;
   will-change: transform;
 
@@ -68,7 +68,7 @@
 .weather-city {
   font-size: 0.75rem;
   font-weight: 500;
-  color: var(--color-text);
+  color: var(--color-on-surface);
   opacity: 0.7;
   margin-top: 0.125rem;
   white-space: nowrap;

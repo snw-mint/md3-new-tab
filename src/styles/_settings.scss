@@ -28,7 +28,7 @@ body {
   right: 0;
   width: 22rem;
   height: 100vh;
-  background-color: var(--color-neutral);
+  background-color: var(--color-surface);
   border-left: 1px solid #dddddd;
   transform: translateX(100%);
   transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
@@ -51,7 +51,7 @@ body {
 .sidebar-title {
   font-size: 0.9rem;
   font-weight: 500;
-  color: var(--color-text);
+  color: var(--color-on-surface);
 }
 
 .sidebar-scroll-container {
@@ -66,17 +66,110 @@ body {
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: var(--color-tertiary);
+    background-color: var(--color-surface-variant);
     border-radius: var(--radius-full);
   }
 }
 
 .settings-inner-card {
   flex: 1;
-  background-color: var(--color-tertiary);
+  background-color: var(--color-surface-variant);
   border-radius: var(--radius-lg);
-  padding: 1rem;
+  padding: 0.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+/* Theme */
+
+.settings-group-card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.settings-group-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-on-surface);
+  margin: 0;
+}
+
+.segmented-button-group {
+  display: flex;
+  width: 100%;
+  gap: 0.1rem;
+}
+
+.segmented-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2.5rem;
+  background-color: var(--color-secondary-container);
+  color: var(--color-primary);
+  border: none;
+  font-family: var(--font-family);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+
+  &:first-child {
+    border-radius: var(--radius-full) 25rem 25rem var(--radius-full);
+  }
+
+  &:nth-child(2) {
+    border-radius: 0.65rem;
+  }
+
+  &:last-child {
+    border-radius: 25rem var(--radius-full) var(--radius-full) 25rem;
+  }
+
+  &:hover {
+    filter: brightness(0.95);
+  }
+
+  &.active {
+    background-color: var(--color-primary);
+    color: var(--color-surface);
+    border-radius: var(--radius-full);
+  }
+}
+
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 1.125rem;
+    height: 1.125rem;
+    fill: currentColor;
+  }
+}
+
+.icon-default {
+  display: block;
+}
+
+.icon-check {
+  display: none;
+}
+
+.segmented-btn.active {
+  .icon-default {
+    display: none;
+  }
+  .icon-check {
+    display: block;
+  }
 }
