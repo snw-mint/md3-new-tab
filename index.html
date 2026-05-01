@@ -147,190 +147,256 @@
                 </svg>
             </button>
         </header>
-        <div class="sidebar-scroll-container">
-            <div class="settings-inner-card">
-                <div class="settings-group-card">
-                    <div id="colorPickerOverlay" class="color-picker-overlay"></div>
-                    <div id="customColorModal" class="color-picker-modal">
-                        <div class="color-picker-header">
-                            <span class="color-picker-title">Color picker</span>
-                            <button id="closeColorPickerBtn" class="icon-btn" aria-label="Close">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
-                                    width="24px" fill="currentColor">
-                                    <path
-                                        d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z" />
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="color-picker-body">
-                            <input type="range" id="hueSlider" class="hue-slider" min="0" max="360" value="0">
-                        </div>
-                    </div>
-                    <h3 class="settings-group-title" data-i18n="appearanceTitle">Appearance</h3>
-                    <div class="segmented-button-group" id="themeSelector">
-                        <button type="button" class="segmented-btn" data-theme-value="light">
-                            <span class="btn-icon">
-                                <svg class="icon-default" xmlns="http://www.w3.org/2000/svg" height="24"
-                                    viewBox="0 -960 960 960" width="24" fill="currentColor">
-                                    <path
-                                        d="M565-395q35-35 35-85t-35-85-85-35-85 35-35 85 35 85 85 35 85-35m-226.5 56.5Q280-397 280-480t58.5-141.5T480-680t141.5 58.5T680-480t-58.5 141.5T480-280t-141.5-58.5M80-440q-17 0-28.5-11.5T40-480t11.5-28.5T80-520h80q17 0 28.5 11.5T200-480t-11.5 28.5T160-440zm720 0q-17 0-28.5-11.5T760-480t11.5-28.5T800-520h80q17 0 28.5 11.5T920-480t-11.5 28.5T880-440zM451.5-771.5Q440-783 440-800v-80q0-17 11.5-28.5T480-920t28.5 11.5T520-880v80q0 17-11.5 28.5T480-760t-28.5-11.5m0 720Q440-63 440-80v-80q0-17 11.5-28.5T480-200t28.5 11.5T520-160v80q0 17-11.5 28.5T480-40t-28.5-11.5M226-678l-43-42q-12-11-11.5-28t11.5-29q12-12 29-12t28 12l42 43q11 12 11 28t-11 28-27.5 11.5T226-678m494 495-42-43q-11-12-11-28.5t11-27.5q11-12 27.5-11.5T734-282l43 42q12 11 11.5 28T777-183q-12 12-29 12t-28-12m-42-495q-12-11-11.5-27.5T678-734l42-43q11-12 28-11.5t29 11.5q12 12 12 29t-12 28l-43 42q-12 11-28 11t-28-11M183-183q-12-12-12-29t12-28l43-42q12-11 28.5-11t27.5 11q12 11 11.5 27.5T282-226l-42 43q-11 12-28 11.5T183-183m297-297" />
-                                </svg>
-                                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
-                                    viewBox="0 -960 960 960" width="24" fill="currentColor">
-                                    <path
-                                        d="m382-354 339-339q12-12 28-12t28 12 12 28.5-12 28.5L410-268q-12 12-28 12t-28-12L182-440q-12-12-11.5-28.5T183-497t28.5-12 28.5 12z" />
-                                </svg>
-                            </span>
-                            <span class="btn-label" data-i18n="themeLight">Light</span>
-                        </button>
-                        <button type="button" class="segmented-btn" data-theme-value="device">
-                            <span class="btn-icon">
-                                <svg class="icon-default" xmlns="http://www.w3.org/2000/svg" height="24"
-                                    viewBox="0 -960 960 960" width="24" fill="currentColor">
-                                    <path
-                                        d="M80-120q-17 0-28.5-11.5T40-160t11.5-28.5T80-200h800q17 0 28.5 11.5T920-160t-11.5 28.5T880-120zm80-120q-33 0-56.5-23.5T80-320v-440q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v440q0 33-23.5 56.5T800-240zm0-80h640v-440H160zm0 0v-440z" />
-                                </svg>
-                                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
-                                    viewBox="0 -960 960 960" width="24" fill="currentColor">
-                                    <path
-                                        d="m382-354 339-339q12-12 28-12t28 12 12 28.5-12 28.5L410-268q-12 12-28 12t-28-12L182-440q-12-12-11.5-28.5T183-497t28.5-12 28.5 12z" />
-                                </svg>
-                            </span>
-                            <span class="btn-label" data-i18n="themeDevice">Device</span>
-                        </button>
-                        <button type="button" class="segmented-btn" data-theme-value="dark">
-                            <span class="btn-icon">
-                                <svg class="icon-default" xmlns="http://www.w3.org/2000/svg" height="24"
-                                    viewBox="0 -960 960 960" width="24" fill="currentColor">
-                                    <path
-                                        d="M480-120q-151 0-255.5-104.5T120-480q0-138 90-239.5T440-838q13-2 23 3.5t16 14.5 6.5 21-7.5 23q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q11-7 22.5-6.5T819-479q10 5 15.5 15t3.5 24q-14 138-117.5 229T480-120m0-80q88 0 158-48.5T740-375q-20 5-40 8t-40 3q-123 0-209.5-86.5T364-660q0-20 3-40t8-40q-78 32-126.5 102T200-480q0 116 82 198t198 82m-10-270" />
-                                </svg>
-                                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
-                                    viewBox="0 -960 960 960" width="24" fill="currentColor">
-                                    <path
-                                        d="m382-354 339-339q12-12 28-12t28 12 12 28.5-12 28.5L410-268q-12 12-28 12t-28-12L182-440q-12-12-11.5-28.5T183-497t28.5-12 28.5 12z" />
-                                </svg>
-                            </span>
-                            <span class="btn-label" data-i18n="themeDark">Dark</span>
+
+        <div class="settings-inner-card">
+            <div class="settings-group-card">
+                <div id="colorPickerOverlay" class="color-picker-overlay"></div>
+                <div id="customColorModal" class="color-picker-modal">
+                    <div class="color-picker-header">
+                        <span class="color-picker-title">Color picker</span>
+                        <button id="closeColorPickerBtn" class="icon-btn" aria-label="Close">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                                fill="currentColor">
+                                <path
+                                    d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z" />
+                            </svg>
                         </button>
                     </div>
+                    <div class="color-picker-body">
+                        <input type="range" id="hueSlider" class="hue-slider" min="0" max="360" value="0">
+                    </div>
+                </div>
+                <h3 class="settings-group-title" data-i18n="appearanceTitle">Appearance</h3>
+                <div class="segmented-button-group" id="themeSelector">
+                    <button type="button" class="segmented-btn" data-theme-value="light">
+                        <span class="btn-icon">
+                            <svg class="icon-default" xmlns="http://www.w3.org/2000/svg" height="24"
+                                viewBox="0 -960 960 960" width="24" fill="currentColor">
+                                <path
+                                    d="M565-395q35-35 35-85t-35-85-85-35-85 35-35 85 35 85 85 35 85-35m-226.5 56.5Q280-397 280-480t58.5-141.5T480-680t141.5 58.5T680-480t-58.5 141.5T480-280t-141.5-58.5M80-440q-17 0-28.5-11.5T40-480t11.5-28.5T80-520h80q17 0 28.5 11.5T200-480t-11.5 28.5T160-440zm720 0q-17 0-28.5-11.5T760-480t11.5-28.5T800-520h80q17 0 28.5 11.5T920-480t-11.5 28.5T880-440zM451.5-771.5Q440-783 440-800v-80q0-17 11.5-28.5T480-920t28.5 11.5T520-880v80q0 17-11.5 28.5T480-760t-28.5-11.5m0 720Q440-63 440-80v-80q0-17 11.5-28.5T480-200t28.5 11.5T520-160v80q0 17-11.5 28.5T480-40t-28.5-11.5M226-678l-43-42q-12-11-11.5-28t11.5-29q12-12 29-12t28 12l42 43q11 12 11 28t-11 28-27.5 11.5T226-678m494 495-42-43q-11-12-11-28.5t11-27.5q11-12 27.5-11.5T734-282l43 42q12 11 11.5 28T777-183q-12 12-29 12t-28-12m-42-495q-12-11-11.5-27.5T678-734l42-43q11-12 28-11.5t29 11.5q12 12 12 29t-12 28l-43 42q-12 11-28 11t-28-11M183-183q-12-12-12-29t12-28l43-42q12-11 28.5-11t27.5 11q12 11 11.5 27.5T282-226l-42 43q-11 12-28 11.5T183-183m297-297" />
+                            </svg>
+                            <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
+                                viewBox="0 -960 960 960" width="24" fill="currentColor">
+                                <path
+                                    d="m382-354 339-339q12-12 28-12t28 12 12 28.5-12 28.5L410-268q-12 12-28 12t-28-12L182-440q-12-12-11.5-28.5T183-497t28.5-12 28.5 12z" />
+                            </svg>
+                        </span>
+                        <span class="btn-label" data-i18n="themeLight">Light</span>
+                    </button>
+                    <button type="button" class="segmented-btn" data-theme-value="device">
+                        <span class="btn-icon">
+                            <svg class="icon-default" xmlns="http://www.w3.org/2000/svg" height="24"
+                                viewBox="0 -960 960 960" width="24" fill="currentColor">
+                                <path
+                                    d="M80-120q-17 0-28.5-11.5T40-160t11.5-28.5T80-200h800q17 0 28.5 11.5T920-160t-11.5 28.5T880-120zm80-120q-33 0-56.5-23.5T80-320v-440q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v440q0 33-23.5 56.5T800-240zm0-80h640v-440H160zm0 0v-440z" />
+                            </svg>
+                            <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
+                                viewBox="0 -960 960 960" width="24" fill="currentColor">
+                                <path
+                                    d="m382-354 339-339q12-12 28-12t28 12 12 28.5-12 28.5L410-268q-12 12-28 12t-28-12L182-440q-12-12-11.5-28.5T183-497t28.5-12 28.5 12z" />
+                            </svg>
+                        </span>
+                        <span class="btn-label" data-i18n="themeDevice">Device</span>
+                    </button>
+                    <button type="button" class="segmented-btn" data-theme-value="dark">
+                        <span class="btn-icon">
+                            <svg class="icon-default" xmlns="http://www.w3.org/2000/svg" height="24"
+                                viewBox="0 -960 960 960" width="24" fill="currentColor">
+                                <path
+                                    d="M480-120q-151 0-255.5-104.5T120-480q0-138 90-239.5T440-838q13-2 23 3.5t16 14.5 6.5 21-7.5 23q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q11-7 22.5-6.5T819-479q10 5 15.5 15t3.5 24q-14 138-117.5 229T480-120m0-80q88 0 158-48.5T740-375q-20 5-40 8t-40 3q-123 0-209.5-86.5T364-660q0-20 3-40t8-40q-78 32-126.5 102T200-480q0 116 82 198t198 82m-10-270" />
+                            </svg>
+                            <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
+                                viewBox="0 -960 960 960" width="24" fill="currentColor">
+                                <path
+                                    d="m382-354 339-339q12-12 28-12t28 12 12 28.5-12 28.5L410-268q-12 12-28 12t-28-12L182-440q-12-12-11.5-28.5T183-497t28.5-12 28.5 12z" />
+                            </svg>
+                        </span>
+                        <span class="btn-label" data-i18n="themeDark">Dark</span>
+                    </button>
+                </div>
 
-                    <div class="color-palette-group" id="colorPaletteSelector">
-                        <div class="palette-card">
-                            <button type="button" class="color-circle-btn active" data-palette="default"
-                                style="--theme-c1: #0B57D0; --theme-c2: #D3E3FD; --theme-c3: #FFFFFF;"
-                                title="Default Theme" aria-label="Default Color">
-                                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
-                                    viewBox="0 -960 960 960" width="24">
+                <div class="color-palette-group" id="colorPaletteSelector">
+                    <div class="palette-card">
+                        <button type="button" class="color-circle-btn active" data-palette="default"
+                            style="--theme-c1: #0B57D0; --theme-c2: #D3E3FD; --theme-c3: #FFFFFF;" title="Default Theme"
+                            aria-label="Default Color">
+                            <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
+                                viewBox="0 -960 960 960" width="24">
+                                <path
+                                    d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="palette-card">
+                        <button type="button" class="color-circle-btn" data-palette="expressive"
+                            style="--theme-c1: #65558F; --theme-c2: #E8DEF8; --theme-c3: #FFFFFF;"
+                            title="Expressive Theme" aria-label="Expressive Color">
+                            <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
+                                viewBox="0 -960 960 960" width="24">
+                                <path
+                                    d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="palette-card">
+                        <button type="button" class="color-circle-btn" data-palette="leaf"
+                            style="--theme-c1: #518242; --theme-c2: #D6E8CE; --theme-c3: #FFFFFF;" title="Leaf Theme"
+                            aria-label="Leaf Color">
+                            <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
+                                viewBox="0 -960 960 960" width="24">
+                                <path
+                                    d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="palette-card">
+                        <button type="button" class="color-circle-btn" data-palette="gold"
+                            style="--theme-c1: #797A1E; --theme-c2: #E5E68C; --theme-c3: #FFFFFF;" title="Gold Theme"
+                            aria-label="Gold Color">
+                            <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
+                                viewBox="0 -960 960 960" width="24">
+                                <path
+                                    d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="palette-card">
+                        <button type="button" class="color-circle-btn" data-palette="sun"
+                            style="--theme-c1: #D87739; --theme-c2: #FFDBC6; --theme-c3: #FFFFFF;" title="Sun Theme"
+                            aria-label="Sun Color">
+                            <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
+                                viewBox="0 -960 960 960" width="24">
+                                <path
+                                    d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="palette-card">
+                        <button type="button" class="color-circle-btn" data-palette="candy"
+                            style="--theme-c1: #B90063; --theme-c2: #FFD9E2; --theme-c3: #FFFFFF;" title="Candy Theme"
+                            aria-label="Candy Color">
+                            <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
+                                viewBox="0 -960 960 960" width="24">
+                                <path
+                                    d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="palette-card">
+                        <button type="button" class="color-circle-btn" data-palette="love"
+                            style="--theme-c1: #C0001B; --theme-c2: #FFDAD5; --theme-c3: #FFFFFF;" title="Love Theme"
+                            aria-label="Love Color">
+                            <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
+                                viewBox="0 -960 960 960" width="24">
+                                <path
+                                    d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="palette-card">
+                        <button type="button" class="color-circle-btn custom-picker-btn" id="customColorPickerBtn"
+                            data-palette="custom"
+                            style="--theme-c1: var(--sys-primary-light, #1F1F1F); --theme-c2: var(--sys-primary-container-light, #E3E3E3); --theme-c3: var(--sys-secondary-container-light, #3C3C3C);"
+                            title="Custom Color" aria-label="Custom Color">
+                            <svg class="icon-picker" xmlns="http://www.w3.org/2000/svg" height="24"
+                                viewBox="0 -960 960 960" width="24">
+                                <path
+                                    d="M120-160v-117q0-16 6-30.5t17-25.5l335-335-58-56 58-56 76 76 124-124q5-5 12.5-8t15.5-3 15 3 13 8l94 94q5 6 8 13t3 15-3 15.5-8 12.5L705-555l76 78-57 57-56-58-335 335q-11 11-25.5 17t-30.5 6H160q-17 0-28.5-11.5T120-160m80-40h78l332-334-76-76-334 332z" />
+                            </svg>
+                            <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
+                                viewBox="0 -960 960 960" width="24">
+                                <path
+                                    d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <hr class="settings-divider" />
+                <div class="settings-row">
+                    <span class="settings-row-label" data-i18n="useWallpaperColor">Use wallpaper color</span>
+                    <label class="md3-switch">
+                        <input type="checkbox" id="useWallpaperColorToggle" />
+                        <span class="switch-track">
+                            <span class="switch-thumb"></span>
+                        </span>
+                    </label>
+                </div>
+
+            </div>
+
+            <div class="settings-group-card">
+                <div class="group-header">
+                    <div class="group-title-wrapper">
+                        <h3 class="settings-group-title" data-i18n="weatherTitle">Weather</h3>
+                    </div>
+                    <label class="md3-switch">
+                        <input type="checkbox" id="weatherToggle" checked />
+                        <span class="switch-track">
+                            <span class="switch-thumb"></span>
+                        </span>
+                    </label>
+                </div>
+
+                <div class="expandable-content compact-gap" id="weatherSettingsBlock">
+                    <div class="input-with-action-row">
+                        <div class="md3-outlined-text-field">
+                            <input type="text" id="weatherCityInput" class="md3-input" placeholder=" "
+                                autocomplete="off" />
+                            <label for="weatherCityInput" class="md3-label" data-i18n="weatherCityLabel">City
+                                name</label>
+                            <button type="button" class="icon-btn clear-input-btn" id="clearCityBtn"
+                                aria-label="Clear city">
+                                <svg class="clear-icon" xmlns="http://www.w3.org/2000/svg" height="24"
+                                    viewBox="0 -960 960 960" width="24" fill="currentColor">
                                     <path
-                                        d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
+                                        d="m480-424 116 116q11 11 28 11t28-11 11-28-11-28L536-480l116-116q11-11 11-28t-11-28-28-11-28 11L480-536 364-652q-11-11-28-11t-28 11-11 28 11 28l116 116-116 116q-11 11-11 28t11 28 28 11 28-11zm0 344q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80m0-80q134 0 227-93t93-227-93-227-227-93-227 93-93 227 93 227 227 93m0-320" />
                                 </svg>
                             </button>
                         </div>
 
-                        <div class="palette-card">
-                            <button type="button" class="color-circle-btn" data-palette="expressive"
-                                style="--theme-c1: #65558F; --theme-c2: #E8DEF8; --theme-c3: #FFFFFF;"
-                                title="Expressive Theme" aria-label="Expressive Color">
-                                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
-                                    viewBox="0 -960 960 960" width="24">
-                                    <path
-                                        d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                                </svg>
-                            </button>
-                        </div>
-
-                        <div class="palette-card">
-                            <button type="button" class="color-circle-btn" data-palette="leaf"
-                                style="--theme-c1: #518242; --theme-c2: #D6E8CE; --theme-c3: #FFFFFF;"
-                                title="Leaf Theme" aria-label="Leaf Color">
-                                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
-                                    viewBox="0 -960 960 960" width="24">
-                                    <path
-                                        d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                                </svg>
-                            </button>
-                        </div>
-
-                        <div class="palette-card">
-                            <button type="button" class="color-circle-btn" data-palette="gold"
-                                style="--theme-c1: #797A1E; --theme-c2: #E5E68C; --theme-c3: #FFFFFF;"
-                                title="Gold Theme" aria-label="Gold Color">
-                                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
-                                    viewBox="0 -960 960 960" width="24">
-                                    <path
-                                        d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                                </svg>
-                            </button>
-                        </div>
-
-                        <div class="palette-card">
-                            <button type="button" class="color-circle-btn" data-palette="sun"
-                                style="--theme-c1: #D87739; --theme-c2: #FFDBC6; --theme-c3: #FFFFFF;" title="Sun Theme"
-                                aria-label="Sun Color">
-                                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
-                                    viewBox="0 -960 960 960" width="24">
-                                    <path
-                                        d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                                </svg>
-                            </button>
-                        </div>
-
-                        <div class="palette-card">
-                            <button type="button" class="color-circle-btn" data-palette="candy"
-                                style="--theme-c1: #B90063; --theme-c2: #FFD9E2; --theme-c3: #FFFFFF;"
-                                title="Candy Theme" aria-label="Candy Color">
-                                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
-                                    viewBox="0 -960 960 960" width="24">
-                                    <path
-                                        d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                                </svg>
-                            </button>
-                        </div>
-
-                        <div class="palette-card">
-                            <button type="button" class="color-circle-btn" data-palette="love"
-                                style="--theme-c1: #C0001B; --theme-c2: #FFDAD5; --theme-c3: #FFFFFF;"
-                                title="Love Theme" aria-label="Love Color">
-                                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
-                                    viewBox="0 -960 960 960" width="24">
-                                    <path
-                                        d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                                </svg>
-                            </button>
-                        </div>
-
-                        <div class="palette-card">
-                            <button type="button" class="color-circle-btn custom-picker-btn" id="customColorPickerBtn"
-                                data-palette="custom"
-                                style="--theme-c1: var(--sys-primary-light, #1F1F1F); --theme-c2: var(--sys-primary-container-light, #E3E3E3); --theme-c3: var(--sys-secondary-container-light, #3C3C3C);"
-                                title="Custom Color" aria-label="Custom Color">
-                                <svg class="icon-picker" xmlns="http://www.w3.org/2000/svg" height="24"
-                                    viewBox="0 -960 960 960" width="24">
-                                    <path
-                                        d="M120-160v-117q0-16 6-30.5t17-25.5l335-335-58-56 58-56 76 76 124-124q5-5 12.5-8t15.5-3 15 3 13 8l94 94q5 6 8 13t3 15-3 15.5-8 12.5L705-555l76 78-57 57-56-58-335 335q-11 11-25.5 17t-30.5 6H160q-17 0-28.5-11.5T120-160m80-40h78l332-334-76-76-334 332z" />
-                                </svg>
-                                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24"
-                                    viewBox="0 -960 960 960" width="24">
-                                    <path
-                                        d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                                </svg>
-                            </button>
-                        </div>
+                        <button type="button" class="custom-shape-btn" id="searchCityBtn" aria-label="Search city">
+                            <svg class="background-shape-svg" width="380" height="380" viewBox="0 0 380 380"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M230.389 50.473c62.72-27.24 126.378 36.418 99.138 99.138l-4.504 10.37a75.36 75.36 0 0 0 0 60.038l4.504 10.37c27.24 62.72-36.418 126.378-99.138 99.138l-10.37-4.504a75.36 75.36 0 0 0-60.038 0l-10.37 4.504c-62.72 27.24-126.378-36.418-99.138-99.138l4.504-10.37a75.36 75.36 0 0 0 0-60.038l-4.504-10.37c-27.24-62.72 36.418-126.378 99.138-99.138l10.37 4.504a75.36 75.36 0 0 0 60.038 0z"
+                                    fill="currentColor" />
+                            </svg>
+                            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" height="24"
+                                viewBox="0 -960 960 960" width="24" fill="currentColor">
+                                <path
+                                    d="M402-402 143-507q-13-5-19-15.5t-6-21.5 6.5-21.5T144-581l614-228q12-5 23-2t19 11 11 19-2 23L581-144q-5 13-15.5 19.5T544-118t-21.5-6-15.5-19zm140 134 162-436-436 162 196 78zm-78-196" />
+                            </svg>
+                        </button>
                     </div>
 
                     <hr class="settings-divider" />
-                    <div class="settings-row">
-                        <span class="settings-row-label" data-i18n="useWallpaperColor">Use wallpaper color</span>
-                        <label class="md3-switch">
-                            <input type="checkbox" id="useWallpaperColorToggle" />
-                            <span class="switch-track">
-                                <span class="switch-thumb"></span>
-                            </span>
+                    <div class="md3-radio-group">
+                        <label class="md3-radio">
+                            <span class="radio-text">Celsius (°C)</span>
+                            <input type="radio" name="tempUnit" value="C" checked />
+                            <div class="radio-outer">
+                                <div class="radio-inner"></div>
+                            </div>
+                        </label>
+
+                        <label class="md3-radio">
+                            <span class="radio-text">Fahrenheit (°F)</span>
+                            <input type="radio" name="tempUnit" value="F" />
+                            <div class="radio-outer">
+                                <div class="radio-inner"></div>
+                            </div>
                         </label>
                     </div>
-
                 </div>
+
             </div>
     </aside>
 

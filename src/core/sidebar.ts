@@ -53,3 +53,9 @@ export function initThemeControls(): void {
     });
   });
 }
+
+export interface AppSettings {
+  weatherEnabled: boolean;
+  tempUnit: 'C' | 'F';
+  weatherCity: string;
+}

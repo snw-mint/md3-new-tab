@@ -13,3 +13,13 @@ document.addEventListener('DOMContentLoaded', () => {
   initSidebarControls();
   initThemeControls();
 });
+
+// src/script.ts (ou index.ts)
+import { bindGlobalEvents } from './core/event-bindings';
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Inicializa todos os eventos globais e o estado
+  bindGlobalEvents();
+
+  // O resto do seu código atual continua aqui...
+});
