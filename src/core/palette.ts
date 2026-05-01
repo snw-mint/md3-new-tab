@@ -16,8 +16,11 @@ import {
 const PREDEFINED_SOURCES: Record<string, string> = {
   default: '#0B57D0',
   expressive: '#65558F',
-  green: '#518242',
-  sun: '#8F4E24',
+  leaf: '#518242',
+  gold: '#797A1E',
+  sun: '#D87739',
+  candy: '#B90063',
+  love: '#C0001B',
 };
 
 class PaletteManager {
