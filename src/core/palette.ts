@@ -7,9 +7,10 @@
  */
 
 import {
-  Hct,
   hexFromArgb,
   argbFromHex,
+  Scheme,
+  Hct,
 } from '@material/material-color-utilities';
 
 const PREDEFINED_SOURCES: Record<string, string> = {
@@ -21,7 +22,6 @@ const PREDEFINED_SOURCES: Record<string, string> = {
 
 class PaletteManager {
   private buttons: NodeListOf<HTMLButtonElement>;
-  private colorInput: HTMLInputElement | null;
   private storageKey: string = 'ent_selected_palette';
   private customColorKey: string = 'ent_custom_color';
 
@@ -29,9 +29,8 @@ class PaletteManager {
     this.buttons = document.querySelectorAll<HTMLButtonElement>(
       '.color-circle-btn[data-palette]',
     );
-    this.colorInput =
-      document.querySelector<HTMLInputElement>('#customColorInput');
     this.init();
+    this.initColorPicker();
   }
 
   private init(): void {
@@ -48,7 +47,7 @@ class PaletteManager {
         const target = e.currentTarget as HTMLButtonElement;
         const palette = target.dataset.palette;
 
-        if (palette) {
+        if (palette && palette !== 'custom') {
           const customColor =
             localStorage.getItem(this.customColorKey) ||
             PREDEFINED_SOURCES['default'];
@@ -58,19 +57,62 @@ class PaletteManager {
         }
       });
     });
+  }
 
-    if (this.colorInput) {
-      this.colorInput.value = savedCustomColor;
-      this.colorInput.addEventListener('input', (e) => {
-        const target = e.target as HTMLInputElement;
-        const hex = target.value;
+  private initColorPicker(): void {
+    const modal = document.getElementById('customColorModal');
+    const overlay = document.getElementById('colorPickerOverlay');
+    const slider = document.getElementById('hueSlider') as HTMLInputElement;
+    const closeBtn = document.getElementById('closeColorPickerBtn');
+    const customBtn = document.getElementById('customColorPickerBtn');
 
+    if (!modal || !overlay || !slider || !closeBtn || !customBtn) return;
+
+    const toggleModal = (show: boolean) => {
+      if (show) {
+        modal.classList.add('active');
+        overlay.classList.add('active');
+      } else {
+        modal.classList.remove('active');
+        overlay.classList.remove('active');
+      }
+    };
+
+    const applyHue = (save: boolean = false) => {
+      const hue = parseFloat(slider.value);
+      slider.style.setProperty('--current-hue', hue.toString());
+
+      if (save) {
+        const argb = Hct.from(hue, 100, 50).toInt();
+        const hex = hexFromArgb(argb);
         localStorage.setItem(this.customColorKey, hex);
         localStorage.setItem(this.storageKey, 'custom');
         this.processTheme('custom', hex);
         this.updateActiveUI('custom');
-      });
-    }
+      }
+    };
+
+    const savedCustomColor =
+      localStorage.getItem(this.customColorKey) ||
+      PREDEFINED_SOURCES['default'];
+    const initialHct = Hct.fromInt(argbFromHex(savedCustomColor));
+    slider.value = initialHct.hue.toString();
+    slider.style.setProperty('--current-hue', initialHct.hue.toString());
+
+    customBtn.addEventListener('click', () => toggleModal(true));
+
+    closeBtn.addEventListener('click', () => {
+      applyHue(true);
+      toggleModal(false);
+    });
+
+    overlay.addEventListener('click', () => {
+      applyHue(true);
+      toggleModal(false);
+    });
+
+    slider.addEventListener('input', () => applyHue(false));
+    slider.addEventListener('change', () => applyHue(true));
   }
 
   private processTheme(palette: string, customColorHex: string): void {
@@ -88,95 +130,95 @@ class PaletteManager {
   }
 
   private applyDynamicRoles(argb: number, paletteId: string): void {
-    const hct = Hct.fromInt(argb);
-    const hue = hct.hue;
-    const chroma = Math.max(48, hct.chroma);
+    const lightScheme = Scheme.light(argb);
+    const darkScheme = Scheme.dark(argb);
+
+    const hctSource = Hct.fromInt(argb);
+    const baseHue = hctSource.hue;
+
     const root = document.documentElement;
 
     root.style.setProperty(
       '--sys-primary-light',
-      hexFromArgb(Hct.from(hue, chroma, 40).toInt()),
+      hexFromArgb(lightScheme.primary),
     );
     root.style.setProperty(
       '--sys-on-primary-light',
-      hexFromArgb(Hct.from(hue, chroma, 100).toInt()),
+      hexFromArgb(lightScheme.onPrimary),
     );
     root.style.setProperty(
       '--sys-primary-container-light',
-      hexFromArgb(Hct.from(hue, chroma, 90).toInt()),
+      hexFromArgb(lightScheme.primaryContainer),
     );
     root.style.setProperty(
       '--sys-on-primary-container-light',
-      hexFromArgb(Hct.from(hue, chroma, 10).toInt()),
+      hexFromArgb(lightScheme.onPrimaryContainer),
+    );
+    root.style.setProperty(
+      '--sys-secondary-container-light',
+      hexFromArgb(lightScheme.secondaryContainer),
+    );
+    root.style.setProperty(
+      '--sys-on-secondary-container-light',
+      hexFromArgb(lightScheme.onSecondaryContainer),
+    );
+    root.style.setProperty(
+      '--sys-surface-variant-light',
+      hexFromArgb(lightScheme.surfaceVariant),
+    );
+    root.style.setProperty(
+      '--sys-on-surface-variant-light',
+      hexFromArgb(lightScheme.onSurfaceVariant),
+    );
+    root.style.setProperty(
+      '--sys-background-light',
+      hexFromArgb(lightScheme.background),
+    );
+    root.style.setProperty(
+      '--sys-surface-light',
+      hexFromArgb(lightScheme.surface),
     );
 
     root.style.setProperty(
       '--sys-primary-dark',
-      hexFromArgb(Hct.from(hue, chroma, 80).toInt()),
+      hexFromArgb(darkScheme.primary),
     );
     root.style.setProperty(
       '--sys-on-primary-dark',
-      hexFromArgb(Hct.from(hue, chroma, 20).toInt()),
+      hexFromArgb(darkScheme.onPrimary),
     );
     root.style.setProperty(
       '--sys-primary-container-dark',
-      hexFromArgb(Hct.from(hue, chroma, 30).toInt()),
+      hexFromArgb(darkScheme.primaryContainer),
     );
     root.style.setProperty(
       '--sys-on-primary-container-dark',
-      hexFromArgb(Hct.from(hue, chroma, 90).toInt()),
-    );
-
-    root.style.setProperty(
-      '--sys-secondary-container-light',
-      hexFromArgb(Hct.from(hue, 16, 90).toInt()),
-    );
-    root.style.setProperty(
-      '--sys-on-secondary-container-light',
-      hexFromArgb(Hct.from(hue, 16, 10).toInt()),
+      hexFromArgb(darkScheme.onPrimaryContainer),
     );
     root.style.setProperty(
       '--sys-secondary-container-dark',
-      hexFromArgb(Hct.from(hue, 16, 30).toInt()),
+      hexFromArgb(darkScheme.secondaryContainer),
     );
     root.style.setProperty(
       '--sys-on-secondary-container-dark',
-      hexFromArgb(Hct.from(hue, 16, 90).toInt()),
+      hexFromArgb(darkScheme.onSecondaryContainer),
     );
 
     root.style.setProperty(
-      '--sys-surface-variant-light',
-      hexFromArgb(Hct.from(hue, 8, 90).toInt()),
-    );
-    root.style.setProperty(
-      '--sys-on-surface-variant-light',
-      hexFromArgb(Hct.from(hue, 8, 30).toInt()),
-    );
-    root.style.setProperty(
       '--sys-surface-variant-dark',
-      hexFromArgb(Hct.from(hue, 8, 30).toInt()),
+      hexFromArgb(Hct.from(baseHue, 12, 12).toInt()),
     );
     root.style.setProperty(
       '--sys-on-surface-variant-dark',
-      hexFromArgb(Hct.from(hue, 8, 90).toInt()),
-    );
-
-    root.style.setProperty(
-      '--sys-surface-light',
-      hexFromArgb(Hct.from(hue, 8, 100).toInt()),
+      hexFromArgb(darkScheme.onSurfaceVariant),
     );
     root.style.setProperty(
-      '--sys-surface-container-light',
-      hexFromArgb(Hct.from(hue, 8, 98).toInt()),
+      '--sys-background-dark',
+      hexFromArgb(Hct.from(baseHue, 12, 24).toInt()),
     );
-
     root.style.setProperty(
       '--sys-surface-dark',
-      hexFromArgb(Hct.from(hue, 8, 24).toInt()),
-    );
-    root.style.setProperty(
-      '--sys-surface-container-dark',
-      hexFromArgb(Hct.from(hue, 8, 16).toInt()),
+      hexFromArgb(Hct.from(baseHue, 12, 24).toInt()),
     );
 
     root.setAttribute('data-palette', paletteId);
@@ -184,13 +226,10 @@ class PaletteManager {
 
   private updateActiveUI(paletteId: string): void {
     this.buttons.forEach((btn) => btn.classList.remove('active'));
-
-    if (paletteId !== 'custom') {
-      const activeBtn = document.querySelector(
-        `.color-circle-btn[data-palette="${paletteId}"]`,
-      );
-      if (activeBtn) activeBtn.classList.add('active');
-    }
+    const activeBtn = document.querySelector(
+      `.color-circle-btn[data-palette="${paletteId}"]`,
+    );
+    if (activeBtn) activeBtn.classList.add('active');
   }
 }
 

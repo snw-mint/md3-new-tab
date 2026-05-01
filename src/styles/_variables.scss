@@ -15,7 +15,8 @@
   --color-secondary-container: var(--sys-secondary-container-light);
   --color-on-secondary-container: var(--sys-on-secondary-container-light);
 
-  --color-surface: #ffffff;
+  --color-background: var(--sys-background-light, #ffffff);
+  --color-surface: var(--sys-surface-light, #ffffff);
   --color-on-surface: #1f1f1f;
 
   --color-surface-variant: var(--sys-surface-variant-light);
@@ -41,7 +42,8 @@
   --color-secondary-container: var(--sys-secondary-container-dark);
   --color-on-secondary-container: var(--sys-on-secondary-container-dark);
 
-  --color-surface: #1f1f1f;
+  --color-background: var(--sys-background-dark, #1f1f1f);
+  --color-surface: var(--sys-surface-dark, #1f1f1f);
   --color-on-surface: #e3e3e3;
 
   --color-surface-variant: var(--sys-surface-variant-dark);
@@ -83,7 +85,7 @@ html[data-theme='dark'] {
 
 body {
   font-family: var(--font-family);
-  background-color: var(--color-surface);
+  background-color: var(--color-background);
   color: var(--color-on-surface);
   min-height: 100vh;
   display: flex;
