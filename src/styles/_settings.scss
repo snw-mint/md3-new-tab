@@ -489,69 +489,110 @@ body {
   position: relative;
   flex: 1;
   margin-top: 0;
-}
 
-.md3-input {
-  width: 100%;
-  border: 1px solid var(--color-outline);
-  border-radius: var(--radius-xs, 0.25rem);
-  padding: 0.75rem 2.5rem 0.75rem 1rem;
-  background-color: transparent;
-  color: var(--color-on-surface);
-  font-size: 0.875rem;
-  font-family: inherit;
-  outline: none;
-  box-sizing: border-box;
-  transition:
-    border-color 0.2s ease,
-    border-width 0.2s ease;
+  .md3-input {
+    width: 100%;
+    border: 1px solid var(--color-outline);
+    border-radius: var(--radius-xs, 0.25rem);
+    padding: 0.75rem 2.5rem 0.75rem 1rem;
+    background-color: transparent;
+    color: var(--color-on-surface);
+    font-size: 0.875rem;
+    font-family: inherit;
+    outline: none;
+    box-sizing: border-box;
+    transition:
+      border-color 0.2s ease,
+      border-width 0.2s ease;
 
-  &:focus {
-    border-color: var(--color-primary);
-    border-width: 2px;
-    padding: calc(0.75rem - 1px) calc(2.5rem - 1px) calc(0.75rem - 1px)
-      calc(1rem - 1px);
+    &:focus {
+      border-color: var(--color-primary);
+      border-width: 2px;
+      padding: calc(0.75rem - 1px) calc(2.5rem - 1px) calc(0.75rem - 1px)
+        calc(1rem - 1px);
+    }
   }
-}
 
-.md3-label {
-  position: absolute;
-  left: 0.875rem;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: var(--color-surface);
-  padding: 0 0.25rem;
-  color: var(--color-on-surface-variant);
-  font-size: 0.875rem;
-  pointer-events: none;
-  transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
-  transform-origin: left center;
-}
+  .md3-label {
+    position: absolute;
+    left: 0.875rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--color-surface);
+    padding: 0 0.25rem;
+    color: var(--color-on-surface-variant);
+    font-size: 0.875rem;
+    pointer-events: none;
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+    transform-origin: left center;
+  }
 
-.md3-input:focus ~ .md3-label,
-.md3-input:not(:placeholder-shown) ~ .md3-label {
-  top: 0;
-  transform: translateY(-50%) scale(0.8);
-  color: var(--color-primary);
-}
+  .md3-input:focus ~ .md3-label,
+  .md3-input:not(:placeholder-shown) ~ .md3-label {
+    top: 0;
+    transform: translateY(-50%) scale(0.8);
+    color: var(--color-primary);
+  }
 
-.md3-input:not(:focus):not(:placeholder-shown) ~ .md3-label {
-  color: var(--color-on-surface-variant);
-}
+  .md3-input:not(:focus):not(:placeholder-shown) ~ .md3-label {
+    color: var(--color-on-surface-variant);
+  }
 
-.clear-input-btn {
-  position: absolute;
-  right: 0.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--color-on-surface-variant);
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.2s ease;
+  .clear-input-btn {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-on-surface-variant);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+  }
 
-  .md3-input:not(:placeholder-shown) ~ & {
+  .md3-input:not(:placeholder-shown) ~ .clear-input-btn {
     opacity: 1;
     visibility: visible;
+  }
+
+  /* --- Novo: Lógica de Erro embutida no SCSS --- */
+  .error-icon-svg {
+    position: absolute;
+    right: 0.875rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: var(--color-error);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  &.has-error {
+    .md3-input {
+      border-color: var(--color-error);
+      padding-right: 2.5rem; /* Evita que o texto encoste no ícone */
+
+      &:focus {
+        border-color: var(--color-error);
+      }
+    }
+
+    .md3-label {
+      color: var(--color-error) !important;
+    }
+
+    .clear-input-btn {
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none;
+    }
+
+    .error-icon-svg {
+      opacity: 1;
+      visibility: visible;
+    }
   }
 }
 

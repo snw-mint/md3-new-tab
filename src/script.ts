@@ -10,16 +10,15 @@ import './core/palette';
 import { initSidebarControls, initThemeControls } from './core/sidebar';
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Inicializa a UI do painel
   initSidebarControls();
   initThemeControls();
+
+  // Inicializa o motor reativo (Weather, etc)
+  bindGlobalEvents();
 });
 
-// src/script.ts (ou index.ts)
 import { bindGlobalEvents } from './core/event-bindings';
-
 document.addEventListener('DOMContentLoaded', () => {
-  // Inicializa todos os eventos globais e o estado
   bindGlobalEvents();
-
-  // O resto do seu código atual continua aqui...
 });

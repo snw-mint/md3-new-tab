@@ -11,3 +11,39 @@ export interface AppSettings {
   tempUnit: 'C' | 'F';
   weatherCity: string;
 }
+
+export interface CityData {
+  name: string;
+  lat: number;
+  lon: number;
+  country?: string;
+}
+
+export interface WeatherApiResponse {
+  current_weather: {
+    temperature: number;
+    weathercode: number;
+    is_day: number | boolean;
+  };
+}
+
+export interface WeatherCache {
+  timestamp: number;
+  city: string;
+  data: WeatherApiResponse;
+}
+
+export interface GeocodingResult {
+  name: string;
+  latitude: number;
+  longitude: number;
+  country?: string;
+  country_code?: string;
+  admin1?: string;
+  admin2?: string;
+  admin3?: string;
+}
+
+export interface GeocodingResponse {
+  results?: GeocodingResult[];
+}

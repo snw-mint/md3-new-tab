@@ -1,0 +1,158 @@
+/*
+ * MD3: Expressive New Tab
+ * Copyright (c) 2026 SnowMint
+ * Licensed under the GNU General Public License v3.0 (GPL-3.0)
+ * You should have received a copy of the GNU General Public License along with this program.
+ * If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.md3-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.32); /* MD3 Scrim color */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s ease;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+
+    .md3-dialog {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+}
+
+.md3-dialog {
+  background-color: var(--color-surface-container-high, var(--color-surface));
+  border-radius: 1.75rem; /* 28px radius per MD3 spec */
+  padding: 1.5rem;
+  width: 90%;
+  max-width: 24rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 0px 4px 8px 3px rgba(0, 0, 0, 0.15);
+  transform: scale(0.9);
+  opacity: 0;
+  transition:
+    transform 0.2s cubic-bezier(0.2, 0, 0, 1),
+    opacity 0.2s ease;
+}
+
+.md3-dialog-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--color-on-surface);
+}
+
+.md3-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.md3-dialog-text {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-on-surface-variant);
+  line-height: 1.4;
+}
+
+.md3-dialog-link {
+  font-size: 0.875rem;
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+  align-self: flex-start;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.md3-dialog-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* MD3 Text Button */
+.md3-text-btn {
+  appearance: none;
+  background: transparent;
+  border: none;
+  padding: 0.625rem 0.75rem;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-primary);
+  border-radius: 100px; /* Fully rounded */
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: color-mix(in srgb, var(--color-primary) 8%, transparent);
+  }
+
+  &:active {
+    background-color: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  }
+}
+
+/* --- Inline Link --- */
+.md3-dialog-text a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* --- MD3 Filled Button (Capsule) --- */
+.md3-filled-btn {
+  appearance: none;
+  background-color: var(--color-primary);
+  border: none;
+  padding: 0.625rem 1.5rem; /* Espaçamento horizontal maior reforça o formato cápsula */
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-on-primary, #ffffff);
+  border-radius: 100px;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:hover {
+    background-color: color-mix(
+      in srgb,
+      var(--color-on-primary, #ffffff) 8%,
+      var(--color-primary)
+    );
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  &:active {
+    background-color: color-mix(
+      in srgb,
+      var(--color-on-primary, #ffffff) 12%,
+      var(--color-primary)
+    );
+    box-shadow: none;
+  }
+}

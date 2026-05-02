@@ -23,14 +23,12 @@ export const DOMUnits = {
       if (state.weatherEnabled) {
         block.classList.remove('collapsed');
         block.style.maxHeight = block.scrollHeight + 'px';
-
         setTimeout(() => {
           if (toggle?.checked) block.style.maxHeight = 'none';
         }, 300);
       } else {
         block.style.maxHeight = block.scrollHeight + 'px';
         void block.offsetHeight;
-
         block.classList.add('collapsed');
         block.style.maxHeight = '0px';
       }

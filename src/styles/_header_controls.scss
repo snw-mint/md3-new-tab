@@ -25,31 +25,6 @@
   gap: 0.5rem;
 }
 
-.weather-widget {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--color-on-surface);
-  text-decoration: none;
-  font-size: 0.875rem;
-  font-weight: 500;
-  padding: 0.5rem 0.75rem;
-  border-radius: var(--radius-md);
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background-color: var(--color-secondary-container);
-  }
-}
-
-.weather-icon {
-  width: 1.5rem;
-  height: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .header-link {
   font-size: 0.875rem;
   color: var(--color-on-surface);

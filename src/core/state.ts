@@ -17,7 +17,7 @@ class ReactiveState {
 
   constructor() {
     const defaultState: AppSettings = {
-      weatherEnabled: true,
+      weatherEnabled: false,
       tempUnit: 'C',
       weatherCity: '',
     };
