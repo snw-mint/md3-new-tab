@@ -12,7 +12,7 @@
     "newtab": "index.html"
   },
   "background": {
-    "service_worker": "scripts/background.js"
+    "service_worker": "src/background.ts"
   },
   "permissions": ["storage", "unlimitedStorage"],
   "optional_host_permissions": [
