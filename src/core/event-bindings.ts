@@ -49,7 +49,7 @@ function showPermissionModal(onGranted: () => void, onDenied: () => void) {
 }
 
 export function bindGlobalEvents(): void {
-  const { weatherToggle, weatherBlock } = DOM.settings;
+  const { weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock } = DOM.settings;
   const weatherOrigins = [
     'https://geocoding-api.open-meteo.com/*',
     'https://api.open-meteo.com/*',
@@ -61,6 +61,10 @@ export function bindGlobalEvents(): void {
     DOMUnits.syncWeatherGroup(
       { toggle: weatherToggle, block: weatherBlock },
       state,
+    );
+    DOMUnits.syncExpandableGroup(
+      { toggle: shortcutsToggle, block: shortcutsBlock },
+      state.shortcutsEnabled,
     );
     updateWeatherWidget();
   });
@@ -90,6 +94,13 @@ export function bindGlobalEvents(): void {
           globalState.current.weatherEnabled = false;
         },
       );
+    });
+  }
+
+  if (shortcutsToggle) {
+    shortcutsToggle.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      globalState.current.shortcutsEnabled = target.checked;
     });
   }
 

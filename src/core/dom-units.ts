@@ -9,18 +9,18 @@
 import { AppSettings } from './types';
 
 export const DOMUnits = {
-  syncWeatherGroup(
+  syncExpandableGroup(
     elements: { toggle: HTMLInputElement | null; block: HTMLElement | null },
-    state: AppSettings,
+    isEnabled: boolean,
   ): void {
     const { toggle, block } = elements;
 
-    if (toggle && toggle.checked !== state.weatherEnabled) {
-      toggle.checked = state.weatherEnabled;
+    if (toggle && toggle.checked !== isEnabled) {
+      toggle.checked = isEnabled;
     }
 
     if (block) {
-      if (state.weatherEnabled) {
+      if (isEnabled) {
         block.classList.remove('collapsed');
         block.style.maxHeight = block.scrollHeight + 'px';
         setTimeout(() => {
@@ -33,5 +33,12 @@ export const DOMUnits = {
         block.style.maxHeight = '0px';
       }
     }
+  },
+
+  syncWeatherGroup(
+    elements: { toggle: HTMLInputElement | null; block: HTMLElement | null },
+    state: AppSettings,
+  ): void {
+    this.syncExpandableGroup(elements, state.weatherEnabled);
   },
 };

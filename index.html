@@ -403,6 +403,33 @@
                 </div>
 
             </div>
+
+            <div class="settings-group-card">
+                <div class="group-header">
+                    <div class="group-title-wrapper">
+                        <h3 class="settings-group-title" data-i18n="shortcutsTitle">Shortcuts</h3>
+                    </div>
+                    <label class="md3-switch">
+                        <input type="checkbox" id="shortcutsToggle" checked />
+                        <span class="switch-track">
+                            <span class="switch-thumb"></span>
+                        </span>
+                    </label>
+                </div>
+
+                <div class="expandable-content compact-gap" id="shortcutsSettingsBlock">
+                    <div class="md3-outlined-select-wrapper">
+                        <select id="shortcutsRowsSelect" class="md3-outlined-select" aria-label="Shortcuts Rows">
+                            <option value="1" data-i18n="rows1">1 Row</option>
+                            <option value="2" data-i18n="rows2">2 Rows</option>
+                            <option value="3" data-i18n="rows3">3 Rows</option>
+                            <option value="4" data-i18n="rows4">4 Rows</option>
+                        </select>
+                        <label for="shortcutsRowsSelect" class="md3-select-label" data-i18n="shortcutsRowsLabel">Rows</label>
+                        <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M459-381 314-526q-3-3-4.5-6.5T308-540q0-8 5.5-14t14.5-6h304q9 0 14.5 6t5.5 14q0 2-6 14L501-381q-5 5-10 7t-11 2-11-2-10-7"/></svg>
+                    </div>
+                </div>
+            </div>
     </aside>
 
     <div id="warningModal" class="md3-dialog-overlay">

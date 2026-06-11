@@ -742,3 +742,64 @@ body {
     pointer-events: none;
   }
 }
+
+.md3-outlined-select-wrapper {
+  position: relative;
+  flex: 1;
+  margin-top: 2rem;
+  width: 100%;
+
+  .md3-outlined-select {
+    width: 100%;
+    border: 1px solid var(--color-outline);
+    border-radius: var(--radius-xs, 0.25rem);
+    padding: 0.75rem 2.5rem 0.75rem 1rem;
+    background-color: transparent;
+    color: var(--color-on-surface);
+    font-size: 0.875rem;
+    font-family: inherit;
+    outline: none;
+    box-sizing: border-box;
+    appearance: none;
+    transition:
+      border-color 0.2s ease,
+      border-width 0.2s ease;
+    cursor: pointer;
+
+    &:focus {
+      border-color: var(--color-primary);
+      border-width: 2px;
+      padding: calc(0.75rem - 1px) calc(2.5rem - 1px) calc(0.75rem - 1px)
+        calc(1rem - 1px);
+    }
+  }
+
+  .md3-select-label {
+    position: absolute;
+    left: 0.875rem;
+    top: 0;
+    transform: translateY(-50%) scale(0.8);
+    background-color: var(--color-surface);
+    padding: 0 0.25rem;
+    color: var(--color-on-surface-variant);
+    font-size: 0.875rem;
+    pointer-events: none;
+    transform-origin: left center;
+    transition: color 0.2s ease;
+  }
+
+  .md3-outlined-select:focus ~ .md3-select-label {
+    color: var(--color-primary);
+  }
+
+  .dropdown-icon {
+    position: absolute;
+    right: 0.875rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: var(--color-on-surface-variant);
+    pointer-events: none;
+  }
+}
