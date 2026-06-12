@@ -9,12 +9,22 @@
 .shortcuts-grid {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
-  gap: 1.5rem 1rem;
+  gap: 1rem;
   width: 100%;
-  max-width: 100%;
+  max-width: 44rem;
   justify-items: center;
   padding: 1rem;
   margin: 0 auto;
+
+  &.single-row {
+    grid-template-columns: repeat(var(--shortcut-count, 10), 1fr);
+    width: calc(var(--shortcut-count, 10) * (100% / 10));
+    justify-content: center;
+    margin: 0 auto;
+    .shortcut-item {
+      min-width: 3rem;
+    }
+  }
 
   &[data-hide-names='true'] {
     .shortcut-item .shortcut-title {
@@ -50,39 +60,60 @@
   &:focus-within .menu-btn,
   &:has(.shortcut-dropdown.active) .menu-btn {
     opacity: 1;
-    transform: scale(1);
   }
 }
 
 .shortcut-card {
-  width: 3.5rem;
-  height: 3.5rem;
-  background-color: var(--color-secondary-container);
+  width: 3rem;
+  height: 3rem;
+  background-color: var(--color-surface-variant);
   border-radius: var(--radius-full);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
   position: relative;
-  transition:
-    transform 0.2s cubic-bezier(0.2, 0, 0, 1),
-    background-color 0.2s ease;
+  overflow: hidden;
+  transition: background-color 0.2s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-primary);
+    opacity: 0.08; /* MD3 overlay opacity */
+    transition: opacity 0.2s ease;
+  }
 
   &:hover {
-    background-color: var(--color-surface-variant);
-    transform: scale(1.05);
+    &::before {
+      opacity: 0.12; /* Hover overlay */
+    }
   }
 }
 
 .shortcut-icon {
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 1.5rem;
+  height: 1.5rem;
   object-fit: contain;
   opacity: 0;
   transition: opacity 0.2s ease;
 
   &.loaded {
     opacity: 1;
+  }
+
+  &.fallback-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-on-surface-variant);
+
+    svg {
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
+    }
   }
 }
 
@@ -108,7 +139,7 @@
 
 .menu-wrapper {
   position: absolute;
-  top: -0.25rem;
+  top: 0;
   right: -0.25rem;
   width: 1.5rem;
   height: 1.5rem;
@@ -119,30 +150,25 @@
   width: 100%;
   height: 100%;
   border-radius: var(--radius-full);
-  background-color: var(--color-surface);
+  background: transparent;
   border: none;
   display: flex;
   justify-content: center;
   align-items: center;
   color: var(--color-on-surface);
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
   opacity: 0;
-  transform: scale(0.5);
   transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
   cursor: pointer;
 
   svg {
-    width: 1rem;
-    height: 1rem;
+    width: 1.25rem;
+    height: 1.25rem;
     fill: currentColor;
     z-index: 1;
   }
 
   &:hover {
-    background-color: var(--color-primary);
-    color: var(--color-surface);
-    transform: scale(1.1);
-    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
+    color: var(--color-primary);
   }
 }
 
@@ -199,15 +225,63 @@
   &:hover {
     background-color: var(--color-surface-variant);
   }
+
+  &.remove-option:hover {
+    background-color: color-mix(
+      in srgb,
+      var(--color-error) 10%,
+      transparent
+    );
+    color: var(--color-error);
+
+    svg {
+      opacity: 1;
+    }
+  }
 }
 
 .add-card-wrapper .shortcut-card {
-  background-color: var(--color-surface);
-  border: 1px dashed var(--color-primary);
-  opacity: 0.8;
+  background-color: transparent;
+  border: none;
+  opacity: 1;
+
+  &::before {
+    display: none;
+  }
 
   &:hover {
-    opacity: 1;
-    background-color: var(--color-secondary-container);
+    .add-icon-bg {
+      color: color-mix(
+        in srgb,
+        var(--color-on-primary-container) 8%,
+        var(--color-primary-container)
+      );
+    }
+  }
+}
+
+.add-icon-svg {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .add-icon-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    color: var(--color-primary-container);
+    transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1), color 0.2s ease;
+  }
+
+  .add-icon-plus {
+    position: relative;
+    z-index: 1;
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--color-on-primary-container);
   }
 }

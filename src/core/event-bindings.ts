@@ -57,6 +57,19 @@ export function bindGlobalEvents(): void {
 
   updateWeatherWidget();
 
+  let shortcutsLoaded = false;
+  const loadShortcutsModule = async () => {
+    if (shortcutsLoaded) return;
+    shortcutsLoaded = true;
+    try {
+      const { initShortcuts } = await import('./shortcuts/index');
+      initShortcuts();
+    } catch (e) {
+      console.error('Failed to load shortcuts module', e);
+      shortcutsLoaded = false;
+    }
+  };
+
   globalState.subscribe((state) => {
     DOMUnits.syncWeatherGroup(
       { toggle: weatherToggle, block: weatherBlock },
@@ -67,6 +80,10 @@ export function bindGlobalEvents(): void {
       state.shortcutsEnabled,
     );
     updateWeatherWidget();
+
+    if (state.shortcutsEnabled) {
+      loadShortcutsModule();
+    }
   });
 
   if (weatherToggle) {
@@ -101,6 +118,23 @@ export function bindGlobalEvents(): void {
     shortcutsToggle.addEventListener('change', (e) => {
       const target = e.target as HTMLInputElement;
       globalState.current.shortcutsEnabled = target.checked;
+    });
+  }
+
+  const shortcutsRowsSelect = document.getElementById('shortcutsRowsSelect') as HTMLSelectElement | null;
+  if (shortcutsRowsSelect) {
+    // Initial sync
+    shortcutsRowsSelect.value = globalState.current.shortcutsRows;
+    
+    shortcutsRowsSelect.addEventListener('change', (e) => {
+      const target = e.target as HTMLSelectElement;
+      globalState.current.shortcutsRows = target.value;
+    });
+
+    globalState.subscribe((state) => {
+      if (shortcutsRowsSelect.value !== state.shortcutsRows) {
+        shortcutsRowsSelect.value = state.shortcutsRows;
+      }
     });
   }
 
