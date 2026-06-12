@@ -8,17 +8,13 @@
 
 import './core/palette';
 import { initSidebarControls, initThemeControls } from './core/sidebar';
+import { bindGlobalEvents } from './core/event-bindings';
+import { initClock } from './core/clock';
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Inicializa a UI do painel
+  initClock();
   initSidebarControls();
   initThemeControls();
-
-  // Inicializa o motor reativo (Weather, etc)
   bindGlobalEvents();
 });
 
-import { bindGlobalEvents } from './core/event-bindings';
-document.addEventListener('DOMContentLoaded', () => {
-  bindGlobalEvents();
-});

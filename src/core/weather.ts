@@ -101,5 +101,5 @@ export async function updateWeatherWidget(): Promise<void> {
   }
 
   const degreeType = isCelsius ? 'C' : 'F';
-  widgetEl.href = `https://www.msn.com/en-ph/weather/forecast/?weadegreetype=${degreeType}&uxmode=ruby`;
+  widgetEl.href = `https://www.google.com/search?q=google+weather&oq=google+weather`;
 }
