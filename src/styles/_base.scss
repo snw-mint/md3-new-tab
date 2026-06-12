@@ -29,10 +29,15 @@ html {
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
+  max-width: 49.95rem;
+  transform: scale(var(--main-ui-scale, 1));
+  transform-origin: 50% 50%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.9rem;
+  margin: auto;
+  padding: 4rem 0;
+  display: flex;
 }
