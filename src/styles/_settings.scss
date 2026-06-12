@@ -9,7 +9,7 @@
 body {
   transition: padding-right 0.3s cubic-bezier(0.2, 0, 0, 1);
   overflow: hidden;
-  height: 100vh;
+  min-height: 100dvh;
   padding-bottom: 4rem;
 
   &.sidebar-open {
