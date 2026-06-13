@@ -12,6 +12,8 @@ export interface AppSettings {
   weatherCity: string;
   shortcutsEnabled: boolean;
   shortcutsRows: string;
+  launcherEnabled: boolean;
+  launcherProvider: 'google' | 'microsoft' | 'proton';
 }
 
 export interface CityData {
