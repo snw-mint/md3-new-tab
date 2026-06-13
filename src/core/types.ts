@@ -51,3 +51,14 @@ export interface GeocodingResult {
 export interface GeocodingResponse {
   results?: GeocodingResult[];
 }
+
+export interface LauncherApp {
+  name: string;
+  url: string;
+  icon: string;
+}
+
+export interface LauncherProviderData {
+  apps: LauncherApp[];
+  allAppsLink: string;
+}
