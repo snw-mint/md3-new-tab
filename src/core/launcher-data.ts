@@ -12,32 +12,32 @@ export const launcherData: Record<string, LauncherProviderData> = {
   proton: {
     apps: [
       {
-        name: 'Proton Mail',
+        name: 'Mail',
         url: 'https://mail.proton.me',
         icon: 'assets/apps/proton/mail.svg',
       },
       {
-        name: 'Proton Calendar',
+        name: 'Calendar',
         url: 'https://calendar.proton.me',
         icon: 'assets/apps/proton/calendar.svg',
       },
       {
-        name: 'Proton Drive',
+        name: 'Drive',
         url: 'https://drive.proton.me',
         icon: 'assets/apps/proton/drive.svg',
       },
       {
-        name: 'Proton Pass',
+        name: 'Pass',
         url: 'https://pass.proton.me',
         icon: 'assets/apps/proton/pass.svg',
       },
       {
-        name: 'Proton VPN',
+        name: 'VPN',
         url: 'https://account.protonvpn.com',
         icon: 'assets/apps/proton/vpn.svg',
       },
       {
-        name: 'Proton Wallet',
+        name: 'Wallet',
         url: 'https://wallet.proton.me',
         icon: 'assets/apps/proton/wallet.svg',
       },
@@ -47,12 +47,12 @@ export const launcherData: Record<string, LauncherProviderData> = {
         icon: 'assets/apps/proton/lumo.svg',
       },
       {
-        name: 'Proton Docs',
+        name: 'Docs',
         url: 'https://docs.proton.me',
         icon: 'assets/apps/proton/docs.svg',
       },
       {
-        name: 'Proton Sheets',
+        name: 'Sheets',
         url: 'https://sheets.proton.me',
         icon: 'assets/apps/proton/sheets.svg',
       },

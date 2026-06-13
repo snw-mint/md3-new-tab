@@ -66,22 +66,24 @@ export function renderLauncherApps(
     renderRefs.launcherGrid?.appendChild(link);
   });
 
+  const moreText = (window as any).getTranslation?.('moreApps') || 'More apps';
   const moreLink = document.createElement('a');
   moreLink.href = data.allAppsLink;
   moreLink.className = 'launcher-more-item';
   moreLink.target = '_blank';
-  moreLink.title = 'More apps';
-
-  const moreImg = document.createElement('div');
-  moreImg.className = 'launcher-icon';
-  moreImg.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z"/></svg>`;
-
+  moreLink.title = moreText;
+  
   const moreSpan = document.createElement('span');
   moreSpan.className = 'launcher-name';
-  moreSpan.textContent = 'More';
+  moreSpan.setAttribute('data-i18n', 'moreApps');
+  moreSpan.textContent = moreText;
 
-  moreLink.appendChild(moreImg);
+  const moreImg = document.createElement('div');
+  moreImg.className = 'launcher-icon-more';
+  moreImg.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M640-624 284-268q-11 11-28 11t-28-11-11-28 11-28l356-356H280q-17 0-28.5-11.5T240-720t11.5-28.5T280-760h400q17 0 28.5 11.5T720-720v400q0 17-11.5 28.5T680-280t-28.5-11.5T640-320z"/></svg>`;
+
   moreLink.appendChild(moreSpan);
+  moreLink.appendChild(moreImg);
   renderRefs.launcherGrid?.appendChild(moreLink);
 }
 

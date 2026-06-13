@@ -15,10 +15,14 @@
 .launcher-popup {
   position: absolute;
   top: calc(100% + 0.5rem);
-  right: -3.5rem;
+  right: -3rem;
   display: none;
   flex-direction: column;
-  background-color: color-mix(in srgb, var(--color-primary) 12%, var(--color-surface));
+  background-color: color-mix(
+    in srgb,
+    var(--color-primary) 12%,
+    var(--color-surface)
+  );
   border-radius: var(--radius-lg);
   padding: 0.5rem;
   width: 21rem;
@@ -27,7 +31,9 @@
   transform-origin: top right;
   opacity: 0;
   transform: scale(0.95);
-  transition: opacity 0.2s cubic-bezier(0.2, 0, 0, 1), transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+  transition:
+    opacity 0.2s cubic-bezier(0.2, 0, 0, 1),
+    transform 0.2s cubic-bezier(0.2, 0, 0, 1);
 
   &.active {
     display: flex;
@@ -84,7 +90,11 @@
   color: var(--color-on-surface);
 
   &:hover {
-    background-color: color-mix(in srgb, var(--color-on-surface) 8%, transparent);
+    background-color: color-mix(
+      in srgb,
+      var(--color-on-surface) 8%,
+      transparent
+    );
   }
 
   .launcher-icon {
