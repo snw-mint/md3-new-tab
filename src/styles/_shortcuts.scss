@@ -87,13 +87,13 @@
     position: absolute;
     inset: 0;
     background-color: var(--color-primary);
-    opacity: 0.08; /* MD3 overlay opacity */
+    opacity: 0.08;
     transition: opacity 0.2s ease;
   }
 
   &:hover {
     &::before {
-      opacity: 0.12; /* Hover overlay */
+      opacity: 0.12;
     }
   }
 }
@@ -247,11 +247,7 @@
   }
 
   &.remove-option:hover {
-    background-color: color-mix(
-      in srgb,
-      var(--color-error) 10%,
-      transparent
-    );
+    background-color: color-mix(in srgb, var(--color-error) 10%, transparent);
     color: var(--color-error);
 
     svg {
@@ -294,7 +290,9 @@
     width: calc(100% + 0.5rem);
     height: calc(100% + 0.5rem);
     color: var(--color-primary-container);
-    transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1), color 0.2s ease;
+    transition:
+      transform 0.2s cubic-bezier(0.2, 0, 0, 1),
+      color 0.2s ease;
   }
 
   .add-icon-plus {
@@ -306,7 +304,6 @@
   }
 }
 
-/* Drag & Drop */
 .shortcuts-grid.sorting * {
   cursor: grabbing !important;
 }

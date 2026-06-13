@@ -9,7 +9,7 @@
 .md3-dialog-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.32); /* MD3 Scrim color */
+  background-color: rgba(0, 0, 0, 0.32);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,7 +33,7 @@
 
 .md3-dialog {
   background-color: var(--color-surface-container-high, var(--color-surface));
-  border-radius: 1.75rem; /* 28px radius per MD3 spec */
+  border-radius: 1.75rem;
   padding: 1.5rem;
   width: 90%;
   max-width: 24rem;
@@ -98,7 +98,7 @@
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--color-primary);
-  border-radius: 100px; /* Fully rounded */
+  border-radius: 100px;
   cursor: pointer;
   transition: background-color 0.2s ease;
 
@@ -111,7 +111,6 @@
   }
 }
 
-/* --- Inline Link --- */
 .md3-dialog-text a {
   color: var(--color-primary);
   text-decoration: none;
@@ -122,12 +121,11 @@
   }
 }
 
-/* --- MD3 Filled Button (Capsule) --- */
 .md3-filled-btn {
   appearance: none;
   background-color: var(--color-primary);
   border: none;
-  padding: 0.625rem 1.5rem; /* Espaçamento horizontal maior reforça o formato cápsula */
+  padding: 0.625rem 1.5rem;
   font-family: inherit;
   font-size: 0.875rem;
   font-weight: 500;

@@ -81,8 +81,6 @@ body {
   }
 }
 
-/* Theme */
-
 .settings-group-card {
   background-color: var(--color-surface);
   border-radius: var(--radius-md);
@@ -361,8 +359,6 @@ body {
   }
 }
 
-/* Use from wallpaper row */
-
 .settings-row {
   margin-top: 1rem;
   display: flex;
@@ -439,7 +435,6 @@ body {
   background-color: var(--color-primary-container);
 }
 
-/* --- Group Headers --- */
 .group-header {
   display: flex;
   align-items: center;
@@ -555,7 +550,6 @@ body {
     visibility: visible;
   }
 
-  /* --- Novo: Lógica de Erro embutida no SCSS --- */
   .error-icon-svg {
     position: absolute;
     right: 0.875rem;
@@ -573,7 +567,7 @@ body {
   &.has-error {
     .md3-input {
       border-color: var(--color-error);
-      padding-right: 2.5rem; /* Evita que o texto encoste no ícone */
+      padding-right: 2.5rem;
 
       &:focus {
         border-color: var(--color-error);
@@ -805,7 +799,6 @@ body {
   }
 }
 
-/* MD3 Filled Input styling */
 .md3-filled-input-wrapper {
   position: relative;
   margin-bottom: 1rem;
