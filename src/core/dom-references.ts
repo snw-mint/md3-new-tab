@@ -16,5 +16,13 @@ export const DOM = {
     get weatherBlock(): HTMLElement | null {
       return document.getElementById('weatherSettingsBlock');
     },
+    get shortcutsToggle(): HTMLInputElement | null {
+      return document.getElementById(
+        'shortcutsToggle',
+      ) as HTMLInputElement | null;
+    },
+    get shortcutsBlock(): HTMLElement | null {
+      return document.getElementById('shortcutsSettingsBlock');
+    },
   },
 };

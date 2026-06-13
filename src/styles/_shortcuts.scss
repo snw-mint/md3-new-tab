@@ -9,12 +9,23 @@
 .shortcuts-grid {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
-  gap: 1.5rem 1rem;
+  gap: 0.9rem;
   width: 100%;
   max-width: 100%;
   justify-items: center;
-  padding: 1rem;
+  padding: 0;
   margin: 0 auto;
+
+  &.single-row {
+    grid-template-columns: repeat(var(--shortcut-count, 10), 1fr);
+    width: calc(var(--shortcut-count, 10) * (100% / 10));
+    justify-content: center;
+    margin: 0 auto;
+
+    .shortcut-item {
+      min-width: 2.8125rem;
+    }
+  }
 
   &[data-hide-names='true'] {
     .shortcut-item .shortcut-title {
@@ -50,33 +61,46 @@
   &:focus-within .menu-btn,
   &:has(.shortcut-dropdown.active) .menu-btn {
     opacity: 1;
-    transform: scale(1);
+    visibility: visible;
+    transition:
+      opacity 0.2s ease 0.5s,
+      visibility 0s linear 0.5s,
+      color 0.15s ease;
   }
 }
 
 .shortcut-card {
-  width: 3.5rem;
-  height: 3.5rem;
-  background-color: var(--color-secondary-container);
+  width: 2.8125rem;
+  height: 2.8125rem;
+  background-color: var(--color-surface-variant);
   border-radius: var(--radius-full);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
   position: relative;
-  transition:
-    transform 0.2s cubic-bezier(0.2, 0, 0, 1),
-    background-color 0.2s ease;
+  overflow: hidden;
+  transition: background-color 0.2s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-primary);
+    opacity: 0.08;
+    transition: opacity 0.2s ease;
+  }
 
   &:hover {
-    background-color: var(--color-surface-variant);
-    transform: scale(1.05);
+    &::before {
+      opacity: 0.12;
+    }
   }
 }
 
 .shortcut-icon {
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 1.5rem;
+  height: 1.5rem;
   object-fit: contain;
   opacity: 0;
   transition: opacity 0.2s ease;
@@ -84,11 +108,25 @@
   &.loaded {
     opacity: 1;
   }
+
+  &.fallback-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-on-surface-variant);
+
+    svg {
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
+    }
+  }
 }
 
 .shortcut-title {
   display: block;
-  padding-top: 0.5rem;
+  padding-top: 0.45rem;
+  margin-top: 0;
   font-size: 0.8125rem;
   color: var(--color-on-surface);
   font-weight: 500;
@@ -99,7 +137,9 @@
   text-overflow: ellipsis;
   width: 100%;
   opacity: 0.9;
-  max-height: 2rem;
+  position: relative;
+  z-index: 10;
+  max-height: 1.8rem;
   transition:
     opacity 0.2s ease,
     max-height 0.2s ease,
@@ -108,41 +148,45 @@
 
 .menu-wrapper {
   position: absolute;
-  top: -0.25rem;
-  right: -0.25rem;
-  width: 1.5rem;
-  height: 1.5rem;
+  top: -0.05rem;
+  left: calc(50% + calc(2.8125rem / 2) + 0.2rem);
+  width: 0.6rem;
+  height: 1.25rem;
   z-index: 60;
+  pointer-events: none;
 }
 
 .menu-btn {
-  width: 100%;
-  height: 100%;
+  width: 0.6rem;
+  height: 1.25rem;
   border-radius: var(--radius-full);
-  background-color: var(--color-surface);
+  background: transparent;
   border: none;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--color-on-surface);
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+  color: var(--color-on-surface-variant);
   opacity: 0;
-  transform: scale(0.5);
-  transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+  visibility: hidden;
+  transition:
+    opacity 0.2s ease,
+    visibility 0s linear 0.2s,
+    color 0.15s ease;
   cursor: pointer;
+  pointer-events: auto;
+  position: relative;
 
   svg {
-    width: 1rem;
-    height: 1rem;
+    width: 1.25rem;
+    height: 1.25rem;
     fill: currentColor;
+    position: relative;
     z-index: 1;
+    flex-shrink: 0;
   }
 
   &:hover {
-    background-color: var(--color-primary);
-    color: var(--color-surface);
-    transform: scale(1.1);
-    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
+    color: var(--color-primary);
   }
 }
 
@@ -155,6 +199,7 @@
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transform: translateY(-0.5rem);
   background-color: var(--color-surface);
   border-radius: var(--radius-md);
@@ -164,6 +209,7 @@
   &.active {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
     transform: translateY(0);
   }
 }
@@ -199,15 +245,90 @@
   &:hover {
     background-color: var(--color-surface-variant);
   }
+
+  &.remove-option:hover {
+    background-color: color-mix(in srgb, var(--color-error) 10%, transparent);
+    color: var(--color-error);
+
+    svg {
+      opacity: 1;
+    }
+  }
 }
 
 .add-card-wrapper .shortcut-card {
-  background-color: var(--color-surface);
-  border: 1px dashed var(--color-primary);
-  opacity: 0.8;
+  background-color: transparent;
+  border: none;
+  opacity: 1;
+
+  &::before {
+    display: none;
+  }
 
   &:hover {
-    opacity: 1;
-    background-color: var(--color-secondary-container);
+    .add-icon-bg {
+      color: color-mix(
+        in srgb,
+        var(--color-on-primary-container) 8%,
+        var(--color-primary-container)
+      );
+    }
   }
+}
+
+.add-icon-svg {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .add-icon-bg {
+    position: absolute;
+    inset: -0.25rem;
+    width: calc(100% + 0.5rem);
+    height: calc(100% + 0.5rem);
+    color: var(--color-primary-container);
+    transition:
+      transform 0.2s cubic-bezier(0.2, 0, 0, 1),
+      color 0.2s ease;
+  }
+
+  .add-icon-plus {
+    position: relative;
+    z-index: 1;
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--color-on-primary-container);
+  }
+}
+
+.shortcuts-grid.sorting * {
+  cursor: grabbing !important;
+}
+
+.md3-drag-ghost {
+  .shortcut-card {
+    background-color: var(--color-surface);
+    box-shadow:
+      rgba(0, 0, 0, 0.1) 0 4px 6px -1px,
+      rgba(0, 0, 0, 0.06) 0 2px 4px -1px;
+    border-color: transparent;
+  }
+  .shortcut-title {
+    opacity: 1 !important;
+  }
+}
+
+.sortable-dragging {
+  opacity: 0.9;
+  transform: scale(1.05);
+  z-index: 9999;
+  cursor: grabbing;
+}
+
+.folder-drag-hover .shortcut-card {
+  transform: scale(1.15);
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
 }

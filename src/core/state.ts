@@ -20,6 +20,8 @@ class ReactiveState {
       weatherEnabled: false,
       tempUnit: 'C',
       weatherCity: '',
+      shortcutsEnabled: true,
+      shortcutsRows: '1',
     };
 
     const savedState = localStorage.getItem(this.storageKey);

@@ -49,7 +49,7 @@ function showPermissionModal(onGranted: () => void, onDenied: () => void) {
 }
 
 export function bindGlobalEvents(): void {
-  const { weatherToggle, weatherBlock } = DOM.settings;
+  const { weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock } = DOM.settings;
   const weatherOrigins = [
     'https://geocoding-api.open-meteo.com/*',
     'https://api.open-meteo.com/*',
@@ -57,12 +57,33 @@ export function bindGlobalEvents(): void {
 
   updateWeatherWidget();
 
+  let shortcutsLoaded = false;
+  const loadShortcutsModule = async () => {
+    if (shortcutsLoaded) return;
+    shortcutsLoaded = true;
+    try {
+      const { initShortcuts } = await import('./shortcuts/index');
+      initShortcuts();
+    } catch (e) {
+      console.error('Failed to load shortcuts module', e);
+      shortcutsLoaded = false;
+    }
+  };
+
   globalState.subscribe((state) => {
     DOMUnits.syncWeatherGroup(
       { toggle: weatherToggle, block: weatherBlock },
       state,
     );
+    DOMUnits.syncExpandableGroup(
+      { toggle: shortcutsToggle, block: shortcutsBlock },
+      state.shortcutsEnabled,
+    );
     updateWeatherWidget();
+
+    if (state.shortcutsEnabled) {
+      loadShortcutsModule();
+    }
   });
 
   if (weatherToggle) {
@@ -90,6 +111,30 @@ export function bindGlobalEvents(): void {
           globalState.current.weatherEnabled = false;
         },
       );
+    });
+  }
+
+  if (shortcutsToggle) {
+    shortcutsToggle.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      globalState.current.shortcutsEnabled = target.checked;
+    });
+  }
+
+  const shortcutsRowsSelect = document.getElementById('shortcutsRowsSelect') as HTMLSelectElement | null;
+  if (shortcutsRowsSelect) {
+    // Initial sync
+    shortcutsRowsSelect.value = globalState.current.shortcutsRows;
+    
+    shortcutsRowsSelect.addEventListener('change', (e) => {
+      const target = e.target as HTMLSelectElement;
+      globalState.current.shortcutsRows = target.value;
+    });
+
+    globalState.subscribe((state) => {
+      if (shortcutsRowsSelect.value !== state.shortcutsRows) {
+        shortcutsRowsSelect.value = state.shortcutsRows;
+      }
     });
   }
 

@@ -113,14 +113,6 @@
             <input type="text" name="q" id="searchInput" placeholder="Search the web" autocomplete="off"
                 data-i18n="searchPlaceholder" />
             <div class="search-actions">
-                <button type="button" id="voiceSearchBtn" class="action-btn voice-btn" title="Voice search"
-                    aria-label="Voice search">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                        fill="currentColor">
-                        <path
-                            d="M395-435q-35-35-35-85v-240q0-50 35-85t85-35q50 0 85 35t35 85v240q0 50-35 85t-85 35q-50 0-85-35Zm45 275v-83q-92-13-157.5-78T203-479q-2-17 9-29t28-12q17 0 28.5 11.5T284-480q14 70 69.5 115T480-320q72 0 127-45.5T676-480q4-17 15.5-28.5T720-520q17 0 28 12t9 29q-14 91-79 157t-158 79v83q0 17-11.5 28.5T480-120q-17 0-28.5-11.5T440-160Z" />
-                    </svg>
-                </button>
                 <button type="submit" class="action-btn search-btn" aria-label="Search">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                         fill="currentColor">
@@ -403,6 +395,33 @@
                 </div>
 
             </div>
+
+            <div class="settings-group-card">
+                <div class="group-header">
+                    <div class="group-title-wrapper">
+                        <h3 class="settings-group-title" data-i18n="shortcutsTitle">Shortcuts</h3>
+                    </div>
+                    <label class="md3-switch">
+                        <input type="checkbox" id="shortcutsToggle" checked />
+                        <span class="switch-track">
+                            <span class="switch-thumb"></span>
+                        </span>
+                    </label>
+                </div>
+
+                <div class="expandable-content compact-gap" id="shortcutsSettingsBlock">
+                    <div class="md3-outlined-select-wrapper">
+                        <select id="shortcutsRowsSelect" class="md3-outlined-select" aria-label="Shortcuts Rows">
+                            <option value="1" data-i18n="rows1">1 Row</option>
+                            <option value="2" data-i18n="rows2">2 Rows</option>
+                            <option value="3" data-i18n="rows3">3 Rows</option>
+                            <option value="4" data-i18n="rows4">4 Rows</option>
+                        </select>
+                        <label for="shortcutsRowsSelect" class="md3-select-label" data-i18n="shortcutsRowsLabel">Rows</label>
+                        <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M459-381 314-526q-3-3-4.5-6.5T308-540q0-8 5.5-14t14.5-6h304q9 0 14.5 6t5.5 14q0 2-6 14L501-381q-5 5-10 7t-11 2-11-2-10-7"/></svg>
+                    </div>
+                </div>
+            </div>
     </aside>
 
     <div id="warningModal" class="md3-dialog-overlay">
@@ -415,6 +434,46 @@
             <div class="md3-dialog-actions">
                 <button id="warning-btn-cancel" class="md3-text-btn"></button>
                 <button id="warning-btn-confirm" class="md3-filled-btn"></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="shortcutModal" class="md3-dialog-overlay">
+        <div class="md3-dialog">
+            <h2 id="shortcut-modal-title" class="md3-dialog-title">Add</h2>
+            <div class="md3-dialog-content">
+                <form id="shortcutForm" class="shortcut-form">
+                    <div class="md3-filled-input-wrapper">
+                        <input type="text" id="shortcutName" class="md3-filled-input" placeholder=" " />
+                        <label for="shortcutName" class="md3-filled-label">Name</label>
+                        <div class="md3-filled-indicator"></div>
+                    </div>
+
+                    <div class="md3-filled-input-wrapper">
+                        <input type="url" id="shortcutUrl" class="md3-filled-input" placeholder=" " required />
+                        <label for="shortcutUrl" class="md3-filled-label">URL</label>
+                        <button type="button" class="clear-input-btn" tabindex="-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m480-424 116 116q11 11 28 11t28-11 11-28-11-28L536-480l116-116q11-11 11-28t-11-28-28-11-28 11L480-536 364-652q-11-11-28-11t-28 11-11 28 11 28l116 116-116 116q-11 11-11 28t11 28 28 11 28-11zm0 344q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80m0-80q134 0 227-93t93-227-93-227-227-93-227 93-93 227 93 227 227 93m0-320"/></svg>
+                        </button>
+                        <svg class="error-icon-svg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M508.5-291.5Q520-303 520-320t-11.5-28.5T480-360t-28.5 11.5T440-320t11.5 28.5T480-280t28.5-11.5m0-160Q520-463 520-480v-160q0-17-11.5-28.5T480-680t-28.5 11.5T440-640v160q0 17 11.5 28.5T480-440t28.5-11.5M480-80q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80"/></svg>
+                        <div class="md3-filled-indicator"></div>
+                    </div>
+
+                    <div class="md3-filled-input-wrapper">
+                        <input type="url" id="shortcutIconUrl" class="md3-filled-input" placeholder=" " />
+                        <label for="shortcutIconUrl" class="md3-filled-label">Icon URL (optional)</label>
+                        <button type="button" class="clear-input-btn" tabindex="-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m480-424 116 116q11 11 28 11t28-11 11-28-11-28L536-480l116-116q11-11 11-28t-11-28-28-11-28 11L480-536 364-652q-11-11-28-11t-28 11-11 28 11 28l116 116-116 116q-11 11-11 28t11 28 28 11 28-11zm0 344q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80m0-80q134 0 227-93t93-227-93-227-227-93-227 93-93 227 93 227 227 93m0-320"/></svg>
+                        </button>
+                        <svg class="error-icon-svg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M508.5-291.5Q520-303 520-320t-11.5-28.5T480-360t-28.5 11.5T440-320t11.5 28.5T480-280t28.5-11.5m0-160Q520-463 520-480v-160q0-17-11.5-28.5T480-680t-28.5 11.5T440-640v160q0 17 11.5 28.5T480-440t28.5-11.5M480-80q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80"/></svg>
+                        <div class="md3-filled-indicator"></div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="md3-dialog-actions">
+                <button type="button" id="shortcut-btn-cancel" class="md3-text-btn">Cancel</button>
+                <button type="submit" form="shortcutForm" id="shortcut-btn-confirm" class="md3-filled-btn">Save</button>
             </div>
         </div>
     </div>

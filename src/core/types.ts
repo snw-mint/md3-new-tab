@@ -10,6 +10,8 @@ export interface AppSettings {
   weatherEnabled: boolean;
   tempUnit: 'C' | 'F';
   weatherCity: string;
+  shortcutsEnabled: boolean;
+  shortcutsRows: string;
 }
 
 export interface CityData {

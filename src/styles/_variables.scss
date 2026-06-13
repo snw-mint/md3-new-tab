@@ -87,20 +87,12 @@ body {
   font-family: var(--font-family);
   background-color: var(--color-background);
   color: var(--color-on-surface);
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 90rem;
-  margin: 0 auto;
-  padding: 2rem;
-  flex-grow: 1;
-}
+
