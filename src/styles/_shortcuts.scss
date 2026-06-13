@@ -305,3 +305,33 @@
     color: var(--color-on-primary-container);
   }
 }
+
+/* Drag & Drop */
+.shortcuts-grid.sorting * {
+  cursor: grabbing !important;
+}
+
+.md3-drag-ghost {
+  .shortcut-card {
+    background-color: var(--color-surface);
+    box-shadow:
+      rgba(0, 0, 0, 0.1) 0 4px 6px -1px,
+      rgba(0, 0, 0, 0.06) 0 2px 4px -1px;
+    border-color: transparent;
+  }
+  .shortcut-title {
+    opacity: 1 !important;
+  }
+}
+
+.sortable-dragging {
+  opacity: 0.9;
+  transform: scale(1.05);
+  z-index: 9999;
+  cursor: grabbing;
+}
+
+.folder-drag-hover .shortcut-card {
+  transform: scale(1.15);
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+}

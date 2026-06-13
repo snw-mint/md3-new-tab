@@ -7,6 +7,7 @@
  */
 
 import { globalState } from '../state';
+import { initVanillaDragAndDrop } from '../drag-drop';
 
 export interface ShortcutItem {
   id: string;
@@ -52,6 +53,16 @@ export class ShortcutsManager {
     if (!this.container) return;
     this.render();
 
+    initVanillaDragAndDrop({
+      gridContainer: this.container,
+      onReorder: (oldIndex: number, newIndex: number) => {
+        const item = this.shortcuts.splice(oldIndex, 1)[0];
+        this.shortcuts.splice(newIndex, 0, item);
+        this.saveShortcuts();
+        this.render();
+      }
+    });
+
     this.container.addEventListener('click', this.handleGridClick.bind(this));
     document.addEventListener('click', this.handleDocumentClick.bind(this));
     this.setupModalEvents();
@@ -60,14 +71,21 @@ export class ShortcutsManager {
   private setupModalEvents() {
     if (!this.modal || !this.form) return;
 
-    const btnCancel = document.getElementById('shortcut-btn-cancel');
-    if (btnCancel) {
-      btnCancel.addEventListener('click', () => this.closeModal());
-    }
-
     this.form.addEventListener('submit', (e) => {
       e.preventDefault();
       this.saveShortcutData();
+    });
+
+    const closeBtn = document.getElementById('shortcut-btn-cancel');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => this.closeModal());
+    }
+
+    this.form.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        this.saveShortcutData();
+      }
     });
 
     const clearBtns = this.form.querySelectorAll('.clear-input-btn');
@@ -237,45 +255,31 @@ export class ShortcutsManager {
     this.closeModal();
   }
 
+  private handleDocumentClick(e: MouseEvent) {
+    const target = e.target as HTMLElement;
+    if (
+      !target.closest('.shortcut-dropdown') &&
+      !target.closest('.menu-btn')
+    ) {
+      this.closeAllDropdowns();
+    }
+  }
+
   private handleGridClick(e: MouseEvent) {
     const target = e.target as HTMLElement;
 
-    const menuBtn = target.closest('.menu-btn');
-    if (menuBtn) {
+    if (target.closest('.menu-btn')) {
       e.preventDefault();
       e.stopPropagation();
-      const wrapper = menuBtn.closest('.menu-wrapper');
-      if (wrapper) {
-        const dropdown = wrapper.querySelector('.shortcut-dropdown');
-        const isActive = dropdown?.classList.contains('active');
-        this.closeAllDropdowns();
-        if (!isActive && dropdown) {
-          dropdown.classList.add('active');
-        }
-      }
-      return;
-    }
 
-    const editOpt = target.closest('.edit-option') as HTMLElement;
-    if (editOpt) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.closeAllDropdowns();
-      const index = editOpt.dataset.index;
-      if (index !== undefined) {
-        this.openModal(parseInt(index, 10));
-      }
-      return;
-    }
+      const wrapper = target.closest('.menu-wrapper');
+      const dropdown = wrapper?.querySelector('.shortcut-dropdown');
 
-    const removeOpt = target.closest('.remove-option') as HTMLElement;
-    if (removeOpt) {
-      e.preventDefault();
-      e.stopPropagation();
+      const isCurrentlyActive = dropdown?.classList.contains('active');
       this.closeAllDropdowns();
-      const index = removeOpt.dataset.index;
-      if (index !== undefined) {
-        this.removeShortcut(parseInt(index, 10));
+
+      if (dropdown && !isCurrentlyActive) {
+        dropdown.classList.add('active');
       }
       return;
     }
@@ -286,10 +290,25 @@ export class ShortcutsManager {
       this.openModal(null);
       return;
     }
-  }
 
-  private handleDocumentClick() {
-    this.closeAllDropdowns();
+    const editBtn = target.closest('.edit-option');
+    if (editBtn) {
+      e.preventDefault();
+      const index = parseInt((editBtn as HTMLElement).dataset.index || '-1', 10);
+      if (index >= 0) this.openModal(index);
+      return;
+    }
+
+    const removeBtn = target.closest('.remove-option');
+    if (removeBtn) {
+      e.preventDefault();
+      const index = parseInt(
+        (removeBtn as HTMLElement).dataset.index || '-1',
+        10,
+      );
+      if (index >= 0) this.removeShortcut(index);
+      return;
+    }
   }
 
   private closeAllDropdowns() {
@@ -370,9 +389,12 @@ export class ShortcutsManager {
     const wrapper = document.createElement('a');
     wrapper.className = 'shortcut-item';
     wrapper.href = shortcut.url;
+    wrapper.draggable = true;
+    wrapper.dataset.index = index.toString();
 
     const card = document.createElement('div');
     card.className = 'shortcut-card';
+    card.draggable = false;
 
     let iconEl: HTMLElement;
     let finalIconUrl = shortcut.iconUrl;
@@ -390,6 +412,7 @@ export class ShortcutsManager {
       const img = document.createElement('img');
       img.className = 'shortcut-icon loaded';
       img.src = finalIconUrl;
+      img.draggable = false;
       img.onerror = () => {
         img.replaceWith(this.createFallbackIcon());
       };
@@ -436,6 +459,7 @@ export class ShortcutsManager {
     const title = document.createElement('span');
     title.className = 'shortcut-title';
     title.textContent = shortcut.name;
+    title.draggable = false;
 
     wrapper.appendChild(card);
     wrapper.appendChild(menuWrapper);
@@ -447,6 +471,7 @@ export class ShortcutsManager {
   private createFallbackIcon(): HTMLElement {
     const span = document.createElement('span');
     span.className = 'shortcut-icon loaded fallback-icon';
+    span.draggable = false;
     span.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M480-80q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80m0-80q134 0 227-93t93-227q0-7-.5-14.5T799-507q-5 29-27 48t-52 19h-80q-33 0-56.5-23.5T560-520v-40H400v-80q0-33 23.5-56.5T480-720h40q0-23 12.5-40.5T563-789q-20-5-40.5-8t-42.5-3q-134 0-227 93t-93 227h200q66 0 113 47t47 113v40H400v110q20 5 39.5 7.5T480-160"/></svg>`;
     return span;
   }
@@ -454,6 +479,7 @@ export class ShortcutsManager {
   private createAddShortcutButton(): HTMLElement {
     const wrapper = document.createElement('div');
     wrapper.className = 'shortcut-item add-card-wrapper';
+    wrapper.draggable = false;
 
     const card = document.createElement('div');
     card.className = 'shortcut-card';
