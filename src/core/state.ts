@@ -22,6 +22,8 @@ class ReactiveState {
       weatherCity: '',
       shortcutsEnabled: true,
       shortcutsRows: '1',
+      launcherEnabled: true,
+      launcherProvider: 'google',
     };
 
     const savedState = localStorage.getItem(this.storageKey);

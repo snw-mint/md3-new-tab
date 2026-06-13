@@ -7,6 +7,11 @@
  */
 
 export const DOM = {
+  header: {
+    get appLauncherBtn(): HTMLButtonElement | null {
+      return document.getElementById('appLauncherBtn') as HTMLButtonElement | null;
+    },
+  },
   settings: {
     get weatherToggle(): HTMLInputElement | null {
       return document.getElementById(
@@ -23,6 +28,12 @@ export const DOM = {
     },
     get shortcutsBlock(): HTMLElement | null {
       return document.getElementById('shortcutsSettingsBlock');
+    },
+    get launcherToggle(): HTMLInputElement | null {
+      return document.getElementById('launcherToggle') as HTMLInputElement | null;
+    },
+    get launcherBlock(): HTMLElement | null {
+      return document.getElementById('launcherSettingsBlock');
     },
   },
 };
