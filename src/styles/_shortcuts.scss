@@ -256,23 +256,40 @@
   }
 }
 
-.add-card-wrapper .shortcut-card {
-  background-color: transparent;
-  border: none;
-  opacity: 1;
+.add-card-wrapper {
+  .shortcut-card {
+    background-color: transparent;
+    border: none;
+    opacity: 1;
+    overflow: visible;
 
-  &::before {
-    display: none;
+    &::before {
+      display: none;
+    }
   }
 
   &:hover {
     .add-icon-bg {
       color: color-mix(
         in srgb,
-        var(--color-on-primary-container) 8%,
-        var(--color-primary-container)
+        var(--color-primary) 12%,
+        var(--color-surface-variant)
       );
+      animation: add-shortcut-spin 10s linear infinite;
+
+      path {
+        d: path("M338.584 189.998c25.843 48.166 6.318 91.773-43.518 105.063-13.295 49.841-56.902 69.361-105.068 43.523-48.167 25.843-91.773 6.318-105.064-43.518-49.836-13.295-69.361-56.902-43.518-105.068-25.843-48.167-6.318-91.773 43.518-105.064 13.29-49.836 56.897-69.361 105.064-43.518 48.166-25.843 91.773-6.318 105.063 43.518 49.841 13.29 69.361 56.897 43.523 105.064");
+      }
     }
+  }
+}
+
+@keyframes add-shortcut-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 
@@ -286,13 +303,24 @@
 
   .add-icon-bg {
     position: absolute;
-    inset: -0.25rem;
-    width: calc(100% + 0.5rem);
-    height: calc(100% + 0.5rem);
-    color: var(--color-primary-container);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 127.87%;
+    height: 127.87%;
+    color: color-mix(
+      in srgb,
+      var(--color-primary) 8%,
+      var(--color-surface-variant)
+    );
     transition:
       transform 0.2s cubic-bezier(0.2, 0, 0, 1),
       color 0.2s ease;
+
+    path {
+      d: path("M338.584 190c0 39.407-15.654 77.2-43.519 105.065c-27.865 27.865-65.658 43.519-105.065 43.519c-39.407 0-77.2-15.654-105.065-43.519c-27.865-27.865-43.519-65.658-43.519-105.065c0-39.407 15.654-77.2 43.519-105.065c27.865-27.865 65.658-43.519 105.065-43.519c39.407 0 77.2 15.654 105.065 43.519c27.865 27.865 43.519 65.658 43.519 105.065");
+      transition: d 0.4s cubic-bezier(0.2, 0, 0, 1);
+    }
   }
 
   .add-icon-plus {
@@ -300,7 +328,7 @@
     z-index: 1;
     width: 1.25rem;
     height: 1.25rem;
-    color: var(--color-on-primary-container);
+    color: var(--color-on-surface-variant);
   }
 }
 
