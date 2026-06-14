@@ -49,7 +49,8 @@ function showPermissionModal(onGranted: () => void, onDenied: () => void) {
 }
 
 export function bindGlobalEvents(): void {
-  const { weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock } = DOM.settings;
+  const { weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, launcherToggle, launcherBlock } = DOM.settings;
+  const { appLauncherBtn } = DOM.header;
   const weatherOrigins = [
     'https://geocoding-api.open-meteo.com/*',
     'https://api.open-meteo.com/*',
@@ -79,6 +80,13 @@ export function bindGlobalEvents(): void {
       { toggle: shortcutsToggle, block: shortcutsBlock },
       state.shortcutsEnabled,
     );
+    DOMUnits.syncExpandableGroup(
+      { toggle: launcherToggle, block: launcherBlock },
+      state.launcherEnabled,
+    );
+    if (appLauncherBtn) {
+      appLauncherBtn.style.display = state.launcherEnabled ? '' : 'none';
+    }
     updateWeatherWidget();
 
     if (state.shortcutsEnabled) {
@@ -134,6 +142,29 @@ export function bindGlobalEvents(): void {
     globalState.subscribe((state) => {
       if (shortcutsRowsSelect.value !== state.shortcutsRows) {
         shortcutsRowsSelect.value = state.shortcutsRows;
+      }
+    });
+  }
+
+  if (launcherToggle) {
+    launcherToggle.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      globalState.current.launcherEnabled = target.checked;
+    });
+  }
+
+  const launcherProviderSelect = document.getElementById('launcherProviderSelect') as HTMLSelectElement | null;
+  if (launcherProviderSelect) {
+    launcherProviderSelect.value = globalState.current.launcherProvider;
+    
+    launcherProviderSelect.addEventListener('change', (e) => {
+      const target = e.target as HTMLSelectElement;
+      globalState.current.launcherProvider = target.value as 'google' | 'microsoft' | 'proton';
+    });
+
+    globalState.subscribe((state) => {
+      if (launcherProviderSelect.value !== state.launcherProvider) {
+        launcherProviderSelect.value = state.launcherProvider;
       }
     });
   }

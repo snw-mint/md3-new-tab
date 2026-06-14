@@ -10,11 +10,72 @@ import './core/palette';
 import { initSidebarControls, initThemeControls } from './core/sidebar';
 import { bindGlobalEvents } from './core/event-bindings';
 import { initClock } from './core/clock';
+import { DOM } from './core/dom-references';
 
 document.addEventListener('DOMContentLoaded', () => {
   initClock();
   initSidebarControls();
   initThemeControls();
   bindGlobalEvents();
+
+  const launcherBtn = DOM.header.appLauncherBtn;
+  const launcherPopup = document.getElementById('launcherPopup');
+  
+  if (launcherBtn && launcherPopup) {
+    let launcherLoaded = false;
+    let dragInitialized = false;
+
+    const loadLauncher = async () => {
+      if (launcherLoaded) return;
+      launcherLoaded = true;
+      try {
+        const { renderLauncherApps, initLauncherDrag } = await import('./core/launcher');
+        const { launcherData } = await import('./core/launcher-data');
+        const { globalState } = await import('./core/state');
+
+        const renderCurrentProvider = () => {
+            const provider = globalState.current.launcherProvider;
+            const data = launcherData[provider];
+            renderLauncherApps(data, {
+                launcherGrid: document.getElementById('launcherGrid'),
+                launcherAllAppsLink: document.getElementById('launcherAllAppsLink') as HTMLAnchorElement | null,
+            });
+        };
+
+        renderCurrentProvider();
+
+        globalState.subscribe(() => {
+            renderCurrentProvider();
+        });
+
+        const grid = document.getElementById('launcherGrid');
+        if (grid && !dragInitialized) {
+            dragInitialized = true;
+            grid.addEventListener('pointerover', () => {
+                initLauncherDrag(grid);
+            }, { once: true });
+        }
+
+      } catch (e) {
+        console.error('Failed to load launcher module', e);
+        launcherLoaded = false;
+      }
+    };
+
+    launcherBtn.addEventListener('pointerenter', loadLauncher, { once: true });
+
+    launcherBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        launcherPopup.classList.toggle('active');
+        if (!launcherLoaded) loadLauncher();
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!launcherPopup.contains(e.target as Node) && !launcherBtn.contains(e.target as Node)) {
+            launcherPopup.classList.remove('active');
+        }
+    });
+  }
 });
+
 
