@@ -87,6 +87,10 @@ export function bindGlobalEvents(): void {
     if (appLauncherBtn) {
       appLauncherBtn.style.display = state.launcherEnabled ? '' : 'none';
     }
+    const shortcutsGrid = document.getElementById('shortcutsGrid');
+    if (shortcutsGrid) {
+      shortcutsGrid.style.display = state.shortcutsEnabled ? '' : 'none';
+    }
     updateWeatherWidget();
 
     if (state.shortcutsEnabled) {

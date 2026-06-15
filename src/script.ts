@@ -76,6 +76,49 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
   }
+
+  // Search Engine Logic
+  const engineBtn = document.getElementById('engineBtn');
+  const engineDropdown = document.getElementById('engineDropdown');
+  
+  if (engineBtn && engineDropdown) {
+    let engineLoaded = false;
+
+    // Apply initial engine right away so the search bar works
+    const applyInitialEngine = async () => {
+      try {
+        const { getSavedEngine, applyEngineToForm } = await import('./core/search-engine');
+        applyEngineToForm(getSavedEngine());
+      } catch (e) {
+        console.error('Failed to apply initial search engine', e);
+      }
+    };
+    applyInitialEngine();
+
+    const loadSearchEngineDropdown = async () => {
+      if (engineLoaded) return;
+      engineLoaded = true;
+      try {
+        const { initSearchEngineDropdown } = await import('./core/search-engine');
+        initSearchEngineDropdown();
+      } catch (e) {
+        console.error('Failed to load search engine module', e);
+        engineLoaded = false;
+      }
+    };
+
+    engineBtn.addEventListener('pointerenter', loadSearchEngineDropdown, { once: true });
+
+    engineBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      engineDropdown.classList.toggle('active');
+      if (!engineLoaded) loadSearchEngineDropdown();
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!engineDropdown.contains(e.target as Node) && !engineBtn.contains(e.target as Node)) {
+        engineDropdown.classList.remove('active');
+      }
+    });
+  }
 });
-
-
