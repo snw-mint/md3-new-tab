@@ -182,10 +182,19 @@ export function bindGlobalEvents(): void {
   const cityInput = document.getElementById(
     'weatherCityInput',
   ) as HTMLInputElement;
-  const clearCityBtn = document.getElementById('clearCityBtn');
   const cityInputWrapper = document.getElementById('cityInputWrapper');
 
   if (searchBtn && cityInput) {
+    const cityString = localStorage.getItem('ent_weather_city');
+    if (cityString) {
+      try {
+        const cityData = JSON.parse(cityString);
+        if (cityData && cityData.name) {
+          cityInput.value = cityData.name;
+        }
+      } catch (e) {}
+    }
+
     cityInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         e.preventDefault();
@@ -196,14 +205,6 @@ export function bindGlobalEvents(): void {
     cityInput.addEventListener('input', () => {
       if (cityInputWrapper) cityInputWrapper.classList.remove('has-error');
     });
-
-    if (clearCityBtn) {
-      clearCityBtn.addEventListener('click', () => {
-        cityInput.value = '';
-        if (cityInputWrapper) cityInputWrapper.classList.remove('has-error');
-        cityInput.focus();
-      });
-    }
 
     searchBtn.addEventListener('click', async () => {
       const query = cityInput.value.trim();
