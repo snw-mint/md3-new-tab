@@ -87,8 +87,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Apply initial engine right away so the search bar works
     const applyInitialEngine = async () => {
       try {
-        const { getSavedEngine, applyEngineToForm } = await import('./core/search-engine');
+        const { getSavedEngine, applyEngineToForm, bindSearchForm } = await import('./core/search-engine');
         applyEngineToForm(getSavedEngine());
+        bindSearchForm();
       } catch (e) {
         console.error('Failed to apply initial search engine', e);
       }

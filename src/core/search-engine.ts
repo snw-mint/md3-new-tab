@@ -25,7 +25,7 @@ export function applyEngineToForm(engineKey: string): void {
 
   if (searchForm) {
     if (engineKey === 'system') {
-      searchForm.action = engine.url;
+      searchForm.action = '';
     } else {
       searchForm.action = engine.url;
     }
@@ -34,6 +34,37 @@ export function applyEngineToForm(engineKey: string): void {
   if (currentEngineIcon) {
     currentEngineIcon.innerHTML = engine.icon;
   }
+}
+
+export function bindSearchForm(): void {
+  const searchForm = document.getElementById('searchForm') as HTMLFormElement;
+  if (!searchForm) return;
+
+  searchForm.addEventListener('submit', (e) => {
+    const currentEngine = getSavedEngine();
+    if (currentEngine === 'system') {
+      e.preventDefault();
+      const input = searchForm.querySelector('input[name="q"]') as HTMLInputElement;
+      const query = input?.value || '';
+      if (!query.trim()) return;
+
+      try {
+        const win = window as any;
+        if (win.browser?.search?.search) {
+          win.browser.search.search({ query: query });
+        } else if (win.chrome?.search?.query) {
+          win.chrome.search.query({ text: query, disposition: 'CURRENT_TAB' });
+        } else if (win.browser?.search?.query) {
+          win.browser.search.query({ text: query });
+        } else {
+          throw new Error('Native search API not supported in this browser.');
+        }
+      } catch (error) {
+        console.warn('Native search failed, triggering fallback:', error);
+        window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+      }
+    }
+  });
 }
 
 export function initSearchEngineDropdown(): void {
