@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const launcherBtn = DOM.header.appLauncherBtn;
   const launcherPopup = document.getElementById('launcherPopup');
-  
+
   if (launcherBtn && launcherPopup) {
     let launcherLoaded = false;
     let dragInitialized = false;
@@ -29,33 +29,39 @@ document.addEventListener('DOMContentLoaded', () => {
       if (launcherLoaded) return;
       launcherLoaded = true;
       try {
-        const { renderLauncherApps, initLauncherDrag } = await import('./core/launcher');
+        const { renderLauncherApps, initLauncherDrag } =
+          await import('./core/launcher');
         const { launcherData } = await import('./core/launcher-data');
         const { globalState } = await import('./core/state');
 
         const renderCurrentProvider = () => {
-            const provider = globalState.current.launcherProvider;
-            const data = launcherData[provider];
-            renderLauncherApps(data, {
-                launcherGrid: document.getElementById('launcherGrid'),
-                launcherAllAppsLink: document.getElementById('launcherAllAppsLink') as HTMLAnchorElement | null,
-            });
+          const provider = globalState.current.launcherProvider;
+          const data = launcherData[provider];
+          renderLauncherApps(data, {
+            launcherGrid: document.getElementById('launcherGrid'),
+            launcherAllAppsLink: document.getElementById(
+              'launcherAllAppsLink',
+            ) as HTMLAnchorElement | null,
+          });
         };
 
         renderCurrentProvider();
 
         globalState.subscribe(() => {
-            renderCurrentProvider();
+          renderCurrentProvider();
         });
 
         const grid = document.getElementById('launcherGrid');
         if (grid && !dragInitialized) {
-            dragInitialized = true;
-            grid.addEventListener('pointerover', () => {
-                initLauncherDrag(grid);
-            }, { once: true });
+          dragInitialized = true;
+          grid.addEventListener(
+            'pointerover',
+            () => {
+              initLauncherDrag(grid);
+            },
+            { once: true },
+          );
         }
-
       } catch (e) {
         console.error('Failed to load launcher module', e);
         launcherLoaded = false;
@@ -65,29 +71,33 @@ document.addEventListener('DOMContentLoaded', () => {
     launcherBtn.addEventListener('pointerenter', loadLauncher, { once: true });
 
     launcherBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        launcherPopup.classList.toggle('active');
-        if (!launcherLoaded) loadLauncher();
+      e.stopPropagation();
+      launcherPopup.classList.toggle('active');
+      if (!launcherLoaded) loadLauncher();
     });
 
     document.addEventListener('click', (e) => {
-        if (!launcherPopup.contains(e.target as Node) && !launcherBtn.contains(e.target as Node)) {
-            launcherPopup.classList.remove('active');
-        }
+      if (
+        !launcherPopup.contains(e.target as Node) &&
+        !launcherBtn.contains(e.target as Node)
+      ) {
+        launcherPopup.classList.remove('active');
+      }
     });
   }
 
   // Search Engine Logic
   const engineBtn = document.getElementById('engineBtn');
   const engineDropdown = document.getElementById('engineDropdown');
-  
+
   if (engineBtn && engineDropdown) {
     let engineLoaded = false;
 
     // Apply initial engine right away so the search bar works
     const applyInitialEngine = async () => {
       try {
-        const { getSavedEngine, applyEngineToForm, bindSearchForm } = await import('./core/search-engine');
+        const { getSavedEngine, applyEngineToForm, bindSearchForm } =
+          await import('./core/search-engine');
         applyEngineToForm(getSavedEngine());
         bindSearchForm();
       } catch (e) {
@@ -100,7 +110,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (engineLoaded) return;
       engineLoaded = true;
       try {
-        const { initSearchEngineDropdown } = await import('./core/search-engine');
+        const { initSearchEngineDropdown } =
+          await import('./core/search-engine');
         initSearchEngineDropdown();
       } catch (e) {
         console.error('Failed to load search engine module', e);
@@ -108,7 +119,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
-    engineBtn.addEventListener('pointerenter', loadSearchEngineDropdown, { once: true });
+    engineBtn.addEventListener('pointerenter', loadSearchEngineDropdown, {
+      once: true,
+    });
 
     engineBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -117,9 +130,35 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.addEventListener('click', (e) => {
-      if (!engineDropdown.contains(e.target as Node) && !engineBtn.contains(e.target as Node)) {
+      if (
+        !engineDropdown.contains(e.target as Node) &&
+        !engineBtn.contains(e.target as Node)
+      ) {
         engineDropdown.classList.remove('active');
       }
+    });
+  }
+
+  const selectTriggers = document.querySelectorAll('.md3-select-trigger');
+  if (selectTriggers.length > 0) {
+    let selectSystemLoaded = false;
+    const loadSelectSystem = async () => {
+      if (selectSystemLoaded) return;
+      selectSystemLoaded = true;
+      try {
+        const { initCustomSelectSystem } = await import('./core/md3-select');
+        initCustomSelectSystem();
+      } catch (e) {
+        console.error('Failed to load custom select system', e);
+        selectSystemLoaded = false;
+      }
+    };
+
+    selectTriggers.forEach((trigger) => {
+      trigger.addEventListener('pointerenter', loadSelectSystem, {
+        once: true,
+      });
+      trigger.addEventListener('click', loadSelectSystem, { once: true });
     });
   }
 });

@@ -133,9 +133,9 @@ export function bindGlobalEvents(): void {
     });
   }
 
-  const shortcutsRowsSelect = document.getElementById('shortcutsRowsSelect') as HTMLSelectElement | null;
+  const shortcutsRowsSelect = document.getElementById('shortcutsRowsSelect') as HTMLButtonElement | null;
   if (shortcutsRowsSelect) {
-    // Initial sync
+    // Sync UI with state
     shortcutsRowsSelect.value = globalState.current.shortcutsRows;
     
     shortcutsRowsSelect.addEventListener('change', (e) => {
@@ -144,8 +144,8 @@ export function bindGlobalEvents(): void {
     });
 
     globalState.subscribe((state) => {
-      if (shortcutsRowsSelect.value !== state.shortcutsRows) {
-        shortcutsRowsSelect.value = state.shortcutsRows;
+      if ((shortcutsRowsSelect as any).value !== state.shortcutsRows) {
+        (shortcutsRowsSelect as any).value = state.shortcutsRows;
       }
     });
   }
@@ -157,7 +157,7 @@ export function bindGlobalEvents(): void {
     });
   }
 
-  const launcherProviderSelect = document.getElementById('launcherProviderSelect') as HTMLSelectElement | null;
+  const launcherProviderSelect = document.getElementById('launcherProviderSelect') as HTMLButtonElement | null;
   if (launcherProviderSelect) {
     launcherProviderSelect.value = globalState.current.launcherProvider;
     
