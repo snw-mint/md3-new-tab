@@ -49,7 +49,7 @@ function showPermissionModal(onGranted: () => void, onDenied: () => void) {
 }
 
 export function bindGlobalEvents(): void {
-  const { weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, launcherToggle, launcherBlock } = DOM.settings;
+  const { weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, launcherToggle, launcherBlock, clockToggle, clockBlock, clockStyleSelect, clock12hFormat, clockShowDate } = DOM.settings;
   const { appLauncherBtn } = DOM.header;
   const weatherOrigins = [
     'https://geocoding-api.open-meteo.com/*',
@@ -72,6 +72,10 @@ export function bindGlobalEvents(): void {
   };
 
   globalState.subscribe((state) => {
+    DOMUnits.syncExpandableGroup(
+      { toggle: clockToggle, block: clockBlock },
+      state.clockEnabled,
+    );
     DOMUnits.syncWeatherGroup(
       { toggle: weatherToggle, block: weatherBlock },
       state,
@@ -130,6 +134,52 @@ export function bindGlobalEvents(): void {
     shortcutsToggle.addEventListener('change', (e) => {
       const target = e.target as HTMLInputElement;
       globalState.current.shortcutsEnabled = target.checked;
+    });
+  }
+
+  if (clockToggle) {
+    clockToggle.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      globalState.current.clockEnabled = target.checked;
+    });
+  }
+
+  if (clockStyleSelect) {
+    clockStyleSelect.value = globalState.current.clockStyle;
+    clockStyleSelect.addEventListener('change', (e) => {
+      const target = e.target as HTMLSelectElement;
+      globalState.current.clockStyle = target.value;
+    });
+    globalState.subscribe((state) => {
+      if (clockStyleSelect.value !== state.clockStyle) {
+        clockStyleSelect.value = state.clockStyle;
+      }
+    });
+  }
+
+  if (clock12hFormat) {
+    clock12hFormat.checked = globalState.current.clock12hFormat;
+    clock12hFormat.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      globalState.current.clock12hFormat = target.checked;
+    });
+    globalState.subscribe((state) => {
+      if (clock12hFormat.checked !== state.clock12hFormat) {
+        clock12hFormat.checked = state.clock12hFormat;
+      }
+    });
+  }
+
+  if (clockShowDate) {
+    clockShowDate.checked = globalState.current.clockShowDate;
+    clockShowDate.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      globalState.current.clockShowDate = target.checked;
+    });
+    globalState.subscribe((state) => {
+      if (clockShowDate.checked !== state.clockShowDate) {
+        clockShowDate.checked = state.clockShowDate;
+      }
     });
   }
 

@@ -683,6 +683,72 @@ body {
   }
 }
 
+.md3-checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.md3-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  padding: 0.25rem 0;
+
+  .md3-checkbox-input {
+    display: none;
+  }
+}
+
+.md3-checkbox-box {
+  position: relative;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-on-surface-variant);
+  transition: color 0.2s ease;
+
+  svg {
+    position: absolute;
+    width: 1.5rem;
+    height: 1.5rem;
+    transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  .checkbox-inactive {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .checkbox-active {
+    opacity: 0;
+    transform: scale(0.5);
+    color: var(--color-primary);
+  }
+}
+
+.md3-checkbox-input:checked + .md3-checkbox-box {
+  .checkbox-inactive {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  .checkbox-active {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.checkbox-text {
+  font-size: 0.8125rem;
+  color: var(--color-on-surface);
+  font-weight: 500;
+}
+
 .expandable-content.compact-gap {
   margin-top: -0.5rem;
 }

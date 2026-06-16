@@ -7,6 +7,10 @@
  */
 
 export interface AppSettings {
+  clockEnabled: boolean;
+  clockStyle: string;
+  clock12hFormat: boolean;
+  clockShowDate: boolean;
   weatherEnabled: boolean;
   tempUnit: 'C' | 'F';
   weatherCity: string;

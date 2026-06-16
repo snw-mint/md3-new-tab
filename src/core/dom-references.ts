@@ -13,6 +13,21 @@ export const DOM = {
     },
   },
   settings: {
+    get clockToggle(): HTMLInputElement | null {
+      return document.getElementById('clockToggle') as HTMLInputElement | null;
+    },
+    get clockBlock(): HTMLElement | null {
+      return document.getElementById('clockSettingsBlock');
+    },
+    get clockStyleSelect(): HTMLButtonElement | null {
+      return document.getElementById('clockStyleSelect') as HTMLButtonElement | null;
+    },
+    get clock12hFormat(): HTMLInputElement | null {
+      return document.getElementById('clock12hFormat') as HTMLInputElement | null;
+    },
+    get clockShowDate(): HTMLInputElement | null {
+      return document.getElementById('clockShowDate') as HTMLInputElement | null;
+    },
     get weatherToggle(): HTMLInputElement | null {
       return document.getElementById(
         'weatherToggle',
