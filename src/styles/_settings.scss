@@ -72,11 +72,7 @@ body {
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: color-mix(
-      in srgb,
-      var(--color-on-surface-variant) 30%,
-      transparent
-    );
+    background-color: color-mix(in srgb, var(--color-on-surface-variant) 30%, transparent);
     border-radius: var(--radius-full);
   }
 }
@@ -84,9 +80,52 @@ body {
 .settings-group-card {
   background-color: var(--color-surface);
   border-radius: var(--radius-md);
-  padding: 1.25rem 1.25rem 1.85rem 1.25rem;
+  padding: 1.25rem;
   display: block;
   width: 100%;
+}
+
+.settings-info-card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  text-decoration: none;
+  color: var(--color-on-surface);
+  cursor: pointer;
+
+  .info-card-icon {
+    position: relative;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    flex-shrink: 0;
+
+    .info-icon-fg {
+      position: absolute;
+      width: 4rem;
+      height: 4rem;
+      z-index: 1;
+      color: var(--color-on-surface);
+    }
+  }
+
+  .info-card-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    flex-grow: 1;
+  }
+
+  .info-card-link-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--color-on-surface-variant);
+  }
 }
 
 .settings-group-title {
@@ -189,11 +228,7 @@ body {
 }
 
 .palette-card {
-  background-color: color-mix(
-    in srgb,
-    var(--color-surface-variant) 40%,
-    transparent
-  );
+  background-color: color-mix(in srgb, var(--color-surface-variant) 40%, transparent);
   border-radius: var(--radius-md);
   padding: 0.5rem;
   display: flex;
@@ -324,16 +359,7 @@ body {
   width: 100%;
   height: 0.75rem;
   border-radius: var(--radius-full);
-  background: linear-gradient(
-    to right,
-    #f00 0%,
-    #ff0 17%,
-    #0f0 33%,
-    #0ff 50%,
-    #00f 67%,
-    #f0f 83%,
-    #f00 100%
-  );
+  background: linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%);
   outline: none;
 
   &::-webkit-slider-thumb {
@@ -504,8 +530,7 @@ body {
     &:focus {
       border-color: var(--color-primary);
       border-width: 2px;
-      padding: calc(0.75rem - 1px) calc(2.5rem - 1px) calc(0.75rem - 1px)
-        calc(1rem - 1px);
+      padding: calc(0.75rem - 1px) calc(2.5rem - 1px) calc(0.75rem - 1px) calc(1rem - 1px);
     }
   }
 
@@ -610,11 +635,7 @@ body {
   flex-shrink: 0;
 
   &:hover {
-    background-color: color-mix(
-      in srgb,
-      var(--color-on-primary-container) 8%,
-      var(--color-primary-container)
-    );
+    background-color: color-mix(in srgb, var(--color-on-primary-container) 8%, var(--color-primary-container));
   }
 
   &:active {
@@ -716,7 +737,9 @@ body {
     position: absolute;
     width: 1.5rem;
     height: 1.5rem;
-    transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s cubic-bezier(0.2, 0, 0, 1);
   }
 
   .checkbox-inactive {
@@ -774,11 +797,7 @@ body {
 
   &:hover {
     transform: scale(1.05);
-    color: color-mix(
-      in srgb,
-      var(--color-on-primary-container) 8%,
-      var(--color-primary-container)
-    );
+    color: color-mix(in srgb, var(--color-on-primary-container) 8%, var(--color-primary-container));
   }
 
   &:active {
@@ -831,8 +850,7 @@ body {
     &:focus {
       border-color: var(--color-primary);
       border-width: 2px;
-      padding: calc(0.75rem - 1px) calc(2.5rem - 1px) calc(0.75rem - 1px)
-        calc(1rem - 1px);
+      padding: calc(0.75rem - 1px) calc(2.5rem - 1px) calc(0.75rem - 1px) calc(1rem - 1px);
     }
   }
 
@@ -1071,6 +1089,69 @@ body {
     .error-icon-svg {
       opacity: 1;
       visibility: visible;
+    }
+  }
+}
+
+.settings-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  font-size: 0.75rem;
+  color: var(--color-on-surface-variant);
+  width: 100%;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    align-items: center;
+
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .footer-bottom {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    width: 100%;
+
+    .footer-version {
+      justify-self: start;
+    }
+
+    .footer-author {
+      justify-self: center;
+    }
+
+    .footer-github-icon {
+      justify-self: end;
+      width: 1.25rem;
+      height: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .hidden-link {
+      color: inherit;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: none;
+      }
     }
   }
 }

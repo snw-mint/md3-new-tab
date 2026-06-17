@@ -29,8 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (launcherLoaded) return;
       launcherLoaded = true;
       try {
-        const { renderLauncherApps, initLauncherDrag } =
-          await import('./core/launcher');
+        const { renderLauncherApps, initLauncherDrag } = await import('./core/launcher');
         const { launcherData } = await import('./core/launcher-data');
         const { globalState } = await import('./core/state');
 
@@ -39,9 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const data = launcherData[provider];
           renderLauncherApps(data, {
             launcherGrid: document.getElementById('launcherGrid'),
-            launcherAllAppsLink: document.getElementById(
-              'launcherAllAppsLink',
-            ) as HTMLAnchorElement | null,
+            launcherAllAppsLink: document.getElementById('launcherAllAppsLink') as HTMLAnchorElement | null,
           });
         };
 
@@ -77,10 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.addEventListener('click', (e) => {
-      if (
-        !launcherPopup.contains(e.target as Node) &&
-        !launcherBtn.contains(e.target as Node)
-      ) {
+      if (!launcherPopup.contains(e.target as Node) && !launcherBtn.contains(e.target as Node)) {
         launcherPopup.classList.remove('active');
       }
     });
@@ -96,8 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Apply initial engine right away so the search bar works
     const applyInitialEngine = async () => {
       try {
-        const { getSavedEngine, applyEngineToForm, bindSearchForm } =
-          await import('./core/search-engine');
+        const { getSavedEngine, applyEngineToForm, bindSearchForm } = await import('./core/search-engine');
         applyEngineToForm(getSavedEngine());
         bindSearchForm();
       } catch (e) {
@@ -110,8 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (engineLoaded) return;
       engineLoaded = true;
       try {
-        const { initSearchEngineDropdown } =
-          await import('./core/search-engine');
+        const { initSearchEngineDropdown } = await import('./core/search-engine');
         initSearchEngineDropdown();
       } catch (e) {
         console.error('Failed to load search engine module', e);
@@ -130,10 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.addEventListener('click', (e) => {
-      if (
-        !engineDropdown.contains(e.target as Node) &&
-        !engineBtn.contains(e.target as Node)
-      ) {
+      if (!engineDropdown.contains(e.target as Node) && !engineBtn.contains(e.target as Node)) {
         engineDropdown.classList.remove('active');
       }
     });
@@ -160,5 +149,19 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       trigger.addEventListener('click', loadSelectSystem, { once: true });
     });
+  }
+
+  const appVersionDisplay = document.getElementById('appVersionDisplay');
+  if (appVersionDisplay) {
+    try {
+      if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.getManifest) {
+        const manifest = chrome.runtime.getManifest();
+        if (manifest && manifest.version) {
+          appVersionDisplay.textContent = `v${manifest.version}`;
+        }
+      }
+    } catch (e) {
+      console.warn('Could not retrieve extension version', e);
+    }
   }
 });
