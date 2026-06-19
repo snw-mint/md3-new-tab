@@ -17,6 +17,11 @@
 
   --color-background: var(--sys-background-light, #ffffff);
   --color-surface: var(--sys-surface-light, #ffffff);
+  --color-surface-container: var(--color-surface);
+  --color-surface-container-highest: var(--color-surface);
+  --color-sidebar-bg: var(--color-surface);
+  --color-sidebar-inner: var(--color-surface-variant);
+  --color-sidebar-card: var(--color-surface);
   --color-on-surface: #1f1f1f;
 
   --color-surface-variant: var(--sys-surface-variant-light);
@@ -44,6 +49,11 @@
 
   --color-background: var(--sys-background-dark, #1f1f1f);
   --color-surface: var(--sys-surface-dark, #1f1f1f);
+  --color-surface-container: var(--sys-surface-container-dark, #2b2b2b);
+  --color-surface-container-highest: var(--sys-surface-container-highest-dark, #363636);
+  --color-sidebar-bg: var(--color-surface-container-highest);
+  --color-sidebar-inner: var(--color-surface-container);
+  --color-sidebar-card: var(--color-surface-container-highest);
   --color-on-surface: #e3e3e3;
 
   --color-surface-variant: var(--sys-surface-variant-dark);

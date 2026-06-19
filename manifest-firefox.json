@@ -24,15 +24,5 @@
     }
   },
   "permissions": ["storage", "unlimitedStorage"],
-  "optional_host_permissions": [
-    "https://suggestqueries.google.com/*",
-    "https://peapix.com/*",
-    "https://img.peapix.com/*",
-    "https://api.nasa.gov/*",
-    "https://apod.nasa.gov/*",
-    "https://commons.wikimedia.org/*",
-    "https://upload.wikimedia.org/*",
-    "https://geocoding-api.open-meteo.com/*",
-    "https://api.open-meteo.com/*"
-  ]
+  "optional_host_permissions": ["https://geocoding-api.open-meteo.com/*", "https://api.open-meteo.com/*"]
 }

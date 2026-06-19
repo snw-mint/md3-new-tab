@@ -181,6 +181,14 @@ class PaletteManager {
       '--sys-surface-light',
       hexFromArgb(lightScheme.surface),
     );
+    root.style.setProperty(
+      '--sys-surface-container-light',
+      hexFromArgb(Hct.from(baseHue, 4, 94).toInt()),
+    );
+    root.style.setProperty(
+      '--sys-surface-container-highest-light',
+      hexFromArgb(Hct.from(baseHue, 4, 90).toInt()),
+    );
 
     root.style.setProperty(
       '--sys-primary-dark',
@@ -207,9 +215,11 @@ class PaletteManager {
       hexFromArgb(darkScheme.onSecondaryContainer),
     );
 
+    const isDefault = paletteId === 'default';
+
     root.style.setProperty(
       '--sys-surface-variant-dark',
-      hexFromArgb(Hct.from(baseHue, 12, 12).toInt()),
+      isDefault ? '#444444' : hexFromArgb(darkScheme.surfaceVariant),
     );
     root.style.setProperty(
       '--sys-on-surface-variant-dark',
@@ -217,11 +227,19 @@ class PaletteManager {
     );
     root.style.setProperty(
       '--sys-background-dark',
-      hexFromArgb(Hct.from(baseHue, 12, 24).toInt()),
+      isDefault ? '#282828' : hexFromArgb(darkScheme.background),
     );
     root.style.setProperty(
       '--sys-surface-dark',
-      hexFromArgb(Hct.from(baseHue, 12, 24).toInt()),
+      isDefault ? '#282828' : hexFromArgb(darkScheme.surface),
+    );
+    root.style.setProperty(
+      '--sys-surface-container-dark',
+      isDefault ? '#323232' : hexFromArgb(Hct.from(baseHue, 4, 12).toInt()),
+    );
+    root.style.setProperty(
+      '--sys-surface-container-highest-dark',
+      isDefault ? '#3c3c3c' : hexFromArgb(Hct.from(baseHue, 4, 22).toInt()),
     );
 
     root.setAttribute('data-palette', paletteId);

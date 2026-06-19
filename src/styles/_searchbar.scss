@@ -11,7 +11,7 @@
   align-items: center;
   width: 100%;
   height: 3.5rem;
-  background-color: var(--color-surface);
+  background-color: var(--color-surface-container-highest);
   border-radius: var(--radius-full);
   margin-bottom: 1.2rem;
   box-shadow:
@@ -27,7 +27,9 @@
 
   &:hover .engine-bg-icon path,
   &:has(.dropdown-menu.active) .engine-bg-icon path {
-    d: path('M338.584 189.998c25.843 48.166 6.318 91.773-43.518 105.063-13.295 49.841-56.902 69.361-105.068 43.523-48.167 25.843-91.773 6.318-105.064-43.518-49.836-13.295-69.361-56.902-43.518-105.068-25.843-48.167-6.318-91.773 43.518-105.064 13.29-49.836 56.897-69.361 105.064-43.518 48.166-25.843 91.773-6.318 105.063 43.518 49.841 13.29 69.361 56.897 43.523 105.064');
+    d: path(
+      'M338.584 189.998c25.843 48.166 6.318 91.773-43.518 105.063-13.295 49.841-56.902 69.361-105.068 43.523-48.167 25.843-91.773 6.318-105.064-43.518-49.836-13.295-69.361-56.902-43.518-105.068-25.843-48.167-6.318-91.773 43.518-105.064 13.29-49.836 56.897-69.361 105.064-43.518 48.166-25.843 91.773-6.318 105.063 43.518 49.841 13.29 69.361 56.897 43.523 105.064'
+    );
   }
 }
 
@@ -54,7 +56,9 @@
     z-index: 0;
 
     path {
-      d: path('M338.584 190c0 39.407-15.654 77.2-43.519 105.065c-27.865 27.865-65.658 43.519-105.065 43.519c-39.407 0-77.2-15.654-105.065-43.519c-27.865-27.865-43.519-65.658-43.519-105.065c0-39.407 15.654-77.2 43.519-105.065c27.865-27.865 65.658-43.519 105.065-43.519c39.407 0 77.2 15.654 105.065 43.519c27.865 27.865 43.519 65.658 43.519 105.065');
+      d: path(
+        'M338.584 190c0 39.407-15.654 77.2-43.519 105.065c-27.865 27.865-65.658 43.519-105.065 43.519c-39.407 0-77.2-15.654-105.065-43.519c-27.865-27.865-43.519-65.658-43.519-105.065c0-39.407 15.654-77.2 43.519-105.065c27.865-27.865 65.658-43.519 105.065-43.519c39.407 0 77.2 15.654 105.065 43.519c27.865 27.865 43.519 65.658 43.519 105.065'
+      );
       transition: d 0.4s cubic-bezier(0.2, 0, 0, 1);
     }
   }
@@ -84,9 +88,9 @@
 
 .dropdown-menu {
   position: absolute;
-  top: calc(100% + 0.5rem);
+  top: calc(100% + 0.8rem);
   left: 0;
-  background-color: var(--color-surface);
+  background-color: var(--color-surface-container-highest);
   border-radius: var(--radius-md);
   box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
   padding: 0.5rem;
@@ -103,6 +107,9 @@
   z-index: 10;
   &::-webkit-scrollbar {
     width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    margin: 0.5rem 0;
   }
   &::-webkit-scrollbar-thumb {
     background-color: var(--color-surface-variant);
@@ -209,7 +216,7 @@
   top: calc(100% + 0.5rem);
   left: 0;
   width: 100%;
-  background-color: var(--color-surface);
+  background-color: var(--color-surface-container-highest);
   border-radius: var(--radius-md);
   box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
   overflow: hidden;
