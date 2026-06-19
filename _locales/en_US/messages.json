@@ -343,5 +343,25 @@
         "example": ", User"
       }
     }
+  },
+  "snackbarUpdate": {
+    "message": "MD3: Expressive New Tab has been updated to version $VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1"
+      }
+    }
+  },
+  "snackbarReleaseNotes": {
+    "message": "Release Notes"
+  },
+  "snackbarSettingsExported": {
+    "message": "Settings saved in the file"
+  },
+  "snackbarSettingsRestored": {
+    "message": "Settings restored"
+  },
+  "snackbarBackupInvalid": {
+    "message": "The backup file is invalid."
   }
 }

@@ -12,6 +12,7 @@ import { bindGlobalEvents } from './core/event-bindings';
 import { initDisplay } from './core/display';
 import { DOM } from './core/dom-references';
 import { initBackupSystem } from './core/backup';
+import { showSnackbar } from './core/snackbar';
 
 document.addEventListener('DOMContentLoaded', () => {
   initDisplay();
@@ -165,5 +166,23 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (e) {
       console.warn('Could not retrieve extension version', e);
     }
+  }
+
+  // Check for updates to show the snackbar
+  if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+    chrome.storage.local.get(['extension_updated_version'], (result) => {
+      if (result.extension_updated_version) {
+        const version = result.extension_updated_version;
+        showSnackbar({
+          text: chrome.i18n.getMessage('snackbarUpdate', [version]),
+          actionText: chrome.i18n.getMessage('snackbarReleaseNotes'),
+          duration: 8000,
+          onAction: () => {
+            window.open('https://github.com/snw-mint/md3-new-tab/releases', '_blank');
+          }
+        });
+        chrome.storage.local.remove('extension_updated_version');
+      }
+    });
   }
 });

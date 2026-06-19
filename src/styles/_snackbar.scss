@@ -1,0 +1,74 @@
+/*
+ * MD3: Expressive New Tab
+ * Copyright (c) 2026 SnowMint
+ * Licensed under the GNU General Public License v3.0 (GPL-3.0)
+ * You should have received a copy of the GNU General Public License along with this program.
+ * If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.md3-snackbar {
+  background-color: var(--color-on-surface);
+  color: var(--color-surface);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 300px;
+  max-width: 600px;
+  display: flex;
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translate(-50%) translateY(150%);
+  box-shadow:
+    rgba(0, 0, 0, 0.1) 0px 4px 6px,
+    rgba(0, 0, 0, 0.08) 0px 1px 3px;
+  border-radius: 4px;
+  gap: 1rem;
+  padding: 0.6rem 1rem;
+  transition:
+    transform 0.3s cubic-bezier(0.2, 0, 0, 1),
+    opacity 0.3s cubic-bezier(0.2, 0, 0, 1),
+    visibility 0.3s;
+}
+
+.md3-snackbar.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.md3-snackbar-text {
+  font-family: var(--font-family);
+  font-size: 0.7rem;
+  line-height: 1.25rem;
+  flex: 1;
+}
+
+.md3-snackbar-action {
+  background: none;
+  border: none;
+  font-family: var(--font-family);
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--color-primary-container);
+  cursor: pointer;
+  padding: 0;
+  letter-spacing: 0.01rem;
+  transition: opacity 0.2s;
+}
+
+.md3-snackbar-action:hover {
+  opacity: 0.8;
+}
+
+html[data-theme='dark'] .md3-snackbar-action {
+  color: var(--sys-primary-light);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .md3-snackbar-action {
+    color: var(--sys-primary-light);
+  }
+}

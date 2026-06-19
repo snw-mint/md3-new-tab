@@ -11,41 +11,26 @@ import { DOMUnits } from './dom-units';
 import { globalState } from './state';
 import { requestPermission, checkPermission, fetchCityData } from './services';
 import { updateWeatherWidget } from './weather';
+import { showWarningModal } from './modals';
 
 function showPermissionModal(onGranted: () => void, onDenied: () => void) {
-  const overlay = document.getElementById('warningModal');
-  const title = document.getElementById('warning-modal-title');
-  const msg = document.getElementById('warning-modal-message');
-  const btnConfirm = document.getElementById('warning-btn-confirm');
-  const btnCancel = document.getElementById('warning-btn-cancel');
-
-  if (!overlay || !title || !msg || !btnConfirm || !btnCancel)
-    return onDenied();
-
-  title.textContent = 'Permission Required';
-  msg.innerHTML =
-    'To use this feature, MD3: Expressive New Tab needs permission to access <a href="https://open-meteo.com" target="_blank">Open-Meteo API</a>. This ensures your privacy and security.';
-  btnConfirm.textContent = 'Agree';
-  btnCancel.textContent = 'Cancel';
-
-  overlay.classList.add('active');
-
-  const closeModal = () => overlay.classList.remove('active');
-
-  btnConfirm.onclick = async () => {
-    closeModal();
-    const granted = await requestPermission([
-      'https://geocoding-api.open-meteo.com/*',
-      'https://api.open-meteo.com/*',
-    ]);
-    if (granted) onGranted();
-    else onDenied();
-  };
-
-  btnCancel.onclick = () => {
-    closeModal();
-    onDenied();
-  };
+  showWarningModal({
+    title: 'Permission Required',
+    messageHtml: 'To use this feature, MD3: Expressive New Tab needs permission to access <a href="https://open-meteo.com" target="_blank">Open-Meteo API</a>. This ensures your privacy and security.',
+    confirmText: 'Agree',
+    cancelText: 'Cancel',
+    onConfirm: async () => {
+      const granted = await requestPermission([
+        'https://geocoding-api.open-meteo.com/*',
+        'https://api.open-meteo.com/*',
+      ]);
+      if (granted) onGranted();
+      else onDenied();
+    },
+    onCancel: () => {
+      onDenied();
+    }
+  });
 }
 
 export function bindGlobalEvents(): void {
