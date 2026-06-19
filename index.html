@@ -67,7 +67,7 @@
 
     <div class="container">
       <div id="displayWidget" class="display-widget">
-        <div id="greetingsDisplay" class="greetings-text" style="display: none;"></div>
+        <div id="greetingsDisplay" class="greetings-text" style="display: none"></div>
         <div class="clock-expressive" id="clockExpressiveContainer">
           <div class="time-card hour-card">
             <span id="hourDisplay">00</span>
@@ -301,17 +301,6 @@
               </button>
             </div>
           </div>
-
-          <hr class="settings-divider" />
-          <div class="settings-row">
-            <span class="settings-row-label" data-i18n="useWallpaperColor">Use wallpaper color</span>
-            <label class="md3-switch">
-              <input type="checkbox" id="useWallpaperColorToggle" />
-              <span class="switch-track">
-                <span class="switch-thumb"></span>
-              </span>
-            </label>
-          </div>
         </div>
 
         <div class="settings-group-card">
@@ -345,12 +334,22 @@
 
             <hr class="settings-divider" />
 
-            <div id="greetingNameInputWrapper" style="display: none;">
-              <div class="input-with-action-row" style="margin-top: 1rem;">
+            <div id="greetingNameInputWrapper" style="display: none">
+              <div class="input-with-action-row" style="margin-top: 1rem">
                 <div class="md3-outlined-text-field" id="greetingNameFieldWrapper">
                   <input type="text" id="greetingNameInput" class="md3-input" placeholder=" " autocomplete="off" />
                   <label for="greetingNameInput" class="md3-label" data-i18n="namePlaceholder">Your Name (optional)</label>
                 </div>
+              </div>
+              <div class="md3-checkbox-group" style="margin-top: 1.25rem">
+                <label class="md3-checkbox-label">
+                  <input type="checkbox" id="greetingHighlightNameCheckbox" class="md3-checkbox-input" />
+                  <span class="md3-checkbox-box">
+                    <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
+                    <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
+                  </span>
+                  <span class="checkbox-text" data-i18n="highlightNameLabel">Highlight name</span>
+                </label>
               </div>
             </div>
 

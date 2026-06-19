@@ -49,7 +49,7 @@ function showPermissionModal(onGranted: () => void, onDenied: () => void) {
 }
 
 export function bindGlobalEvents(): void {
-  const { weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, launcherToggle, launcherBlock, displayToggle, displayBlock, displayStyleSelect, displayClockOptions, greetingNameInputWrapper, greetingNameInput, clock12hFormat, clockShowDate } = DOM.settings;
+  const { weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, launcherToggle, launcherBlock, displayToggle, displayBlock, displayStyleSelect, displayClockOptions, greetingNameInputWrapper, greetingNameInput, greetingHighlightNameCheckbox, clock12hFormat, clockShowDate } = DOM.settings;
   const { appLauncherBtn } = DOM.header;
   const weatherOrigins = [
     'https://geocoding-api.open-meteo.com/*',
@@ -180,6 +180,25 @@ export function bindGlobalEvents(): void {
       if (greetingNameInput.value !== state.greetingName) {
         greetingNameInput.value = state.greetingName;
       }
+      if (greetingHighlightNameCheckbox) {
+        const hasName = state.greetingName.trim().length > 0;
+        greetingHighlightNameCheckbox.disabled = !hasName;
+        
+        if (!hasName && state.greetingHighlightName) {
+          globalState.current.greetingHighlightName = false;
+        } else if (greetingHighlightNameCheckbox.checked !== state.greetingHighlightName) {
+          greetingHighlightNameCheckbox.checked = state.greetingHighlightName;
+        }
+      }
+    });
+  }
+
+  if (greetingHighlightNameCheckbox) {
+    greetingHighlightNameCheckbox.checked = globalState.current.greetingHighlightName;
+    greetingHighlightNameCheckbox.disabled = !globalState.current.greetingName.trim();
+    greetingHighlightNameCheckbox.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      globalState.current.greetingHighlightName = target.checked;
     });
   }
 

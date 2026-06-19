@@ -12,6 +12,8 @@ function pad(n: number): string {
   return n.toString().padStart(2, '0');
 }
 
+let lastMessageBase = '';
+
 function tick(): void {
   const now = new Date();
   const hourEl = document.getElementById('hourDisplay');
@@ -20,14 +22,14 @@ function tick(): void {
   const greetingsDisplay = document.getElementById('greetingsDisplay');
   const clockContainer = document.getElementById('clockExpressiveContainer');
 
-  const { clock12hFormat, clockShowDate, displayStyle, greetingName } = globalState.current;
+  const { clock12hFormat, clockShowDate, displayStyle, greetingName, greetingHighlightName } = globalState.current;
 
   if (displayStyle === 'greetings') {
     if (clockContainer) clockContainer.style.display = 'none';
     if (dateEl) dateEl.style.display = 'none';
     if (greetingsDisplay) {
       greetingsDisplay.style.display = '';
-      
+
       const hour = now.getHours();
       let period = 'Night';
       if (hour >= 6 && hour < 12) period = 'Morning';
@@ -36,19 +38,33 @@ function tick(): void {
 
       const index = (now.getDate() % 5) + 1;
       const dayOfWeek = now.toLocaleDateString(undefined, { weekday: 'long' });
-      const formattedName = greetingName.trim() ? `, ${greetingName.trim()}` : '';
+      const safeName = greetingName.trim().replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const highlightSvg = `<svg class="name-sparkle-svg" width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M338.584 189.998c25.843 48.166 6.318 91.773-43.518 105.063-13.295 49.841-56.902 69.361-105.068 43.523-48.167 25.843-91.773 6.318-105.064-43.518-49.836-13.295-69.361-56.902-43.518-105.068-25.843-48.167-6.318-91.773 43.518-105.064 13.29-49.836 56.897-69.361 105.064-43.518 48.166-25.843 91.773-6.318 105.063 43.518 49.841 13.29 69.361 56.897 43.523 105.064" fill="currentColor"/></svg>`;
+      const nameHtml = safeName ? `, <span class="highlighted-name">${safeName}${highlightSvg}</span>` : '';
 
       const msgKey = `greet${period}${index}`;
       let text = '';
       if (typeof chrome !== 'undefined' && chrome.i18n) {
-        text = chrome.i18n.getMessage(msgKey, [dayOfWeek, formattedName]);
+        text = chrome.i18n.getMessage(msgKey, [dayOfWeek, nameHtml]);
       }
-      
+
       if (!text) {
-        text = `Good ${period.toLowerCase()}${formattedName}!`;
+        text = `Good ${period.toLowerCase()}${nameHtml}!`;
       }
-      
-      greetingsDisplay.textContent = text;
+
+      if (text !== lastMessageBase) {
+        greetingsDisplay.innerHTML = text;
+        lastMessageBase = text;
+      }
+
+      const nameSpan = greetingsDisplay.querySelector('.highlighted-name');
+      if (nameSpan) {
+        if (greetingHighlightName) {
+          nameSpan.classList.add('active');
+        } else {
+          nameSpan.classList.remove('active');
+        }
+      }
     }
   } else {
     if (greetingsDisplay) greetingsDisplay.style.display = 'none';

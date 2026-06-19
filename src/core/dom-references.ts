@@ -31,6 +31,9 @@ export const DOM = {
     get greetingNameInput(): HTMLInputElement | null {
       return document.getElementById('greetingNameInput') as HTMLInputElement | null;
     },
+    get greetingHighlightNameCheckbox(): HTMLInputElement | null {
+      return document.getElementById('greetingHighlightNameCheckbox') as HTMLInputElement | null;
+    },
     get clock12hFormat(): HTMLInputElement | null {
       return document.getElementById('clock12hFormat') as HTMLInputElement | null;
     },

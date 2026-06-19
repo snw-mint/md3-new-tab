@@ -10,6 +10,7 @@ export interface AppSettings {
   displayEnabled: boolean;
   displayStyle: string;
   greetingName: string;
+  greetingHighlightName: boolean;
   clock12hFormat: boolean;
   clockShowDate: boolean;
   weatherEnabled: boolean;

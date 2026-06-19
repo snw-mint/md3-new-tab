@@ -12,6 +12,7 @@
   "iconsStyleLabel": { "message": "Icon Style" },
   "displayTitle": { "message": "Display" },
   "displayGreeting": { "message": "Greeting" },
+  "highlightNameLabel": { "message": "Highlight name" },
   "displayTime": { "message": "Time" },
   "displayDate": { "message": "Date" },
   "displayAdvanced": { "message": "Time & Date" },

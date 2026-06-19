@@ -20,6 +20,7 @@ class ReactiveState {
       displayEnabled: true,
       displayStyle: 'greetings',
       greetingName: '',
+      greetingHighlightName: false,
       clock12hFormat: false,
       clockShowDate: true,
       weatherEnabled: false,

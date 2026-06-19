@@ -722,6 +722,12 @@ body {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   padding: 0.25rem 0;
+  transition: opacity 0.2s ease;
+
+  &:has(.md3-checkbox-input:disabled) {
+    cursor: not-allowed;
+    opacity: 0.38;
+  }
 
   .md3-checkbox-input {
     display: none;
