@@ -50,6 +50,12 @@ export function initThemeControls(): void {
       target.classList.add('active');
       localStorage.setItem('theme', theme);
       applyTheme(theme);
+      // Update favicon to reflect new theme colors
+      setTimeout(() => {
+        import('./palette').then((module) => {
+          module.updateFavicon();
+        });
+      }, 0);
     });
   });
 }

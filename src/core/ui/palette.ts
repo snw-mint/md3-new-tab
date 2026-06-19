@@ -13,6 +13,23 @@ import {
   Hct,
 } from '@material/material-color-utilities';
 
+export function updateFavicon(): void {
+  const root = document.documentElement;
+  const computed = getComputedStyle(root);
+  const primary = computed.getPropertyValue('--color-primary').trim() || '#0b57d0';
+
+  const svg = `<svg width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M303.126 76.863c-11.875-11.875-38.932-6.003-71.579 12.818C221.771 53.286 206.79 30 189.996 30c-16.793 0-31.773 23.284-41.549 59.678-32.645-18.82-59.7-24.69-71.575-12.817-11.875 11.876-6.002 38.935 12.823 71.585C53.29 158.222 30 173.204 30 190c0 16.793 23.283 31.773 59.675 41.549-18.825 32.651-24.7 59.712-12.824 71.588s38.939 6.001 71.593-12.827c9.776 36.401 24.757 59.69 41.552 59.69 16.796 0 31.778-23.291 41.554-59.693 32.655 18.829 59.72 24.705 71.596 12.829s6.002-38.936-12.823-71.587C326.716 221.773 350 206.793 350 190c0-16.796-23.292-31.778-59.696-41.554 18.824-32.649 24.697-59.708 12.822-71.583" fill="${primary}"/></svg>`;
+
+  const svgDataUri = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  let link = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
+  if (!link) {
+    link = document.createElement('link');
+    link.rel = 'icon';
+    document.head.appendChild(link);
+  }
+  link.href = svgDataUri;
+}
+
 const PREDEFINED_SOURCES: Record<string, string> = {
   default: '#0B57D0',
   expressive: '#65558F',
@@ -244,6 +261,9 @@ class PaletteManager {
 
     root.setAttribute('data-palette', paletteId);
 
+    // Call updateFavicon so the icon refreshes with the new colors
+    setTimeout(() => updateFavicon(), 0);
+
     const cssVarNames = [
       '--sys-primary-light', '--sys-on-primary-light',
       '--sys-primary-container-light', '--sys-on-primary-container-light',
@@ -278,4 +298,6 @@ class PaletteManager {
 
 document.addEventListener('DOMContentLoaded', () => {
   new PaletteManager();
+  // Ensure the favicon applies correctly on first load if it didn't trigger
+  updateFavicon();
 });
