@@ -6,14 +6,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-export interface WarningModalOptions {
-  title: string;
-  messageHtml: string;
-  confirmText?: string;
-  cancelText?: string;
-  onConfirm: () => void;
-  onCancel?: () => void;
-}
+import { WarningModalOptions } from '../shared/types';
 
 export function showWarningModal(options: WarningModalOptions) {
   const overlay = document.getElementById('warningModal');

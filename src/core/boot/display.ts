@@ -6,7 +6,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { globalState } from './state';
+import { globalState } from '../shared/state';
 
 function pad(n: number): string {
   return n.toString().padStart(2, '0');
@@ -40,7 +40,8 @@ function tick(): void {
       const dayOfWeek = now.toLocaleDateString(undefined, { weekday: 'long' });
       const safeName = greetingName.trim().replace(/</g, '&lt;').replace(/>/g, '&gt;');
       const highlightSvg = `<svg class="name-sparkle-svg" width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M338.584 189.998c25.843 48.166 6.318 91.773-43.518 105.063-13.295 49.841-56.902 69.361-105.068 43.523-48.167 25.843-91.773 6.318-105.064-43.518-49.836-13.295-69.361-56.902-43.518-105.068-25.843-48.167-6.318-91.773 43.518-105.064 13.29-49.836 56.897-69.361 105.064-43.518 48.166-25.843 91.773-6.318 105.063 43.518 49.841 13.29 69.361 56.897 43.523 105.064" fill="currentColor"/></svg>`;
-      const nameHtml = safeName ? `, <span class="highlighted-name">${safeName}${highlightSvg}</span>` : '';
+      const activeClass = greetingHighlightName ? ' active' : '';
+      const nameHtml = safeName ? `, <span class="highlighted-name${activeClass}">${safeName}${highlightSvg}</span>` : '';
 
       const msgKey = `greet${period}${index}`;
       let text = '';
@@ -57,14 +58,6 @@ function tick(): void {
         lastMessageBase = text;
       }
 
-      const nameSpan = greetingsDisplay.querySelector('.highlighted-name');
-      if (nameSpan) {
-        if (greetingHighlightName) {
-          nameSpan.classList.add('active');
-        } else {
-          nameSpan.classList.remove('active');
-        }
-      }
     }
   } else {
     if (greetingsDisplay) greetingsDisplay.style.display = 'none';

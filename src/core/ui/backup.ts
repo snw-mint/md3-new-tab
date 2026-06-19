@@ -6,7 +6,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { globalState } from './state';
+import { globalState } from '../shared/state';
 import { showSnackbar } from './snackbar';
 import { showWarningModal } from './modals';
 
@@ -47,8 +47,8 @@ export function initBackupSystem(): void {
 
       backupData['weatherUnit'] = state.tempUnit;
       backupData['fluent_city_data'] = JSON.stringify({ name: state.weatherCity });
-      backupData['weatherCity'] = state.weatherCity; 
-      
+      backupData['weatherCity'] = state.weatherCity;
+
       backupData['shortcutsRows'] = String(state.shortcutsRows);
       backupData['launcherEnabled'] = String(state.launcherEnabled);
       backupData['launcherProvider'] = state.launcherProvider;
@@ -80,7 +80,7 @@ export function initBackupSystem(): void {
       const target = e.target as HTMLInputElement;
       const file = target?.files?.[0];
       if (!file) return;
-      
+
       const reader = new FileReader();
       reader.onload = (event) => {
         try {
@@ -90,7 +90,7 @@ export function initBackupSystem(): void {
           if (!isValidBackupPayload(parsedData)) {
             throw new Error('Invalid backup data format');
           }
-          
+
           const data = parsedData as Record<string, string>;
 
           showWarningModal({
@@ -111,7 +111,7 @@ export function initBackupSystem(): void {
               const newState = { ...state };
 
               if (data['weatherUnit']) newState.tempUnit = data['weatherUnit'] as 'C' | 'F';
-              
+
               if (data['weatherCity']) {
                 newState.weatherCity = data['weatherCity'];
               } else if (data['fluent_city_data']) {
@@ -121,7 +121,6 @@ export function initBackupSystem(): void {
                     newState.weatherCity = cityData.name;
                   }
                 } catch (e) {
-                  // ignore
                 }
               }
 

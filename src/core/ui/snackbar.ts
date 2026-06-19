@@ -6,13 +6,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-export interface SnackbarOptions {
-  text: string;
-  actionText?: string | null;
-  actionHtml?: string | null;
-  duration?: number;
-  onAction?: () => void;
-}
+import { SnackbarOptions } from '../shared/types';
 
 let snackbarTimeout: number | null = null;
 

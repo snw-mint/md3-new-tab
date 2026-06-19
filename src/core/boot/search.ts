@@ -6,7 +6,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { engines } from './search-engine-data';
+import { engines } from '../lazy/search-engine-data';
 
 export function getSavedEngine(): string {
   return localStorage.getItem('searchEngine') || 'google';
@@ -33,6 +33,9 @@ export function applyEngineToForm(engineKey: string): void {
 
   if (currentEngineIcon) {
     currentEngineIcon.innerHTML = engine.icon;
+    try {
+      localStorage.setItem('ent_engine_icon_cache', engine.icon);
+    } catch (e) {}
   }
 }
 
@@ -64,25 +67,5 @@ export function bindSearchForm(): void {
         window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
       }
     }
-  });
-}
-
-export function initSearchEngineDropdown(): void {
-  const engineBtn = document.getElementById('engineBtn');
-  const engineDropdown = document.getElementById('engineDropdown');
-  const dropdownItems = engineDropdown?.querySelectorAll('.dropdown-item');
-
-  if (!engineBtn || !engineDropdown || !dropdownItems) return;
-
-  dropdownItems.forEach((item) => {
-    item.addEventListener('click', (e) => {
-      const target = e.currentTarget as HTMLElement;
-      const engineKey = target.getAttribute('data-engine');
-      if (engineKey && engines[engineKey]) {
-        setSavedEngine(engineKey);
-        applyEngineToForm(engineKey);
-        engineDropdown.classList.remove('active');
-      }
-    });
   });
 }

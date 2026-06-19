@@ -219,3 +219,23 @@
     z-index: 5;
   }
 }
+
+html[data-display-enabled="false"] #displayWidget {
+  display: none !important;
+}
+
+html[data-display-style="greetings"] #clockExpressiveContainer {
+  display: none !important;
+}
+html[data-display-style="greetings"] #greetingsDisplay {
+  display: block !important;
+}
+
+html[data-display-style="simple_clock"] #greetingsDisplay,
+html[data-display-style="expressive_clock"] #greetingsDisplay {
+  display: none !important;
+}
+html[data-display-style="simple_clock"] #clockExpressiveContainer,
+html[data-display-style="expressive_clock"] #clockExpressiveContainer {
+  display: flex !important;
+}

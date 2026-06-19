@@ -15,6 +15,11 @@
   justify-items: center;
   padding: 0;
   margin: 0 auto;
+  min-height: calc(
+    var(--shortcuts-reserved-rows, 1) *
+    (2.8125rem + 1.8rem + 0.45rem) +
+    (var(--shortcuts-reserved-rows, 1) - 1) * 0.9rem
+  );
 
   &.single-row {
     grid-template-columns: repeat(var(--shortcut-count, 10), 1fr);

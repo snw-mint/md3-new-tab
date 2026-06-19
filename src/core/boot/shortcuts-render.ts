@@ -6,8 +6,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { globalState } from '../state';
-import { initVanillaDragAndDrop } from '../drag-drop';
+import { globalState } from '../shared/state';
 
 export interface ShortcutItem {
   id: string;
@@ -32,13 +31,9 @@ export class ShortcutsManager {
     this.container = document.getElementById('shortcutsGrid') as HTMLElement;
     this.modal = document.getElementById('shortcutModal');
     this.form = document.getElementById('shortcutForm') as HTMLFormElement;
-    this.inputName = document.getElementById(
-      'shortcutName',
-    ) as HTMLInputElement;
+    this.inputName = document.getElementById('shortcutName') as HTMLInputElement;
     this.inputUrl = document.getElementById('shortcutUrl') as HTMLInputElement;
-    this.inputIconUrl = document.getElementById(
-      'shortcutIconUrl',
-    ) as HTMLInputElement;
+    this.inputIconUrl = document.getElementById('shortcutIconUrl') as HTMLInputElement;
     this.modalTitle = document.getElementById('shortcut-modal-title');
 
     this.loadShortcuts();
@@ -53,6 +48,16 @@ export class ShortcutsManager {
     if (!this.container) return;
     this.render();
 
+    this.container.addEventListener('click', this.handleGridClick.bind(this));
+    document.addEventListener('click', this.handleDocumentClick.bind(this));
+    this.setupModalEvents();
+  }
+
+  public initDragDrop(initVanillaDragAndDrop: (options: {
+    gridContainer: HTMLElement;
+    onReorder: (oldIndex: number, newIndex: number) => void;
+  }) => void): void {
+    if (!this.container) return;
     initVanillaDragAndDrop({
       gridContainer: this.container,
       onReorder: (oldIndex: number, newIndex: number) => {
@@ -62,10 +67,6 @@ export class ShortcutsManager {
         this.render();
       }
     });
-
-    this.container.addEventListener('click', this.handleGridClick.bind(this));
-    document.addEventListener('click', this.handleDocumentClick.bind(this));
-    this.setupModalEvents();
   }
 
   private setupModalEvents() {
@@ -192,7 +193,6 @@ export class ShortcutsManager {
       this.inputIconUrl.value = '';
     }
 
-    // Clear any previous error states
     this.inputName
       .closest('.md3-filled-input-wrapper')
       ?.classList.remove('has-error');
@@ -337,7 +337,6 @@ export class ShortcutsManager {
         this.shortcuts = [];
       }
     } else {
-      // Default shortcuts for testing
       this.shortcuts = [
         {
           id: '1',
@@ -353,6 +352,7 @@ export class ShortcutsManager {
     if (!this.container) return;
     const rows = parseInt(rowsStr, 10) || 1;
     this.maxItems = rows * 10;
+    document.documentElement.style.setProperty('--shortcuts-reserved-rows', String(rows));
     this.render();
   }
 
@@ -404,7 +404,6 @@ export class ShortcutsManager {
         const urlObj = new URL(shortcut.url);
         finalIconUrl = `https://favicon.vemetric.com/${urlObj.hostname}?size=64`;
       } catch (e) {
-        // ignore
       }
     }
 
@@ -506,8 +505,9 @@ export class ShortcutsManager {
 
 let instance: ShortcutsManager | null = null;
 
-export function initShortcuts() {
+export function initShortcuts(): ShortcutsManager {
   if (!instance) {
     instance = new ShortcutsManager();
   }
+  return instance;
 }

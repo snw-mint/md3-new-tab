@@ -6,7 +6,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { LauncherProviderData } from './types';
+import { LauncherProviderData } from '../shared/types';
 import { initVanillaDragAndDrop } from './drag-drop';
 
 interface LauncherRenderRefs {
@@ -72,7 +72,7 @@ export function renderLauncherApps(
   moreLink.className = 'launcher-more-item';
   moreLink.target = '_blank';
   moreLink.title = moreText;
-  
+
   const moreSpan = document.createElement('span');
   moreSpan.className = 'launcher-name';
   moreSpan.setAttribute('data-i18n', 'moreApps');

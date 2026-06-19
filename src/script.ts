@@ -6,35 +6,59 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-import './core/palette';
-import { initSidebarControls, initThemeControls } from './core/sidebar';
-import { bindGlobalEvents } from './core/event-bindings';
-import { initDisplay } from './core/display';
-import { DOM } from './core/dom-references';
-import { initBackupSystem } from './core/backup';
-import { showSnackbar } from './core/snackbar';
+import './core/ui/palette';
+import { initSidebarControls, initThemeControls } from './core/ui/sidebar';
+import { bindGlobalEvents } from './core/boot/event-bindings';
+import { initDisplay } from './core/boot/display';
+import { DOM } from './core/shared/dom-refs';
+import { initBackupSystem } from './core/ui/backup';
+import { showSnackbar } from './core/ui/snackbar';
+import { globalState } from './core/shared/state';
+import { getSavedEngine, applyEngineToForm, bindSearchForm } from './core/boot/search';
 
 document.addEventListener('DOMContentLoaded', () => {
   initDisplay();
   initSidebarControls();
   initThemeControls();
-  bindGlobalEvents();
   initBackupSystem();
+
+  applyEngineToForm(getSavedEngine());
+  bindSearchForm();
+
+  bindGlobalEvents((shortcutsGrid) => {
+    let dragInitialized = false;
+    shortcutsGrid.addEventListener(
+      'pointerover',
+      async () => {
+        if (dragInitialized) return;
+        dragInitialized = true;
+        try {
+          const { initVanillaDragAndDrop } = await import('./core/lazy/drag-drop');
+          const { initShortcuts } = await import('./core/boot/shortcuts-render');
+          const manager = initShortcuts();
+          manager.initDragDrop(initVanillaDragAndDrop);
+        } catch (e) {
+          console.error('Failed to load drag-drop module', e);
+          dragInitialized = false;
+        }
+      },
+      { once: true },
+    );
+  });
 
   const launcherBtn = DOM.header.appLauncherBtn;
   const launcherPopup = document.getElementById('launcherPopup');
 
   if (launcherBtn && launcherPopup) {
     let launcherLoaded = false;
-    let dragInitialized = false;
+    let launcherDragInitialized = false;
 
     const loadLauncher = async () => {
       if (launcherLoaded) return;
       launcherLoaded = true;
       try {
-        const { renderLauncherApps, initLauncherDrag } = await import('./core/launcher');
-        const { launcherData } = await import('./core/launcher-data');
-        const { globalState } = await import('./core/state');
+        const { renderLauncherApps, initLauncherDrag } = await import('./core/lazy/launcher');
+        const { launcherData } = await import('./core/lazy/launcher-data');
 
         const renderCurrentProvider = () => {
           const provider = globalState.current.launcherProvider;
@@ -52,8 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const grid = document.getElementById('launcherGrid');
-        if (grid && !dragInitialized) {
-          dragInitialized = true;
+        if (grid && !launcherDragInitialized) {
+          launcherDragInitialized = true;
           grid.addEventListener(
             'pointerover',
             () => {
@@ -83,30 +107,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Search Engine Logic
   const engineBtn = document.getElementById('engineBtn');
   const engineDropdown = document.getElementById('engineDropdown');
 
   if (engineBtn && engineDropdown) {
     let engineLoaded = false;
 
-    // Apply initial engine right away so the search bar works
-    const applyInitialEngine = async () => {
-      try {
-        const { getSavedEngine, applyEngineToForm, bindSearchForm } = await import('./core/search-engine');
-        applyEngineToForm(getSavedEngine());
-        bindSearchForm();
-      } catch (e) {
-        console.error('Failed to apply initial search engine', e);
-      }
-    };
-    applyInitialEngine();
-
     const loadSearchEngineDropdown = async () => {
       if (engineLoaded) return;
       engineLoaded = true;
       try {
-        const { initSearchEngineDropdown } = await import('./core/search-engine');
+        const { initSearchEngineDropdown } = await import('./core/lazy/search-engine-dropdown');
         initSearchEngineDropdown();
       } catch (e) {
         console.error('Failed to load search engine module', e);
@@ -138,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (selectSystemLoaded) return;
       selectSystemLoaded = true;
       try {
-        const { initCustomSelectSystem } = await import('./core/md3-select');
+        const { initCustomSelectSystem } = await import('./core/lazy/md3-select');
         initCustomSelectSystem();
       } catch (e) {
         console.error('Failed to load custom select system', e);
@@ -168,7 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Check for updates to show the snackbar
   if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
     chrome.storage.local.get(['extension_updated_version'], (result) => {
       if (result.extension_updated_version) {

@@ -8,7 +8,7 @@
 
 export interface EngineConfig {
   url: string;
-  icon: string; // HTML string for SVG or img element
+  icon: string;
 }
 
 export const engines: Record<string, EngineConfig> = {
