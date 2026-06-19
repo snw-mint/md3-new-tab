@@ -17,8 +17,9 @@ class ReactiveState {
 
   constructor() {
     const defaultState: AppSettings = {
-      clockEnabled: true,
-      clockStyle: 'style1',
+      displayEnabled: true,
+      displayStyle: 'greetings',
+      greetingName: '',
       clock12hFormat: false,
       clockShowDate: true,
       weatherEnabled: false,

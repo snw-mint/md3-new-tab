@@ -160,109 +160,147 @@
   "weekday_5": { "message": "Friday" },
   "weekday_6": { "message": "Saturday" },
 
-  "greetWeekMorning": {
-    "message": "Have a great $WEEK$, $NAME$!",
-    "placeholders": {
-      "week": { "content": "$1", "example": "Monday" },
-      "name": { "content": "$2", "example": "User" }
-    }
-  },
-  "greetWeekAfternoon": {
-    "message": "How is your $WEEK$ going, $NAME$?",
-    "placeholders": {
-      "week": { "content": "$1", "example": "Monday" },
-      "name": { "content": "$2", "example": "User" }
-    }
-  },
-  "greetWeekNight": {
-    "message": "$NAME$, how was your $WEEK$?",
-    "placeholders": {
-      "week": { "content": "$1", "example": "Monday" },
-      "name": { "content": "$2", "example": "User" }
-    }
-  },
-
   "greetMorning1": {
-    "message": "$NAME$, it is a beautiful morning!",
-    "placeholders": { "name": { "content": "$1", "example": "User" } }
+    "message": "Have a great $WEEK$ ahead$USER$!",
+    "placeholders": {
+      "week": { "content": "$1" },
+      "user": { "content": "$2", "example": ", User" }
+    }
   },
   "greetMorning2": {
-    "message": "Ready to conquer the day, $NAME$?",
-    "placeholders": { "name": { "content": "$1", "example": "User" } }
+    "message": "A fresh start to this morning$USER$.",
+    "placeholders": {
+      "week": { "content": "$1" },
+      "user": { "content": "$2", "example": ", User" }
+    }
   },
   "greetMorning3": {
-    "message": "Let us make this morning count, $NAME$.",
-    "placeholders": { "name": { "content": "$1", "example": "User" } }
+    "message": "Good morning! Ready for the day$USER$?",
+    "placeholders": {
+      "week": { "content": "$1" },
+      "user": { "content": "$2", "example": ", User" }
+    }
   },
   "greetMorning4": {
-    "message": "Good morning! I hope you slept well, $NAME$.",
-    "placeholders": { "name": { "content": "$1", "example": "User" } }
+    "message": "Embrace the possibilities of today$USER$.",
+    "placeholders": {
+      "week": { "content": "$1" },
+      "user": { "content": "$2", "example": ", User" }
+    }
   },
   "greetMorning5": {
-    "message": "Wakey wakey, $NAME$, let's get started!",
-    "placeholders": { "name": { "content": "$1", "example": "User" } }
+    "message": "Rise and shine$USER$!",
+    "placeholders": {
+      "week": { "content": "$1" },
+      "user": { "content": "$2", "example": ", User" }
+    }
   },
 
   "greetAfternoon1": {
-    "message": "Hope your afternoon is going well, $NAME$.",
-    "placeholders": { "name": { "content": "$1", "example": "User" } }
+    "message": "Enjoying this $WEEK$$USER$?",
+    "placeholders": {
+      "week": { "content": "$1" },
+      "user": { "content": "$2", "example": ", User" }
+    }
   },
   "greetAfternoon2": {
-    "message": "$NAME$, keep up the great momentum!",
-    "placeholders": { "name": { "content": "$1", "example": "User" } }
+    "message": "Good afternoon$USER$! Keep up the good work.",
+    "placeholders": {
+      "week": { "content": "$1" },
+      "user": { "content": "$2", "example": ", User" }
+    }
   },
   "greetAfternoon3": {
-    "message": "Halfway through the day, $NAME$!",
-    "placeholders": { "name": { "content": "$1", "example": "User" } }
+    "message": "Halfway through the day$USER$.",
+    "placeholders": {
+      "week": { "content": "$1" },
+      "user": { "content": "$2", "example": ", User" }
+    }
   },
   "greetAfternoon4": {
-    "message": "Good afternoon! Staying productive, $NAME$?",
-    "placeholders": { "name": { "content": "$1", "example": "User" } }
+    "message": "Hope your afternoon is going well$USER$.",
+    "placeholders": {
+      "week": { "content": "$1" },
+      "user": { "content": "$2", "example": ", User" }
+    }
   },
   "greetAfternoon5": {
-    "message": "Do not forget to take a quick break, $NAME$.",
-    "placeholders": { "name": { "content": "$1", "example": "User" } }
+    "message": "Take a quick breather$USER$.",
+    "placeholders": {
+      "week": { "content": "$1" },
+      "user": { "content": "$2", "example": ", User" }
+    }
   },
 
   "greetEvening1": {
-    "message": "Good evening! Time to start winding down, $NAME$.",
-    "placeholders": { "name": { "content": "$1", "example": "User" } }
+    "message": "Hope you had a good $WEEK$$USER$.",
+    "placeholders": {
+      "week": { "content": "$1" },
+      "user": { "content": "$2", "example": ", User" }
+    }
   },
   "greetEvening2": {
-    "message": "$NAME$, I hope you had a fantastic day.",
-    "placeholders": { "name": { "content": "$1", "example": "User" } }
+    "message": "Good evening$USER$. Time to unwind.",
+    "placeholders": {
+      "week": { "content": "$1" },
+      "user": { "content": "$2", "example": ", User" }
+    }
   },
   "greetEvening3": {
-    "message": "Enjoy a relaxing evening, $NAME$.",
-    "placeholders": { "name": { "content": "$1", "example": "User" } }
+    "message": "The day is almost over$USER$. Great job!",
+    "placeholders": {
+      "week": { "content": "$1" },
+      "user": { "content": "$2", "example": ", User" }
+    }
   },
   "greetEvening4": {
-    "message": "The day is almost over, $NAME$. Great job!",
-    "placeholders": { "name": { "content": "$1", "example": "User" } }
+    "message": "Relax and enjoy your evening$USER$.",
+    "placeholders": {
+      "week": { "content": "$1" },
+      "user": { "content": "$2", "example": ", User" }
+    }
   },
   "greetEvening5": {
-    "message": "Grab a comfortable seat and relax, $NAME$.",
-    "placeholders": { "name": { "content": "$1", "example": "User" } }
+    "message": "A peaceful evening to you$USER$.",
+    "placeholders": {
+      "week": { "content": "$1" },
+      "user": { "content": "$2", "example": ", User" }
+    }
   },
 
   "greetNight1": {
-    "message": "It is getting late, $NAME$. Time to rest.",
-    "placeholders": { "name": { "content": "$1", "example": "User" } }
+    "message": "It's getting quite late$USER$.",
+    "placeholders": {
+      "week": { "content": "$1" },
+      "user": { "content": "$2", "example": ", User" }
+    }
   },
   "greetNight2": {
-    "message": "$NAME$, the night is quiet and peaceful.",
-    "placeholders": { "name": { "content": "$1", "example": "User" } }
+    "message": "A quiet and peaceful night$USER$.",
+    "placeholders": {
+      "week": { "content": "$1" },
+      "user": { "content": "$2", "example": ", User" }
+    }
   },
   "greetNight3": {
-    "message": "Burning the midnight oil, $NAME$?",
-    "placeholders": { "name": { "content": "$1", "example": "User" } }
+    "message": "Still up$USER$?",
+    "placeholders": {
+      "week": { "content": "$1" },
+      "user": { "content": "$2", "example": ", User" }
+    }
   },
   "greetNight4": {
-    "message": "Have a good night of sleep, $NAME$!",
-    "placeholders": { "name": { "content": "$1", "example": "User" } }
+    "message": "Don't forget to rest$USER$.",
+    "placeholders": {
+      "week": { "content": "$1" },
+      "user": { "content": "$2", "example": ", User" }
+    }
   },
   "greetNight5": {
-    "message": "Sweet dreams, $NAME$. See you tomorrow.",
-    "placeholders": { "name": { "content": "$1", "example": "User" } }
+    "message": "Sweet dreams$USER$.",
+    "placeholders": {
+      "week": { "content": "$1" },
+      "user": { "content": "$2", "example": ", User" }
+    }
   }
 }

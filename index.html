@@ -67,7 +67,8 @@
 
     <div class="container">
       <div id="displayWidget" class="display-widget">
-        <div class="clock-expressive">
+        <div id="greetingsDisplay" class="greetings-text" style="display: none;"></div>
+        <div class="clock-expressive" id="clockExpressiveContainer">
           <div class="time-card hour-card">
             <span id="hourDisplay">00</span>
           </div>
@@ -316,33 +317,44 @@
         <div class="settings-group-card">
           <div class="group-header">
             <div class="group-title-wrapper">
-              <h3 class="settings-group-title" data-i18n="clockTitle">Clock</h3>
+              <h3 class="settings-group-title" data-i18n="displayTitle">Display</h3>
             </div>
             <label class="md3-switch">
-              <input type="checkbox" id="clockToggle" checked />
+              <input type="checkbox" id="displayToggle" checked />
               <span class="switch-track">
                 <span class="switch-thumb"></span>
               </span>
             </label>
           </div>
 
-          <div class="expandable-content compact-gap" id="clockSettingsBlock">
+          <div class="expandable-content compact-gap" id="displaySettingsBlock">
             <div class="md3-outlined-select-wrapper">
-              <button type="button" id="clockStyleSelect" class="md3-outlined-select md3-select-trigger" aria-label="Clock Style" value="style1">
-                <span class="md3-select-value" data-i18n="clockStyle1">Basic Clock</span>
+              <button type="button" id="displayStyleSelect" class="md3-outlined-select md3-select-trigger" aria-label="Display Widget" value="greetings">
+                <span class="md3-select-value" data-i18n="displayGreetings">Greetings</span>
                 <template class="md3-select-options">
-                  <div data-value="style1" data-i18n="clockStyle1">Basic Clock</div>
-                  <div data-value="style2" data-i18n="clockStyle2">Expressive Clock</div>
+                  <div data-value="greetings" data-i18n="displayGreetings">Greetings</div>
+                  <div data-value="simple_clock" data-i18n="clockStyle1">Basic Clock</div>
+                  <div data-value="expressive_clock" data-i18n="clockStyle2">Expressive Clock</div>
                 </template>
               </button>
-              <label for="clockStyleSelect" class="md3-select-label" data-i18n="clockStyleLabel">Clock Style</label>
+              <label for="displayStyleSelect" class="md3-select-label" data-i18n="displayStyleLabel">Display Widget</label>
               <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
                 <path d="M459-381 314-526q-3-3-4.5-6.5T308-540q0-8 5.5-14t14.5-6h304q9 0 14.5 6t5.5 14q0 2-6 14L501-381q-5 5-10 7t-11 2-11-2-10-7" />
               </svg>
             </div>
 
             <hr class="settings-divider" />
-            <div class="md3-checkbox-group">
+
+            <div id="greetingNameInputWrapper" style="display: none;">
+              <div class="input-with-action-row" style="margin-top: 1rem;">
+                <div class="md3-outlined-text-field" id="greetingNameFieldWrapper">
+                  <input type="text" id="greetingNameInput" class="md3-input" placeholder=" " autocomplete="off" />
+                  <label for="greetingNameInput" class="md3-label" data-i18n="namePlaceholder">Your Name (optional)</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="md3-checkbox-group" id="displayClockOptions">
               <label class="md3-checkbox-label">
                 <input type="checkbox" id="clock12hFormat" class="md3-checkbox-input" />
                 <span class="md3-checkbox-box">

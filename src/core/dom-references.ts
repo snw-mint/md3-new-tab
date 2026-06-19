@@ -13,14 +13,23 @@ export const DOM = {
     },
   },
   settings: {
-    get clockToggle(): HTMLInputElement | null {
-      return document.getElementById('clockToggle') as HTMLInputElement | null;
+    get displayToggle(): HTMLInputElement | null {
+      return document.getElementById('displayToggle') as HTMLInputElement | null;
     },
-    get clockBlock(): HTMLElement | null {
-      return document.getElementById('clockSettingsBlock');
+    get displayBlock(): HTMLElement | null {
+      return document.getElementById('displaySettingsBlock');
     },
-    get clockStyleSelect(): HTMLButtonElement | null {
-      return document.getElementById('clockStyleSelect') as HTMLButtonElement | null;
+    get displayStyleSelect(): HTMLButtonElement | null {
+      return document.getElementById('displayStyleSelect') as HTMLButtonElement | null;
+    },
+    get displayClockOptions(): HTMLElement | null {
+      return document.getElementById('displayClockOptions');
+    },
+    get greetingNameInputWrapper(): HTMLElement | null {
+      return document.getElementById('greetingNameInputWrapper');
+    },
+    get greetingNameInput(): HTMLInputElement | null {
+      return document.getElementById('greetingNameInput') as HTMLInputElement | null;
     },
     get clock12hFormat(): HTMLInputElement | null {
       return document.getElementById('clock12hFormat') as HTMLInputElement | null;

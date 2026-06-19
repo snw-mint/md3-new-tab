@@ -49,7 +49,7 @@ function showPermissionModal(onGranted: () => void, onDenied: () => void) {
 }
 
 export function bindGlobalEvents(): void {
-  const { weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, launcherToggle, launcherBlock, clockToggle, clockBlock, clockStyleSelect, clock12hFormat, clockShowDate } = DOM.settings;
+  const { weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, launcherToggle, launcherBlock, displayToggle, displayBlock, displayStyleSelect, displayClockOptions, greetingNameInputWrapper, greetingNameInput, clock12hFormat, clockShowDate } = DOM.settings;
   const { appLauncherBtn } = DOM.header;
   const weatherOrigins = [
     'https://geocoding-api.open-meteo.com/*',
@@ -73,8 +73,8 @@ export function bindGlobalEvents(): void {
 
   globalState.subscribe((state) => {
     DOMUnits.syncExpandableGroup(
-      { toggle: clockToggle, block: clockBlock },
-      state.clockEnabled,
+      { toggle: displayToggle, block: displayBlock },
+      state.displayEnabled,
     );
     DOMUnits.syncWeatherGroup(
       { toggle: weatherToggle, block: weatherBlock },
@@ -137,22 +137,48 @@ export function bindGlobalEvents(): void {
     });
   }
 
-  if (clockToggle) {
-    clockToggle.addEventListener('change', (e) => {
+  if (displayToggle) {
+    displayToggle.addEventListener('change', (e) => {
       const target = e.target as HTMLInputElement;
-      globalState.current.clockEnabled = target.checked;
+      globalState.current.displayEnabled = target.checked;
     });
   }
 
-  if (clockStyleSelect) {
-    clockStyleSelect.value = globalState.current.clockStyle;
-    clockStyleSelect.addEventListener('change', (e) => {
+  if (displayStyleSelect) {
+    const updateDisplaySettingsUI = (style: string) => {
+      if (style === 'greetings') {
+        if (greetingNameInputWrapper) greetingNameInputWrapper.style.display = '';
+        if (displayClockOptions) displayClockOptions.style.display = 'none';
+      } else {
+        if (greetingNameInputWrapper) greetingNameInputWrapper.style.display = 'none';
+        if (displayClockOptions) displayClockOptions.style.display = '';
+      }
+    };
+
+    displayStyleSelect.value = globalState.current.displayStyle;
+    updateDisplaySettingsUI(globalState.current.displayStyle);
+
+    displayStyleSelect.addEventListener('change', (e) => {
       const target = e.target as HTMLSelectElement;
-      globalState.current.clockStyle = target.value;
+      globalState.current.displayStyle = target.value;
     });
     globalState.subscribe((state) => {
-      if (clockStyleSelect.value !== state.clockStyle) {
-        clockStyleSelect.value = state.clockStyle;
+      if (displayStyleSelect.value !== state.displayStyle) {
+        displayStyleSelect.value = state.displayStyle;
+      }
+      updateDisplaySettingsUI(state.displayStyle);
+    });
+  }
+
+  if (greetingNameInput) {
+    greetingNameInput.value = globalState.current.greetingName;
+    greetingNameInput.addEventListener('input', (e) => {
+      const target = e.target as HTMLInputElement;
+      globalState.current.greetingName = target.value;
+    });
+    globalState.subscribe((state) => {
+      if (greetingNameInput.value !== state.greetingName) {
+        greetingNameInput.value = state.greetingName;
       }
     });
   }

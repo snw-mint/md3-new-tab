@@ -83,6 +83,11 @@ body {
   padding: 1.25rem;
   display: block;
   width: 100%;
+  transition: padding-bottom 0.3s cubic-bezier(0.2, 0, 0, 1);
+
+  &.collapsed-card {
+    padding-bottom: 1.8rem;
+  }
 }
 
 .settings-info-card {

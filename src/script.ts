@@ -9,11 +9,11 @@
 import './core/palette';
 import { initSidebarControls, initThemeControls } from './core/sidebar';
 import { bindGlobalEvents } from './core/event-bindings';
-import { initClock } from './core/clock';
+import { initDisplay } from './core/display';
 import { DOM } from './core/dom-references';
 
 document.addEventListener('DOMContentLoaded', () => {
-  initClock();
+  initDisplay();
   initSidebarControls();
   initThemeControls();
   bindGlobalEvents();

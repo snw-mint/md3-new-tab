@@ -3,7 +3,7 @@
   "name": "MD3: Expressive New Tab",
   "version": "1.0",
   "description": "A minimalist, customizable New Tab page inspired by Google's Material Design.",
-  "default_locale": "en",
+  "default_locale": "en_US",
   "icons": {
     "48": "assets/icon-48.png",
     "128": "assets/icon-128.png"

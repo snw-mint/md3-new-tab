@@ -20,8 +20,10 @@ export const DOMUnits = {
     }
 
     if (block) {
+      const card = block.closest('.settings-group-card');
       if (isEnabled) {
         block.classList.remove('collapsed');
+        if (card) card.classList.remove('collapsed-card');
         block.style.maxHeight = block.scrollHeight + 'px';
         setTimeout(() => {
           if (toggle?.checked) block.style.maxHeight = 'none';
@@ -30,6 +32,7 @@ export const DOMUnits = {
         block.style.maxHeight = block.scrollHeight + 'px';
         void block.offsetHeight;
         block.classList.add('collapsed');
+        if (card) card.classList.add('collapsed-card');
         block.style.maxHeight = '0px';
       }
     }
