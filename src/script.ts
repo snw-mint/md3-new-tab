@@ -11,12 +11,14 @@ import { initSidebarControls, initThemeControls } from './core/sidebar';
 import { bindGlobalEvents } from './core/event-bindings';
 import { initDisplay } from './core/display';
 import { DOM } from './core/dom-references';
+import { initBackupSystem } from './core/backup';
 
 document.addEventListener('DOMContentLoaded', () => {
   initDisplay();
   initSidebarControls();
   initThemeControls();
   bindGlobalEvents();
+  initBackupSystem();
 
   const launcherBtn = DOM.header.appLauncherBtn;
   const launcherPopup = document.getElementById('launcherPopup');

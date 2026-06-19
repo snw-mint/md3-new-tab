@@ -104,7 +104,7 @@
   visibility: hidden;
   transform: translateY(-0.5rem);
   transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
-  z-index: 10;
+  z-index: 20;
   &::-webkit-scrollbar {
     width: 4px;
   }

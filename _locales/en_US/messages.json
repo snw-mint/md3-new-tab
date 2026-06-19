@@ -35,6 +35,15 @@
   "namePlaceholder": {
     "message": "Your Name (optional)"
   },
+  "dataBackupTitle": {
+    "message": "Data & Backup"
+  },
+  "importBtn": {
+    "message": "Import"
+  },
+  "exportBtn": {
+    "message": "Export"
+  },
   "appearanceTitle": {
     "message": "Appearance"
   },

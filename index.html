@@ -489,6 +489,26 @@
             </div>
           </div>
         </div>
+        <div class="settings-group-card">
+          <div class="group-header">
+            <div class="group-title-wrapper">
+              <h3 class="settings-group-title" data-i18n="dataBackupTitle">Data & Backup</h3>
+            </div>
+          </div>
+          <div class="expandable-content" id="backupSettingsBlock" style="margin-top: 0.5rem;">
+            <div class="backup-row" style="flex-direction: row;">
+              <button id="importBtn" class="backup-btn" title="Import Settings">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M240-160q-33 0-56.5-23.5T160-240v-80q0-17 11.5-28.5T200-360t28.5 11.5T240-320v80h480v-80q0-17 11.5-28.5T760-360t28.5 11.5T800-320v80q0 33-23.5 56.5T720-160zm200-486-75 75q-12 12-28.5 11.5T308-572q-11-12-11.5-28t11.5-28l144-144q6-6 13-8.5t15-2.5 15 2.5 13 8.5l144 144q12 12 11.5 28T652-572q-12 12-28.5 12.5T595-571l-75-75v286q0 17-11.5 28.5T480-320t-28.5-11.5T440-360z"/></svg>
+                <span data-i18n="importBtn">Import</span>
+              </button>
+              <input type="file" id="importInput" accept=".json" style="display: none;" />
+              <button id="exportBtn" class="backup-btn" title="Export Settings">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M465-339.5q-7-2.5-13-8.5L308-492q-12-12-11.5-28t11.5-28q12-12 28.5-12.5T365-549l75 75v-286q0-17 11.5-28.5T480-800t28.5 11.5T520-760v286l75-75q12-12 28.5-11.5T652-548q11 12 11.5 28T652-492L508-348q-6 6-13 8.5t-15 2.5-15-2.5M240-160q-33 0-56.5-23.5T160-240v-80q0-17 11.5-28.5T200-360t28.5 11.5T240-320v80h480v-80q0-17 11.5-28.5T760-360t28.5 11.5T800-320v80q0 33-23.5 56.5T720-160z"/></svg>
+                <span data-i18n="exportBtn">Export</span>
+              </button>
+            </div>
+          </div>
+        </div>
 
         <a href="https://buymeacoffee.com/snw.mint" target="_blank" class="settings-info-card">
           <div class="info-card-icon">
