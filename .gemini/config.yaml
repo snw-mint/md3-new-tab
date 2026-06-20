@@ -2,7 +2,6 @@ have_fun: false
 
 ignore_patterns:
   - '_locales/**'
-  - 'crowdin.yml'
   - 'TRANSLATING.md'
   - 'CREDITS.md'
   - 'LICENSE'
