@@ -1,630 +1,710 @@
 <!doctype html>
-<!--
- - MD3: Expressive New Tab
- - Copyright (c) 2026 SnowMint
- - Licensed under the GNU General Public License v3.0 (GPL-3.0)
- - You should have received a copy of the GNU General Public License along with this program.
- - If not, see <https://www.gnu.org/licenses/>.
- -->
-<html lang="en-US">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>New Tab</title>
-    <link rel="preconnect" href="https://api.open-meteo.com" />
-    <link rel="preconnect" href="https://geocoding-api.open-meteo.com" />
-    <link rel="preconnect" href="https://peapix.com" />
-    <link rel="preconnect" href="https://api.nasa.gov" />
-    <link rel="preconnect" href="https://suggestqueries.google.com" crossorigin />
-    <link rel="stylesheet" href="/src/style.scss" />
-    <script src="/scripts/theme-loader.js"></script>
-  </head>
+    <meta name="description" content="A clean, fast, and fully customizable new tab page based on Material Design 3 guidelines." />
+    <title>MD3 New Tab - Browser Extension</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght,wdth,slnt,GRAD@10..144,100..1000,75..125,-10..0,0&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --md-sys-color-primary: #6750a4;
+        --md-sys-color-on-primary: #ffffff;
+        --md-sys-color-primary-container: #eaddff;
+        --md-sys-color-on-primary-container: #21005d;
 
+        --md-sys-color-background: #fef7ff;
+        --md-sys-color-on-background: #1d1b20;
+
+        --md-sys-color-surface: #fef7ff;
+        --md-sys-color-surface-variant: #e7e0ec;
+        --md-sys-color-on-surface: #1d1b20;
+        --md-sys-color-on-surface-variant: #49454f;
+
+        --md-sys-color-outline: #79747e;
+
+        --md-sys-shape-corner-extra-large: 28px;
+        --md-sys-shape-corner-large: 16px;
+        --md-sys-shape-corner-full: 100px;
+      }
+
+      .dark-theme {
+        --md-sys-color-primary: #d0bcff;
+        --md-sys-color-on-primary: #381e72;
+        --md-sys-color-primary-container: #4f378b;
+        --md-sys-color-on-primary-container: #eaddff;
+
+        --md-sys-color-background: #141218;
+        --md-sys-color-on-background: #e6e0e9;
+
+        --md-sys-color-surface: #141218;
+        --md-sys-color-surface-variant: #49454f;
+        --md-sys-color-on-surface: #e6e0e9;
+        --md-sys-color-on-surface-variant: #cac4d0;
+
+        --md-sys-color-outline: #938f99;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Google Sans Flex', sans-serif;
+      }
+
+      body {
+        background-color: var(--md-sys-color-background);
+        color: var(--md-sys-color-on-background);
+        line-height: 1.5;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      header {
+        padding: 24px 32px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        background-color: var(--md-sys-color-background);
+        z-index: 10;
+      }
+
+      .logo {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--md-sys-color-primary);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+      }
+
+      .logo-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        object-fit: contain;
+        display: block;
+      }
+
+      nav {
+        display: flex;
+        gap: 24px;
+        align-items: center;
+      }
+
+      nav a {
+        color: var(--md-sys-color-on-surface-variant);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.875rem;
+        transition: color 0.2s ease;
+      }
+
+      nav a:hover {
+        color: var(--md-sys-color-primary);
+      }
+
+      .icon-btn {
+        background: transparent;
+        border: none;
+        color: var(--md-sys-color-on-surface-variant);
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s ease;
+      }
+
+      .icon-btn:hover {
+        background-color: var(--md-sys-color-surface-variant);
+      }
+
+      #themeToggleBtn .icon-light {
+        display: none;
+      }
+
+      #themeToggleBtn .icon-dark {
+        display: block;
+      }
+
+      .dark-theme #themeToggleBtn .icon-light {
+        display: block;
+      }
+
+      .dark-theme #themeToggleBtn .icon-dark {
+        display: none;
+      }
+
+      main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 64px 24px;
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      section {
+        width: 100%;
+        padding: 80px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .hero-section {
+        padding-top: 20px;
+      }
+
+      .hero-title {
+        font-size: 3.5rem;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        color: var(--md-sys-color-primary);
+        margin-bottom: 24px;
+        max-width: 800px;
+      }
+
+      .title-highlight {
+        position: relative;
+        display: inline-block;
+        z-index: 1;
+      }
+
+      .bg-icon-spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 140%;
+        height: 140%;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+        color: var(--md-sys-color-primary);
+        fill: currentColor;
+        opacity: 0.15;
+        animation: spin-slow 25s linear infinite;
+        pointer-events: none;
+      }
+
+      @keyframes spin-slow {
+        from {
+          transform: translate(-50%, -50%) rotate(0deg);
+        }
+        to {
+          transform: translate(-50%, -50%) rotate(360deg);
+        }
+      }
+
+      .hero-subtitle {
+        font-size: 1.25rem;
+        color: var(--md-sys-color-on-surface-variant);
+        margin-bottom: 48px;
+        max-width: 600px;
+      }
+
+      .hero-image {
+        width: 100%;
+        max-width: 900px;
+        height: auto;
+        border-radius: var(--md-sys-shape-corner-extra-large);
+        margin-bottom: 48px;
+        display: block;
+      }
+
+      .btn-group {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .btn {
+        height: 40px;
+        padding: 30px 35px;
+        border-radius: var(--md-sys-shape-corner-full);
+        font-size: 1rem;
+        font-weight: 500;
+        border: none;
+        cursor: pointer;
+        transition: background-image 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+      }
+
+      .btn-filled {
+        background-color: var(--md-sys-color-primary);
+        color: var(--md-sys-color-on-primary);
+      }
+
+      .btn-filled:hover {
+        background-image: linear-gradient(rgb(255 255 255 / 8%) 0 0);
+      }
+
+      .btn-tonal {
+        background-color: var(--md-sys-color-primary-container);
+        color: var(--md-sys-color-on-primary-container);
+      }
+
+      .btn-tonal:hover {
+        background-image: linear-gradient(rgb(28 27 31 / 8%) 0 0);
+      }
+
+      .section-title {
+        font-size: 2rem;
+        margin-bottom: 48px;
+        color: var(--md-sys-color-on-background);
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 24px;
+        width: 100%;
+      }
+
+      .feature-card {
+        background-color: var(--md-sys-color-surface-variant);
+        border-radius: var(--md-sys-shape-corner-extra-large);
+        padding: 32px;
+        text-align: left;
+        transition: transform 0.2s ease;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-4px);
+        background-image: linear-gradient(rgb(28 27 31 / 5%) 0 0);
+      }
+
+      .feature-icon {
+        width: 48px;
+        height: 48px;
+        background-color: var(--md-sys-color-background);
+        border-radius: var(--md-sys-shape-corner-large);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 24px;
+        color: var(--md-sys-color-primary);
+      }
+
+      .feature-icon svg {
+        width: 24px;
+        height: 24px;
+        fill: currentColor;
+      }
+
+      .feature-title {
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: var(--md-sys-color-on-surface);
+        margin-bottom: 16px;
+      }
+
+      .feature-desc {
+        font-size: 1rem;
+        color: var(--md-sys-color-on-surface-variant);
+      }
+
+      .scrim {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+      }
+
+      .scrim.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .modal {
+        background-color: var(--md-sys-color-surface);
+        border-radius: var(--md-sys-shape-corner-extra-large);
+        padding: 24px;
+        width: 90%;
+        max-width: 400px;
+        transform: scale(0.9);
+        transition: transform 0.2s ease;
+        text-align: left;
+      }
+
+      .scrim.active .modal {
+        transform: scale(1);
+      }
+
+      .modal-title {
+        font-size: 1.5rem;
+        color: var(--md-sys-color-on-surface);
+        margin-bottom: 24px;
+      }
+
+      .browser-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+
+      .browser-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px;
+        background-color: var(--md-sys-color-surface-variant);
+        border-radius: var(--md-sys-shape-corner-large);
+        text-decoration: none;
+        color: var(--md-sys-color-on-surface);
+        font-weight: 500;
+      }
+
+      .browser-item:hover {
+        background-image: linear-gradient(rgb(28 27 31 / 5%) 0 0);
+      }
+
+      .badge-recommended {
+        background-color: var(--md-sys-color-primary);
+        color: var(--md-sys-color-on-primary);
+        font-size: 0.75rem;
+        padding: 4px 8px;
+        border-radius: 8px;
+        display: none;
+      }
+
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .footer-divider {
+        max-width: 1000px;
+        width: 85%;
+        margin: 64px auto 0 auto;
+        color: var(--md-sys-color-outline);
+        opacity: 0.5;
+      }
+
+      .footer-divider svg {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      footer {
+        background-color: transparent;
+        padding: 64px 32px;
+        color: var(--md-sys-color-on-surface-variant);
+      }
+
+      .footer-grid {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+        gap: 40px;
+      }
+
+      .footer-col h4 {
+        color: var(--md-sys-color-on-surface);
+        font-size: 1rem;
+        margin-bottom: 20px;
+        font-weight: 500;
+      }
+
+      .footer-col ul {
+        list-style: none;
+      }
+
+      .footer-col ul li {
+        margin-bottom: 12px;
+      }
+
+      .footer-col ul a {
+        color: var(--md-sys-color-on-surface-variant);
+        text-decoration: none;
+        font-size: 0.875rem;
+        transition: color 0.2s ease;
+      }
+
+      .footer-col ul a:hover {
+        color: var(--md-sys-color-primary);
+      }
+
+      .footer-brand .logo-icon {
+        margin-bottom: 16px;
+      }
+
+      .footer-brand h3 {
+        color: var(--md-sys-color-on-surface);
+        margin-bottom: 12px;
+      }
+
+      .footer-brand p {
+        font-size: 0.875rem;
+        line-height: 1.5;
+        opacity: 0.8;
+      }
+
+      @media (max-width: 992px) {
+        .footer-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .footer-brand {
+          grid-column: span 2;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .hero-title {
+          font-size: 2.5rem;
+        }
+        header {
+          flex-direction: column;
+          gap: 16px;
+        }
+        .footer-grid {
+          grid-template-columns: 1fr;
+        }
+        .footer-brand {
+          grid-column: span 1;
+        }
+      }
+    </style>
+  </head>
   <body>
-    <header class="main-header">
-      <div class="header-left">
-        <a href="https://www.google.com/search?q=weather+google" id="weatherWidget" class="weather-widget" target="_blank" style="display: none">
-          <div class="weather-icon-wrapper">
-            <div class="weather-shape-layer">
-              <svg width="380" height="380" viewBox="0 0 380 380" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M166.697 39.846c.541-.53.811-.795 1.046-1.016 12.503-11.773 32.011-11.773 44.514 0 .235.22.505.486 1.046 1.016.325.318.487.477.642.624a32.47 32.47 0 0 0 30.083 8.061c.207-.05.428-.107.868-.22.733-.189 1.1-.283 1.414-.357 16.714-3.944 33.609 5.81 38.55 22.257.093.309.195.674.398 1.403.122.438.184.657.244.862a32.47 32.47 0 0 0 22.022 22.023c.205.06.424.12.862.243a77 77 0 0 1 1.403.398c16.447 4.941 26.201 21.836 22.257 38.55-.074.314-.168.681-.357 1.414-.113.44-.17.661-.22.868a32.46 32.46 0 0 0 8.061 30.083c.147.155.306.317.624.642.53.541.795.811 1.016 1.046 11.773 12.503 11.773 32.011 0 44.514-.221.235-.486.505-1.016 1.046-.318.325-.477.487-.624.642a32.46 32.46 0 0 0-8.061 30.083c.05.207.107.428.22.868.189.733.283 1.1.357 1.414 3.944 16.714-5.81 33.609-22.257 38.55a77 77 0 0 1-1.403.398c-.438.123-.657.184-.862.244a32.47 32.47 0 0 0-22.022 22.022c-.06.205-.121.424-.244.862a77 77 0 0 1-.398 1.403c-4.941 16.447-21.836 26.201-38.55 22.257a75 75 0 0 1-1.414-.357c-.44-.113-.661-.17-.868-.22a32.46 32.46 0 0 0-30.083 8.061c-.155.147-.317.306-.642.624-.541.53-.811.795-1.046 1.016-12.503 11.773-32.011 11.773-44.514 0-.235-.221-.505-.486-1.046-1.016-.325-.318-.487-.477-.642-.624a32.46 32.46 0 0 0-30.083-8.061c-.207.05-.428.107-.868.22-.733.189-1.1.283-1.414.357-16.714 3.944-33.609-5.81-38.55-22.257a77 77 0 0 1-.398-1.403c-.123-.438-.184-.657-.243-.862a32.47 32.47 0 0 0-22.023-22.022c-.205-.06-.424-.122-.862-.244a74 74 0 0 1-1.403-.398c-16.447-4.941-26.201-21.836-22.257-38.55.074-.314.168-.681.357-1.414.113-.44.17-.661.22-.868a32.47 32.47 0 0 0-8.06-30.083c-.148-.155-.307-.317-.625-.642-.53-.541-.795-.811-1.016-1.046-11.773-12.503-11.773-32.011 0-44.514.22-.235.486-.505 1.016-1.046.318-.325.477-.487.624-.642a32.47 32.47 0 0 0 8.061-30.083 71 71 0 0 0-.22-.868c-.189-.733-.283-1.1-.357-1.414-3.944-16.714 5.81-33.609 22.257-38.55a77 77 0 0 1 1.403-.398c.438-.123.657-.184.862-.243a32.47 32.47 0 0 0 22.023-22.023c.06-.205.12-.424.243-.862.203-.73.305-1.094.398-1.403 4.941-16.447 21.836-26.201 38.55-22.257.314.074.681.168 1.414.357.44.113.661.17.868.22a32.47 32.47 0 0 0 30.083-8.06c.155-.148.317-.307.642-.625"
-                  fill="currentColor" />
-              </svg>
-            </div>
-            <div id="weatherIcon" class="weather-icon-img"></div>
-          </div>
-          <div class="weather-text-wrapper">
-            <span id="weatherTemp" class="weather-temp">--</span>
-            <span id="weatherCity" class="weather-city">--</span>
-          </div>
-        </a>
-      </div>
-      <nav class="header-right">
-        <a href="https://mail.google.com/mail/" class="header-link" id="gmailLink">Gmail</a>
-        <a href="https://www.google.com/imghp" class="header-link" id="imagesLink">Images</a>
-        <div class="app-launcher-wrapper" id="appLauncherWrapper">
-          <button id="appLauncherBtn" class="icon-btn" title="Apps">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-              <path
-                d="M183.5-183.5Q160-207 160-240t23.5-56.5T240-320t56.5 23.5T320-240t-23.5 56.5T240-160t-56.5-23.5m240 0Q400-207 400-240t23.5-56.5T480-320t56.5 23.5T560-240t-23.5 56.5T480-160t-56.5-23.5m240 0Q640-207 640-240t23.5-56.5T720-320t56.5 23.5T800-240t-23.5 56.5T720-160t-56.5-23.5m-480-240Q160-447 160-480t23.5-56.5T240-560t56.5 23.5T320-480t-23.5 56.5T240-400t-56.5-23.5m240 0Q400-447 400-480t23.5-56.5T480-560t56.5 23.5T560-480t-23.5 56.5T480-400t-56.5-23.5m240 0Q640-447 640-480t23.5-56.5T720-560t56.5 23.5T800-480t-23.5 56.5T720-400t-56.5-23.5m-480-240Q160-687 160-720t23.5-56.5T240-800t56.5 23.5T320-720t-23.5 56.5T240-640t-56.5-23.5m240 0Q400-687 400-720t23.5-56.5T480-800t56.5 23.5T560-720t-23.5 56.5T480-640t-56.5-23.5m240 0Q640-687 640-720t23.5-56.5T720-800t56.5 23.5T800-720t-23.5 56.5T720-640t-56.5-23.5" />
-            </svg>
-          </button>
-          <div class="launcher-popup" id="launcherPopup">
-            <div class="launcher-popup-inner">
-              <div class="launcher-grid" id="launcherGrid"></div>
-            </div>
-          </div>
-        </div>
-        <button id="settingsBtn" class="icon-btn" title="Settings">
-          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
+    <header>
+      <a href="#" class="logo">
+        <img src="assets/icon-128.png" alt="MD3 New Tab Logo" class="logo-icon" />
+        MD3 New Tab
+      </a>
+      <nav>
+        <a href="#features">Features</a>
+        <a href="#download">Download</a>
+        <a href="#support">Support</a>
+        <button id="themeToggleBtn" class="icon-btn" aria-label="Toggle Theme">
+          <svg class="icon-light" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
             <path
-              d="M433-80q-27 0-46.5-18T363-142l-9-66q-13-5-24.5-12T307-235l-62 26q-25 11-50 2t-39-32l-47-82q-14-23-8-49t27-43l53-40q-1-7-1-13.5v-27q0-6.5 1-13.5l-53-40q-21-17-27-43t8-49l47-82q14-23 39-32t50 2l62 26q11-8 23-15t24-12l9-66q4-26 23.5-44t46.5-18h94q27 0 46.5 18t23.5 44l9 66q13 5 24.5 12t22.5 15l62-26q25-11 50-2t39 32l47 82q14 23 8 49t-27 43l-53 40q1 7 1 13.5v27q0 6.5-2 13.5l53 40q21 17 27 43t-8 49l-48 82q-14 23-39 32t-50-2l-60-26q-11 8-23 15t-24 12l-9 66q-4 26-23.5 44T527-80h-94Zm7-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm-2-140Z" />
+              d="M451.5-771.5Q440-783 440-800v-80q0-17 11.5-28.5T480-920t28.5 11.5T520-880v80q0 17-11.5 28.5T480-760t-28.5-11.5M678-678q-11-11-11-27.5t11-28.5l56-57q12-12 28.5-12t28.5 12q11 11 11 28t-11 28l-57 57q-11 11-28 11t-28-11m122 238q-17 0-28.5-11.5T760-480t11.5-28.5T800-520h80q17 0 28.5 11.5T920-480t-11.5 28.5T880-440zM451.5-51.5Q440-63 440-80v-80q0-17 11.5-28.5T480-200t28.5 11.5T520-160v80q0 17-11.5 28.5T480-40t-28.5-11.5M226-678l-57-56q-12-12-12-29t12-28q11-11 28-11t28 11l57 57q11 11 11 28t-11 28q-12 11-28 11t-28-11m508 509-56-57q-11-12-11-28.5t11-27.5 27.5-11 28.5 11l57 56q12 11 11.5 28T791-169q-12 12-29 12t-28-12M80-440q-17 0-28.5-11.5T40-480t11.5-28.5T80-520h80q17 0 28.5 11.5T200-480t-11.5 28.5T160-440zm89 271q-11-11-11-28t11-28l57-57q11-11 27.5-11t28.5 11q12 12 12 28.5T282-225l-56 56q-12 12-29 12t-28-12m141-141q-70-70-70-170t70-170 170-70 170 70 70 170-70 170-170 70-170-70m283-57q47-47 47-113t-47-113-113-47-113 47-47 113 47 113 113 47 113-47M480-480" />
           </svg>
+          <svg class="icon-dark" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M484-80q-84 0-157.5-32t-128-86.5Q144-253 112-326.5T80-484q0-128 72-232t193-146q22-8 41 5.5t18 36.5q-3 85 27 162t90 137q60 60 137 90t162 27q26-1 38.5 17.5T863-345q-44 120-147.5 192.5T484-80Zm0-80q88 0 163-44t118-121q-86-8-163-43.5T464-465q-61-61-97-138t-43-163q-77 43-120.5 118.5T160-484q0 135 94.5 229.5T484-160Zm-20-305Z" /></svg>
         </button>
       </nav>
     </header>
 
-    <div class="container">
-      <div id="displayWidget" class="display-widget">
-        <div id="greetingsDisplay" class="greetings-text" style="display: none"></div>
-        <div class="clock-expressive" id="clockExpressiveContainer">
-          <div class="time-card hour-card">
-            <span id="hourDisplay">00</span>
-          </div>
-          <div class="time-separator">:</div>
-          <div class="time-card minute-card">
-            <span id="minuteDisplay">00</span>
-          </div>
-          <div id="ampmDisplay" class="ampm-container" style="display: none">
-            <span id="ampmText">AM</span>
-          </div>
-        </div>
-        <div id="dateDisplay" class="date-display" style="display: none"></div>
-      </div>
-      <form id="searchForm" action="https://www.google.com/search" method="GET" class="search-bar">
-        <div class="search-engine-selector">
-          <button type="button" id="engineBtn" class="engine-circle-btn" title="Search Engine">
-            <svg class="engine-bg-icon" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M338.584 190c0 39.407-15.654 77.2-43.519 105.065c-27.865 27.865-65.658 43.519-105.065 43.519c-39.407 0-77.2-15.654-105.065-43.519c-27.865-27.865-43.519-65.658-43.519-105.065c0-39.407 15.654-77.2 43.519-105.065c27.865-27.865 65.658-43.519 105.065-43.519c39.407 0 77.2 15.654 105.065 43.519c27.865 27.865 43.519 65.658 43.519 105.065" fill="currentColor" />
-            </svg>
-            <div id="currentEngineIcon" class="engine-icon-wrapper"></div>
-          </button>
-          <div id="engineDropdown" class="dropdown-menu">
-            <div class="dropdown-item" data-engine="system">
-              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                <path d="M380-320q-109 0-184.5-75.5T120-580t75.5-184.5T380-840t184.5 75.5T640-580q0 44-14 83t-38 69l224 224q11 11 11 28t-11 28-28 11-28-11L532-372q-30 24-69 38t-83 14m0-80q75 0 127.5-52.5T560-580t-52.5-127.5T380-760t-127.5 52.5T200-580t52.5 127.5T380-400" />
-              </svg>
-              <span>System Default</span>
-            </div>
-            <div class="dropdown-item" data-engine="google">
-              <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="none">
-                <g stroke-width="0" />
-                <g stroke-linecap="round" stroke-linejoin="round" />
-                <path fill="currentColor" d="M10.84 4.82a3.84 3.84 0 0 0-2.7-1.05c-1.837 0-3.397 1.233-3.953 2.891a4.17 4.17 0 0 0 0 2.68h.003c.558 1.657 2.115 2.889 3.952 2.889.948 0 1.761-.241 2.392-.667v-.002a3.24 3.24 0 0 0 1.407-2.127H8.14V6.74h6.64c.082.468.121.946.121 1.422 0 2.129-.765 3.929-2.096 5.148l.001.001C11.64 14.38 10.038 15 8.14 15a7.04 7.04 0 0 1-6.29-3.855 6.97 6.97 0 0 1 0-6.287A7.04 7.04 0 0 1 8.139 1a6.8 6.8 0 0 1 4.71 1.821z" />
-              </svg>
-              <span>Google</span>
-            </div>
-            <div class="dropdown-item" data-engine="bing">
-              <svg fill="currentColor" fill-rule="evenodd" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M4.842.005a.97.97 0 0 1 .604.142l2.62 1.813c.369.256.492.352.637.496.471.47.752 1.09.797 1.765l.008.847.003 1.441.004 13.002.144-.094 7.015-4.353.015.003.029.01c-.398-.17-.893-.339-1.655-.566l-.484-.146c-.584-.18-.71-.238-.921-.38a2 2 0 0 1-.37-.312 2.2 2.2 0 0 1-.41-.592L11.32 9.063c-.166-.444-.166-.49-.156-.63a.92.92 0 0 1 .806-.864l.094-.01c.044-.005.22.023.29.044l.052.021c.06.026.16.075.313.154l3.63 1.908a6.63 6.63 0 0 1 3.292 4.531c.194.99.159 2.037-.102 3.012-.216.805-.639 1.694-1.054 2.213l-.08.099-.047.05q-.015.015-.01.002l.043-.074-.072.114c-.011.031-.233.28-.38.425l-.17.161c-.22.202-.431.36-.832.62L13.544 23c-.941.6-1.86.912-2.913.992a9 9 0 0 1-1.074-.017 6.3 6.3 0 0 1-1.658-.412c-1.854-.738-3.223-2.288-3.705-4.195a8 8 0 0 1-.121-.57l-.046-.325a1 1 0 0 1-.014-.168l-.006-.029L4 11.617 4.01.866a1 1 0 0 1 .007-.111.94.94 0 0 1 .825-.75" />
-              </svg>
-              <span>Bing</span>
-            </div>
-            <div class="dropdown-item" data-engine="duck">
-              <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0m0 23C5.925 23 1 18.074 1 12S5.926 1 12 1s11 4.925 11 11-4.925 11-11 11m10.219-11c0 4.805-3.317 8.833-7.786 9.925-.27-.521-.53-1.017-.749-1.438.645.249 1.93.718 2.208.615.376-.144.282-3.149-.14-3.245-.338-.075-1.632.837-2.141 1.209l.034.156c.078.397.144.993.03 1.247q-.001.007-.004.013a.2.2 0 0 1-.068.088c-.284.188-1.081.284-1.503.188l-.064-.02c-.694.396-2.01 1.109-2.25.971-.329-.188-.377-2.676-.329-3.288.035-.46 1.653.286 2.442.679.174-.163.602-.272.98-.31-.57-1.389-.99-2.977-.733-4.105q.001.003.002.002c.356.248 2.73 1.05 3.91 1.027s3.114-.743 2.903-1.323c-.212-.58-2.135.51-4.142.324-1.486-.138-1.748-.804-1.42-1.29.414-.611 1.168.116 2.411-.256 1.245-.371 2.987-1.035 3.632-1.397 1.494-.833-.625-1.177-1.125-.947-.474.22-2.123.637-2.889.82.428-1.516-.603-4.149-1.757-5.3-.376-.376-.951-.612-1.603-.736-.25-.344-.654-.671-1.225-.977a5.77 5.77 0 0 0-3.595-.584l-.024.004-.034.004.004.002c-.148.028-.237.08-.357.098.148.016.705.276 1.057.418-.174.068-.412.108-.596.184a.8.8 0 0 0-.204.056c-.173.08-.303.375-.3.515.84-.086 2.082-.026 2.991.246-.644.09-1.235.258-1.661.482l-.048.028q-.082.03-.152.066c-1.367.72-1.971 2.405-1.611 4.424.323 1.824 1.665 8.088 2.29 11.064-3.973-1.4-6.822-5.186-6.822-9.639C1.781 6.356 6.356 1.781 12 1.781S22.219 6.356 22.219 12M9.095 9.581a.758.758 0 1 0 0 1.516.758.758 0 0 0 0-1.516m.338.702a.196.196 0 1 1 0-.392.196.196 0 0 1 0 .392m4.724-1.043a.65.65 0 1 0 0 1.299.65.65 0 0 0 0-1.3zm.29.601a.168.168 0 1 1 0-.336.168.168 0 0 1 0 .336M9.313 8.146s-.571-.26-1.125.09c-.554.348-.534.704-.534.704s-.294-.656.49-.978c.786-.32 1.17.184 1.17.184zm5.236-.052s-.41-.234-.73-.23c-.654.008-.831.296-.831.296s.11-.688.945-.55a.84.84 0 0 1 .616.484" />
-              </svg>
-              <span>DuckDuckGo</span>
-            </div>
-            <div class="dropdown-item" data-engine="brave">
-              <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="m15.68 0 2.096 2.38s1.84-.512 2.709.358c.868.87 1.584 1.638 1.584 1.638l-.562 1.381.715 2.047s-2.104 7.98-2.35 8.955c-.486 1.919-.818 2.66-2.198 3.633a186 186 0 0 1-4.293 2.916c-.409.256-.92.692-1.38.692s-.97-.436-1.38-.692a186 186 0 0 1-4.293-2.916c-1.38-.973-1.712-1.714-2.197-3.633-.247-.975-2.351-8.955-2.351-8.955l.715-2.047-.562-1.381s.716-.768 1.585-1.638c.868-.87 2.708-.358 2.708-.358L8.321 0h7.36zm-3.679 14.936c-.14 0-1.038.317-1.758.69s-1.242.637-1.409.742-.065.301.087.409 2.194 1.69 2.393 1.866c.198.175.489.464.687.464s.49-.29.688-.464 2.24-1.759 2.392-1.866.254-.305.087-.41-.689-.368-1.41-.741c-.72-.373-1.617-.69-1.757-.69m0-11.278s-.409.001-1.022.206-1.278.46-1.584.46-2.581-.434-2.581-.434-2.695 3.262-2.695 3.959.339.881.68 1.243l2.02 2.149c.192.203.59.511.356 1.066-.235.555-.58 1.26-.196 1.977.384.716 1.042 1.194 1.464 1.115.421-.08 1.412-.598 1.776-.834.364-.237 1.518-1.19 1.518-1.554s-1.193-1.02-1.413-1.168c-.22-.15-1.226-.725-1.247-.95-.02-.227-.012-.293.284-.851.297-.559.831-1.304.742-1.8-.089-.495-.95-.753-1.565-.986s-1.799-.671-1.947-.74-.11-.133.339-.175c.448-.043 1.719-.212 2.292-.052s1.552.403 1.632.532c.079.13.149.134.067.579s-.5 2.581-.541 2.96c-.04.38-.12.63.288.724.409.094 1.097.256 1.333.256s.924-.162 1.333-.256c.408-.093.329-.344.288-.723-.04-.38-.46-2.516-.541-2.961s-.012-.45.067-.579c.08-.129 1.059-.372 1.632-.532s1.845.009 2.292.052c.449.042.487.107.339.175-.148.069-1.332.508-1.947.74-.615.233-1.476.49-1.565.986-.09.496.445 1.241.742 1.8s.304.624.284.85-1.026.802-1.247.95c-.22.15-1.413.804-1.413 1.169 0 .364 1.154 1.317 1.518 1.554.364.236 1.355.755 1.776.834s1.08-.4 1.464-1.115c.384-.716.039-1.422-.195-1.977s.163-.863.355-1.066l2.02-2.149c.341-.362.68-.546.68-1.243s-2.695-3.96-2.695-3.96-2.274.436-2.58.436-.972-.256-1.585-.461-1.022-.206-1.022-.206" />
-              </svg>
-              <span>Brave Search</span>
-            </div>
-            <div class="dropdown-item" data-engine="ecosia">
-              <svg viewBox="0 0 224.23 221" xmlns="http://www.w3.org/2000/svg">
-                <path d="M129.48 32.72c-11.858-2.286-24.482-2.7-36.229.1-11.259 2.683-22.147 8.16-31.031 15.578-9.382 7.833-16.919 16.729-21.735 27.323-5.923 13.03-9.548 24.469-7.743 42.235 1.158 11.407 3.91 19.647 8.445 28.434 27.514 53.317 91.394 54.16 122.81 23.719 11.38-11.027 19.352-18.908 25.124-39.671 2.767-9.954 3.16-20.605 2.354-30.905-.264-3.369-1.108-6.715-2.333-9.864-4.587-11.79-9.644-24.114-18.521-33.127-11.12-11.29-28.357-21.262-41.14-23.822z" fill="transparent" />
-                <path
-                  d="M97.72 188.973c-18.104-3.354-34.398-12.867-46.637-27.228-5.202-6.103-5.368-8.465-.765-10.845 3.24-1.676 4.902-4.268 4.902-7.649 0-1.281.9-4.01 2-6.062s2-4.842 2-6.2c0-2.722-1.335-3.668-8.63-6.114-5.33-1.787-8.37-3.994-8.37-6.074 0-.737-2.065-2.311-4.59-3.498s-4.854-2.848-5.178-3.692c-1.048-2.73 1.664-19.749 4.35-27.309 2.718-7.645 6.955-15.833 8.832-17.066.597-.392 1.086-1.191 1.086-1.775s2.213-3.74 4.919-7.013c4.138-5.008 5.296-5.857 7.305-5.353 1.638.411 3.076-.046 4.582-1.456 2.265-2.121 9.18-5.379 13.863-6.53 1.468-.361 4.9-3.16 7.627-6.22 4.835-5.425 5.155-5.598 12.831-6.966 13.798-2.46 28.188-1.315 41.356 3.289 5.165 1.806 5.354 1.987 3.25 3.113-2.295 1.228-3.094 4.125-1.138 4.125.603 0 2.338-.885 3.856-1.966 2.447-1.742 2.976-1.8 4.655-.519 2.642 2.019.668 3.145-7.041 4.019-3.336.377-7.545 1.296-9.352 2.04-1.808.745-3.05.972-2.761.504 1.073-1.737-2.62-3.322-8.913-3.827-7.032-.565-8.665.085-15.225 6.054-3.663 3.334-4.135 5.136-1.7 6.498 1.237.693 1.374 1.346.588 2.8-1.281 2.37-7.44 6.18-6.646 4.11.712-1.856-2.91-6.23-4.398-5.311-1.207.746-.61 5.166.971 7.19.47.6.52 1.429.112 1.84s-.741 1.714-.741 2.893c0 1.6-.762 2.279-3 2.67-2.743.48-3 .865-3 4.505 0 3.613.276 4.04 3 4.622 2.928.626 2.936.644.344.76-1.967.087-3.655 1.456-6.5 5.271-2.114 2.834-4.41 5.906-5.101 6.827-.692.92-1.494 4.621-1.784 8.224-.504 6.258-.378 6.746 2.82 10.923l3.228 3.884 8.556.495c7.345.424 12.936 1.274 12.936 5.317 0 1.515.91 4.536 2.02 6.715 1.618 3.17 1.897 5.061 1.4 9.464-.886 7.842 4.081 23.387 7.856 24.585 3.072.975 8.251-.446 10.395-2.853 2.665-2.99 6.33-9.508 6.33-11.257 0-.774 1.406-3.01 3.125-4.968 2.977-3.391 3.095-3.843 2.457-9.477l-.67-5.916 5.094-5.623c7.71-8.514 8.803-13.04 3.302-13.671-2.693-.31-2.616-.417 1.85-2.618 8.12-4 11.689-8.957 8.641-12.005-.933-.933-.478-1.2 2.05-1.2 6.457 0 11.73 4.405 14.647 12.236.97 2.605 2.374 5.243 3.12 5.862 2.04 1.693 4.383.3 4.383-2.605 0-2.763 7.298-11.528 8.553-10.272 1.395 1.395 1.68 14.753.49 22.893-6.569 44.927-49.174 75.63-93.543 67.41zm50.972-42.757c1.507-4.371 1.696-5.998.801-6.892-2.198-2.199-6.057 1.504-6.812 6.536-1.318 8.79 3.016 9.046 6.011.356M92.72 60.436c0-2.143-2.906-1.834-3.327.355-.257 1.336.15 1.743 1.486 1.486 1.013-.195 1.841-1.023 1.841-1.841m-7-10.986c1.141-1.846-.49-3.076-2.589-1.952-1.082.579-1.703 1.48-1.38 2.002.771 1.248 3.186 1.217 3.969-.05m29.25-11.63c3.617-.97 2.768-3.37-1.191-3.37-3.518 0-5.162 1.216-4.059 3 .704 1.14 2.029 1.233 5.25.37m24.497 65.38c-1.432-1.794-4.663-8.446-3.522-7.25 1.395 1.462 5.517 8.5 4.979 8.5-.253 0-.908-.562-1.457-1.25m12.003-10.781c-1.238-.497-2.25-1.102-2.25-1.343 0-.744 3.998.562 4.575 1.495.636 1.029.609 1.027-2.325-.152m-42.02-10.341c-2.953-2.592-3.81-2.827-8.787-2.415l-5.516.458 3.226-3.328c4.37-4.51 6.058-4.84 10.928-2.147 3.127 1.73 4.282 1.983 4.639 1.013.325-.884 1.273-.43 3.004 1.437 2.437 2.631 2.579 2.661 3.914.835 1.346-1.84 1.428-1.832 2.93.313.85 1.213 2.533 2.213 3.74 2.221 3.102.022 5.085 1.518 4.395 3.317-.478 1.246-2.337 1.5-9.895 1.351-8.696-.171-9.52-.371-12.578-3.055m37.964-4.894c-.568-.685-1.325-2.593-1.681-4.24-.628-2.895-.595-2.928.992-.994 2.65 3.228 3.576 5.332 2.611 5.928-.489.303-1.354-.01-1.922-.695M126.47 72.2c.237-.71 2.072-1.25 4.25-1.25s4.013.54 4.25 1.25c.294.881-.961 1.25-4.25 1.25s-4.544-.369-4.25-1.25m-13.361-15.5c.498-.962 1.33-2.866 1.85-4.23l.945-2.479 1.238 2.313c1.04 1.942.96 2.62-.497 4.23-2.254 2.49-4.8 2.61-3.536.166"
-                  fill="currentColor" />
-                <path d="M112.12 0A112.12 110.5 0 0 0 0 110.5 112.12 110.5 0 0 0 112.12 221a112.12 110.5 0 0 0 112.12-110.5A112.12 110.5 0 0 0 112.12 0m-.687 13.061a97.659 98.428 0 0 1 97.66 98.43 97.659 98.428 0 0 1-97.66 98.428 97.659 98.428 0 0 1-97.658-98.428 97.659 98.428 0 0 1 97.658-98.43" fill="currentColor" />
-              </svg>
-              <span>Ecosia Search</span>
-            </div>
-            <div class="dropdown-item" data-engine="startpage">
-              <svg viewBox="0 0 501 501" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M106.89 179.149c2.083-53.999 47.48-97.692 102.874-97.692 53.311 0 97.041 39.984 102.456 91.509 27.488.412 54.56.824 82.05 2.061C389.27 78.159 308.473.666 209.764.666 108.14.666 25.258 82.694 25.258 183.27v3.71c27.072-3.298 54.56-5.771 81.632-7.832" fill="currentColor" />
-                <path
-                  d="m353.043 297.863.832-1.235c21.243-26.38 34.153-56.884 38.735-89.86-27.905 0-55.395 0-83.3.824-11.245 44.518-51.645 77.081-99.54 77.081-42.899 0-79.967-26.38-95.377-63.478-27.489 2.885-54.977 6.595-82.465 10.717 21.657 77.081 93.294 133.553 177.842 133.553 27.071 0 53.728-5.77 78.3-17.312l1.25-.413.833.825L404.27 486.24c7.915 9.48 19.16 14.84 31.655 14.84 9.578 0 18.743-3.3 25.823-9.07 8.33-7.007 13.742-16.487 14.577-27.205.833-10.717-2.082-21.022-9.165-29.677z"
-                  fill="currentColor" />
-              </svg>
-              <span>Start Page</span>
-            </div>
-            <div class="dropdown-item" data-engine="kagi">
-              <svg fill="none" height="500" width="500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                <path d="M410.121 0H101.879C45.612 0 0 45.612 0 101.879v308.242C0 466.388 45.612 512 101.879 512h308.242C466.388 512 512 466.388 512 410.121V101.879C512 45.612 466.388 0 410.121 0" fill="currentColor" />
-                <path
-                  d="M297.731 375.79h-86.412c-23.751 0-27.366-25.472-22.939-35.697 2.111-4.852 6.891-11.875 11.415-17.613a116 116 0 0 0 56.173 14.447 116.86 116.86 0 0 0 116.726-116.738 116.45 116.45 0 0 0-38.671-86.716l2.681-2.717a29.69 29.69 0 0 1 24.321-8.709l14.046 1.492V66.322H350.52a66.71 66.71 0 0 0-61.862 41.824 116.5 116.5 0 0 0-32.75-4.694 116.88 116.88 0 0 0-82.508 34.23 116.88 116.88 0 0 0-34.23 82.507 116.18 116.18 0 0 0 22.707 69.14l-6.914 5.325a45 45 0 0 0-3.42 2.924c-23.653 22.051-34.498 50.945-28.3 83.076 3.397 17.601 18.341 35.881 33.552 45.573a68.47 68.47 0 0 0 36.122 10.504l96.881-3.93a31.89 31.89 0 0 1 26.989 14.786l12.663 22.853 60.055-20.075-10.273-22.367a89.67 89.67 0 0 0-81.501-52.208m-41.763-211.435a55.894 55.894 0 0 1 55.797 55.798 55.895 55.895 0 0 1-55.797 55.797 55.895 55.895 0 0 1-55.798-55.797 55.894 55.894 0 0 1 55.798-55.798"
-                  fill="#fff" />
-              </svg>
-              <span>Kagi</span>
-            </div>
-          </div>
-        </div>
-        <input type="text" name="q" id="searchInput" placeholder="Search the web" autocomplete="off" data-i18n="searchPlaceholder" />
-        <div class="search-actions">
-          <button type="submit" class="action-btn search-btn" aria-label="Search">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
-              <path d="M380-320q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l224 224q11 11 11 28t-11 28q-11 11-28 11t-28-11L532-372q-30 24-69 38t-83 14Zm0-80q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
-            </svg>
-          </button>
-        </div>
-        <div id="suggestionsContainer" class="suggestions-container"></div>
-      </form>
-      <div id="shortcutsGrid" class="shortcuts-grid"></div>
-    </div>
-
-    <aside id="settingsSidebar" class="settings-sidebar">
-      <header class="sidebar-header">
-        <h2 class="sidebar-title">Customize Expressive New Tab</h2>
-        <button id="closeSettingsBtn" class="icon-btn" aria-label="Close settings">
-          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
-            <path d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z" />
-          </svg>
-        </button>
-      </header>
-
-      <div class="settings-inner-card">
-        <div class="settings-group-card">
-          <div id="colorPickerOverlay" class="color-picker-overlay"></div>
-          <div id="customColorModal" class="color-picker-modal">
-            <div class="color-picker-header">
-              <span class="color-picker-title">Color picker</span>
-              <button id="closeColorPickerBtn" class="icon-btn" aria-label="Close">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
-                  <path d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z" />
-                </svg>
-              </button>
-            </div>
-            <div class="color-picker-body">
-              <input type="range" id="hueSlider" class="hue-slider" min="0" max="360" value="0" />
-            </div>
-          </div>
-          <h3 class="settings-group-title" data-i18n="appearanceTitle">Appearance</h3>
-          <div class="segmented-button-group" id="themeSelector">
-            <button type="button" class="segmented-btn" data-theme-value="light">
-              <span class="btn-icon">
-                <svg class="icon-default" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                  <path
-                    d="M565-395q35-35 35-85t-35-85-85-35-85 35-35 85 35 85 85 35 85-35m-226.5 56.5Q280-397 280-480t58.5-141.5T480-680t141.5 58.5T680-480t-58.5 141.5T480-280t-141.5-58.5M80-440q-17 0-28.5-11.5T40-480t11.5-28.5T80-520h80q17 0 28.5 11.5T200-480t-11.5 28.5T160-440zm720 0q-17 0-28.5-11.5T760-480t11.5-28.5T800-520h80q17 0 28.5 11.5T920-480t-11.5 28.5T880-440zM451.5-771.5Q440-783 440-800v-80q0-17 11.5-28.5T480-920t28.5 11.5T520-880v80q0 17-11.5 28.5T480-760t-28.5-11.5m0 720Q440-63 440-80v-80q0-17 11.5-28.5T480-200t28.5 11.5T520-160v80q0 17-11.5 28.5T480-40t-28.5-11.5M226-678l-43-42q-12-11-11.5-28t11.5-29q12-12 29-12t28 12l42 43q11 12 11 28t-11 28-27.5 11.5T226-678m494 495-42-43q-11-12-11-28.5t11-27.5q11-12 27.5-11.5T734-282l43 42q12 11 11.5 28T777-183q-12 12-29 12t-28-12m-42-495q-12-11-11.5-27.5T678-734l42-43q11-12 28-11.5t29 11.5q12 12 12 29t-12 28l-43 42q-12 11-28 11t-28-11M183-183q-12-12-12-29t12-28l43-42q12-11 28.5-11t27.5 11q12 11 11.5 27.5T282-226l-42 43q-11 12-28 11.5T183-183m297-297" />
-                </svg>
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                  <path d="m382-354 339-339q12-12 28-12t28 12 12 28.5-12 28.5L410-268q-12 12-28 12t-28-12L182-440q-12-12-11.5-28.5T183-497t28.5-12 28.5 12z" />
-                </svg>
-              </span>
-              <span class="btn-label" data-i18n="themeLight">Light</span>
-            </button>
-            <button type="button" class="segmented-btn" data-theme-value="device">
-              <span class="btn-icon">
-                <svg class="icon-default" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                  <path d="M80-120q-17 0-28.5-11.5T40-160t11.5-28.5T80-200h800q17 0 28.5 11.5T920-160t-11.5 28.5T880-120zm80-120q-33 0-56.5-23.5T80-320v-440q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v440q0 33-23.5 56.5T800-240zm0-80h640v-440H160zm0 0v-440z" />
-                </svg>
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                  <path d="m382-354 339-339q12-12 28-12t28 12 12 28.5-12 28.5L410-268q-12 12-28 12t-28-12L182-440q-12-12-11.5-28.5T183-497t28.5-12 28.5 12z" />
-                </svg>
-              </span>
-              <span class="btn-label" data-i18n="themeDevice">Device</span>
-            </button>
-            <button type="button" class="segmented-btn" data-theme-value="dark">
-              <span class="btn-icon">
-                <svg class="icon-default" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                  <path d="M480-120q-151 0-255.5-104.5T120-480q0-138 90-239.5T440-838q13-2 23 3.5t16 14.5 6.5 21-7.5 23q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q11-7 22.5-6.5T819-479q10 5 15.5 15t3.5 24q-14 138-117.5 229T480-120m0-80q88 0 158-48.5T740-375q-20 5-40 8t-40 3q-123 0-209.5-86.5T364-660q0-20 3-40t8-40q-78 32-126.5 102T200-480q0 116 82 198t198 82m-10-270" />
-                </svg>
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                  <path d="m382-354 339-339q12-12 28-12t28 12 12 28.5-12 28.5L410-268q-12 12-28 12t-28-12L182-440q-12-12-11.5-28.5T183-497t28.5-12 28.5 12z" />
-                </svg>
-              </span>
-              <span class="btn-label" data-i18n="themeDark">Dark</span>
-            </button>
-          </div>
-
-          <div class="color-palette-group" id="colorPaletteSelector">
-            <div class="palette-card">
-              <button type="button" class="color-circle-btn active" data-palette="default" style="--theme-c1: #0b57d0; --theme-c2: #d3e3fd; --theme-c3: #ffffff" title="Default Theme" aria-label="Default Color">
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                  <path d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                </svg>
-              </button>
-            </div>
-
-            <div class="palette-card">
-              <button type="button" class="color-circle-btn" data-palette="expressive" style="--theme-c1: #65558f; --theme-c2: #e8def8; --theme-c3: #ffffff" title="Expressive Theme" aria-label="Expressive Color">
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                  <path d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                </svg>
-              </button>
-            </div>
-
-            <div class="palette-card">
-              <button type="button" class="color-circle-btn" data-palette="leaf" style="--theme-c1: #518242; --theme-c2: #d6e8ce; --theme-c3: #ffffff" title="Leaf Theme" aria-label="Leaf Color">
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                  <path d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                </svg>
-              </button>
-            </div>
-
-            <div class="palette-card">
-              <button type="button" class="color-circle-btn" data-palette="gold" style="--theme-c1: #797a1e; --theme-c2: #e5e68c; --theme-c3: #ffffff" title="Gold Theme" aria-label="Gold Color">
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                  <path d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                </svg>
-              </button>
-            </div>
-
-            <div class="palette-card">
-              <button type="button" class="color-circle-btn" data-palette="sun" style="--theme-c1: #d87739; --theme-c2: #ffdbc6; --theme-c3: #ffffff" title="Sun Theme" aria-label="Sun Color">
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                  <path d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                </svg>
-              </button>
-            </div>
-
-            <div class="palette-card">
-              <button type="button" class="color-circle-btn" data-palette="candy" style="--theme-c1: #b90063; --theme-c2: #ffd9e2; --theme-c3: #ffffff" title="Candy Theme" aria-label="Candy Color">
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                  <path d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                </svg>
-              </button>
-            </div>
-
-            <div class="palette-card">
-              <button type="button" class="color-circle-btn" data-palette="love" style="--theme-c1: #c0001b; --theme-c2: #ffdad5; --theme-c3: #ffffff" title="Love Theme" aria-label="Love Color">
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                  <path d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                </svg>
-              </button>
-            </div>
-
-            <div class="palette-card">
-              <button type="button" class="color-circle-btn custom-picker-btn" id="customColorPickerBtn" data-palette="custom" style="--theme-c1: var(--sys-primary-light, #1f1f1f); --theme-c2: var(--sys-primary-container-light, #e3e3e3); --theme-c3: var(--sys-secondary-container-light, #3c3c3c)" title="Custom Color" aria-label="Custom Color">
-                <svg class="icon-picker" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                  <path d="M120-160v-117q0-16 6-30.5t17-25.5l335-335-58-56 58-56 76 76 124-124q5-5 12.5-8t15.5-3 15 3 13 8l94 94q5 6 8 13t3 15-3 15.5-8 12.5L705-555l76 78-57 57-56-58-335 335q-11 11-25.5 17t-30.5 6H160q-17 0-28.5-11.5T120-160m80-40h78l332-334-76-76-334 332z" />
-                </svg>
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                  <path d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="settings-group-card">
-          <div class="group-header">
-            <div class="group-title-wrapper">
-              <h3 class="settings-group-title" data-i18n="displayTitle">Display</h3>
-            </div>
-            <label class="md3-switch">
-              <input type="checkbox" id="displayToggle" checked />
-              <span class="switch-track">
-                <span class="switch-thumb"></span>
-              </span>
-            </label>
-          </div>
-
-          <div class="expandable-content compact-gap" id="displaySettingsBlock">
-            <div class="md3-outlined-select-wrapper">
-              <button type="button" id="displayStyleSelect" class="md3-outlined-select md3-select-trigger" aria-label="Display Widget" value="greetings">
-                <span class="md3-select-value" data-i18n="displayGreetings">Greetings</span>
-                <template class="md3-select-options">
-                  <div data-value="greetings" data-i18n="displayGreetings">Greetings</div>
-                  <div data-value="simple_clock" data-i18n="clockStyle1">Basic Clock</div>
-                  <div data-value="expressive_clock" data-i18n="clockStyle2">Expressive Clock</div>
-                </template>
-              </button>
-              <label for="displayStyleSelect" class="md3-select-label" data-i18n="displayStyleLabel">Display Widget</label>
-              <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                <path d="M459-381 314-526q-3-3-4.5-6.5T308-540q0-8 5.5-14t14.5-6h304q9 0 14.5 6t5.5 14q0 2-6 14L501-381q-5 5-10 7t-11 2-11-2-10-7" />
-              </svg>
-            </div>
-
-            <hr class="settings-divider" />
-
-            <div id="greetingNameInputWrapper" style="display: none">
-              <div class="input-with-action-row" style="margin-top: 1rem">
-                <div class="md3-outlined-text-field" id="greetingNameFieldWrapper">
-                  <input type="text" id="greetingNameInput" class="md3-input" placeholder=" " autocomplete="off" />
-                  <label for="greetingNameInput" class="md3-label" data-i18n="namePlaceholder">Your Name (optional)</label>
-                </div>
-              </div>
-              <div class="md3-checkbox-group" style="margin-top: 1.25rem">
-                <label class="md3-checkbox-label">
-                  <input type="checkbox" id="greetingHighlightNameCheckbox" class="md3-checkbox-input" />
-                  <span class="md3-checkbox-box">
-                    <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
-                    <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
-                  </span>
-                  <span class="checkbox-text" data-i18n="highlightNameLabel">Highlight name</span>
-                </label>
-              </div>
-            </div>
-
-            <div class="md3-checkbox-group" id="displayClockOptions">
-              <label class="md3-checkbox-label">
-                <input type="checkbox" id="clock12hFormat" class="md3-checkbox-input" />
-                <span class="md3-checkbox-box">
-                  <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
-                  <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
-                </span>
-                <span class="checkbox-text" data-i18n="clock12hLabel">12h Format</span>
-              </label>
-
-              <label class="md3-checkbox-label">
-                <input type="checkbox" id="clockShowDate" class="md3-checkbox-input" checked />
-                <span class="md3-checkbox-box">
-                  <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
-                  <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
-                </span>
-                <span class="checkbox-text" data-i18n="clockShowDateLabel">Show Date</span>
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div class="settings-group-card">
-          <div class="group-header">
-            <div class="group-title-wrapper">
-              <h3 class="settings-group-title" data-i18n="weatherTitle">Weather</h3>
-            </div>
-            <label class="md3-switch">
-              <input type="checkbox" id="weatherToggle" checked />
-              <span class="switch-track">
-                <span class="switch-thumb"></span>
-              </span>
-            </label>
-          </div>
-
-          <div class="expandable-content compact-gap" id="weatherSettingsBlock">
-            <div class="input-with-action-row">
-              <div class="md3-outlined-text-field" id="cityInputWrapper">
-                <input type="text" id="weatherCityInput" class="md3-input" placeholder=" " autocomplete="off" />
-                <label for="weatherCityInput" class="md3-label" data-i18n="weatherCityLabel">City name</label>
-
-                <button type="button" class="icon-btn clear-input-btn" id="searchCityBtn" aria-label="Search city">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                    <path d="M380-320q-109 0-184.5-75.5T120-580t75.5-184.5T380-840t184.5 75.5T640-580q0 44-14 83t-38 69l224 224q11 11 11 28t-11 28-28 11-28-11L532-372q-30 24-69 38t-83 14m0-80q75 0 127.5-52.5T560-580t-52.5-127.5T380-760t-127.5 52.5T200-580t52.5 127.5T380-400" />
-                  </svg>
-                </button>
-
-                <svg class="error-icon-svg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                  <path d="M508.5-291.5Q520-303 520-320t-11.5-28.5T480-360t-28.5 11.5T440-320t11.5 28.5T480-280t28.5-11.5m0-160Q520-463 520-480v-160q0-17-11.5-28.5T480-680t-28.5 11.5T440-640v160q0 17 11.5 28.5T480-440t28.5-11.5M480-80q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                </svg>
-              </div>
-            </div>
-
-            <hr class="settings-divider" />
-            <div class="md3-radio-group">
-              <label class="md3-radio">
-                <span class="radio-text">Celsius (°C)</span>
-                <input type="radio" name="tempUnit" value="C" checked />
-                <div class="radio-outer">
-                  <div class="radio-inner"></div>
-                </div>
-              </label>
-
-              <label class="md3-radio">
-                <span class="radio-text">Fahrenheit (°F)</span>
-                <input type="radio" name="tempUnit" value="F" />
-                <div class="radio-outer">
-                  <div class="radio-inner"></div>
-                </div>
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <div class="settings-group-card">
-          <div class="group-header">
-            <div class="group-title-wrapper">
-              <h3 class="settings-group-title" data-i18n="shortcutsTitle">Shortcuts</h3>
-            </div>
-            <label class="md3-switch">
-              <input type="checkbox" id="shortcutsToggle" checked />
-              <span class="switch-track">
-                <span class="switch-thumb"></span>
-              </span>
-            </label>
-          </div>
-
-          <div class="expandable-content compact-gap" id="shortcutsSettingsBlock">
-            <div class="md3-outlined-select-wrapper">
-              <button type="button" id="shortcutsRowsSelect" class="md3-outlined-select md3-select-trigger" aria-label="Shortcuts Rows" value="1">
-                <span class="md3-select-value" data-i18n="rows1">1 Row</span>
-                <template class="md3-select-options">
-                  <div data-value="1" data-i18n="rows1">1 Row</div>
-                  <div data-value="2" data-i18n="rows2">2 Rows</div>
-                  <div data-value="3" data-i18n="rows3">3 Rows</div>
-                  <div data-value="4" data-i18n="rows4">4 Rows</div>
-                </template>
-              </button>
-              <label for="shortcutsRowsSelect" class="md3-select-label" data-i18n="shortcutsRowsLabel">Rows</label>
-              <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                <path d="M459-381 314-526q-3-3-4.5-6.5T308-540q0-8 5.5-14t14.5-6h304q9 0 14.5 6t5.5 14q0 2-6 14L501-381q-5 5-10 7t-11 2-11-2-10-7" />
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <div class="settings-group-card">
-          <div class="group-header">
-            <div class="group-title-wrapper">
-              <h3 class="settings-group-title" data-i18n="appLauncherTitle">App Launcher</h3>
-            </div>
-            <label class="md3-switch">
-              <input type="checkbox" id="launcherToggle" checked />
-              <span class="switch-track">
-                <span class="switch-thumb"></span>
-              </span>
-            </label>
-          </div>
-
-          <div class="expandable-content compact-gap" id="launcherSettingsBlock">
-            <div class="md3-outlined-select-wrapper">
-              <button type="button" id="launcherProviderSelect" class="md3-outlined-select md3-select-trigger" aria-label="Ecosystem" value="google">
-                <span class="md3-select-value">Google Workspace</span>
-                <template class="md3-select-options">
-                  <div data-value="google">Google Workspace</div>
-                  <div data-value="microsoft">Microsoft 365</div>
-                  <div data-value="proton">Proton AG</div>
-                </template>
-              </button>
-              <label for="launcherProviderSelect" class="md3-select-label" data-i18n="launcherEcosystemLabel">Ecosystem</label>
-              <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                <path d="M459-381 314-526q-3-3-4.5-6.5T308-540q0-8 5.5-14t14.5-6h304q9 0 14.5 6t5.5 14q0 2-6 14L501-381q-5 5-10 7t-11 2-11-2-10-7" />
-              </svg>
-            </div>
-          </div>
-        </div>
-        <div class="settings-group-card">
-          <div class="group-header">
-            <div class="group-title-wrapper">
-              <h3 class="settings-group-title" data-i18n="dataBackupTitle">Data & Backup</h3>
-            </div>
-          </div>
-          <div class="expandable-content" id="backupSettingsBlock" style="margin-top: 0.5rem;">
-            <div class="backup-row" style="flex-direction: row;">
-              <button id="importBtn" class="backup-btn" title="Import Settings">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M240-160q-33 0-56.5-23.5T160-240v-80q0-17 11.5-28.5T200-360t28.5 11.5T240-320v80h480v-80q0-17 11.5-28.5T760-360t28.5 11.5T800-320v80q0 33-23.5 56.5T720-160zm200-486-75 75q-12 12-28.5 11.5T308-572q-11-12-11.5-28t11.5-28l144-144q6-6 13-8.5t15-2.5 15 2.5 13 8.5l144 144q12 12 11.5 28T652-572q-12 12-28.5 12.5T595-571l-75-75v286q0 17-11.5 28.5T480-320t-28.5-11.5T440-360z"/></svg>
-                <span data-i18n="importBtn">Import</span>
-              </button>
-              <input type="file" id="importInput" accept=".json" style="display: none;" />
-              <button id="exportBtn" class="backup-btn" title="Export Settings">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M465-339.5q-7-2.5-13-8.5L308-492q-12-12-11.5-28t11.5-28q12-12 28.5-12.5T365-549l75 75v-286q0-17 11.5-28.5T480-800t28.5 11.5T520-760v286l75-75q12-12 28.5-11.5T652-548q11 12 11.5 28T652-492L508-348q-6 6-13 8.5t-15 2.5-15-2.5M240-160q-33 0-56.5-23.5T160-240v-80q0-17 11.5-28.5T200-360t28.5 11.5T240-320v80h480v-80q0-17 11.5-28.5T760-360t28.5 11.5T800-320v80q0 33-23.5 56.5T720-160z"/></svg>
-                <span data-i18n="exportBtn">Export</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <a href="https://buymeacoffee.com/snw.mint" target="_blank" class="settings-info-card">
-          <div class="info-card-icon">
-            <svg class="info-icon-fg" viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg">
-              <path fill="currentColor" d="m390.1 137.3-.2-.1-.5-.2c.1.2.4.3.7.3m3.3 23.6-.3.1zm-3.3-23.7q-.15 0 0 0m3 23.5.4-.2.1-.1.1-.1c-.2.1-.4.3-.6.4" />
-              <path fill="currentColor" d="m390.7 137.8-.4-.4-.3-.1c.2.2.4.4.7.5M297 366.2c-.3.1-.6.3-.8.6l.2-.2c.3-.2.5-.3.6-.4m54.5-10.8c0-.3-.2-.3-.1.9 0-.1 0-.2.1-.3q-.15-.15 0-.6m-5.7 10.8c-.3.1-.6.3-.8.6l.2-.2c.3-.2.5-.3.6-.4m-87.1 2.5c-.2-.2-.5-.3-.8-.4.2.1.5.2.6.3zm-8.5-8.2c0-.3-.1-.7-.3-1 .1.3.2.6.3 1" />
-              <path fill="var(--color-primary)" d="M308 212.8c-11.8 5.1-25.3 10.8-42.7 10.8-7.3 0-14.5-1-21.5-3l12 123.6c.4 5.2 2.8 10 6.6 13.5s8.8 5.5 14 5.5c0 0 17.1.9 22.8.9 6.1 0 24.5-.9 24.5-.9 5.2 0 10.2-1.9 14-5.5 3.8-3.5 6.2-8.3 6.6-13.5l12.9-136.5c-5.8-2-11.6-3.3-18.1-3.3-11.4 0-20.5 3.9-31.1 8.4" />
-              <path fill="currentColor" d="m206.5 160.2.2.2.1.1q0-.3-.3-.3" />
+    <main>
+      <section class="hero-section">
+        <h1 class="hero-title">
+          Your new tab,
+          <span class="title-highlight"
+            >redesigned<svg class="bg-icon-spinner" width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
-                fill="currentColor"
-                d="m412.8 148.7-1.8-9.1c-1.6-8.2-5.3-16-13.7-18.9-2.7-.9-5.8-1.4-7.8-3.3-2.1-2-2.7-5-3.2-7.8-.9-5.2-1.7-10.4-2.6-15.6-.8-4.5-1.4-9.5-3.4-13.5-2.7-5.5-8.2-8.7-13.7-10.8-2.8-1-5.7-1.9-8.6-2.7-13.7-3.6-28.1-4.9-42.2-5.7-16.9-.9-33.9-.7-50.8.8-12.6 1.1-25.8 2.5-37.7 6.9-4.4 1.6-8.9 3.5-12.2 6.9-4.1 4.1-5.4 10.6-2.4 15.7 2.1 3.7 5.7 6.3 9.5 8 4.9 2.2 10.1 3.9 15.4 5 14.8 3.3 30 4.5 45.1 5.1 16.7.7 33.4.1 50.1-1.6 4.1-.5 8.2-1 12.3-1.6 4.8-.7 7.9-7.1 6.5-11.4-1.7-5.3-6.3-7.3-11.4-6.5-.8.1-1.5.2-2.3.3l-.5.1c-1.8.2-3.5.4-5.3.6-3.6.4-7.2.7-10.9 1-8.1.6-16.3.8-24.5.8-8 0-16-.2-24-.8-3.7-.2-7.3-.5-10.9-.9-1.7-.2-3.3-.4-4.9-.6l-1.6-.2h-.3l-1.6-.2q-4.95-.75-9.9-1.8c-.3-.1-.6-.3-.8-.5s-.3-.6-.3-.9.1-.7.3-.9.5-.4.8-.5h.1c2.8-.6 5.7-1.1 8.6-1.6 1-.2 1.9-.3 2.9-.4 1.8-.1 3.6-.4 5.4-.7 15.6-1.6 31.3-2.2 47-1.7 7.6.2 15.2.7 22.8 1.4 1.6.2 3.3.3 4.9.5.6.1 1.2.2 1.9.2l1.3.2c3.7.5 7.3 1.2 11 2 5.4 1.2 12.3 1.6 14.7 7.4.8 1.9 1.1 3.9 1.5 5.9l.5 2.5v.1c1.3 5.9 2.5 11.8 3.8 17.7.1.4.1.9 0 1.3s-.3.9-.5 1.2c-.3.4-.6.7-1 .9s-.8.4-1.2.4l-.8.1-.8.1c-2.4.3-4.9.6-7.3.9-4.8.5-9.6 1-14.4 1.4-9.6.8-19.1 1.3-28.7 1.6-4.9.1-9.8.2-14.7.2-19.5 0-38.9-1.1-58.2-3.4-2.1-.2-4.2-.5-6.3-.8 1.6.2-1.2-.2-1.7-.2-1.3-.2-2.7-.4-4-.6-4.5-.7-8.9-1.5-13.4-2.2-5.4-.9-10.5-.4-15.4 2.2-4 2.2-7.2 5.5-9.3 9.6-2.1 4.3-2.7 9.1-3.7 13.7-.9 4.7-2.4 9.7-1.8 14.5 1.2 10.3 8.4 18.7 18.8 20.6 9.8 1.8 19.6 3.2 29.5 4.4 38.7 4.7 77.9 5.3 116.7 1.7 3.2-.3 6.3-.6 9.5-1 1-.1 2 0 2.9.3s1.8.9 2.5 1.6 1.2 1.5 1.6 2.5c.3.9.5 1.9.4 2.9l-1 9.6c-2 19.3-4 38.6-5.9 58-2.1 20.3-4.1 40.6-6.2 60.9l-1.8 17.1c-.6 5.6-.6 11.4-1.7 17-1.7 8.7-7.6 14.1-16.2 16.1-7.9 1.8-16 2.7-24.1 2.8-9 0-18-.3-27-.3-9.6.1-21.4-.8-28.8-8-6.5-6.3-7.4-16.1-8.3-24.6-1.2-11.2-2.4-22.5-3.5-33.7l-6.5-62.5-4.2-40.5c-.1-.7-.1-1.3-.2-2-.5-4.8-3.9-9.5-9.3-9.3-4.6.2-9.8 4.1-9.3 9.3l3.1 30 6.5 62c1.8 17.6 3.7 35.2 5.5 52.9.4 3.4.7 6.8 1.1 10.1 2 18.5 16.1 28.4 33.6 31.2 10.2 1.6 20.6 2 31 2.1 13.3.2 26.7.7 39.7-1.7 19.3-3.5 33.8-16.4 35.9-36.5.6-5.8 1.2-11.6 1.8-17.3 2-19.1 3.9-38.2 5.9-57.4l6.4-62.5 2.9-28.6c.1-1.4.7-2.8 1.7-3.8s2.2-1.8 3.6-2c5.5-1.1 10.8-2.9 14.7-7.1 5.8-6.6 7-15.3 4.8-24.1M205 154.9c.1 0-.1.7-.1 1-.1-.5-.1-1 .1-1m.5 4.1s.2.1.3.4c-.2-.2-.3-.4-.3-.4m.5.7c.2.4.3.6 0 0m1.1.9s.1 0 0 0m185.4-1.3c-2 1.9-5 2.8-7.9 3.2-33.1 4.9-66.8 7.4-100.3 6.3-24-.8-47.7-3.5-71.5-6.8-2.3-.3-4.8-.8-6.4-2.5-3-3.2-1.5-9.7-.7-13.7.7-3.6 2.1-8.4 6.4-8.9 6.6-.8 14.4 2 20.9 3 7.9 1.2 15.9 2.2 23.8 2.9 34 3.1 68.7 2.6 102.5-1.9 6.2-.8 12.3-1.8 18.5-2.9 5.5-1 11.5-2.8 14.8 2.8 2.3 3.9 2.6 9 2.2 13.4 0 2-.9 3.8-2.3 5.1" />
-            </svg>
-          </div>
-          <span class="info-card-title">Buy Me A Coffe</span>
-          <svg class="info-card-link-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M640-624 284-268q-11 11-28 11t-28-11-11-28 11-28l356-356H280q-17 0-28.5-11.5T240-720t11.5-28.5T280-760h400q17 0 28.5 11.5T720-720v400q0 17-11.5 28.5T680-280t-28.5-11.5T640-320z" /></svg>
-        </a>
+                d="M166.697 39.846c.541-.53.811-.795 1.046-1.016 12.503-11.773 32.011-11.773 44.514 0 .235.22.505.486 1.046 1.016.325.318.487.477.642.624a32.47 32.47 0 0 0 30.083 8.061c.207-.05.428-.107.868-.22.733-.189 1.1-.283 1.414-.357 16.714-3.944 33.609 5.81 38.55 22.257.093.309.195.674.398 1.403.122.438.184.657.244.862a32.47 32.47 0 0 0 22.022 22.023c.205.06.424.12.862.243a77 77 0 0 1 1.403.398c16.447 4.941 26.201 21.836 22.257 38.55-.074.314-.168.681-.357 1.414-.113.44-.17.661-.22.868a32.46 32.46 0 0 0 8.061 30.083c.147.155.306.317.624.642.53.541.795.811 1.016 1.046 11.773 12.503 11.773 32.011 0 44.514-.221.235-.486.505-1.016 1.046-.318.325-.477.487-.624.642a32.46 32.46 0 0 0-8.061 30.083c.05.207.107.428.22.868.189.733.283 1.1.357 1.414 3.944 16.714-5.81 33.609-22.257 38.55a77 77 0 0 1-1.403.398c-.438.123-.657.184-.862.244a32.47 32.47 0 0 0-22.022 22.022c-.06.205-.121.424-.244.862a77 77 0 0 1-.398 1.403c-4.941 16.447-21.836 26.201-38.55 22.257a75 75 0 0 1-1.414-.357c-.44-.113-.661-.17-.868-.22a32.46 32.46 0 0 0-30.083 8.061c-.155.147-.317.306-.642.624-.541.53-.811.795-1.046 1.016-12.503 11.773-32.011 11.773-44.514 0-.235-.221-.505-.486-1.046-1.016-.325-.318-.487-.477-.642-.624a32.46 32.46 0 0 0-30.083-8.061c-.207.05-.428.107-.868.22-.733.189-1.1.283-1.414.357-16.714 3.944-33.609-5.81-38.55-22.257a77 77 0 0 1-.398-1.403c-.123-.438-.184-.657-.243-.862a32.47 32.47 0 0 0-22.023-22.022c-.205-.06-.424-.122-.862-.244a74 74 0 0 1-1.403-.398c-16.447-4.941-26.201-21.836-22.257-38.55.074-.314.168-.681.357-1.414.113-.44.17-.661.22-.868a32.47 32.47 0 0 0-8.06-30.083c-.148-.155-.307-.317-.625-.642-.53-.541-.795-.811-1.016-1.046-11.773-12.503-11.773-32.011 0-44.514.22-.235.486-.505 1.016-1.046.318-.325.477-.487.624-.642a32.47 32.47 0 0 0 8.061-30.083 71 71 0 0 0-.22-.868c-.189-.733-.283-1.1-.357-1.414-3.944-16.714 5.81-33.609 22.257-38.55a77 77 0 0 1 1.403-.398c.438-.123.657-.184.862-.243a32.47 32.47 0 0 0 22.023-22.023c.06-.205.12-.424.243-.862.203-.73.305-1.094.398-1.403 4.941-16.447 21.836-26.201 38.55-22.257.314.074.681.168 1.414.357.44.113.661.17.868.22a32.47 32.47 0 0 0 30.083-8.06c.155-.148.317-.307.642-.625"
+                fill="currentColor" /></svg></span
+          >.
+        </h1>
+        <p class="hero-subtitle">A clean, fast, and fully customizable experience based on Material Design 3 guidelines. No distractions, just what you need.</p>
 
-        <div class="settings-group-card">
-          <div class="settings-footer">
-            <div class="footer-links">
-              <a href="#">Report Bug</a>
-              <span class="footer-separator">|</span>
-              <a href="#">Request Feature</a>
-              <span class="footer-separator">|</span>
-              <a href="#">Privacy Policy</a>
-            </div>
-            <div class="footer-bottom">
-              <span class="footer-version" id="appVersionDisplay">v0.0</span>
-              <span class="footer-author">by <a href="https://github.com/snw-mint" target="_blank" class="hidden-link">Snow Mint</a></span>
-              <a href="https://github.com/snw-mint/md3-new-tab" target="_blank" class="hidden-link footer-github-icon">
-                <svg viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42 6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23 12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7 3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78 11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41 3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86 9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3 5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76 11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67 10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z"
-                    transform="scale(64)"
-                    fill="currentColor" />
-                </svg>
-              </a>
-            </div>
-          </div>
+        <img src="assets/main.webp" alt="MD3 New Tab Preview" class="hero-image" />
+
+        <div class="btn-group">
+          <button id="openModalBtn" class="btn btn-filled">Add to browser</button>
+          <a href="#github" class="btn btn-tonal">GitHub</a>
         </div>
-      </div>
-    </aside>
+      </section>
 
-    <div id="warningModal" class="md3-dialog-overlay">
-      <div class="md3-dialog">
-        <h2 id="warning-modal-title" class="md3-dialog-title"></h2>
-        <div class="md3-dialog-content">
-          <p id="warning-modal-message" class="md3-dialog-text"></p>
-        </div>
-
-        <div class="md3-dialog-actions">
-          <button id="warning-btn-cancel" class="md3-text-btn"></button>
-          <button id="warning-btn-confirm" class="md3-filled-btn"></button>
-        </div>
-      </div>
-    </div>
-
-    <div id="shortcutModal" class="md3-dialog-overlay">
-      <div class="md3-dialog">
-        <h2 id="shortcut-modal-title" class="md3-dialog-title">Add</h2>
-        <div class="md3-dialog-content">
-          <form id="shortcutForm" class="shortcut-form">
-            <div class="md3-filled-input-wrapper">
-              <input type="text" id="shortcutName" class="md3-filled-input" placeholder=" " />
-              <label for="shortcutName" class="md3-filled-label">Name</label>
-              <div class="md3-filled-indicator"></div>
-            </div>
-
-            <div class="md3-filled-input-wrapper">
-              <input type="url" id="shortcutUrl" class="md3-filled-input" placeholder=" " required />
-              <label for="shortcutUrl" class="md3-filled-label">URL</label>
-              <button type="button" class="clear-input-btn" tabindex="-1">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                  <path d="m480-424 116 116q11 11 28 11t28-11 11-28-11-28L536-480l116-116q11-11 11-28t-11-28-28-11-28 11L480-536 364-652q-11-11-28-11t-28 11-11 28 11 28l116 116-116 116q-11 11-11 28t11 28 28 11 28-11zm0 344q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80m0-80q134 0 227-93t93-227-93-227-227-93-227 93-93 227 93 227 227 93m0-320" />
-                </svg>
-              </button>
-              <svg class="error-icon-svg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                <path d="M508.5-291.5Q520-303 520-320t-11.5-28.5T480-360t-28.5 11.5T440-320t11.5 28.5T480-280t28.5-11.5m0-160Q520-463 520-480v-160q0-17-11.5-28.5T480-680t-28.5 11.5T440-640v160q0 17 11.5 28.5T480-440t28.5-11.5M480-80q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
+      <section id="features">
+        <h2 class="section-title">Features</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
               </svg>
-              <div class="md3-filled-indicator"></div>
             </div>
+            <h3 class="feature-title">Material Design 3</h3>
+            <p class="feature-desc">Built strictly following Material You. Fluid shapes, adaptive colors, and zero harsh shadows or neon effects.</p>
+          </div>
 
-            <div class="md3-filled-input-wrapper">
-              <input type="url" id="shortcutIconUrl" class="md3-filled-input" placeholder=" " />
-              <label for="shortcutIconUrl" class="md3-filled-label">Icon URL (optional)</label>
-              <button type="button" class="clear-input-btn" tabindex="-1">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                  <path d="m480-424 116 116q11 11 28 11t28-11 11-28-11-28L536-480l116-116q11-11 11-28t-11-28-28-11-28 11L480-536 364-652q-11-11-28-11t-28 11-11 28 11 28l116 116-116 116q-11 11-11 28t11 28 28 11 28-11zm0 344q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80m0-80q134 0 227-93t93-227-93-227-227-93-227 93-93 227 93 227 227 93m0-320" />
-                </svg>
-              </button>
-              <svg class="error-icon-svg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                <path d="M508.5-291.5Q520-303 520-320t-11.5-28.5T480-360t-28.5 11.5T440-320t11.5 28.5T480-280t28.5-11.5m0-160Q520-463 520-480v-160q0-17-11.5-28.5T480-680t-28.5 11.5T440-640v160q0 17 11.5 28.5T480-440t28.5-11.5M480-80q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-              </svg>
-              <div class="md3-filled-indicator"></div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" /></svg>
             </div>
-          </form>
+            <h3 class="feature-title">Smart Search</h3>
+            <p class="feature-desc">Quickly toggle between different search engines directly from your home screen with a single click.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24"><path d="M4 4h4v4H4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6-12h4v4h-4V4zm0 6h4v4h-4v-4zm0 6h4v4h-4v-4z" /></svg>
+            </div>
+            <h3 class="feature-title">Your Shortcuts</h3>
+            <p class="feature-desc">Organize your favorite sites. The system features built-in native icons for major tech ecosystems.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4s1.79-4 4-4h.71C7.37 7.69 9.48 6 12 6c3.04 0 5.5 2.46 5.5 5.5v.5H19c1.66 0 3 1.34 3 3s-1.34 3-3 3z" /></svg>
+            </div>
+            <h3 class="feature-title">Weather Forecast</h3>
+            <p class="feature-desc">Minimalist embedded weather widget displaying the current forecast with clean, fluid SVGs.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="download">
+        <h2 class="section-title">Ready to upgrade your tab?</h2>
+        <button id="openModalBtnBottom" class="btn btn-filled">Get Started</button>
+      </section>
+
+      <section id="support">
+        <h2 class="section-title">Support the Project</h2>
+        <p class="hero-subtitle">This extension is open-source and ad-free. If you like it, consider supporting its development.</p>
+        <div class="btn-group">
+          <a href="#github-sponsors" class="btn btn-tonal">GitHub Sponsors</a>
+          <a href="#bmc" class="btn btn-tonal">Buy Me a Coffee</a>
+        </div>
+      </section>
+    </main>
+
+    <div class="footer-divider">
+      <svg viewBox="0 0 1200 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M 0 20 Q 12.5 5 25 20 T 50 20 T 75 20 T 100 20 T 125 20 T 150 20 T 175 20 T 200 20 T 225 20 T 250 20 T 275 20 T 300 20 T 325 20 T 350 20 T 375 20 T 400 20 T 425 20 T 450 20 T 475 20 T 500 20 T 525 20 T 550 20 T 575 20 T 600 20 T 625 20 T 650 20 T 675 20 T 700 20 T 725 20 T 750 20 T 775 20 T 800 20 T 825 20 T 850 20 T 875 20 T 900 20 T 925 20 T 950 20 T 975 20 T 1000 20 T 1025 20 T 1050 20 T 1075 20 T 1100 20 T 1125 20 T 1150 20 T 1175 20 T 1200 20"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round" />
+      </svg>
+    </div>
+
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-col footer-brand">
+          <img src="assets/icon-128.png" alt="MD3 New Tab Logo" class="logo-icon" />
+          <h3>MD3 New Tab</h3>
+          <p>MD3 New Tab is an independent open-source project and is not affiliated with, endorsed by, or sponsored by Google LLC.</p>
         </div>
 
-        <div class="md3-dialog-actions">
-          <button type="button" id="shortcut-btn-cancel" class="md3-text-btn">Cancel</button>
-          <button type="submit" form="shortcutForm" id="shortcut-btn-confirm" class="md3-filled-btn">Save</button>
+        <div class="footer-col">
+          <h4>Overview</h4>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Use</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Report a Bug</a></li>
+            <li><a href="#">Request a Feature</a></li>
+            <li><a href="#">Ask a Question</a></li>
+            <li><a href="#">Community</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Source Code</h4>
+          <ul>
+            <li><a href="#">Contributing</a></li>
+            <li><a href="#">Help Translate</a></li>
+            <li><a href="#">Support the Project</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Download</h4>
+          <ul>
+            <li><a href="#">Microsoft Edge</a></li>
+            <li><a href="#">Google Chrome</a></li>
+            <li><a href="#">Mozilla Firefox</a></li>
+            <li><a href="#">Manual Release</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    <div id="downloadModal" class="scrim">
+      <div class="modal">
+        <h3 class="modal-title">Select your browser</h3>
+        <div class="browser-list">
+          <a href="#chrome" class="browser-item">
+            Google Chrome
+            <span id="badge-chrome" class="badge-recommended">Recommended</span>
+          </a>
+          <a href="#edge" class="browser-item">
+            Microsoft Edge
+            <span id="badge-edge" class="badge-recommended">Recommended</span>
+          </a>
+          <a href="#firefox" class="browser-item">
+            Mozilla Firefox
+            <span id="badge-firefox" class="badge-recommended">Recommended</span>
+          </a>
+          <a href="#github-releases" class="browser-item"> Manual Release (GitHub) </a>
+        </div>
+        <div class="modal-actions">
+          <button id="closeModalBtn" class="btn btn-tonal">Cancel</button>
         </div>
       </div>
     </div>
 
-    <div id="global-snackbar" class="md3-snackbar">
-      <div class="md3-snackbar-text" id="snackbarText"></div>
-      <button class="md3-snackbar-action" id="snackbarAction" style="display: none;"></button>
-    </div>
-
-    <script src="/scripts/i18n.js"></script>
-    <div id="md3-custom-select-popup" class="md3-custom-select-popup">
-      <div class="md3-custom-select-list"></div>
-    </div>
-    <script type="module" src="/src/script.ts"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const body = document.body;
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          body.classList.add('dark-theme');
+        }
+        themeToggleBtn.addEventListener('click', () => {
+          body.classList.toggle('dark-theme');
+        });
+        const modal = document.getElementById('downloadModal');
+        const openBtns = [document.getElementById('openModalBtn'), document.getElementById('openModalBtnBottom')];
+        const closeBtn = document.getElementById('closeModalBtn');
+        const toggleModal = (show) => {
+          if (show) modal.classList.add('active');
+          else modal.classList.remove('active');
+        };
+        openBtns.forEach((btn) => btn.addEventListener('click', () => toggleModal(true)));
+        closeBtn.addEventListener('click', () => toggleModal(false));
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) toggleModal(false);
+        });
+        const userAgent = navigator.userAgent.toLowerCase();
+        if (userAgent.includes('edg/')) {
+          document.getElementById('badge-edge').style.display = 'inline-block';
+        } else if (userAgent.includes('firefox')) {
+          document.getElementById('badge-firefox').style.display = 'inline-block';
+        } else if (userAgent.includes('chrome') && !userAgent.includes('edg/')) {
+          document.getElementById('badge-chrome').style.display = 'inline-block';
+        }
+      });
+    </script>
   </body>
 </html>
