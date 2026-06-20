@@ -25,10 +25,10 @@
 
 The easiest option is the official store, with automatic updates.
 
-[![Chrome](repo-assets/download-chrome.png)](https://chromewebstore.google.com/detail/pbbiecccbghiolgifmlichmgpoclijfa/)
-[![Firefox](repo-assets/download-firefox.png)](https://addons.mozilla.org/en-US/firefox/addon/fluent-new-tab/)
-[![Edge](repo-assets/download-edge.png)](https://microsoftedge.microsoft.com/addons/detail/fluent-new-tab/hcohjkajcimobdddlnfnfhdfnbapondc)
-[![Github](repo-assets/download-github.png)](https://github.com/snw-mint/fluent-new-tab/releases)
+[![Chrome](repo-assets/download-chrome.png)](https://chromewebstore.google.com/detail/limheioemdhhaccglmbckadpkmnnkoab/)
+[![Firefox](repo-assets/download-firefox.png)](https://addons.mozilla.org/firefox/addon/md3-expressive-new-tab/?)
+[![Edge](repo-assets/download-edge.png)](https://microsoftedge.microsoft.com/addons/detail/jpdkkcflngfgknbgfdcaffnblbafkjgh?)
+[![Github](repo-assets/download-github.png)](https://github.com/snw-mint/md3-new-tab/releases)
 
 > [!NOTE]
 > **Edge Add-ons delay:** Microsoft's manual review takes up to 7 business days, which causes the Edge Add-ons version to lag behind. To get immediate updates and bug fixes, we highly recommend installing the version from the Chrome Web Store (fully compatible with Edge).
