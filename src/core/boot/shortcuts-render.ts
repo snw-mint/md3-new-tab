@@ -338,12 +338,13 @@ export class ShortcutsManager {
       }
     } else {
       this.shortcuts = [
-        {
-          id: '1',
-          name: 'Google',
-          url: 'https://google.com',
-          iconUrl: 'https://www.google.com/favicon.ico',
-        },
+        { id: 'shortcut_1781923170642', name: 'MD3', url: 'https://m3.material.io/' },
+        { id: 'shortcut_1781923240189', name: 'Youtube', url: 'https://youtube.com' },
+        { id: 'shortcut_1781923227005', name: 'GitHub', url: 'https://github.com/snw-mint/md3-new-tab' },
+        { id: 'shortcut_1781923256701', name: 'BMC', url: 'https://buymeacoffee.com/snw.mint' },
+        { id: 'shortcut_1781923301038', name: 'Gemini', url: 'https://gemini.google.com' },
+        { id: 'shortcut_1781923355670', name: 'Reddit', url: 'https://reddit.com', iconUrl: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/reddit-icon.png' },
+        { id: 'shortcut_1781923629158', name: 'Spotify', url: 'https://spotify.com' }
       ];
     }
   }

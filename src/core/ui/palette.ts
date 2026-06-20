@@ -54,10 +54,10 @@ class PaletteManager {
   }
 
   private init(): void {
-    const savedPalette = localStorage.getItem(this.storageKey) || 'default';
+    const savedPalette = localStorage.getItem(this.storageKey) || 'expressive';
     const savedCustomColor =
       localStorage.getItem(this.customColorKey) ||
-      PREDEFINED_SOURCES['default'];
+      PREDEFINED_SOURCES['expressive'];
 
     this.processTheme(savedPalette, savedCustomColor);
     this.updateActiveUI(savedPalette);
@@ -70,7 +70,7 @@ class PaletteManager {
         if (palette && palette !== 'custom') {
           const customColor =
             localStorage.getItem(this.customColorKey) ||
-            PREDEFINED_SOURCES['default'];
+            PREDEFINED_SOURCES['expressive'];
           this.processTheme(palette, customColor);
           this.updateActiveUI(palette);
           localStorage.setItem(this.storageKey, palette);

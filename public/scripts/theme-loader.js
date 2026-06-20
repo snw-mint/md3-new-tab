@@ -1,12 +1,26 @@
+/*
+ * MD3: Expressive New Tab
+ * Copyright (c) 2026 SnowMint
+ * Licensed under the GNU General Public License v3.0 (GPL-3.0)
+ * You should have received a copy of the GNU General Public License along with this program.
+ * If not, see <https://www.gnu.org/licenses/>.
+ */
+
 (function () {
   var root = document.documentElement;
 
   var theme = localStorage.getItem('theme') || 'device';
-  if (theme !== 'device') {
+  if (theme === 'dark') {
+    root.setAttribute('data-theme', 'dark');
+  } else if (theme === 'auto' || theme === 'device') {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      root.setAttribute('data-theme', 'dark');
+    }
+  } else {
     root.setAttribute('data-theme', theme);
   }
 
-  var paletteId = localStorage.getItem('ent_selected_palette') || 'default';
+  var paletteId = localStorage.getItem('ent_selected_palette') || 'expressive';
   root.setAttribute('data-palette', paletteId);
 
   try {
@@ -28,7 +42,7 @@
     if (settings.shortcutsEnabled === false) {
       root.style.setProperty('--shortcuts-grid-display', 'none');
     }
-    
+
     var displayStyle = settings.displayStyle || 'greetings';
     root.setAttribute('data-display-style', displayStyle);
     if (settings.displayEnabled === false) {
@@ -39,12 +53,16 @@
   try {
     var engineIcon = localStorage.getItem('ent_engine_icon_cache');
     if (engineIcon) {
-      document.addEventListener('DOMContentLoaded', function () {
-        var el = document.getElementById('currentEngineIcon');
-        if (el && !el.hasChildNodes()) {
-          el.innerHTML = engineIcon;
-        }
-      }, { once: true });
+      document.addEventListener(
+        'DOMContentLoaded',
+        function () {
+          var el = document.getElementById('currentEngineIcon');
+          if (el && !el.hasChildNodes()) {
+            el.innerHTML = engineIcon;
+          }
+        },
+        { once: true },
+      );
     }
   } catch (e) {}
 })();

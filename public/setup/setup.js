@@ -1,0 +1,639 @@
+/*
+ * MD3: Expressive New Tab
+ * Copyright (c) 2026 SnowMint
+ * Licensed under the GNU General Public License v3.0 (GPL-3.0)
+ * You should have received a copy of the GNU General Public License along with this program.
+ * If not, see <https://www.gnu.org/licenses/>.
+ */
+
+const DEFAULT_LOCALE = 'en_US';
+
+const APP_KEYS = [
+  'ent_shortcuts',
+  'theme',
+  'ent_selected_palette',
+  'ent_custom_color',
+  'weatherUnit',
+  'fluent_city_data',
+  'weatherCity',
+  'shortcutsRows',
+  'launcherEnabled',
+  'launcherProvider',
+  'greetingName',
+  'displayEnabled',
+  'use12Hour',
+];
+
+const SHORTCUTS_TREE_KEY = 'shortcutsTree';
+let translations = {};
+
+async function loadTranslations() {
+  const lang = localStorage.getItem('userLanguage') || 'en_US';
+  const cacheKey = `i18n_cache_${lang}`;
+  const cached = localStorage.getItem(cacheKey);
+
+  if (cached) {
+    try {
+      translations = JSON.parse(cached);
+      applyTranslations();
+      return;
+    } catch {
+      localStorage.removeItem(cacheKey);
+    }
+  }
+
+  let messages = null;
+
+  try {
+    const url = chrome.runtime.getURL(`_locales/${lang}/messages.json`);
+    const res = await fetch(url);
+    if (res.ok) messages = await res.json();
+  } catch {}
+
+  if (!messages) {
+    try {
+      const url = chrome.runtime.getURL('crowdin/messages.json');
+      const res = await fetch(url);
+      if (res.ok) messages = await res.json();
+    } catch {}
+  }
+
+  if (messages) {
+    translations = messages;
+    localStorage.setItem(cacheKey, JSON.stringify(translations));
+  }
+
+  applyTranslations();
+}
+
+function t(key) {
+  return translations[key] ? translations[key].message : key;
+}
+
+function applyTranslations() {
+  document.querySelectorAll('[data-i18n]').forEach((el) => {
+    const key = el.getAttribute('data-i18n');
+    const value = t(key);
+    if (!value || value === key) return;
+
+    if (el.tagName === 'INPUT') {
+      el.placeholder = value;
+    } else if (el.tagName === 'OPTION') {
+      el.textContent = value;
+    } else {
+      el.textContent = value;
+    }
+  });
+}
+
+function applyTheme(theme) {
+  const html = document.documentElement;
+  html.removeAttribute('data-theme');
+  if (theme === 'dark') {
+    html.setAttribute('data-theme', 'dark');
+  } else if (theme === 'auto' || theme === 'device') {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      html.setAttribute('data-theme', 'dark');
+    }
+  }
+}
+
+function getCurrentTheme() {
+  return localStorage.getItem('theme') || 'auto';
+}
+
+function getCurrentAccent() {
+  return localStorage.getItem('ent_selected_palette') || 'expressive';
+}
+
+function saveAppearance() {
+  const theme = document.querySelector('.theme-circle-big.active')?.dataset.theme || 'auto';
+  const palette = document.querySelector('.color-circle-btn.active')?.dataset.palette || 'expressive';
+  const name = document.getElementById('input-name')?.value.trim() || '';
+  localStorage.setItem('theme', theme);
+  localStorage.setItem('ent_selected_palette', palette);
+
+  const settingsStr = localStorage.getItem('ent_global_settings');
+  const settings = settingsStr ? JSON.parse(settingsStr) : {};
+  settings.greetingName = name;
+  localStorage.setItem('ent_global_settings', JSON.stringify(settings));
+}
+
+function saveWidgets() {
+  const toggleDisplay = document.getElementById('toggle-display');
+  const selectDisplay = document.getElementById('select-display');
+  const displayEnabled = toggleDisplay ? toggleDisplay.checked : true;
+  const displayType = selectDisplay ? selectDisplay.value : 'greeting';
+  const toggleShortcuts = document.getElementById('toggle-shortcuts');
+  const selectShortcuts = document.getElementById('select-shortcuts');
+  const shortcutsEnabled = toggleShortcuts ? toggleShortcuts.checked : true;
+  const shortcutsRows = selectShortcuts ? selectShortcuts.value : '1';
+  const toggleLauncher = document.getElementById('toggle-launcher');
+  const selectLauncher = document.getElementById('select-launcher');
+  const launcherEnabled = toggleLauncher ? toggleLauncher.checked : true;
+  const launcherProvider = selectLauncher ? selectLauncher.value : 'microsoft';
+
+  const settingsStr = localStorage.getItem('ent_global_settings');
+  const settings = settingsStr ? JSON.parse(settingsStr) : {};
+
+  settings.displayEnabled = displayEnabled;
+  settings.displayStyle = displayType;
+  settings.shortcutsEnabled = shortcutsEnabled;
+  settings.shortcutsRows = shortcutsRows;
+  settings.launcherEnabled = launcherEnabled;
+  settings.launcherProvider = launcherProvider;
+
+  const selectSearch = document.getElementById('select-search');
+  if (selectSearch) {
+    localStorage.setItem('searchEngine', selectSearch.value);
+  }
+
+  localStorage.setItem('ent_global_settings', JSON.stringify(settings));
+}
+
+const STEPS_ORDER = ['welcome', 'appearance', 'widgets', 'final'];
+
+function showStep(stepId) {
+  const current = document.querySelector('.step.active');
+  const next = document.getElementById(`step-${stepId}`);
+  if (!next) return;
+
+  if (current) {
+    const currentId = current.id.replace('step-', '');
+    const currentIndex = STEPS_ORDER.indexOf(currentId);
+    const nextIndex = STEPS_ORDER.indexOf(stepId);
+
+    if (currentIndex !== -1 && nextIndex !== -1) {
+      const directionClass = nextIndex > currentIndex ? 'slide-next' : 'slide-prev';
+
+      document.body.classList.remove('slide-next', 'slide-prev');
+      void document.body.offsetWidth;
+      document.body.classList.add(directionClass);
+    }
+    current.classList.remove('active');
+  } else {
+    document.body.classList.add('slide-next');
+  }
+
+  next.classList.add('active');
+  localStorage.setItem('setup_current_step', stepId);
+}
+
+function initThemePicker() {
+  const saved = getCurrentTheme();
+  const buttons = document.querySelectorAll('.theme-circle-big');
+  buttons.forEach((btn) => {
+    if (btn.dataset.theme === saved) btn.classList.add('active');
+    btn.addEventListener('click', () => {
+      buttons.forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      const theme = btn.dataset.theme;
+      localStorage.setItem('theme', theme);
+      applyTheme(theme);
+    });
+  });
+}
+
+const PREDEFINED_PALETTES = {
+  default: '#0b57d0',
+  expressive: '#65558f',
+  leaf: '#518242',
+  gold: '#797a1e',
+  sun: '#d87739',
+  candy: '#b90063',
+};
+
+function applyPalettePreview(palette) {
+  const hex = PREDEFINED_PALETTES[palette] || PREDEFINED_PALETTES.default;
+  document.documentElement.style.setProperty('--accent-color', hex);
+  document.documentElement.style.setProperty('--sys-color-primary', hex);
+}
+
+function initAccentPicker() {
+  const saved = getCurrentAccent();
+  const buttons = document.querySelectorAll('.color-circle-btn');
+
+  applyPalettePreview(saved);
+
+  buttons.forEach((btn) => {
+    if (btn.dataset.palette === saved) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+    btn.addEventListener('click', () => {
+      buttons.forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      const palette = btn.dataset.palette;
+      localStorage.setItem('ent_selected_palette', palette);
+      applyPalettePreview(palette);
+    });
+  });
+}
+
+function initNameInput() {
+  const input = document.getElementById('input-name');
+  if (!input) return;
+  const settingsStr = localStorage.getItem('ent_global_settings');
+  const settings = settingsStr ? JSON.parse(settingsStr) : {};
+  input.value = settings.greetingName || '';
+}
+
+function initWidgetToggles() {
+  const settingsStr = localStorage.getItem('ent_global_settings');
+  const settings = settingsStr
+    ? JSON.parse(settingsStr)
+    : {
+        displayEnabled: true,
+        shortcutsEnabled: true,
+        launcherEnabled: true,
+      };
+
+  const pairs = [
+    {
+      toggle: 'toggle-display',
+      select: 'select-display',
+      isEnabled: settings.displayEnabled,
+    },
+    {
+      toggle: 'toggle-shortcuts',
+      select: 'select-shortcuts',
+      isEnabled: settings.shortcutsEnabled,
+    },
+    {
+      toggle: 'toggle-launcher',
+      select: 'select-launcher',
+      isEnabled: settings.launcherEnabled,
+    },
+  ];
+
+  pairs.forEach(({ toggle, select, isEnabled }) => {
+    const toggleEl = document.getElementById(toggle);
+    const selectEl = document.getElementById(select);
+    if (!toggleEl || !selectEl) return;
+
+    toggleEl.checked = isEnabled !== false;
+    selectEl.disabled = !toggleEl.checked;
+
+    const block = toggleEl.closest('.setting-block');
+    if (block) {
+      if (!toggleEl.checked) block.classList.add('is-disabled');
+      else block.classList.remove('is-disabled');
+    }
+
+    toggleEl.addEventListener('change', () => {
+      selectEl.disabled = !toggleEl.checked;
+      if (block) {
+        if (!toggleEl.checked) block.classList.add('is-disabled');
+        else block.classList.remove('is-disabled');
+      }
+    });
+  });
+
+  const btnAppearanceBack = document.getElementById('btnBack');
+  if (btnAppearanceBack) {
+    btnAppearanceBack.addEventListener('click', () => showStep('welcome'));
+  }
+
+  const btnWidgetsBack = document.getElementById('btn-widgets-back');
+  if (btnWidgetsBack) {
+    btnWidgetsBack.addEventListener('click', () => showStep('appearance'));
+  }
+
+  const savedDisplayType = settings.displayStyle || 'greetings';
+  const displaySelect = document.getElementById('select-display');
+  if (displaySelect) displaySelect.value = savedDisplayType;
+
+  const savedRows = settings.shortcutsRows || '1';
+  const shortcutsSelect = document.getElementById('select-shortcuts');
+  if (shortcutsSelect) shortcutsSelect.value = savedRows;
+
+  const savedLauncher = settings.launcherProvider || 'google';
+  const launcherSelect = document.getElementById('select-launcher');
+  if (launcherSelect) launcherSelect.value = savedLauncher;
+
+  const savedSearchEngine = localStorage.getItem('searchEngine') || 'system';
+  const searchSelect = document.getElementById('select-search');
+  if (searchSelect) searchSelect.value = savedSearchEngine;
+}
+
+function showPopupError(message) {
+  const overlay = document.getElementById('warningModal');
+  const msgEl = document.getElementById('warning-modal-message');
+  if (!overlay || !msgEl) return;
+  msgEl.textContent = message;
+  overlay.classList.add('active');
+}
+
+function hidePopup() {
+  const overlay = document.getElementById('warningModal');
+  if (overlay) overlay.classList.remove('active');
+}
+
+function handleRestoreFile(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(String(e.target.result || '{}'));
+      const hasValidKey = APP_KEYS.some((key) => typeof data[key] === 'string');
+
+      if (!hasValidKey) {
+        showPopupError(t('wizardRestoreError'));
+        return;
+      }
+
+      if (data['shortcuts']) {
+        localStorage.setItem('ent_shortcuts', data['shortcuts']);
+      }
+
+      if (data['theme']) localStorage.setItem('theme', data['theme']);
+      if (data['ent_selected_palette']) localStorage.setItem('ent_selected_palette', data['ent_selected_palette']);
+      if (data['ent_custom_color']) localStorage.setItem('ent_custom_color', data['ent_custom_color']);
+
+      const settingsStr = localStorage.getItem('ent_global_settings');
+      const newState = settingsStr ? JSON.parse(settingsStr) : {};
+
+      if (data['weatherUnit']) newState.tempUnit = data['weatherUnit'];
+
+      if (data['weatherCity']) {
+        newState.weatherCity = data['weatherCity'];
+      } else if (data['fluent_city_data']) {
+        try {
+          const cityData = JSON.parse(data['fluent_city_data']);
+          if (cityData.name) {
+            newState.weatherCity = cityData.name;
+          }
+        } catch (err) {}
+      }
+
+      if (data['shortcutsRows']) newState.shortcutsRows = data['shortcutsRows'];
+      if (data['launcherEnabled']) newState.launcherEnabled = data['launcherEnabled'] === 'true';
+      if (data['launcherProvider']) newState.launcherProvider = data['launcherProvider'];
+      if (data['greetingName']) newState.greetingName = data['greetingName'];
+      if (data['displayEnabled']) newState.displayEnabled = data['displayEnabled'] === 'true';
+      if (data['use12Hour']) newState.clock12hFormat = data['use12Hour'] === 'true';
+
+      localStorage.setItem('ent_global_settings', JSON.stringify(newState));
+      sessionStorage.setItem('md3_settings_restored', 'true');
+
+      showStep('final');
+    } catch {
+      showPopupError(t('wizardRestoreError'));
+    }
+  };
+  reader.readAsText(file);
+}
+
+let activeSelectTrigger = null;
+let selectPopupEl = null;
+let selectListContainer = null;
+
+function closeSelectPopup() {
+  if (selectPopupEl) selectPopupEl.classList.remove('active');
+  if (activeSelectTrigger) {
+    activeSelectTrigger.classList.remove('popup-open');
+    activeSelectTrigger = null;
+  }
+}
+
+function syncTriggerText(trigger) {
+  const template = trigger.querySelector('.md3-select-options');
+  const valueDisplay = trigger.querySelector('.md3-select-value');
+
+  if (!template || !valueDisplay) return;
+
+  const currentVal = trigger.value;
+  const options = Array.from(template.content.querySelectorAll('div'));
+
+  let selectedOption = options.find((opt) => opt.getAttribute('data-value') === currentVal);
+  if (!selectedOption && options.length > 0) selectedOption = options[0];
+
+  if (selectedOption) {
+    valueDisplay.textContent = selectedOption.textContent;
+    const i18nKey = selectedOption.getAttribute('data-i18n');
+    if (i18nKey) {
+      valueDisplay.setAttribute('data-i18n', i18nKey);
+    } else {
+      valueDisplay.removeAttribute('data-i18n');
+    }
+  }
+}
+
+function initCustomSelectSystem() {
+  const popup = document.getElementById('md3-custom-select-popup');
+  selectPopupEl = popup;
+  selectListContainer = popup?.querySelector('.md3-custom-select-list');
+
+  if (!popup || !selectListContainer) return;
+
+  function positionPopup(trigger) {
+    const rect = trigger.getBoundingClientRect();
+    const computedStyles = window.getComputedStyle(trigger);
+    popup.style.borderRadius = computedStyles.borderRadius;
+    popup.style.width = `${rect.width}px`;
+    popup.style.left = `${rect.left}px`;
+
+    const popupHeight = Math.min(260, selectListContainer.scrollHeight + 8);
+    const checkOverflowBottom = rect.bottom + popupHeight > window.innerHeight;
+    const checkOverflowTop = rect.top - popupHeight > 0;
+
+    if (checkOverflowBottom && checkOverflowTop) {
+      popup.style.top = `${rect.top + window.scrollY - popupHeight - 6}px`;
+    } else {
+      popup.style.top = `${rect.bottom + window.scrollY + 6}px`;
+    }
+  }
+
+  function openPopup(trigger) {
+    if (activeSelectTrigger === trigger) {
+      closeSelectPopup();
+      return;
+    }
+
+    closeSelectPopup();
+    if (trigger.disabled) return;
+
+    activeSelectTrigger = trigger;
+    trigger.classList.add('popup-open');
+
+    const template = trigger.querySelector('.md3-select-options');
+    if (!template) {
+      closeSelectPopup();
+      return;
+    }
+
+    selectListContainer.innerHTML = '';
+
+    const options = Array.from(template.content.querySelectorAll('div'));
+
+    options.forEach((optionData) => {
+      const val = optionData.getAttribute('data-value') || '';
+      const text = optionData.textContent || '';
+      const i18nKey = optionData.getAttribute('data-i18n');
+
+      const item = document.createElement('div');
+      item.className = 'md3-custom-select-item';
+      item.textContent = text;
+      item.setAttribute('role', 'option');
+      item.setAttribute('data-value', val);
+      if (i18nKey) item.setAttribute('data-i18n', i18nKey);
+
+      if (trigger.value === val) {
+        item.classList.add('selected');
+        item.setAttribute('aria-selected', 'true');
+      }
+
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        trigger.value = val;
+        trigger.dispatchEvent(new Event('change', { bubbles: true }));
+        closeSelectPopup();
+      });
+
+      selectListContainer.appendChild(item);
+    });
+
+    popup.classList.add('active');
+    positionPopup(trigger);
+
+    const currentSelected = selectListContainer.querySelector('.md3-custom-select-item.selected');
+    if (currentSelected) {
+      selectListContainer.scrollTop = currentSelected.offsetTop - selectListContainer.offsetTop;
+    }
+  }
+
+  const triggers = document.querySelectorAll('.md3-select-trigger');
+
+  triggers.forEach((trigger) => {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'value') {
+          syncTriggerText(trigger);
+        }
+      });
+    });
+    observer.observe(trigger, { attributes: true });
+
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openPopup(trigger);
+    });
+
+    trigger.addEventListener('change', () => {
+      syncTriggerText(trigger);
+    });
+
+    syncTriggerText(trigger);
+  });
+
+  popup.addEventListener('click', (e) => e.stopPropagation());
+  document.addEventListener('click', () => closeSelectPopup());
+
+  window.addEventListener('resize', () => {
+    if (activeSelectTrigger) positionPopup(activeSelectTrigger);
+  });
+
+  document.querySelectorAll('.split-main').forEach((container) => {
+    container.addEventListener('scroll', () => {
+      if (activeSelectTrigger) {
+        closeSelectPopup();
+      }
+    });
+  });
+}
+
+function init() {
+  loadTranslations();
+
+  chrome.storage.local.get('fluent_persistent_backup_v1', (data) => {
+    const backup = data.fluent_persistent_backup_v1;
+    if (backup) {
+      APP_KEYS.forEach((key) => {
+        if (localStorage.getItem(key) === null && backup[key] !== undefined) {
+          localStorage.setItem(key, backup[key]);
+        }
+      });
+      if (localStorage.getItem(SHORTCUTS_TREE_KEY) === null && backup[SHORTCUTS_TREE_KEY] !== undefined) {
+        localStorage.setItem(SHORTCUTS_TREE_KEY, backup[SHORTCUTS_TREE_KEY]);
+      }
+    }
+  });
+
+  const savedTheme = getCurrentTheme();
+  applyTheme(savedTheme);
+
+  const savedStep = localStorage.getItem('setup_current_step') || 'welcome';
+  if (savedStep !== 'final') {
+    showStep(savedStep);
+  } else {
+    showStep('welcome');
+  }
+
+  initThemePicker();
+  initAccentPicker();
+  initNameInput();
+  initWidgetToggles();
+  initCustomSelectSystem();
+
+  const btnSkip = document.getElementById('btn-skip');
+  if (btnSkip) {
+    btnSkip.addEventListener('click', () => {
+      showStep('final');
+    });
+  }
+
+  const btnRestore = document.getElementById('btn-restore');
+  const restoreInput = document.getElementById('restore-file-input');
+
+  if (btnRestore && restoreInput) {
+    btnRestore.addEventListener('click', () => restoreInput.click());
+    restoreInput.addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (file) handleRestoreFile(file);
+      restoreInput.value = '';
+    });
+  }
+
+  const btnStart = document.getElementById('btn-start');
+  if (btnStart) {
+    btnStart.addEventListener('click', () => showStep('appearance'));
+  }
+
+  const btnAppearanceNext = document.getElementById('btnNext');
+  if (btnAppearanceNext) {
+    btnAppearanceNext.addEventListener('click', () => {
+      saveAppearance();
+      showStep('widgets');
+    });
+  }
+
+  const btnWarningCancel = document.getElementById('warning-btn-cancel');
+  if (btnWarningCancel) {
+    btnWarningCancel.addEventListener('click', hidePopup);
+  }
+
+  const warningOverlay = document.getElementById('warningModal');
+  if (warningOverlay) {
+    warningOverlay.addEventListener('click', (e) => {
+      if (e.target === warningOverlay) hidePopup();
+    });
+  }
+
+  const btnWidgetsNext = document.getElementById('btn-widgets-next');
+  if (btnWidgetsNext) {
+    btnWidgetsNext.addEventListener('click', () => {
+      saveWidgets();
+      showStep('final');
+    });
+  }
+
+  const btnFinalStart = document.getElementById('btn-final-start');
+  if (btnFinalStart) {
+    btnFinalStart.addEventListener('click', () => {
+      chrome.tabs.update({ url: chrome.runtime.getURL('index.html') });
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', init);

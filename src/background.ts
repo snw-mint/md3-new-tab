@@ -7,8 +7,12 @@
  */
 
 chrome.runtime.onInstalled.addListener((details) => {
-  if (details.reason === 'update') {
+  if (details.reason === 'install') {
+    chrome.tabs.create({ url: chrome.runtime.getURL('setup/setup.html') });
+  } else if (details.reason === 'update') {
     const manifest = chrome.runtime.getManifest();
     chrome.storage.local.set({ extension_updated_version: manifest.version });
   }
 });
+
+chrome.runtime.setUninstallURL('#');

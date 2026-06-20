@@ -9,7 +9,7 @@
 import { engines } from '../lazy/search-engine-data';
 
 export function getSavedEngine(): string {
-  return localStorage.getItem('searchEngine') || 'google';
+  return localStorage.getItem('searchEngine') || 'system';
 }
 
 export function setSavedEngine(engineKey: string): void {

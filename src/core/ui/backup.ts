@@ -42,6 +42,7 @@ export function initBackupSystem(): void {
 
       backupData['shortcuts'] = localStorage.getItem('ent_shortcuts') || '[]';
       backupData['theme'] = localStorage.getItem('theme') || 'device';
+      backupData['searchEngine'] = localStorage.getItem('searchEngine') || 'system';
       backupData['ent_selected_palette'] = localStorage.getItem('ent_selected_palette') || 'default';
       backupData['ent_custom_color'] = localStorage.getItem('ent_custom_color') || '#0B57D0';
 
@@ -104,6 +105,7 @@ export function initBackupSystem(): void {
               }
 
               if (data['theme']) localStorage.setItem('theme', data['theme']);
+              if (data['searchEngine']) localStorage.setItem('searchEngine', data['searchEngine']);
               if (data['ent_selected_palette']) localStorage.setItem('ent_selected_palette', data['ent_selected_palette']);
               if (data['ent_custom_color']) localStorage.setItem('ent_custom_color', data['ent_custom_color']);
 
