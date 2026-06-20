@@ -19,7 +19,7 @@ When reviewing code and generating comments, strictly assign severity based on t
 
 ### MEDIUM
 
-- Design changes, SCSS styling adjustments, and Fluent Design conformance fixes.
+- Design changes, SCSS styling adjustments, and Material Design 3 conformance fixes.
 - General logic fixes, non-breaking bug resolutions, and DOM manipulation corrections in `src/core/` or `src/script.ts`.
 
 ### HIGH
@@ -35,7 +35,7 @@ When reviewing code and generating comments, strictly assign severity based on t
 
 ## 3. Feedback Tone
 
-Provide direct, highly technical feedback. Point out exactly where the code violates the Vanilla TS/SCSS constraint or the Fluent Design principles. If the logic is correct but does not align with the project's minimalist philosophy, suggest a lighter approach.
+Provide direct, highly technical feedback. Point out exactly where the code violates the Vanilla TS/SCSS constraint or the Material Design 3 principles. If the logic is correct but does not align with the project's minimalist philosophy, suggest a lighter approach.
 
 ## 4. Security & Extension Compliance (Manifest V3)
 
@@ -56,8 +56,7 @@ Provide direct, highly technical feedback. Point out exactly where the code viol
 ```typescript
 // Do not do this
 const updateWeatherUI = (data: any) => {
-  document.getElementById('weather').innerHTML =
-    `<div class="temp">${data.temp}</div>`;
+  document.getElementById('weather').innerHTML = `<div class="temp">${data.temp}</div>`;
 };
 ```
 
