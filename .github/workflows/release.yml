@@ -36,7 +36,7 @@ jobs:
       - name: Package Chrome extension
         run: |
           cd dist
-          zip -r "../fluent-new-tab-v${{ steps.version.outputs.VERSION }}.zip" . \
+          zip -r "../md3-new-tab-v${{ steps.version.outputs.VERSION }}.zip" . \
             --exclude "*.map" \
             --exclude ".DS_Store"
 
@@ -49,7 +49,7 @@ jobs:
       - name: Package Firefox extension
         run: |
           cd dist
-          zip -r "../fluent-new-tab-v${{ steps.version.outputs.VERSION }}-firefox.zip" . \
+          zip -r "../md3-new-tab-v${{ steps.version.outputs.VERSION }}-firefox.zip" . \
             --exclude "*.map" \
             --exclude ".DS_Store"
 
@@ -57,7 +57,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            fluent-new-tab-v${{ steps.version.outputs.VERSION }}.zip
-            fluent-new-tab-v${{ steps.version.outputs.VERSION }}-firefox.zip
+            md3-new-tab-v${{ steps.version.outputs.VERSION }}.zip
+            md3-new-tab-v${{ steps.version.outputs.VERSION }}-firefox.zip
           generate_release_notes: true
           draft: true
