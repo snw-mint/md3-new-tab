@@ -79,10 +79,16 @@ export async function updateWeatherWidget(): Promise<void> {
     return;
   }
 
-  const cityString = localStorage.getItem('ent_weather_city');
+  let cityString = localStorage.getItem('ent_weather_city');
   if (!cityString) {
-    widgetEl.style.display = 'none';
-    return;
+    const defaultCity: CityData = {
+      name: 'New York',
+      lat: 40.7128,
+      lon: -74.0060,
+      country: 'United States',
+    };
+    localStorage.setItem('ent_weather_city', JSON.stringify(defaultCity));
+    cityString = JSON.stringify(defaultCity);
   }
 
   const cityData = JSON.parse(cityString) as CityData;
