@@ -163,6 +163,7 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
     };
 
     displayStyleSelect.value = globalState.current.displayStyle;
+    displayStyleSelect.setAttribute('value', globalState.current.displayStyle);
     updateDisplaySettingsUI(globalState.current.displayStyle);
 
     displayStyleSelect.addEventListener('change', (e) => {
@@ -172,6 +173,9 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
     globalState.subscribe((state) => {
       if (displayStyleSelect.value !== state.displayStyle) {
         displayStyleSelect.value = state.displayStyle;
+      }
+      if (displayStyleSelect.getAttribute('value') !== state.displayStyle) {
+        displayStyleSelect.setAttribute('value', state.displayStyle);
       }
       updateDisplaySettingsUI(state.displayStyle);
     });
@@ -238,6 +242,7 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
   const shortcutsRowsSelect = document.getElementById('shortcutsRowsSelect') as HTMLButtonElement | null;
   if (shortcutsRowsSelect) {
     shortcutsRowsSelect.value = globalState.current.shortcutsRows;
+    shortcutsRowsSelect.setAttribute('value', globalState.current.shortcutsRows);
 
     shortcutsRowsSelect.addEventListener('change', (e) => {
       const target = e.target as HTMLSelectElement;
@@ -247,6 +252,9 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
     globalState.subscribe((state) => {
       if ((shortcutsRowsSelect as any).value !== state.shortcutsRows) {
         (shortcutsRowsSelect as any).value = state.shortcutsRows;
+      }
+      if (shortcutsRowsSelect.getAttribute('value') !== state.shortcutsRows) {
+        shortcutsRowsSelect.setAttribute('value', state.shortcutsRows);
       }
     });
   }
@@ -261,6 +269,7 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
   const launcherProviderSelect = document.getElementById('launcherProviderSelect') as HTMLButtonElement | null;
   if (launcherProviderSelect) {
     launcherProviderSelect.value = globalState.current.launcherProvider;
+    launcherProviderSelect.setAttribute('value', globalState.current.launcherProvider);
 
     launcherProviderSelect.addEventListener('change', (e) => {
       const target = e.target as HTMLSelectElement;
@@ -270,6 +279,9 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
     globalState.subscribe((state) => {
       if (launcherProviderSelect.value !== state.launcherProvider) {
         launcherProviderSelect.value = state.launcherProvider;
+      }
+      if (launcherProviderSelect.getAttribute('value') !== state.launcherProvider) {
+        launcherProviderSelect.setAttribute('value', state.launcherProvider);
       }
     });
   }
