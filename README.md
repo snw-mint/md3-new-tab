@@ -1,6 +1,6 @@
 # <img src="public\assets\icon-128.png" width="50" align="center"> MD3: Expressive New Tab &nbsp;
 
-![Fluent New Tab Main](repo-assets/main.gif)
+![Fluent New Tab Main](repo-assets/main.webp)
 
 <p align="center">
   <strong>A beautiful new tab inspired by Google's Material Design 3.</strong>
