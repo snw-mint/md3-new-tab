@@ -194,19 +194,64 @@ function initThemePicker() {
   });
 }
 
-const PREDEFINED_PALETTES = {
-  default: '#0b57d0',
-  expressive: '#65558f',
-  leaf: '#518242',
-  gold: '#797a1e',
-  sun: '#d87739',
-  candy: '#b90063',
+const PALETTE_COLORS = {
+  default: {
+    lightPrimary: '#0b57d0',
+    lightOnPrimary: '#ffffff',
+    darkPrimary: '#b2c5ff',
+    darkOnPrimary: '#002b72',
+    darkSurface: '#1b1b1f',
+  },
+  expressive: {
+    lightPrimary: '#65558f',
+    lightOnPrimary: '#ffffff',
+    darkPrimary: '#ccb6ff',
+    darkOnPrimary: '#1d064a',
+    darkSurface: '#1c1b1e',
+  },
+  leaf: {
+    lightPrimary: '#518242',
+    lightOnPrimary: '#ffffff',
+    darkPrimary: '#98d782',
+    darkOnPrimary: '#053900',
+    darkSurface: '#1a1c18',
+  },
+  gold: {
+    lightPrimary: '#797a1e',
+    lightOnPrimary: '#ffffff',
+    darkPrimary: '#cbcc57',
+    darkOnPrimary: '#323200',
+    darkSurface: '#1c1c17',
+  },
+  sun: {
+    lightPrimary: '#d87739',
+    lightOnPrimary: '#ffffff',
+    darkPrimary: '#ffb68d',
+    darkOnPrimary: '#532200',
+    darkSurface: '#201a17',
+  },
+  candy: {
+    lightPrimary: '#b90063',
+    lightOnPrimary: '#ffffff',
+    darkPrimary: '#ffb1c8',
+    darkOnPrimary: '#650033',
+    darkSurface: '#201a1b',
+  },
 };
 
 function applyPalettePreview(palette) {
-  const hex = PREDEFINED_PALETTES[palette] || PREDEFINED_PALETTES.default;
-  document.documentElement.style.setProperty('--accent-color', hex);
-  document.documentElement.style.setProperty('--sys-color-primary', hex);
+  const colors = PALETTE_COLORS[palette] || PALETTE_COLORS.default;
+  const root = document.documentElement;
+  
+  root.style.setProperty('--sys-color-primary-light', colors.lightPrimary);
+  root.style.setProperty('--sys-color-on-primary-light', colors.lightOnPrimary);
+  root.style.setProperty('--sys-color-primary-dark', colors.darkPrimary);
+  root.style.setProperty('--sys-color-on-primary-dark', colors.darkOnPrimary);
+  root.style.setProperty('--sys-color-surface-dark', colors.darkSurface);
+  
+  // Set fallback accent variables
+  root.style.setProperty('--accent-color', 'var(--sys-color-primary)');
+  root.style.setProperty('--accent-contrast', 'var(--sys-color-on-primary)');
 }
 
 function initAccentPicker() {
