@@ -113,9 +113,6 @@ dist
 # FuseBox cache
 .fusebox/
 
-# DynamoDB Local files
-.dynamodb/
-
 # Firebase cache directory
 .firebase/
 
