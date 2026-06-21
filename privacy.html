@@ -115,7 +115,8 @@
         margin-bottom: 16px;
       }
 
-      .card ul, .card ol {
+      .card ul,
+      .card ol {
         margin-bottom: 24px;
         padding-left: 24px;
         color: var(--md-sys-color-on-surface-variant);
@@ -156,7 +157,9 @@
         align-items: center;
         justify-content: center;
         text-decoration: none;
-        transition: background-image 0.2s ease, transform 0.2s ease;
+        transition:
+          background-image 0.2s ease,
+          transform 0.2s ease;
       }
 
       .btn-filled {
@@ -168,7 +171,7 @@
         background-image: linear-gradient(rgb(255 255 255 / 8%) 0 0);
         transform: translateY(-2px);
       }
-      
+
       .btn-filled:active {
         transform: translateY(0);
       }
@@ -204,7 +207,7 @@
       <p>To provide features like weather forecasts, the extension needs to request information from external services. This communication happens directly between your browser and the service provider. <strong>No data ever passes through our servers.</strong></p>
       <p>Below is a list of third-party services used and why:</p>
       <ul>
-          <li><strong>Weather Information:</strong> If you enable the weather widget, the location you provide is sent to <code>Open-Meteo</code> to fetch current weather data and forecasts.</li>
+        <li><strong>Weather Information:</strong> If you enable the weather widget, the location you provide is sent to <code>Open-Meteo</code> to fetch current weather data and forecasts.</li>
       </ul>
 
       <h2>4. Permissions Explained</h2>
@@ -212,23 +215,23 @@
 
       <h3>General Permissions</h3>
       <ul>
-          <li><code>storage</code>: This permission is essential for saving your personal settings, such as your preferred theme, custom shortcuts, and widget configurations, directly on your local device.</li>
-          <li><code>unlimitedStorage</code>: This permission allows the extension to store larger files locally, preventing the browser from deleting your settings if it runs low on storage space.</li>
+        <li><code>storage</code>: This permission is essential for saving your personal settings, such as your preferred theme, custom shortcuts, and widget configurations, directly on your local device.</li>
+        <li><code>unlimitedStorage</code>: This permission allows the extension to store larger files locally, preventing the browser from deleting your settings if it runs low on storage space.</li>
       </ul>
 
       <h3>Optional Host Permissions</h3>
       <p>To give you maximum control, <strong>all external host permissions are optional by default</strong>. You will be prompted to grant permission individually only when you activate a feature that requires it.</p>
       <p>These optional permissions allow the extension to communicate with specific external services to fetch dynamic content. No data is ever sent to our servers.</p>
       <ul>
-          <li><strong>Weather Widget</strong> (<code>https://geocoding-api.open-meteo.com/*</code>, <code>https://api.open-meteo.com/*</code>): Used to fetch geographic coordinates and current weather forecast data.</li>
+        <li><strong>Weather Widget</strong> (<code>https://geocoding-api.open-meteo.com/*</code>, <code>https://api.open-meteo.com/*</code>): Used to fetch geographic coordinates and current weather forecast data.</li>
       </ul>
 
       <h2>5. You Are in Control</h2>
       <p>Because all data is stored on your device, you have complete control. You can delete all your data at any time by:</p>
       <ol>
-          <li>Using the "Reset" options in the extension's settings.</li>
-          <li>Clearing your browser's local storage for the extension.</li>
-          <li>Uninstalling the extension, which automatically removes all its associated data.</li>
+        <li>Using the "Reset" options in the extension's settings.</li>
+        <li>Clearing your browser's local storage for the extension.</li>
+        <li>Uninstalling the extension, which automatically removes all its associated data.</li>
       </ol>
 
       <h2>6. Open Source and Verifiable</h2>
