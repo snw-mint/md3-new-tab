@@ -37,8 +37,21 @@
 
   try {
     var settings = JSON.parse(localStorage.getItem('ent_global_settings') || '{}');
-    var rows = parseInt(settings.shortcutsRows || '1', 10) || 1;
-    root.style.setProperty('--shortcuts-reserved-rows', String(rows));
+    var maxRows = parseInt(settings.shortcutsRows || '1', 10) || 1;
+    
+    var shortcutsStr = localStorage.getItem('ent_shortcuts');
+    var shortcutsCount = 7; // default
+    if (shortcutsStr) {
+      try {
+        shortcutsCount = JSON.parse(shortcutsStr).length;
+      } catch(e) {}
+    }
+    
+    var totalRenderedItems = shortcutsCount < maxRows * 10 ? shortcutsCount + 1 : maxRows * 10;
+    var actualRows = Math.ceil(totalRenderedItems / 10) || 1;
+    
+    root.style.setProperty('--shortcuts-reserved-rows', String(actualRows));
+
     if (settings.shortcutsEnabled === false) {
       root.style.setProperty('--shortcuts-grid-display', 'none');
     }

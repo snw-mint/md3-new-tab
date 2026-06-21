@@ -1,4 +1,4 @@
-name: 🐞 Bug Report
+name: 🔴 Bug Report
 description: Report a bug to help us improve the extension
 title: '[Bug]: '
 labels: ['bug']
@@ -19,9 +19,9 @@ body:
       label: Browser
       description: Which browser are you using?
       options:
-        - Microsoft Edge
-        - Mozilla Firefox
         - Google Chrome
+        - Mozilla Firefox
+        - Microsoft Edge
         - Other Chromium-based
     validations:
       required: true
@@ -41,7 +41,7 @@ body:
     id: browser_version
     attributes:
       label: Browser Version
-      placeholder: e.g., Edge 122, Firefox 120
+      placeholder: e.g., Chrome 122, Firefox 120
       description: What version of the browser are you using?
     validations:
       required: true

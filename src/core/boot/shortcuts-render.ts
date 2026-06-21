@@ -353,7 +353,6 @@ export class ShortcutsManager {
     if (!this.container) return;
     const rows = parseInt(rowsStr, 10) || 1;
     this.maxItems = rows * 10;
-    document.documentElement.style.setProperty('--shortcuts-reserved-rows', String(rows));
     this.render();
   }
 
@@ -372,6 +371,9 @@ export class ShortcutsManager {
     }
 
     const totalRenderedItems = this.container.children.length;
+    const actualRows = Math.ceil(totalRenderedItems / 10) || 1;
+    document.documentElement.style.setProperty('--shortcuts-reserved-rows', String(actualRows));
+
     if (totalRenderedItems <= 10) {
       this.container.classList.add('single-row');
     } else {

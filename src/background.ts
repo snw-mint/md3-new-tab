@@ -15,4 +15,4 @@ chrome.runtime.onInstalled.addListener((details) => {
   }
 });
 
-chrome.runtime.setUninstallURL('#');
+chrome.runtime.setUninstallURL('https://snw-mint.github.io/md3-new-tab/uninstall.html');
