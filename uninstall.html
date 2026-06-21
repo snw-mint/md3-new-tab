@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Uninstall Feedback for MD3 New Tab." />
+    <title>Uninstall Feedback - MD3 New Tab</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght,wdth,slnt,GRAD@10..144,100..1000,75..125,-10..0,0&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --md-sys-color-primary: #6750a4;
+        --md-sys-color-on-primary: #ffffff;
+        --md-sys-color-primary-container: #eaddff;
+        --md-sys-color-on-primary-container: #21005d;
+
+        --md-sys-color-background: #fef7ff;
+        --md-sys-color-on-background: #1d1b20;
+
+        --md-sys-color-surface: #fef7ff;
+        --md-sys-color-surface-variant: #e7e0ec;
+        --md-sys-color-on-surface: #1d1b20;
+        --md-sys-color-on-surface-variant: #49454f;
+
+        --md-sys-color-outline: #79747e;
+
+        --md-sys-shape-corner-extra-large: 28px;
+        --md-sys-shape-corner-large: 16px;
+        --md-sys-shape-corner-full: 100px;
+      }
+
+      .dark-theme {
+        --md-sys-color-primary: #d0bcff;
+        --md-sys-color-on-primary: #381e72;
+        --md-sys-color-primary-container: #4f378b;
+        --md-sys-color-on-primary-container: #eaddff;
+
+        --md-sys-color-background: #141218;
+        --md-sys-color-on-background: #e6e0e9;
+
+        --md-sys-color-surface: #141218;
+        --md-sys-color-surface-variant: #49454f;
+        --md-sys-color-on-surface: #e6e0e9;
+        --md-sys-color-on-surface-variant: #cac4d0;
+
+        --md-sys-color-outline: #938f99;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Google Sans Flex', sans-serif;
+        scrollbar-width: thin;
+        scrollbar-color: var(--md-sys-color-surface-variant) transparent;
+      }
+
+      ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--md-sys-color-surface-variant);
+        border-radius: var(--md-sys-shape-corner-full);
+        border: 2px solid var(--md-sys-color-background);
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--md-sys-color-outline);
+      }
+
+      body {
+        background-color: var(--md-sys-color-background);
+        color: var(--md-sys-color-on-background);
+        line-height: 1.5;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      header {
+        padding: 24px 32px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: var(--md-sys-color-background);
+      }
+
+      .logo {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--md-sys-color-primary);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+      }
+
+      .logo-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        object-fit: contain;
+      }
+
+      .icon-btn {
+        background: transparent;
+        border: none;
+        color: var(--md-sys-color-on-surface-variant);
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s ease;
+      }
+
+      .icon-btn:hover {
+        background-color: var(--md-sys-color-surface-variant);
+      }
+
+      #themeToggleBtn .icon-light {
+        display: none;
+      }
+
+      #themeToggleBtn .icon-dark {
+        display: block;
+      }
+
+      .dark-theme #themeToggleBtn .icon-light {
+        display: block;
+      }
+
+      .dark-theme #themeToggleBtn .icon-dark {
+        display: none;
+      }
+
+      main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 32px 24px 48px 24px;
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .uninstall-hero {
+        text-align: center;
+        margin-bottom: 24px;
+      }
+
+      .hero-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--md-sys-color-primary);
+        margin-bottom: 8px;
+      }
+
+      .hero-subtitle {
+        font-size: 1.1rem;
+        color: var(--md-sys-color-on-surface-variant);
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .card-icon-wrapper {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 16px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .card-icon-wrapper .icon-bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        color: color-mix(in srgb, var(--md-sys-color-primary) 12%, transparent);
+        animation: spin-slow 25s linear infinite;
+      }
+
+      @keyframes spin-slow {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .card-icon-wrapper .icon-fg {
+        position: relative;
+        z-index: 1;
+        width: 56px;
+        height: 56px;
+        color: var(--md-sys-color-primary);
+      }
+
+      .form-container {
+        background: color-mix(in srgb, var(--md-sys-color-primary) 4%, var(--md-sys-color-surface));
+        border-radius: var(--md-sys-shape-corner-extra-large);
+        padding: 32px;
+        width: 70%;
+      }
+
+      .form-group {
+        margin-bottom: 24px;
+      }
+
+      .form-label {
+        display: block;
+        font-size: 1.15rem;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: var(--md-sys-color-on-surface);
+      }
+
+      .fluent-radio-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .md3-radio-label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        font-size: 1rem;
+        color: var(--md-sys-color-on-surface);
+        padding: 12px 16px;
+        border-radius: var(--md-sys-shape-corner-large);
+        background-color: var(--md-sys-color-surface-variant);
+        transition:
+          background-color 0.2s ease,
+          color 0.2s ease,
+          border-color 0.2s ease;
+        border: 2px solid transparent;
+      }
+
+      .md3-radio-label:hover {
+        background-color: color-mix(in srgb, var(--md-sys-color-surface-variant) 80%, var(--md-sys-color-primary));
+      }
+
+      .md3-radio-label input[type='radio'] {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+      }
+
+      .radio-mark {
+        width: 24px;
+        height: 24px;
+        border: 2px solid var(--md-sys-color-on-surface-variant);
+        border-radius: 50%;
+        margin-right: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: border-color 0.2s ease;
+        flex-shrink: 0;
+      }
+
+      .radio-mark::after {
+        content: '';
+        width: 12px;
+        height: 12px;
+        background-color: var(--md-sys-color-primary);
+        border-radius: 50%;
+        transform: scale(0);
+        transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+      }
+
+      .md3-radio-label input[type='radio']:checked ~ .radio-mark {
+        border-color: var(--md-sys-color-primary);
+      }
+
+      .md3-radio-label input[type='radio']:checked ~ .radio-mark::after {
+        transform: scale(1);
+      }
+
+      .md3-radio-label:has(input[type='radio']:checked) {
+        background-color: var(--md-sys-color-primary-container);
+        color: var(--md-sys-color-on-primary-container);
+        border-color: var(--md-sys-color-primary);
+      }
+
+      .branch-group {
+        display: none;
+        margin-top: 24px;
+        animation: fadeIn 0.3s ease-out forwards;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .md3-textarea {
+        width: 100%;
+        min-height: 100px;
+        padding: 12px 16px;
+        border: none;
+        border-bottom: 1px solid var(--md-sys-color-on-surface-variant);
+        border-radius: 4px 4px 0 0;
+        background-color: var(--md-sys-color-surface-variant);
+        color: var(--md-sys-color-on-surface);
+        font-family: inherit;
+        font-size: 1rem;
+        resize: vertical;
+        transition:
+          border-color 0.2s ease,
+          background-color 0.2s ease;
+      }
+
+      .md3-textarea:focus {
+        outline: none;
+        border-bottom: 2px solid var(--md-sys-color-primary);
+        background-color: color-mix(in srgb, var(--md-sys-color-surface-variant) 90%, var(--md-sys-color-primary));
+      }
+
+      .md3-textarea::placeholder {
+        color: var(--md-sys-color-on-surface-variant);
+        opacity: 0.8;
+      }
+
+      .form-actions {
+        margin-top: 24px;
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .btn {
+        height: 44px;
+        padding: 0 24px;
+        border-radius: var(--md-sys-shape-corner-full);
+        font-size: 1rem;
+        font-weight: 500;
+        border: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          background-image 0.2s ease,
+          transform 0.2s ease,
+          opacity 0.2s ease;
+        text-decoration: none;
+      }
+
+      .btn-filled {
+        background-color: var(--md-sys-color-primary);
+        color: var(--md-sys-color-on-primary);
+      }
+
+      .btn-filled:hover {
+        background-image: linear-gradient(rgb(255 255 255 / 8%) 0 0);
+        transform: translateY(-2px);
+      }
+
+      .btn-filled:active {
+        transform: translateY(0);
+      }
+
+      .btn-disabled,
+      .btn-disabled:hover,
+      .btn-disabled:active {
+        background-color: var(--md-sys-color-surface-variant);
+        color: var(--md-sys-color-on-surface-variant);
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: translateY(0);
+        background-image: none;
+      }
+
+      .success-container {
+        text-align: center;
+        padding: 32px 0;
+      }
+
+      .features-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        justify-content: center;
+        margin-top: 48px;
+      }
+
+      .feature-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 16px;
+        padding: 32px;
+        background: color-mix(in srgb, var(--md-sys-color-primary) 4%, var(--md-sys-color-surface));
+        border-radius: var(--md-sys-shape-corner-extra-large);
+        transition:
+          transform 0.2s ease,
+          background 0.2s ease;
+        color: var(--md-sys-color-on-surface);
+        width: 100%;
+        max-width: 280px;
+        text-decoration: none;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-4px);
+        background: color-mix(in srgb, var(--md-sys-color-primary) 8%, var(--md-sys-color-surface));
+      }
+
+      .feature-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--md-sys-color-on-surface);
+      }
+
+      .feature-desc {
+        font-size: 0.9rem;
+        color: var(--md-sys-color-on-surface-variant);
+        line-height: 1.4;
+      }
+
+      footer {
+        padding: 32px;
+        text-align: center;
+        color: var(--md-sys-color-on-surface-variant);
+        font-size: 0.9rem;
+      }
+
+      footer a {
+        color: inherit;
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        color: var(--md-sys-color-primary);
+        text-decoration: underline;
+      }
+
+      @media (max-width: 768px) {
+        .form-container {
+          padding: 32px 24px;
+        }
+        .hero-title {
+          font-size: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="index.html" class="logo">
+        <img src="assets/md3-logo.svg" alt="MD3 New Tab Logo" class="logo-icon" />
+        MD3 New Tab
+      </a>
+      <button id="themeToggleBtn" class="icon-btn" aria-label="Toggle Theme">
+        <svg class="icon-light" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+          <path
+            d="M451.5-771.5Q440-783 440-800v-80q0-17 11.5-28.5T480-920t28.5 11.5T520-880v80q0 17-11.5 28.5T480-760t-28.5-11.5M678-678q-11-11-11-27.5t11-28.5l56-57q12-12 28.5-12t28.5 12q11 11 11 28t-11 28l-57 57q-11 11-28 11t-28-11m122 238q-17 0-28.5-11.5T760-480t11.5-28.5T800-520h80q17 0 28.5 11.5T920-480t-11.5 28.5T880-440zM451.5-51.5Q440-63 440-80v-80q0-17 11.5-28.5T480-200t28.5 11.5T520-160v80q0 17-11.5 28.5T480-40t-28.5-11.5M226-678l-57-56q-12-12-12-29t12-28q11-11 28-11t28 11l57 57q11 11 11 28t-11 28q-12 11-28 11t-28-11m508 509-56-57q-11-12-11-28.5t11-27.5 27.5-11 28.5 11l57 56q12 11 11.5 28T791-169q-12 12-29 12t-28-12M80-440q-17 0-28.5-11.5T40-480t11.5-28.5T80-520h80q17 0 28.5 11.5T200-480t-11.5 28.5T160-440zm89 271q-11-11-11-28t11-28l57-57q11-11 27.5-11t28.5 11q12 12 12 28.5T282-225l-56 56q-12 12-29 12t-28-12m141-141q-70-70-70-170t70-170 170-70 170 70 70 170-70 170-170 70-170-70m283-57q47-47 47-113t-47-113-113-47-113 47-47 113 47 113 113 47 113-47M480-480" />
+        </svg>
+        <svg class="icon-dark" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M484-80q-84 0-157.5-32t-128-86.5Q144-253 112-326.5T80-484q0-128 72-232t193-146q22-8 41 5.5t18 36.5q-3 85 27 162t90 137q60 60 137 90t162 27q26-1 38.5 17.5T863-345q-44 120-147.5 192.5T484-80Zm0-80q88 0 163-44t118-121q-86-8-163-43.5T464-465q-61-61-97-138t-43-163q-77 43-120.5 118.5T160-484q0 135 94.5 229.5T484-160Zm-20-305Z" /></svg>
+      </button>
+    </header>
+
+    <main>
+      <div id="header-text" class="uninstall-hero">
+        <div class="card-icon-wrapper">
+          <svg class="icon-bg" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M338.584 189.998c25.843 48.166 6.318 91.773-43.518 105.063-13.295 49.841-56.902 69.361-105.068 43.523-48.167 25.843-91.773 6.318-105.064-43.518-49.836-13.295-69.361-56.902-43.518-105.068-25.843-48.167-6.318-91.773 43.518-105.064 13.29-49.836 56.897-69.361 105.064-43.518 48.166-25.843 91.773-6.318 105.063 43.518 49.841 13.29 69.361 56.897 43.523 105.064" fill="currentColor" />
+          </svg>
+          <svg class="icon-fg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+            <path
+              d="M160-620q0 30 10.5 57t37.5 61.5 73 82.5 117 120q4 4 8.5 2.5t5.5-6.5l19-177q-52 0-83-40.5T331-610l38-133q-16-8-33.5-12.5T300-760q-58 0-99 41t-41 99m640 0q0-58-41-99t-99-41q-11 0-22 1.5t-22 5.5l-24 73q45 12 66.5 53.5T666-540l-52 175q-2 5 3.5 8.5T628-358q55-56 89-93.5t52.5-66T794-569t6-51M453.5-151q-13.5-5-24.5-15-109-96-177-161.5t-106.5-115-52-90.5T80-620q0-92 64-156t156-64q66 0 116 25.5t36 73.5l-37 130q-5 20 6.5 35.5T453-560h67l-26 254q-1 8 6.5 9t9.5-6l74-245q6-20-6-36t-32-16h-66l61-181q11-35 46-47t73-12q92 0 156 64t64 156q0 44-16 87t-55.5 95-106 117.5T534-166q-11 10-25 15t-28 5-27.5-5" />
+          </svg>
+        </div>
+        <h1 class="hero-title">I'm sorry to see you go.</h1>
+        <p class="hero-subtitle">Taking 30 seconds to tell me why you left helps me improve MD3 New Tab for everyone.</p>
+      </div>
+
+      <div class="form-container" id="form-view">
+        <form action="https://docs.google.com/forms/d/e/1FAIpQLSdZNZSC0BtCjg590zHl7a2r4hM9YhjICgfH2IOmYNBGbZwzjQ/formResponse" method="POST" target="hidden_iframe" id="uninstall-form">
+          <div class="form-group">
+            <label class="form-label">Why are you uninstalling MD3 New Tab? <span style="color: #d13438">*</span></label>
+            <div class="fluent-radio-group">
+              <label class="md3-radio-label">
+                <input type="radio" name="entry.1740313797" value="It's missing features I need" required />
+                <span class="radio-mark"></span> It's missing features I need
+              </label>
+
+              <label class="md3-radio-label">
+                <input type="radio" name="entry.1740313797" value="It was buggy or slowed down my browser" />
+                <span class="radio-mark"></span> It was buggy or slowed down my browser
+              </label>
+
+              <label class="md3-radio-label">
+                <input type="radio" name="entry.1740313797" value="I was concerned about privacy or permissions" />
+                <span class="radio-mark"></span> I was concerned about privacy or permissions
+              </label>
+
+              <label class="md3-radio-label">
+                <input type="radio" name="entry.1740313797" value="I didn't like the design / layout" />
+                <span class="radio-mark"></span> I didn't like the design / layout
+              </label>
+
+              <label class="md3-radio-label">
+                <input type="radio" name="entry.1740313797" value="It was difficult to set up or use" />
+                <span class="radio-mark"></span> It was difficult to set up or use
+              </label>
+
+              <label class="md3-radio-label">
+                <input type="radio" name="entry.1740313797" value="I was just testing it out" />
+                <span class="radio-mark"></span> I was just testing it out
+              </label>
+
+              <label class="md3-radio-label">
+                <input type="radio" name="entry.1740313797" value="I prefer my previous new tab / another extension" />
+                <span class="radio-mark"></span> I prefer my previous new tab / another extension
+              </label>
+
+              <label class="md3-radio-label">
+                <input type="radio" name="entry.1740313797" value="__other_option__" />
+                <span class="radio-mark"></span> Other
+              </label>
+
+              <div id="branch-native-other" class="branch-group">
+                <label class="form-label" style="font-size: 1rem">Please specify:</label>
+                <textarea class="md3-textarea" name="entry.1740313797.other_option_response" placeholder="Tell me more..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div id="branch-features" class="branch-group">
+            <label class="form-label" style="font-size: 1rem">What feature were you looking for?</label>
+            <textarea class="md3-textarea" name="entry.359779339" placeholder="Tell me more... (Optional)"></textarea>
+          </div>
+
+          <div id="branch-bug" class="branch-group">
+            <label class="form-label" style="font-size: 1rem">Could you briefly describe the bug or issue?</label>
+            <textarea class="md3-textarea" name="entry.74716002" placeholder="Tell me more... (Optional)"></textarea>
+          </div>
+
+          <div id="branch-privacy" class="branch-group">
+            <label class="form-label" style="font-size: 1rem">Which permission or privacy aspect concerned you?</label>
+            <textarea class="md3-textarea" name="entry.1040472792" placeholder="Tell me more... (Optional)"></textarea>
+          </div>
+
+          <div id="branch-switch" class="branch-group">
+            <label class="form-label" style="font-size: 1rem">Which extension are you switching to?</label>
+            <textarea class="md3-textarea" name="entry.213254177" placeholder="Tell me more... (Optional)"></textarea>
+          </div>
+
+          <div id="branch-others" class="branch-group">
+            <label class="form-label" style="font-size: 1rem">Any other feedback to help me improve?</label>
+            <textarea class="md3-textarea" name="entry.472098049" placeholder="Tell me more... (Optional)"></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-filled btn-disabled" disabled>Submit Feedback</button>
+          </div>
+        </form>
+        <iframe name="hidden_iframe" id="hidden_iframe" style="display: none"></iframe>
+      </div>
+
+      <div class="success-container" id="success-view" style="display: none">
+        <div class="card-icon-wrapper">
+          <svg class="icon-bg" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M338.584 189.998c25.843 48.166 6.318 91.773-43.518 105.063-13.295 49.841-56.902 69.361-105.068 43.523-48.167 25.843-91.773 6.318-105.064-43.518-49.836-13.295-69.361-56.902-43.518-105.068-25.843-48.167-6.318-91.773 43.518-105.064 13.29-49.836 56.897-69.361 105.064-43.518 48.166-25.843 91.773-6.318 105.063 43.518 49.841 13.29 69.361 56.897 43.523 105.064" fill="currentColor" />
+          </svg>
+          <svg class="icon-fg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+            <path d="M451.5-152q-14.5-5-25.5-16l-69-63q-106-97-191.5-192.5T80-634q0-94 63-157t157-63q53 0 100 22.5t80 61.5q33-39 80-61.5T660-854q94 0 157 63t63 157q0 115-85 211T602-230l-68 62q-11 11-25.5 16t-28.5 5-28.5-5M442-690q-29-41-62-62.5T300-774q-60 0-100 40t-40 100q0 52 37 110.5T285.5-410t106 103 88.5 79q34-31 88.5-79t106-103T763-523.5 800-634q0-60-40-100t-100-40q-47 0-80 21.5T518-690q-7 10-17 15t-21 5-21-5-17-15m38 189" />
+          </svg>
+        </div>
+        <h2 class="hero-title">Thank you for your feedback!</h2>
+        <p class="hero-subtitle">It means a lot to an independent developer. If you’d like to provide more details about a bug or have any questions, please feel free to reach out.</p>
+
+        <div class="features-grid">
+          <a href="mailto:snw-mint@outlook.com" class="feature-card">
+            <div class="card-icon-wrapper" style="width: 80px; height: 80px; margin-bottom: 0">
+              <svg class="icon-bg" style="animation: none" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M230.389 50.473c62.72-27.24 126.378 36.418 99.138 99.138l-4.504 10.37a75.36 75.36 0 0 0 0 60.038l4.504 10.37c27.24 62.72-36.418 126.378-99.138 99.138l-10.37-4.504a75.36 75.36 0 0 0-60.038 0l-10.37 4.504c-62.72 27.24-126.378-36.418-99.138-99.138l4.504-10.37a75.36 75.36 0 0 0 0-60.038l-4.504-10.37c-27.24-62.72 36.418-126.378 99.138-99.138l10.37 4.504a75.36 75.36 0 0 0 60.038 0z" fill="currentColor" />
+              </svg>
+              <svg class="icon-fg" style="width: 32px; height: 32px" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160zm640-480L501-453q-5 3-10.5 4.5T480-447t-10.5-1.5T459-453L160-640v400h640zM480-520l320-200H160zM160-640v10-59 1-32 32-.5 58.5zv400z" /></svg>
+            </div>
+            <span class="feature-title">Email Me</span>
+            <span class="feature-desc">snw-mint@outlook.com</span>
+          </a>
+          <a href="index.html" class="feature-card">
+            <div class="card-icon-wrapper" style="width: 80px; height: 80px; margin-bottom: 0">
+              <svg class="icon-bg" style="animation: none" width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M303.126 76.863c-11.875-11.875-38.932-6.003-71.579 12.818C221.771 53.286 206.79 30 189.996 30c-16.793 0-31.773 23.284-41.549 59.678-32.645-18.82-59.7-24.69-71.575-12.817-11.875 11.876-6.002 38.935 12.823 71.585C53.29 158.222 30 173.204 30 190c0 16.793 23.283 31.773 59.675 41.549-18.825 32.651-24.7 59.712-12.824 71.588s38.939 6.001 71.593-12.827c9.776 36.401 24.757 59.69 41.552 59.69 16.796 0 31.778-23.291 41.554-59.693 32.655 18.829 59.72 24.705 71.596 12.829s6.002-38.936-12.823-71.587C326.716 221.773 350 206.793 350 190c0-16.796-23.292-31.778-59.696-41.554 18.824-32.649 24.697-59.708 12.822-71.583"
+                  fill="currentColor" />
+              </svg>
+              <svg class="icon-fg" style="width: 32px; height: 32px" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+                <path d="M240-200h120v-200q0-17 11.5-28.5T400-440h160q17 0 28.5 11.5T600-400v200h120v-360L480-740 240-560zm-80 0v-360q0-19 8.5-36t23.5-28l240-180q21-16 48-16t48 16l240 180q15 11 23.5 28t8.5 36v360q0 33-23.5 56.5T720-120H560q-17 0-28.5-11.5T520-160v-200h-80v200q0 17-11.5 28.5T400-120H240q-33 0-56.5-23.5T160-200m320-270" />
+              </svg>
+            </div>
+            <span class="feature-title">Back to Home</span>
+            <span class="feature-desc">Return to the main page.</span>
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 MD3 New Tab. Created by <a href="https://github.com/snw-mint" target="_blank" rel="noopener noreferrer">snow mint</a>.</p>
+    </footer>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Theme toggle
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const body = document.body;
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          body.classList.add('dark-theme');
+        }
+        themeToggleBtn.addEventListener('click', () => {
+          body.classList.toggle('dark-theme');
+        });
+
+        // Form logic
+        const form = document.getElementById('uninstall-form');
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const radios = document.querySelectorAll('input[type="radio"]');
+        const branches = {
+          "It's missing features I need": document.getElementById('branch-features'),
+          'It was buggy or slowed down my browser': document.getElementById('branch-bug'),
+          'I was concerned about privacy or permissions': document.getElementById('branch-privacy'),
+          'I prefer my previous new tab / another extension': document.getElementById('branch-switch'),
+          "I didn't like the design / layout": document.getElementById('branch-others'),
+          'It was difficult to set up or use': document.getElementById('branch-others'),
+          'I was just testing it out': document.getElementById('branch-others'),
+          __other_option__: document.getElementById('branch-native-other'),
+        };
+
+        function hideAllBranches() {
+          Object.values(branches).forEach((branch) => {
+            if (branch) {
+              branch.style.display = 'none';
+              const textarea = branch.querySelector('textarea');
+              if (textarea) {
+                textarea.value = '';
+                textarea.required = false;
+              }
+            }
+          });
+        }
+
+        radios.forEach((radio) => {
+          radio.addEventListener('change', (e) => {
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('btn-disabled');
+            hideAllBranches();
+            const selectedValue = e.target.value;
+
+            if (branches[selectedValue]) {
+              branches[selectedValue].style.display = 'block';
+              const textarea = branches[selectedValue].querySelector('textarea');
+              if (textarea) {
+                if (selectedValue === '__other_option__') {
+                  textarea.required = true;
+                }
+                setTimeout(() => {
+                  textarea.focus();
+                }, 50);
+              }
+            }
+          });
+        });
+
+        const checkedRadio = document.querySelector('input[type="radio"]:checked');
+        if (checkedRadio) {
+          submitBtn.disabled = false;
+          submitBtn.classList.remove('btn-disabled');
+          if (checkedRadio.value === '__other_option__') {
+            const otherTextarea = document.querySelector('textarea[name="entry.1740313797.other_option_response"]');
+            if (otherTextarea) otherTextarea.required = true;
+          }
+        }
+
+        let submitted = false;
+
+        function showSuccess() {
+          document.getElementById('form-view').style.display = 'none';
+          document.getElementById('header-text').style.display = 'none';
+          document.getElementById('success-view').style.display = 'block';
+          window.scrollTo(0, 0);
+        }
+
+        form.addEventListener('submit', (e) => {
+          submitted = true;
+          const action = form.getAttribute('action');
+
+          if (action === '#' || action === '') {
+            e.preventDefault();
+            submitBtn.textContent = 'Sending...';
+            submitBtn.classList.add('btn-disabled');
+            submitBtn.disabled = true;
+
+            // Simulate form submission delay to show success screen
+            setTimeout(() => {
+              showSuccess();
+            }, 600);
+          } else {
+            submitBtn.textContent = 'Sending...';
+            submitBtn.classList.add('btn-disabled');
+            submitBtn.disabled = true;
+          }
+        });
+
+        const iframe = document.getElementById('hidden_iframe');
+        iframe.onload = function () {
+          if (submitted) {
+            showSuccess();
+          }
+        };
+      });
+    </script>
+  </body>
+</html>

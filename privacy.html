@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Privacy Policy for MD3 New Tab." />
+    <title>Privacy Policy - MD3 New Tab</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght,wdth,slnt,GRAD@10..144,100..1000,75..125,-10..0,0&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --md-sys-color-primary: #6750a4;
+        --md-sys-color-on-primary: #ffffff;
+        --md-sys-color-primary-container: #eaddff;
+        --md-sys-color-on-primary-container: #21005d;
+
+        --md-sys-color-background: #fef7ff;
+        --md-sys-color-on-background: #1d1b20;
+
+        --md-sys-color-surface: #fef7ff;
+        --md-sys-color-surface-variant: #e7e0ec;
+        --md-sys-color-on-surface: #1d1b20;
+        --md-sys-color-on-surface-variant: #49454f;
+
+        --md-sys-color-outline: #79747e;
+
+        --md-sys-shape-corner-extra-large: 28px;
+        --md-sys-shape-corner-large: 16px;
+        --md-sys-shape-corner-full: 100px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Google Sans Flex', sans-serif;
+        scrollbar-width: thin;
+        scrollbar-color: var(--md-sys-color-surface-variant) transparent;
+      }
+
+      ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--md-sys-color-surface-variant);
+        border-radius: var(--md-sys-shape-corner-full);
+        border: 2px solid var(--md-sys-color-background);
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--md-sys-color-outline);
+      }
+
+      body {
+        background-color: var(--md-sys-color-background);
+        color: var(--md-sys-color-on-background);
+        line-height: 1.6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 64px 24px;
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--md-sys-color-primary);
+        margin-bottom: 48px;
+        text-align: center;
+      }
+
+      .card {
+        background: color-mix(in srgb, var(--md-sys-color-primary) 4%, var(--md-sys-color-surface));
+        border-radius: var(--md-sys-shape-corner-extra-large);
+        padding: 48px;
+        color: var(--md-sys-color-on-surface);
+        max-width: 900px;
+        width: 100%;
+        margin-bottom: 48px;
+      }
+
+      .card h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 32px 0 16px;
+        color: var(--md-sys-color-on-background);
+      }
+
+      .card h2:first-child {
+        margin-top: 0;
+      }
+
+      .card h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin: 24px 0 12px;
+        color: var(--md-sys-color-on-background);
+      }
+
+      .card p {
+        font-size: 1rem;
+        color: var(--md-sys-color-on-surface-variant);
+        margin-bottom: 16px;
+      }
+
+      .card ul, .card ol {
+        margin-bottom: 24px;
+        padding-left: 24px;
+        color: var(--md-sys-color-on-surface-variant);
+      }
+
+      .card li {
+        margin-bottom: 8px;
+      }
+
+      .card a {
+        color: var(--md-sys-color-primary);
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .card a:hover {
+        text-decoration: underline;
+      }
+
+      .card code {
+        background-color: var(--md-sys-color-surface-variant);
+        color: var(--md-sys-color-on-surface);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 0.9em;
+      }
+
+      .btn {
+        height: 40px;
+        padding: 10px 32px;
+        border-radius: var(--md-sys-shape-corner-full);
+        font-size: 1rem;
+        font-weight: 500;
+        border: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        transition: background-image 0.2s ease, transform 0.2s ease;
+      }
+
+      .btn-filled {
+        background-color: var(--md-sys-color-primary);
+        color: var(--md-sys-color-on-primary);
+      }
+
+      .btn-filled:hover {
+        background-image: linear-gradient(rgb(255 255 255 / 8%) 0 0);
+        transform: translateY(-2px);
+      }
+      
+      .btn-filled:active {
+        transform: translateY(0);
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding: 32px 16px;
+        }
+        .section-title {
+          font-size: 2rem;
+          margin-bottom: 32px;
+        }
+        .card {
+          padding: 32px 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="section-title">Privacy Policy</h1>
+
+    <div class="card">
+      <p>Thank you for using MD3 New Tab. Your privacy is and always will be critically important. This policy explains what data the extension handles and why, ensuring you have full transparency and control.</p>
+
+      <h2>1. The Golden Rule: No Personal Data Collection</h2>
+      <p><strong>MD3 New Tab does not collect, store, transmit, or sell your personal data. Period.</strong></p>
+      <p>We do not use any tracking scripts, analytics, or telemetry. We have no way of knowing who you are, how you use the extension, or what you search for.</p>
+
+      <h2>2. Your Data Stays On Your Device</h2>
+      <p>All your settings—including preferences and custom shortcuts—are stored locally on your computer using the browser's built-in storage (<code>localStorage</code> and <code>IndexedDB</code>). This data is yours and yours alone; we have no access to it.</p>
+
+      <h2>3. Third-Party Services: How Features Work</h2>
+      <p>To provide features like weather forecasts, the extension needs to request information from external services. This communication happens directly between your browser and the service provider. <strong>No data ever passes through our servers.</strong></p>
+      <p>Below is a list of third-party services used and why:</p>
+      <ul>
+          <li><strong>Weather Information:</strong> If you enable the weather widget, the location you provide is sent to <code>Open-Meteo</code> to fetch current weather data and forecasts.</li>
+      </ul>
+
+      <h2>4. Permissions Explained</h2>
+      <p>To ensure full transparency, below is an explanation of all permissions the extension requires.</p>
+
+      <h3>General Permissions</h3>
+      <ul>
+          <li><code>storage</code>: This permission is essential for saving your personal settings, such as your preferred theme, custom shortcuts, and widget configurations, directly on your local device.</li>
+          <li><code>unlimitedStorage</code>: This permission allows the extension to store larger files locally, preventing the browser from deleting your settings if it runs low on storage space.</li>
+      </ul>
+
+      <h3>Optional Host Permissions</h3>
+      <p>To give you maximum control, <strong>all external host permissions are optional by default</strong>. You will be prompted to grant permission individually only when you activate a feature that requires it.</p>
+      <p>These optional permissions allow the extension to communicate with specific external services to fetch dynamic content. No data is ever sent to our servers.</p>
+      <ul>
+          <li><strong>Weather Widget</strong> (<code>https://geocoding-api.open-meteo.com/*</code>, <code>https://api.open-meteo.com/*</code>): Used to fetch geographic coordinates and current weather forecast data.</li>
+      </ul>
+
+      <h2>5. You Are in Control</h2>
+      <p>Because all data is stored on your device, you have complete control. You can delete all your data at any time by:</p>
+      <ol>
+          <li>Using the "Reset" options in the extension's settings.</li>
+          <li>Clearing your browser's local storage for the extension.</li>
+          <li>Uninstalling the extension, which automatically removes all its associated data.</li>
+      </ol>
+
+      <h2>6. Open Source and Verifiable</h2>
+      <p>MD3 New Tab is 100% open-source. We invite you to review the <a href="https://github.com/snw-mint/md3-new-tab">source code on GitHub</a> to verify that the extension operates exactly as described in this policy.</p>
+
+      <h2>7. Changes to This Policy</h2>
+      <p>We may update this Privacy Policy to reflect new features or clarify our practices. Any changes will be posted on this page.</p>
+    </div>
+
+    <a href="index.html" class="btn btn-filled">Back to Home</a>
+  </body>
+</html>
