@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="A clean, fast, and fully customizable new tab page based on Material Design 3 guidelines." />
     <title>MD3 New Tab - Browser Extension</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght,wdth,slnt,GRAD@10..144,100..1000,75..125,-10..0,0&display=swap" rel="stylesheet" />
@@ -47,11 +51,36 @@
         --md-sys-color-outline: #938f99;
       }
 
+      html {
+        scroll-behavior: smooth;
+      }
+
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
         font-family: 'Google Sans Flex', sans-serif;
+        scrollbar-width: thin;
+        scrollbar-color: var(--md-sys-color-surface-variant) transparent;
+      }
+
+      ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--md-sys-color-surface-variant);
+        border-radius: var(--md-sys-shape-corner-full);
+        border: 2px solid var(--md-sys-color-background);
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--md-sys-color-outline);
       }
 
       body {
@@ -273,53 +302,74 @@
       }
 
       .features-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
         gap: 24px;
         width: 100%;
       }
 
       .feature-card {
-        background-color: var(--md-sys-color-surface-variant);
-        border-radius: var(--md-sys-shape-corner-extra-large);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 16px;
         padding: 32px;
-        text-align: left;
-        transition: transform 0.2s ease;
+        background: color-mix(in srgb, var(--md-sys-color-primary) 4%, var(--md-sys-color-surface));
+        border: none;
+        border-radius: var(--md-sys-shape-corner-extra-large);
+        transition:
+          transform 0.2s ease,
+          background 0.2s ease;
+        color: var(--md-sys-color-on-surface);
+        width: 100%;
+        max-width: 360px;
+        text-decoration: none;
       }
 
       .feature-card:hover {
         transform: translateY(-4px);
-        background-image: linear-gradient(rgb(28 27 31 / 5%) 0 0);
+        background: color-mix(in srgb, var(--md-sys-color-primary) 8%, var(--md-sys-color-surface));
       }
 
-      .feature-icon {
-        width: 48px;
-        height: 48px;
-        background-color: var(--md-sys-color-background);
-        border-radius: var(--md-sys-shape-corner-large);
+      .card-icon-wrapper {
+        position: relative;
+        width: 96px;
+        height: 96px;
+        margin-bottom: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 24px;
+      }
+
+      .card-icon-wrapper .icon-bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        color: color-mix(in srgb, var(--md-sys-color-primary) 16%, var(--md-sys-color-surface));
+      }
+
+      .card-icon-wrapper .icon-fg {
+        position: relative;
+        z-index: 1;
+        width: 40px;
+        height: 40px;
         color: var(--md-sys-color-primary);
       }
 
-      .feature-icon svg {
-        width: 24px;
-        height: 24px;
-        fill: currentColor;
-      }
-
       .feature-title {
-        font-size: 1.25rem;
-        font-weight: 500;
+        font-size: 1.1rem;
+        font-weight: 600;
         color: var(--md-sys-color-on-surface);
-        margin-bottom: 16px;
       }
 
       .feature-desc {
-        font-size: 1rem;
+        font-size: 0.9rem;
         color: var(--md-sys-color-on-surface-variant);
+        line-height: 1.4;
       }
 
       .scrim {
@@ -433,7 +483,7 @@
         color: var(--md-sys-color-on-surface);
         font-size: 1rem;
         margin-bottom: 20px;
-        font-weight: 500;
+        font-weight: 600;
       }
 
       .footer-col ul {
@@ -470,6 +520,137 @@
         opacity: 0.8;
       }
 
+      .download-card {
+        background-color: var(--md-sys-color-primary-container);
+        color: var(--md-sys-color-on-primary-container);
+        border-radius: 5rem;
+        padding: 64px 48px;
+        width: 100%;
+        max-width: 960px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 24px;
+        position: relative;
+        overflow: hidden;
+        margin: 0 auto;
+      }
+
+      .download-card-bg-shape-1 {
+        position: absolute;
+        top: -60px;
+        left: -60px;
+        width: 240px;
+        height: 240px;
+        color: var(--md-sys-color-primary);
+        opacity: 0.08;
+        pointer-events: none;
+      }
+
+      .download-card-bg-shape-2 {
+        position: absolute;
+        bottom: -80px;
+        right: -60px;
+        width: 260px;
+        height: 260px;
+        color: var(--md-sys-color-primary);
+        opacity: 0.08;
+        pointer-events: none;
+      }
+
+      .download-card h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin: 0;
+        line-height: 1.2;
+        color: var(--md-sys-color-primary);
+        position: relative;
+        z-index: 1;
+      }
+
+      .download-card p {
+        font-size: 1.15rem;
+        max-width: 600px;
+        margin: 0;
+        color: var(--md-sys-color-on-surface-variant);
+        line-height: 1.6;
+        position: relative;
+        z-index: 1;
+      }
+
+      .download-card .btn-group {
+        position: relative;
+        z-index: 1;
+        margin-top: 8px;
+      }
+
+      .download-card .btn-download {
+        background-color: var(--md-sys-color-primary);
+        color: var(--md-sys-color-on-primary);
+        font-size: 1.05rem;
+        font-weight: 600;
+        height: auto;
+        padding: 16px 36px;
+        border-radius: var(--md-sys-shape-corner-full);
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease,
+          background-image 0.2s ease;
+        border: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+      }
+
+      .download-card .btn-download:hover {
+        transform: translateY(-2px);
+        box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.12);
+        background-image: linear-gradient(rgb(255 255 255 / 8%) 0 0);
+      }
+
+      .download-card .btn-download:active {
+        transform: translateY(0);
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.06);
+      }
+
+      .download-card .supported-browsers {
+        margin-top: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .download-card .supported-browsers-title {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        opacity: 0.6;
+        font-weight: 700;
+      }
+
+      .download-card .browser-chips {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .download-card .browser-chip {
+        background-color: color-mix(in srgb, var(--md-sys-color-primary) 8%, var(--md-sys-color-primary-container));
+        color: var(--md-sys-color-on-primary-container);
+        padding: 6px 14px;
+        border-radius: var(--md-sys-shape-corner-large);
+        font-size: 0.85rem;
+        font-weight: 500;
+        border: 1px solid color-mix(in srgb, var(--md-sys-color-primary) 12%, transparent);
+      }
+
       @media (max-width: 992px) {
         .footer-grid {
           grid-template-columns: 1fr 1fr;
@@ -493,13 +674,28 @@
         .footer-brand {
           grid-column: span 1;
         }
+        .download-card {
+          padding: 40px 24px;
+          gap: 20px;
+        }
+        .download-card h2 {
+          font-size: 1.8rem;
+        }
+        .download-card p {
+          font-size: 1rem;
+        }
+        .download-card .btn-download {
+          padding: 14px 28px;
+          font-size: 0.95rem;
+          width: 100%;
+        }
       }
     </style>
   </head>
   <body>
     <header>
       <a href="#" class="logo">
-        <img src="assets/icon-128.png" alt="MD3 New Tab Logo" class="logo-icon" />
+        <img src="assets/md3-logo.svg" alt="MD3 New Tab Logo" class="logo-icon" />
         MD3 New Tab
       </a>
       <nav>
@@ -533,52 +729,70 @@
 
         <div class="btn-group">
           <button id="openModalBtn" class="btn btn-filled">Add to browser</button>
-          <a href="#github" class="btn btn-tonal">GitHub</a>
+          <a href="https://github.com/snw-mint/md3-new-tab" class="btn btn-tonal">GitHub</a>
         </div>
       </section>
 
       <section id="features">
-        <h2 class="section-title">Features</h2>
+        <h2 class="section-title">The Main Features</h2>
         <div class="features-grid">
           <div class="feature-card">
-            <div class="feature-icon">
-              <svg viewBox="0 0 24 24">
-                <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
+            <div class="card-icon-wrapper">
+              <svg class="icon-bg" width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M338.584 189.998c25.843 48.166 6.318 91.773-43.518 105.063-13.295 49.841-56.902 69.361-105.068 43.523-48.167 25.843-91.773 6.318-105.064-43.518-49.836-13.295-69.361-56.902-43.518-105.068-25.843-48.167-6.318-91.773 43.518-105.064 13.29-49.836 56.897-69.361 105.064-43.518 48.166-25.843 91.773-6.318 105.063 43.518 49.841 13.29 69.361 56.897 43.523 105.064" fill="currentColor" />
+              </svg>
+              <svg class="icon-fg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+                <path
+                  d="M638-468 468-638q-6-6-8.5-13t-2.5-15 2.5-15 8.5-13l170-170q6-6 13-8.5t15-2.5 15 2.5 13 8.5l170 170q6 6 8.5 13t2.5 15-2.5 15-8.5 13L694-468q-6 6-13 8.5t-15 2.5-15-2.5-13-8.5m-518-92v-240q0-17 11.5-28.5T160-840h240q17 0 28.5 11.5T440-800v240q0 17-11.5 28.5T400-520H160q-17 0-28.5-11.5T120-560m400 400v-240q0-17 11.5-28.5T560-440h240q17 0 28.5 11.5T840-400v240q0 17-11.5 28.5T800-120H560q-17 0-28.5-11.5T520-160m-400 0v-240q0-17 11.5-28.5T160-440h240q17 0 28.5 11.5T440-400v240q0 17-11.5 28.5T400-120H160q-17 0-28.5-11.5T120-160m80-440h160v-160H200zm467 48 113-113-113-113-113 113zm-67 352h160v-160H600zm-400 0h160v-160H200zm400-160" />
               </svg>
             </div>
-            <h3 class="feature-title">Material Design 3</h3>
-            <p class="feature-desc">Built strictly following Material You. Fluid shapes, adaptive colors, and zero harsh shadows or neon effects.</p>
+            <span class="feature-title">Smart Widgets & Search</span>
+            <span class="feature-desc">Stay informed with real-time weather forecasts, custom greetings, date/time clocks, and a smart search bar with quick-toggle engines.</span>
           </div>
 
           <div class="feature-card">
-            <div class="feature-icon">
-              <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" /></svg>
+            <div class="card-icon-wrapper">
+              <svg class="icon-bg" width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M155.064 49.459c21.029-15.279 49.505-15.279 70.534 0l97.328 70.712c21.029 15.279 29.828 42.361 21.796 67.082l-37.176 114.415c-8.032 24.722-31.07 41.459-57.063 41.459H130.18c-25.994 0-49.031-16.737-57.064-41.459L35.941 187.253c-8.033-24.721.767-51.803 21.796-67.082z" fill="currentColor" /></svg>
+              <svg class="icon-fg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+                <path d="m159-168-34-14q-31-13-41.5-45t3.5-63l72-156zm160 88q-33 0-56.5-23.5T239-160v-240l106 294q3 7 6 13.5t8 12.5zm206-4q-32 12-62-3t-42-47L243-622q-12-32 2-62.5t46-41.5l302-110q32-12 62 3t42 47l178 488q12 32-2 62.5T827-194zm-57.5-487.5Q479-583 479-600t-11.5-28.5T439-640t-28.5 11.5T399-600t11.5 28.5T439-560t28.5-11.5M497-160l302-110-178-490-302 110zM319-650l302-110z" />
+              </svg>
             </div>
-            <h3 class="feature-title">Smart Search</h3>
-            <p class="feature-desc">Quickly toggle between different search engines directly from your home screen with a single click.</p>
+            <span class="feature-title">Total Layout Control</span>
+            <span class="feature-desc">You decide what is displayed. Disable any elements you don't need for a fully clean setup, and easily import or export your settings.</span>
           </div>
 
           <div class="feature-card">
-            <div class="feature-icon">
-              <svg viewBox="0 0 24 24"><path d="M4 4h4v4H4V4zm6 0h4v4h-4V4zM4 10h4v4H4v-4zm6 0h4v4h-4v-4zM4 16h4v4H4v-4zm6 0h4v4h-4v-4zm6-12h4v4h-4V4zm0 6h4v4h-4v-4zm0 6h4v4h-4v-4z" /></svg>
+            <div class="card-icon-wrapper">
+              <svg class="icon-bg" width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M230.389 50.473c62.72-27.24 126.378 36.418 99.138 99.138l-4.504 10.37a75.36 75.36 0 0 0 0 60.038l4.504 10.37c27.24 62.72-36.418 126.378-99.138 99.138l-10.37-4.504a75.36 75.36 0 0 0-60.038 0l-10.37 4.504c-62.72 27.24-126.378-36.418-99.138-99.138l4.504-10.37a75.36 75.36 0 0 0 0-60.038l-4.504-10.37c-27.24-62.72 36.418-126.378 99.138-99.138l10.37 4.504a75.36 75.36 0 0 0 60.038 0z" fill="currentColor" />
+              </svg>
+              <svg class="icon-fg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+                <path
+                  d="M183.5-183.5Q160-207 160-240t23.5-56.5T240-320t56.5 23.5T320-240t-23.5 56.5T240-160t-56.5-23.5m240 0Q400-207 400-240t23.5-56.5T480-320t56.5 23.5T560-240t-23.5 56.5T480-160t-56.5-23.5m240 0Q640-207 640-240t23.5-56.5T720-320t56.5 23.5T800-240t-23.5 56.5T720-160t-56.5-23.5m-480-240Q160-447 160-480t23.5-56.5T240-560t56.5 23.5T320-480t-23.5 56.5T240-400t-56.5-23.5m240 0Q400-447 400-480t23.5-56.5T480-560t56.5 23.5T560-480t-23.5 56.5T480-400t-56.5-23.5m240 0Q640-447 640-480t23.5-56.5T720-560t56.5 23.5T800-480t-23.5 56.5T720-400t-56.5-23.5m-480-240Q160-687 160-720t23.5-56.5T240-800t56.5 23.5T320-720t-23.5 56.5T240-640t-56.5-23.5m240 0Q400-687 400-720t23.5-56.5T480-800t56.5 23.5T560-720t-23.5 56.5T480-640t-56.5-23.5m240 0Q640-687 640-720t23.5-56.5T720-800t56.5 23.5T800-720t-23.5 56.5T720-640t-56.5-23.5" />
+              </svg>
             </div>
-            <h3 class="feature-title">Your Shortcuts</h3>
-            <p class="feature-desc">Organize your favorite sites. The system features built-in native icons for major tech ecosystems.</p>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon">
-              <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4s1.79-4 4-4h.71C7.37 7.69 9.48 6 12 6c3.04 0 5.5 2.46 5.5 5.5v.5H19c1.66 0 3 1.34 3 3s-1.34 3-3 3z" /></svg>
-            </div>
-            <h3 class="feature-title">Weather Forecast</h3>
-            <p class="feature-desc">Minimalist embedded weather widget displaying the current forecast with clean, fluid SVGs.</p>
+            <span class="feature-title">Shortcuts & Launcher</span>
+            <span class="feature-desc">Organize up to 40 shortcuts in a flexible 4x10 grid with easy customization, and access productivity links from the integrated launcher.</span>
           </div>
         </div>
       </section>
 
-      <section id="download">
-        <h2 class="section-title">Ready to upgrade your tab?</h2>
-        <button id="openModalBtnBottom" class="btn btn-filled">Get Started</button>
+      <section id="download" class="download-section">
+        <div class="download-card">
+          <svg class="download-card-bg-shape-1" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M155.064 49.459c21.029-15.279 49.505-15.279 70.534 0l97.328 70.712c21.029 15.279 29.828 42.361 21.796 67.082l-37.176 114.415c-8.032 24.722-31.07 41.459-57.063 41.459H130.18c-25.994 0-49.031-16.737-57.064-41.459L35.941 187.253c-8.033-24.721.767-51.803 21.796-67.082z" fill="currentColor" />
+          </svg>
+          <svg class="download-card-bg-shape-2" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M338.584 189.998c25.843 48.166 6.318 91.773-43.518 105.063-13.295 49.841-56.902 69.361-105.068 43.523-48.167 25.843-91.773 6.318-105.064-43.518-49.836-13.295-69.361-56.902-43.518-105.068-25.843-48.167-6.318-91.773 43.518-105.064 13.29-49.836 56.897-69.361 105.064-43.518 48.166-25.843 91.773-6.318 105.063 43.518 49.841 13.29 69.361 56.897 43.523 105.064" fill="currentColor" />
+          </svg>
+
+          <h2>Ready to upgrade your tab?</h2>
+          <p>Experience a clean, elegant, and fully customizable browser homepage. Free, open-source, and privacy-respecting.</p>
+
+          <div class="btn-group">
+            <button id="openModalBtnBottom" class="btn-download">Add to Browser</button>
+          </div>
+        </div>
       </section>
 
       <section id="support">
@@ -604,7 +818,7 @@
     <footer>
       <div class="footer-grid">
         <div class="footer-col footer-brand">
-          <img src="assets/icon-128.png" alt="MD3 New Tab Logo" class="logo-icon" />
+          <img src="assets/md3-logo.svg" alt="MD3 New Tab Logo" class="logo-icon" />
           <h3>MD3 New Tab</h3>
           <p>MD3 New Tab is an independent open-source project and is not affiliated with, endorsed by, or sponsored by Google LLC.</p>
         </div>
@@ -612,39 +826,39 @@
         <div class="footer-col">
           <h4>Overview</h4>
           <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Use</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Use</a></li>
+            <li><a href="mailto:snw-mint@outlook.com">Contact</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
           <h4>Support</h4>
           <ul>
-            <li><a href="#">Report a Bug</a></li>
-            <li><a href="#">Request a Feature</a></li>
-            <li><a href="#">Ask a Question</a></li>
-            <li><a href="#">Community</a></li>
+            <li><a href="https://github.com/snw-mint/md3-new-tab/issues/new?template=bug_report.yml">Report a Bug</a></li>
+            <li><a href="https://github.com/snw-mint/md3-new-tab/issues/new?template=feature_request.yml">Request a Feature</a></li>
+            <li><a href="https://github.com/snw-mint/md3-new-tab/issues/new?template=feedback.yml">General Feedback</a></li>
+            <li><a href="https://github.com/snw-mint/fluent-new-tab/discussions">Community</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
           <h4>Source Code</h4>
           <ul>
-            <li><a href="#">Contributing</a></li>
-            <li><a href="#">Help Translate</a></li>
-            <li><a href="#">Support the Project</a></li>
+            <li><a href="https://github.com/snw-mint/md3-new-tab/blob/main/.github/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="https://github.com/snw-mint/md3-new-tab/blob/main/.github/TRANSLATING.md">Help Translate</a></li>
+            <li><a href="https://buymeacoffee.com/snw.mint?">Support the Project</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
           <h4>Download</h4>
           <ul>
-            <li><a href="#">Microsoft Edge</a></li>
-            <li><a href="#">Google Chrome</a></li>
-            <li><a href="#">Mozilla Firefox</a></li>
-            <li><a href="#">Manual Release</a></li>
+            <li><a href="https://chromewebstore.google.com/detail/limheioemdhhaccglmbckadpkmnnkoab/">Google Chrome</a></li>
+            <li><a href="https://addons.mozilla.org/firefox/addon/md3-expressive-new-tab/">Mozilla Firefox</a></li>
+            <li><a href="https://microsoftedge.microsoft.com/addons/detail/jpdkkcflngfgknbgfdcaffnblbafkjgh">Microsoft Edge</a></li>
+            <li><a href="https://github.com/snw-mint/md3-new-tab/releases">Manual Download</a></li>
           </ul>
         </div>
       </div>
@@ -654,19 +868,19 @@
       <div class="modal">
         <h3 class="modal-title">Select your browser</h3>
         <div class="browser-list">
-          <a href="#chrome" class="browser-item">
+          <a href="https://chromewebstore.google.com/detail/limheioemdhhaccglmbckadpkmnnkoab/" class="browser-item">
             Google Chrome
             <span id="badge-chrome" class="badge-recommended">Recommended</span>
           </a>
-          <a href="#edge" class="browser-item">
+          <a href="https://microsoftedge.microsoft.com/addons/detail/jpdkkcflngfgknbgfdcaffnblbafkjgh" class="browser-item">
             Microsoft Edge
             <span id="badge-edge" class="badge-recommended">Recommended</span>
           </a>
-          <a href="#firefox" class="browser-item">
+          <a href="https://addons.mozilla.org/firefox/addon/md3-expressive-new-tab/" class="browser-item">
             Mozilla Firefox
             <span id="badge-firefox" class="badge-recommended">Recommended</span>
           </a>
-          <a href="#github-releases" class="browser-item"> Manual Release (GitHub) </a>
+          <a href="https://github.com/snw-mint/md3-new-tab/releases" class="browser-item"> Manual Release (GitHub) </a>
         </div>
         <div class="modal-actions">
           <button id="closeModalBtn" class="btn btn-tonal">Cancel</button>
