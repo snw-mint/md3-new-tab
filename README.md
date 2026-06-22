@@ -1,4 +1,4 @@
-# <img src="public\assets\icon-128.png" width="50" align="center"> MD3: Expressive New Tab &nbsp;
+# <img src="public\assets\icon-128.png" width="50" align="center"> MD3: Expressive New Tab &nbsp; [ ![lastest version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fsnw-mint%2Fmd3-new-tab%2Frefs%2Fheads%2Fmain%2Fmanifest.json&query=version&style=flat&label=latest%20version&color=%2365558f) ](https://github.com/snw-mint/md3-new-tab/releases) [ ![last commit](https://img.shields.io/github/last-commit/snw-mint/md3-new-tab?color=%2365558f) ](https://github.com/snw-mint/md3-new-tab/activity) [ ![license](https://img.shields.io/badge/GPLv3-message?style=flat&label=license&color=%2365558f) ](https://github.com/snw-mint/md3-new-tab?tab=GPL-3.0-1-ov-file)
 
 ![MD3: Expressive New Tab Main](repo-assets/main.webp)
 
@@ -61,6 +61,8 @@ Expressive New Tab follows a local-first approach.
 - Settings stored locally (`localStorage`) with optional backup in `chrome.storage.local`.
 - Uploaded wallpapers saved in IndexedDB.
 - External requests only for required features (weather, wallpapers, favicons, optional suggestions).
+
+See the [privacy policy](https://snw-mint.github.io/md3-new-tab/privacy.html) for details.
 
 ## Contributing
 
