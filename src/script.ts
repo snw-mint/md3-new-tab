@@ -22,8 +22,19 @@ document.addEventListener('DOMContentLoaded', () => {
   initThemeControls();
   initBackupSystem();
 
-  applyEngineToForm(getSavedEngine());
-  bindSearchForm();
+  let searchInitialized = globalState.current.searchEnabled;
+  if (searchInitialized) {
+    applyEngineToForm(getSavedEngine());
+    bindSearchForm();
+  }
+
+  globalState.subscribe((state) => {
+    if (state.searchEnabled && !searchInitialized) {
+      searchInitialized = true;
+      applyEngineToForm(getSavedEngine());
+      bindSearchForm();
+    }
+  });
 
   bindGlobalEvents((shortcutsGrid) => {
     let dragInitialized = false;

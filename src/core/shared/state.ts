@@ -26,6 +26,7 @@ class ReactiveState {
       weatherEnabled: false,
       tempUnit: 'C',
       weatherCity: '',
+      searchEnabled: true,
       shortcutsEnabled: true,
       shortcutsRows: '1',
       launcherEnabled: true,

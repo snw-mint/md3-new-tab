@@ -6,6 +6,10 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
+html[data-search-enabled="false"] .search-bar {
+  display: none !important;
+}
+
 .search-bar {
   display: flex;
   align-items: center;

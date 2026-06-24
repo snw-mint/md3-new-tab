@@ -52,6 +52,7 @@ export function initBackupSystem(): void {
 
       backupData['shortcutsRows'] = String(state.shortcutsRows);
       backupData['launcherEnabled'] = String(state.launcherEnabled);
+      backupData['searchEnabled'] = String(state.searchEnabled);
       backupData['launcherProvider'] = state.launcherProvider;
       backupData['greetingName'] = state.greetingName;
       backupData['displayEnabled'] = String(state.displayEnabled);
@@ -128,7 +129,8 @@ export function initBackupSystem(): void {
 
               if (data['shortcutsRows']) newState.shortcutsRows = data['shortcutsRows'];
               if (data['launcherEnabled']) newState.launcherEnabled = data['launcherEnabled'] === 'true';
-              if (data['launcherProvider']) newState.launcherProvider = data['launcherProvider'];
+              if (data['searchEnabled']) newState.searchEnabled = data['searchEnabled'] === 'true';
+              if (data['launcherProvider']) newState.launcherProvider = data['launcherProvider'] as any;
               if (data['greetingName']) newState.greetingName = data['greetingName'];
               if (data['displayEnabled']) newState.displayEnabled = data['displayEnabled'] === 'true';
               if (data['use12Hour']) newState.clock12hFormat = data['use12Hour'] === 'true';

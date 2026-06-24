@@ -16,6 +16,7 @@ export interface AppSettings {
   weatherEnabled: boolean;
   tempUnit: 'C' | 'F';
   weatherCity: string;
+  searchEnabled: boolean;
   shortcutsEnabled: boolean;
   shortcutsRows: string;
   launcherEnabled: boolean;

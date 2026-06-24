@@ -52,6 +52,12 @@ export const DOM = {
     get shortcutsBlock(): HTMLElement | null {
       return document.getElementById('shortcutsSettingsBlock');
     },
+    get searchToggle(): HTMLInputElement | null {
+      return document.getElementById('searchToggle') as HTMLInputElement | null;
+    },
+    get searchBlock(): HTMLElement | null {
+      return document.getElementById('searchSettingsBlock');
+    },
     get launcherToggle(): HTMLInputElement | null {
       return document.getElementById('launcherToggle') as HTMLInputElement | null;
     },

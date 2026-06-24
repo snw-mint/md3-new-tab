@@ -53,7 +53,7 @@ function showPermissionModal(onGranted: () => void, onDenied: () => void) {
 }
 
 export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => void): void {
-  const { weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, launcherToggle, launcherBlock, displayToggle, displayBlock, displayStyleSelect, displayClockOptions, greetingNameInputWrapper, greetingNameInput, greetingHighlightNameCheckbox, clock12hFormat, clockShowDate } = DOM.settings;
+  const { weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, searchToggle, searchBlock, launcherToggle, launcherBlock, displayToggle, displayBlock, displayStyleSelect, displayClockOptions, greetingNameInputWrapper, greetingNameInput, greetingHighlightNameCheckbox, clock12hFormat, clockShowDate } = DOM.settings;
   const { appLauncherBtn } = DOM.header;
   const weatherOrigins = [
     'https://geocoding-api.open-meteo.com/*',
@@ -95,6 +95,15 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
       { toggle: launcherToggle, block: launcherBlock },
       state.launcherEnabled,
     );
+    DOMUnits.syncExpandableGroup(
+      { toggle: searchToggle, block: searchBlock },
+      state.searchEnabled,
+    );
+    if (state.searchEnabled) {
+      document.documentElement.removeAttribute('data-search-enabled');
+    } else {
+      document.documentElement.setAttribute('data-search-enabled', 'false');
+    }
     if (appLauncherBtn) {
       appLauncherBtn.style.display = state.launcherEnabled ? '' : 'none';
     }
@@ -141,6 +150,13 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
     shortcutsToggle.addEventListener('change', (e) => {
       const target = e.target as HTMLInputElement;
       globalState.current.shortcutsEnabled = target.checked;
+    });
+  }
+
+  if (searchToggle) {
+    searchToggle.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      globalState.current.searchEnabled = target.checked;
     });
   }
 
