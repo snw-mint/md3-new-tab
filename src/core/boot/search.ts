@@ -39,16 +39,24 @@ export function applyEngineToForm(engineKey: string): void {
   }
 }
 
+import { recordSearch, decayFrequentSearches } from './frequent-searches';
+
 export function bindSearchForm(): void {
   const searchForm = document.getElementById('searchForm') as HTMLFormElement;
   if (!searchForm) return;
+  decayFrequentSearches();
 
   searchForm.addEventListener('submit', (e) => {
     const currentEngine = getSavedEngine();
+    const input = searchForm.querySelector('input[name="q"]') as HTMLInputElement;
+    const query = input?.value || '';
+
+    if (query.trim()) {
+      recordSearch(query);
+    }
+
     if (currentEngine === 'system') {
       e.preventDefault();
-      const input = searchForm.querySelector('input[name="q"]') as HTMLInputElement;
-      const query = input?.value || '';
       if (!query.trim()) return;
 
       try {

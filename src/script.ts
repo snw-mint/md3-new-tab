@@ -15,6 +15,7 @@ import { initBackupSystem } from './core/ui/backup';
 import { showSnackbar } from './core/ui/snackbar';
 import { globalState } from './core/shared/state';
 import { getSavedEngine, applyEngineToForm, bindSearchForm } from './core/boot/search';
+import { bindSearchSuggestions } from './core/boot/search-suggestions';
 
 document.addEventListener('DOMContentLoaded', () => {
   initDisplay();
@@ -26,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (searchInitialized) {
     applyEngineToForm(getSavedEngine());
     bindSearchForm();
+    bindSearchSuggestions();
   }
 
   globalState.subscribe((state) => {
@@ -33,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
       searchInitialized = true;
       applyEngineToForm(getSavedEngine());
       bindSearchForm();
+      bindSearchSuggestions();
     }
   });
 
@@ -193,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
     chrome.storage.local.get(['extension_updated_version'], (result) => {
       if (result.extension_updated_version) {
-        const version = result.extension_updated_version;
+        const version = result.extension_updated_version as string;
         showSnackbar({
           text: chrome.i18n.getMessage('snackbarUpdate', [version]),
           actionText: chrome.i18n.getMessage('snackbarReleaseNotes'),

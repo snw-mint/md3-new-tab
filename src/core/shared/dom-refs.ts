@@ -55,6 +55,9 @@ export const DOM = {
     get searchToggle(): HTMLInputElement | null {
       return document.getElementById('searchToggle') as HTMLInputElement | null;
     },
+    get searchSuggestionsToggle(): HTMLInputElement | null {
+      return document.getElementById('searchSuggestionsToggle') as HTMLInputElement | null;
+    },
     get searchBlock(): HTMLElement | null {
       return document.getElementById('searchSettingsBlock');
     },

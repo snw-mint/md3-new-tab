@@ -13,6 +13,7 @@
     <title>New Tab</title>
     <link rel="preconnect" href="https://api.open-meteo.com" />
     <link rel="preconnect" href="https://geocoding-api.open-meteo.com" />
+    <link rel="preconnect" href="https://duckduckgo.com" crossorigin />
     <link rel="stylesheet" href="/src/style.scss" />
     <script src="/scripts/theme-loader.js"></script>
   </head>
@@ -470,7 +471,17 @@
           </div>
 
           <div class="expandable-content compact-gap" id="searchSettingsBlock">
-            <!-- Space reserved for future sub-resources -->
+            <hr class="settings-divider search-divider" />
+            <div class="md3-checkbox-group">
+              <label class="md3-checkbox-label">
+                <input type="checkbox" id="searchSuggestionsToggle" class="md3-checkbox-input" />
+                <span class="md3-checkbox-box">
+                  <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
+                  <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
+                </span>
+                <span class="checkbox-text" data-i18n="searchSuggestionsLabel">Search Suggestions</span>
+              </label>
+            </div>
           </div>
         </div>
 

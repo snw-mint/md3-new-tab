@@ -52,12 +52,34 @@ function showPermissionModal(onGranted: () => void, onDenied: () => void) {
   });
 }
 
+function showSearchSuggestionsPermissionModal(onGranted: () => void, onDenied: () => void) {
+  showWarningModal({
+    title: 'Permission Required',
+    messageHtml: 'To use Search Suggestions, MD3: Expressive New Tab needs permission to access <a href="https://duckduckgo.com" target="_blank">DuckDuckGo API</a> for providing autocomplete suggestions.',
+    confirmText: 'Agree',
+    cancelText: 'Cancel',
+    onConfirm: async () => {
+      const granted = await requestPermission([
+        'https://duckduckgo.com/*'
+      ]);
+      if (granted) onGranted();
+      else onDenied();
+    },
+    onCancel: () => {
+      onDenied();
+    }
+  });
+}
+
 export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => void): void {
-  const { weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, searchToggle, searchBlock, launcherToggle, launcherBlock, displayToggle, displayBlock, displayStyleSelect, displayClockOptions, greetingNameInputWrapper, greetingNameInput, greetingHighlightNameCheckbox, clock12hFormat, clockShowDate } = DOM.settings;
+  const { weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, searchToggle, searchBlock, searchSuggestionsToggle, launcherToggle, launcherBlock, displayToggle, displayBlock, displayStyleSelect, displayClockOptions, greetingNameInputWrapper, greetingNameInput, greetingHighlightNameCheckbox, clock12hFormat, clockShowDate } = DOM.settings;
   const { appLauncherBtn } = DOM.header;
   const weatherOrigins = [
     'https://geocoding-api.open-meteo.com/*',
     'https://api.open-meteo.com/*',
+  ];
+  const searchSuggestionsOrigins = [
+    'https://duckduckgo.com/*'
   ];
 
   updateWeatherWidget();
@@ -111,6 +133,9 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
     if (shortcutsGrid) {
       shortcutsGrid.style.display = state.shortcutsEnabled ? '' : 'none';
     }
+    if (searchSuggestionsToggle && searchSuggestionsToggle.checked !== state.searchSuggestionsEnabled) {
+      searchSuggestionsToggle.checked = state.searchSuggestionsEnabled;
+    }
     updateWeatherWidget();
 
     if (state.shortcutsEnabled) {
@@ -157,6 +182,36 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
     searchToggle.addEventListener('change', (e) => {
       const target = e.target as HTMLInputElement;
       globalState.current.searchEnabled = target.checked;
+    });
+  }
+
+  if (searchSuggestionsToggle) {
+    searchSuggestionsToggle.addEventListener('change', async (e) => {
+      const target = e.target as HTMLInputElement;
+      const wantsToEnable = target.checked;
+
+      if (!wantsToEnable) {
+        globalState.current.searchSuggestionsEnabled = false;
+        return;
+      }
+
+      const hasPerm = await checkPermission(searchSuggestionsOrigins);
+      if (hasPerm) {
+        globalState.current.searchSuggestionsEnabled = true;
+        return;
+      }
+
+      target.checked = false;
+      showSearchSuggestionsPermissionModal(
+        () => {
+          globalState.current.searchSuggestionsEnabled = true;
+          if (searchSuggestionsToggle) searchSuggestionsToggle.checked = true;
+        },
+        () => {
+          globalState.current.searchSuggestionsEnabled = false;
+          if (searchSuggestionsToggle) searchSuggestionsToggle.checked = false;
+        },
+      );
     });
   }
 
