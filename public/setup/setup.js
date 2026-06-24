@@ -133,6 +133,10 @@ function saveWidgets() {
   const launcherEnabled = toggleLauncher ? toggleLauncher.checked : true;
   const launcherProvider = selectLauncher ? selectLauncher.value : 'microsoft';
 
+  const toggleSearch = document.getElementById('toggle-search');
+  const selectSearch = document.getElementById('select-search');
+  const searchEnabled = toggleSearch ? toggleSearch.checked : true;
+
   const settingsStr = localStorage.getItem('ent_global_settings');
   const settings = settingsStr ? JSON.parse(settingsStr) : {};
 
@@ -142,8 +146,8 @@ function saveWidgets() {
   settings.shortcutsRows = shortcutsRows;
   settings.launcherEnabled = launcherEnabled;
   settings.launcherProvider = launcherProvider;
+  settings.searchEnabled = searchEnabled;
 
-  const selectSearch = document.getElementById('select-search');
   if (selectSearch) {
     localStorage.setItem('searchEngine', selectSearch.value);
   }
@@ -309,6 +313,11 @@ function initWidgetToggles() {
       toggle: 'toggle-launcher',
       select: 'select-launcher',
       isEnabled: settings.launcherEnabled,
+    },
+    {
+      toggle: 'toggle-search',
+      select: 'select-search',
+      isEnabled: settings.searchEnabled,
     },
   ];
 
