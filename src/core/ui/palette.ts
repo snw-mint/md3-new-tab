@@ -152,6 +152,10 @@ class PaletteManager {
     root.style.setProperty('--sys-on-primary-container-light', hexFromArgb(lightScheme.onPrimaryContainer));
     root.style.setProperty('--sys-secondary-container-light', hexFromArgb(lightScheme.secondaryContainer));
     root.style.setProperty('--sys-on-secondary-container-light', hexFromArgb(lightScheme.onSecondaryContainer));
+    root.style.setProperty('--sys-tertiary-light', hexFromArgb(lightScheme.tertiary));
+    root.style.setProperty('--sys-on-tertiary-light', hexFromArgb(lightScheme.onTertiary));
+    root.style.setProperty('--sys-tertiary-container-light', hexFromArgb(lightScheme.tertiaryContainer));
+    root.style.setProperty('--sys-on-tertiary-container-light', hexFromArgb(lightScheme.onTertiaryContainer));
     root.style.setProperty('--sys-surface-variant-light', hexFromArgb(lightScheme.surfaceVariant));
     root.style.setProperty('--sys-on-surface-variant-light', hexFromArgb(lightScheme.onSurfaceVariant));
     root.style.setProperty('--sys-background-light', isDefault ? '#ffffff' : hexFromArgb(lightScheme.background));
@@ -174,6 +178,10 @@ class PaletteManager {
     root.style.setProperty('--sys-on-primary-container-dark', hexFromArgb(darkScheme.onPrimaryContainer));
     root.style.setProperty('--sys-secondary-container-dark', hexFromArgb(darkScheme.secondaryContainer));
     root.style.setProperty('--sys-on-secondary-container-dark', hexFromArgb(darkScheme.onSecondaryContainer));
+    root.style.setProperty('--sys-tertiary-dark', hexFromArgb(darkScheme.tertiary));
+    root.style.setProperty('--sys-on-tertiary-dark', hexFromArgb(darkScheme.onTertiary));
+    root.style.setProperty('--sys-tertiary-container-dark', hexFromArgb(darkScheme.tertiaryContainer));
+    root.style.setProperty('--sys-on-tertiary-container-dark', hexFromArgb(darkScheme.onTertiaryContainer));
 
     root.style.setProperty(
       '--sys-surface-variant-dark',
@@ -201,6 +209,10 @@ class PaletteManager {
       '--sys-on-primary-container-light',
       '--sys-secondary-container-light',
       '--sys-on-secondary-container-light',
+      '--sys-tertiary-light',
+      '--sys-on-tertiary-light',
+      '--sys-tertiary-container-light',
+      '--sys-on-tertiary-container-light',
       '--sys-surface-variant-light',
       '--sys-on-surface-variant-light',
       '--sys-background-light',
@@ -213,6 +225,10 @@ class PaletteManager {
       '--sys-on-primary-container-dark',
       '--sys-secondary-container-dark',
       '--sys-on-secondary-container-dark',
+      '--sys-tertiary-dark',
+      '--sys-on-tertiary-dark',
+      '--sys-tertiary-container-dark',
+      '--sys-on-tertiary-container-dark',
       '--sys-surface-variant-dark',
       '--sys-on-surface-variant-dark',
       '--sys-background-dark',
