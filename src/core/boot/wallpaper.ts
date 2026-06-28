@@ -9,6 +9,62 @@
 import { DOM } from '../shared/dom-refs';
 import { globalState } from '../shared/state';
 
+async function compressImageToWebP(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+
+      const canvas = document.createElement('canvas');
+      let { width, height } = img;
+
+      // Max dimensions to balance quality and storage limits (local storage max 5MB)
+      // 2560x1440 is standard 1440p, sufficient for high DPI without blowing up size
+      const MAX_WIDTH = 2560;
+      const MAX_HEIGHT = 1440;
+
+      if (width > height) {
+        if (width > MAX_WIDTH) {
+          height = Math.round((height * MAX_WIDTH) / width);
+          width = MAX_WIDTH;
+        }
+      } else {
+        if (height > MAX_HEIGHT) {
+          width = Math.round((width * MAX_HEIGHT) / height);
+          height = MAX_HEIGHT;
+        }
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        reject(new Error('Canvas context not available'));
+        return;
+      }
+
+      // Fill background to avoid transparent issues in webp conversion if the image has alpha
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(0, 0, width, height);
+      ctx.drawImage(img, 0, 0, width, height);
+
+      // Compress to WebP with 85% quality to keep it under local storage quota
+      const dataUrl = canvas.toDataURL('image/webp', 0.85);
+      resolve(dataUrl);
+    };
+
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error('Failed to load image for compression'));
+    };
+
+    img.src = url;
+  });
+}
+
 export function initWallpaper(): void {
   const { wallpaperUploadBtn, wallpaperFileInput, wallpaperAddIcon, wallpaperRemoveIcon, wallpaperLayer } = DOM.settings;
 
@@ -51,7 +107,7 @@ export function initWallpaper(): void {
   });
 
   // Handle file selection
-  wallpaperFileInput.addEventListener('change', (event) => {
+  wallpaperFileInput.addEventListener('change', async (event) => {
     const target = event.target as HTMLInputElement;
     const file = target.files?.[0];
 
@@ -60,13 +116,19 @@ export function initWallpaper(): void {
     // Reset input so the same file can be selected again
     target.value = '';
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const result = e.target?.result;
-      if (typeof result === 'string') {
-        globalState.current.wallpaperImage = result;
-      }
-    };
-    reader.readAsDataURL(file);
+    try {
+      // Add a loading state visually if needed (optional)
+      wallpaperUploadBtn.style.opacity = '0.7';
+      wallpaperUploadBtn.style.pointerEvents = 'none';
+
+      const compressedBase64 = await compressImageToWebP(file);
+      globalState.current.wallpaperImage = compressedBase64;
+    } catch (error) {
+      console.error('Failed to compress and save wallpaper:', error);
+      alert('Failed to process image. It might be too large or corrupted.');
+    } finally {
+      wallpaperUploadBtn.style.opacity = '';
+      wallpaperUploadBtn.style.pointerEvents = '';
+    }
   });
 }
