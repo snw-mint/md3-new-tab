@@ -13,6 +13,9 @@ export const DOM = {
     },
   },
   settings: {
+    get wallpaperColorToggle(): HTMLInputElement | null {
+      return document.getElementById('wallpaperColorToggle') as HTMLInputElement | null;
+    },
     get wallpaperToggle(): HTMLInputElement | null {
       return document.getElementById('wallpaperToggle') as HTMLInputElement | null;
     },

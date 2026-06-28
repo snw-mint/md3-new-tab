@@ -34,6 +34,8 @@ class ReactiveState {
       launcherProvider: 'google',
       wallpaperEnabled: false,
       wallpaperImage: '',
+      colorFromWallpaper: false,
+      wallpaperColor: '',
     };
 
     const savedState = localStorage.getItem(this.storageKey);

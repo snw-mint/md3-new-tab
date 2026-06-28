@@ -90,7 +90,11 @@ body {
   transition: padding-bottom 0.3s cubic-bezier(0.2, 0, 0, 1);
 
   &.collapsed-card {
-    padding-bottom: 1.25rem;
+    padding-bottom: 1.8rem;
+
+    &:has(#wallpaperSettingsBlock) {
+      padding-bottom: 1.25rem;
+    }
   }
 }
 
@@ -159,8 +163,8 @@ body {
   justify-content: center;
   gap: 0.5rem;
   height: 2.5rem;
-  background-color: var(--color-secondary-container);
-  color: var(--color-tertiary);
+  background-color: var(--color-tertiary-container);
+  color: var(--color-on-tertiary-container);
   border: none;
   font-family: var(--font-family);
   font-size: 0.875rem;
@@ -495,7 +499,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  margin-top: 1.25rem;
+  margin-top: 1.2rem;
   opacity: 1;
   overflow: hidden;
   transition:

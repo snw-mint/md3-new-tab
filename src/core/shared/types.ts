@@ -24,6 +24,8 @@ export interface AppSettings {
   launcherProvider: 'google' | 'microsoft' | 'proton';
   wallpaperEnabled: boolean;
   wallpaperImage: string;
+  colorFromWallpaper: boolean;
+  wallpaperColor: string;
 }
 
 export interface CityData {

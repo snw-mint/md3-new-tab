@@ -7,6 +7,7 @@
  */
 
 import { hexFromArgb, argbFromHex, Scheme, Hct } from '@material/material-color-utilities';
+import { globalState } from '../shared/state';
 
 export function updateFavicon(): void {
   const root = document.documentElement;
@@ -47,11 +48,17 @@ class PaletteManager {
   }
 
   private init(): void {
-    const savedPalette = localStorage.getItem(this.storageKey) || 'expressive';
-    const savedCustomColor = localStorage.getItem(this.customColorKey) || PREDEFINED_SOURCES['expressive'];
-
-    this.processTheme(savedPalette, savedCustomColor);
-    this.updateActiveUI(savedPalette);
+    globalState.subscribe((state) => {
+      if (state.colorFromWallpaper && state.wallpaperEnabled && state.wallpaperColor) {
+        this.processTheme('wallpaper', state.wallpaperColor);
+        this.updateActiveUI('wallpaper');
+      } else {
+        const savedPalette = localStorage.getItem(this.storageKey) || 'expressive';
+        const savedCustomColor = localStorage.getItem(this.customColorKey) || PREDEFINED_SOURCES['expressive'];
+        this.processTheme(savedPalette, savedCustomColor);
+        this.updateActiveUI(savedPalette);
+      }
+    });
 
     this.buttons.forEach((btn) => {
       btn.addEventListener('click', (e) => {
@@ -59,6 +66,8 @@ class PaletteManager {
         const palette = target.dataset.palette;
 
         if (palette && palette !== 'custom') {
+          globalState.current.colorFromWallpaper = false;
+          
           const customColor = localStorage.getItem(this.customColorKey) || PREDEFINED_SOURCES['expressive'];
           this.processTheme(palette, customColor);
           this.updateActiveUI(palette);
@@ -96,6 +105,9 @@ class PaletteManager {
         const hex = hexFromArgb(argb);
         localStorage.setItem(this.customColorKey, hex);
         localStorage.setItem(this.storageKey, 'custom');
+        
+        globalState.current.colorFromWallpaper = false;
+        
         this.processTheme('custom', hex);
         this.updateActiveUI('custom');
       }
@@ -125,7 +137,9 @@ class PaletteManager {
   private processTheme(palette: string, customColorHex: string): void {
     let sourceHex = PREDEFINED_SOURCES[palette];
 
-    if (!sourceHex && palette === 'custom') {
+    if (palette === 'wallpaper') {
+      sourceHex = customColorHex;
+    } else if (!sourceHex && palette === 'custom') {
       sourceHex = customColorHex;
     } else if (!sourceHex) {
       sourceHex = PREDEFINED_SOURCES['default'];
