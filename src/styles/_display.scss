@@ -51,7 +51,7 @@
     color: var(--color-primary);
 
     .name-sparkle-svg {
-      opacity: 0.15; /* subtle */
+      opacity: 0.15;
       transform: translate(-50%, -50%) rotate(0deg) scale(1);
     }
   }
@@ -69,7 +69,7 @@
 }
 
 .time-card {
-  background-color: var(--color-surface-variant);
+  background-color: var(--color-secondary-container);
   border-radius: 2rem;
   padding: 1.5rem 2rem;
   display: flex;
@@ -220,22 +220,22 @@
   }
 }
 
-html[data-display-enabled="false"] #displayWidget {
+html[data-display-enabled='false'] #displayWidget {
   display: none !important;
 }
 
-html[data-display-style="greetings"] #clockExpressiveContainer {
+html[data-display-style='greetings'] #clockExpressiveContainer {
   display: none !important;
 }
-html[data-display-style="greetings"] #greetingsDisplay {
+html[data-display-style='greetings'] #greetingsDisplay {
   display: block !important;
 }
 
-html[data-display-style="simple_clock"] #greetingsDisplay,
-html[data-display-style="expressive_clock"] #greetingsDisplay {
+html[data-display-style='simple_clock'] #greetingsDisplay,
+html[data-display-style='expressive_clock'] #greetingsDisplay {
   display: none !important;
 }
-html[data-display-style="simple_clock"] #clockExpressiveContainer,
-html[data-display-style="expressive_clock"] #clockExpressiveContainer {
+html[data-display-style='simple_clock'] #clockExpressiveContainer,
+html[data-display-style='expressive_clock'] #clockExpressiveContainer {
   display: flex !important;
 }
