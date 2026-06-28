@@ -61,6 +61,10 @@
     if (settings.displayEnabled === false) {
       root.setAttribute('data-display-enabled', 'false');
     }
+
+    if (settings.searchEnabled === false) {
+      root.setAttribute('data-search-enabled', 'false');
+    }
   } catch (e) {}
 
   try {
