@@ -6,12 +6,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-  hexFromArgb,
-  argbFromHex,
-  Scheme,
-  Hct,
-} from '@material/material-color-utilities';
+import { hexFromArgb, argbFromHex, Scheme, Hct } from '@material/material-color-utilities';
 
 export function updateFavicon(): void {
   const root = document.documentElement;
@@ -46,18 +41,14 @@ class PaletteManager {
   private customColorKey: string = 'ent_custom_color';
 
   constructor() {
-    this.buttons = document.querySelectorAll<HTMLButtonElement>(
-      '.color-circle-btn[data-palette]',
-    );
+    this.buttons = document.querySelectorAll<HTMLButtonElement>('.color-circle-btn[data-palette]');
     this.init();
     this.initColorPicker();
   }
 
   private init(): void {
     const savedPalette = localStorage.getItem(this.storageKey) || 'expressive';
-    const savedCustomColor =
-      localStorage.getItem(this.customColorKey) ||
-      PREDEFINED_SOURCES['expressive'];
+    const savedCustomColor = localStorage.getItem(this.customColorKey) || PREDEFINED_SOURCES['expressive'];
 
     this.processTheme(savedPalette, savedCustomColor);
     this.updateActiveUI(savedPalette);
@@ -68,9 +59,7 @@ class PaletteManager {
         const palette = target.dataset.palette;
 
         if (palette && palette !== 'custom') {
-          const customColor =
-            localStorage.getItem(this.customColorKey) ||
-            PREDEFINED_SOURCES['expressive'];
+          const customColor = localStorage.getItem(this.customColorKey) || PREDEFINED_SOURCES['expressive'];
           this.processTheme(palette, customColor);
           this.updateActiveUI(palette);
           localStorage.setItem(this.storageKey, palette);
@@ -112,9 +101,7 @@ class PaletteManager {
       }
     };
 
-    const savedCustomColor =
-      localStorage.getItem(this.customColorKey) ||
-      PREDEFINED_SOURCES['default'];
+    const savedCustomColor = localStorage.getItem(this.customColorKey) || PREDEFINED_SOURCES['default'];
     const initialHct = Hct.fromInt(argbFromHex(savedCustomColor));
     slider.value = initialHct.hue.toString();
     slider.style.setProperty('--current-hue', initialHct.hue.toString());
@@ -150,6 +137,7 @@ class PaletteManager {
   }
 
   private applyDynamicRoles(argb: number, paletteId: string): void {
+    const isDefault = paletteId === 'default';
     const lightScheme = Scheme.light(argb);
     const darkScheme = Scheme.dark(argb);
 
@@ -158,98 +146,42 @@ class PaletteManager {
 
     const root = document.documentElement;
 
-    root.style.setProperty(
-      '--sys-primary-light',
-      hexFromArgb(lightScheme.primary),
-    );
-    root.style.setProperty(
-      '--sys-on-primary-light',
-      hexFromArgb(lightScheme.onPrimary),
-    );
-    root.style.setProperty(
-      '--sys-primary-container-light',
-      hexFromArgb(lightScheme.primaryContainer),
-    );
-    root.style.setProperty(
-      '--sys-on-primary-container-light',
-      hexFromArgb(lightScheme.onPrimaryContainer),
-    );
-    root.style.setProperty(
-      '--sys-secondary-container-light',
-      hexFromArgb(lightScheme.secondaryContainer),
-    );
-    root.style.setProperty(
-      '--sys-on-secondary-container-light',
-      hexFromArgb(lightScheme.onSecondaryContainer),
-    );
-    root.style.setProperty(
-      '--sys-surface-variant-light',
-      hexFromArgb(lightScheme.surfaceVariant),
-    );
-    root.style.setProperty(
-      '--sys-on-surface-variant-light',
-      hexFromArgb(lightScheme.onSurfaceVariant),
-    );
-    root.style.setProperty(
-      '--sys-background-light',
-      hexFromArgb(lightScheme.background),
-    );
+    root.style.setProperty('--sys-primary-light', hexFromArgb(lightScheme.primary));
+    root.style.setProperty('--sys-on-primary-light', hexFromArgb(lightScheme.onPrimary));
+    root.style.setProperty('--sys-primary-container-light', hexFromArgb(lightScheme.primaryContainer));
+    root.style.setProperty('--sys-on-primary-container-light', hexFromArgb(lightScheme.onPrimaryContainer));
+    root.style.setProperty('--sys-secondary-container-light', hexFromArgb(lightScheme.secondaryContainer));
+    root.style.setProperty('--sys-on-secondary-container-light', hexFromArgb(lightScheme.onSecondaryContainer));
+    root.style.setProperty('--sys-surface-variant-light', hexFromArgb(lightScheme.surfaceVariant));
+    root.style.setProperty('--sys-on-surface-variant-light', hexFromArgb(lightScheme.onSurfaceVariant));
+    root.style.setProperty('--sys-background-light', isDefault ? '#ffffff' : hexFromArgb(lightScheme.background));
     root.style.setProperty(
       '--sys-surface-light',
-      hexFromArgb(lightScheme.surface),
+      isDefault ? '#ffffff' : hexFromArgb(Hct.from(baseHue, 4, 98).toInt()),
     );
     root.style.setProperty(
       '--sys-surface-container-light',
-      hexFromArgb(Hct.from(baseHue, 4, 94).toInt()),
+      isDefault ? '#ffffff' : hexFromArgb(Hct.from(baseHue, 4, 94).toInt()),
     );
     root.style.setProperty(
       '--sys-surface-container-highest-light',
-      hexFromArgb(Hct.from(baseHue, 4, 90).toInt()),
+      isDefault ? '#ffffff' : hexFromArgb(Hct.from(baseHue, 4, 90).toInt()),
     );
 
-    root.style.setProperty(
-      '--sys-primary-dark',
-      hexFromArgb(darkScheme.primary),
-    );
-    root.style.setProperty(
-      '--sys-on-primary-dark',
-      hexFromArgb(darkScheme.onPrimary),
-    );
-    root.style.setProperty(
-      '--sys-primary-container-dark',
-      hexFromArgb(darkScheme.primaryContainer),
-    );
-    root.style.setProperty(
-      '--sys-on-primary-container-dark',
-      hexFromArgb(darkScheme.onPrimaryContainer),
-    );
-    root.style.setProperty(
-      '--sys-secondary-container-dark',
-      hexFromArgb(darkScheme.secondaryContainer),
-    );
-    root.style.setProperty(
-      '--sys-on-secondary-container-dark',
-      hexFromArgb(darkScheme.onSecondaryContainer),
-    );
-
-    const isDefault = paletteId === 'default';
+    root.style.setProperty('--sys-primary-dark', hexFromArgb(darkScheme.primary));
+    root.style.setProperty('--sys-on-primary-dark', hexFromArgb(darkScheme.onPrimary));
+    root.style.setProperty('--sys-primary-container-dark', hexFromArgb(darkScheme.primaryContainer));
+    root.style.setProperty('--sys-on-primary-container-dark', hexFromArgb(darkScheme.onPrimaryContainer));
+    root.style.setProperty('--sys-secondary-container-dark', hexFromArgb(darkScheme.secondaryContainer));
+    root.style.setProperty('--sys-on-secondary-container-dark', hexFromArgb(darkScheme.onSecondaryContainer));
 
     root.style.setProperty(
       '--sys-surface-variant-dark',
       isDefault ? '#444444' : hexFromArgb(darkScheme.surfaceVariant),
     );
-    root.style.setProperty(
-      '--sys-on-surface-variant-dark',
-      hexFromArgb(darkScheme.onSurfaceVariant),
-    );
-    root.style.setProperty(
-      '--sys-background-dark',
-      isDefault ? '#282828' : hexFromArgb(darkScheme.background),
-    );
-    root.style.setProperty(
-      '--sys-surface-dark',
-      isDefault ? '#282828' : hexFromArgb(darkScheme.surface),
-    );
+    root.style.setProperty('--sys-on-surface-variant-dark', hexFromArgb(darkScheme.onSurfaceVariant));
+    root.style.setProperty('--sys-background-dark', isDefault ? '#282828' : hexFromArgb(darkScheme.background));
+    root.style.setProperty('--sys-surface-dark', isDefault ? '#282828' : hexFromArgb(darkScheme.surface));
     root.style.setProperty(
       '--sys-surface-container-dark',
       isDefault ? '#323232' : hexFromArgb(Hct.from(baseHue, 4, 12).toInt()),
@@ -260,23 +192,33 @@ class PaletteManager {
     );
 
     root.setAttribute('data-palette', paletteId);
-
-    // Call updateFavicon so the icon refreshes with the new colors
     setTimeout(() => updateFavicon(), 0);
 
     const cssVarNames = [
-      '--sys-primary-light', '--sys-on-primary-light',
-      '--sys-primary-container-light', '--sys-on-primary-container-light',
-      '--sys-secondary-container-light', '--sys-on-secondary-container-light',
-      '--sys-surface-variant-light', '--sys-on-surface-variant-light',
-      '--sys-background-light', '--sys-surface-light',
-      '--sys-surface-container-light', '--sys-surface-container-highest-light',
-      '--sys-primary-dark', '--sys-on-primary-dark',
-      '--sys-primary-container-dark', '--sys-on-primary-container-dark',
-      '--sys-secondary-container-dark', '--sys-on-secondary-container-dark',
-      '--sys-surface-variant-dark', '--sys-on-surface-variant-dark',
-      '--sys-background-dark', '--sys-surface-dark',
-      '--sys-surface-container-dark', '--sys-surface-container-highest-dark',
+      '--sys-primary-light',
+      '--sys-on-primary-light',
+      '--sys-primary-container-light',
+      '--sys-on-primary-container-light',
+      '--sys-secondary-container-light',
+      '--sys-on-secondary-container-light',
+      '--sys-surface-variant-light',
+      '--sys-on-surface-variant-light',
+      '--sys-background-light',
+      '--sys-surface-light',
+      '--sys-surface-container-light',
+      '--sys-surface-container-highest-light',
+      '--sys-primary-dark',
+      '--sys-on-primary-dark',
+      '--sys-primary-container-dark',
+      '--sys-on-primary-container-dark',
+      '--sys-secondary-container-dark',
+      '--sys-on-secondary-container-dark',
+      '--sys-surface-variant-dark',
+      '--sys-on-surface-variant-dark',
+      '--sys-background-dark',
+      '--sys-surface-dark',
+      '--sys-surface-container-dark',
+      '--sys-surface-container-highest-dark',
     ];
     const cache: Record<string, string> = {};
     const computed = getComputedStyle(root);
@@ -289,15 +231,12 @@ class PaletteManager {
 
   private updateActiveUI(paletteId: string): void {
     this.buttons.forEach((btn) => btn.classList.remove('active'));
-    const activeBtn = document.querySelector(
-      `.color-circle-btn[data-palette="${paletteId}"]`,
-    );
+    const activeBtn = document.querySelector(`.color-circle-btn[data-palette="${paletteId}"]`);
     if (activeBtn) activeBtn.classList.add('active');
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   new PaletteManager();
-  // Ensure the favicon applies correctly on first load if it didn't trigger
   updateFavicon();
 });
