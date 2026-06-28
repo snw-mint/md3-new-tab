@@ -22,6 +22,8 @@ export interface AppSettings {
   shortcutsRows: string;
   launcherEnabled: boolean;
   launcherProvider: 'google' | 'microsoft' | 'proton';
+  wallpaperEnabled: boolean;
+  wallpaperImage: string;
 }
 
 export interface CityData {

@@ -1215,3 +1215,45 @@ body {
     }
   }
 }
+
+.wallpaper-upload-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 0.5rem;
+}
+
+.wallpaper-btn {
+  appearance: none;
+  border: none;
+  width: 100%;
+  height: 4rem;
+  border-radius: 1rem;
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+
+  &:hover {
+    filter: brightness(0.95);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  svg {
+    width: 2.5rem;
+    height: 2.5rem;
+    fill: currentColor;
+  }
+
+  &.active-state {
+    background-color: var(--color-tertiary, var(--sys-tertiary-light, #ad8791));
+    color: var(--color-on-tertiary, var(--sys-on-tertiary-light, #ffffff));
+  }
+}

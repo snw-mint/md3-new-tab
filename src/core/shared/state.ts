@@ -32,6 +32,8 @@ class ReactiveState {
       shortcutsRows: '1',
       launcherEnabled: true,
       launcherProvider: 'google',
+      wallpaperEnabled: false,
+      wallpaperImage: '',
     };
 
     const savedState = localStorage.getItem(this.storageKey);

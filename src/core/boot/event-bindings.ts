@@ -72,7 +72,7 @@ function showSearchSuggestionsPermissionModal(onGranted: () => void, onDenied: (
 }
 
 export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => void): void {
-  const { weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, searchToggle, searchBlock, searchSuggestionsToggle, launcherToggle, launcherBlock, displayToggle, displayBlock, displayStyleSelect, displayClockOptions, greetingNameInputWrapper, greetingNameInput, greetingHighlightNameCheckbox, clock12hFormat, clockShowDate } = DOM.settings;
+  const { wallpaperToggle, wallpaperBlock, weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, searchToggle, searchBlock, searchSuggestionsToggle, launcherToggle, launcherBlock, displayToggle, displayBlock, displayStyleSelect, displayClockOptions, greetingNameInputWrapper, greetingNameInput, greetingHighlightNameCheckbox, clock12hFormat, clockShowDate } = DOM.settings;
   const { appLauncherBtn } = DOM.header;
   const weatherOrigins = [
     'https://geocoding-api.open-meteo.com/*',
@@ -101,6 +101,10 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
   };
 
   globalState.subscribe((state) => {
+    DOMUnits.syncExpandableGroup(
+      { toggle: wallpaperToggle, block: wallpaperBlock },
+      state.wallpaperEnabled,
+    );
     DOMUnits.syncExpandableGroup(
       { toggle: displayToggle, block: displayBlock },
       state.displayEnabled,
@@ -142,6 +146,13 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
       loadShortcutsModule();
     }
   });
+
+  if (wallpaperToggle) {
+    wallpaperToggle.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      globalState.current.wallpaperEnabled = target.checked;
+    });
+  }
 
   if (weatherToggle) {
     weatherToggle.addEventListener('change', async (e) => {
