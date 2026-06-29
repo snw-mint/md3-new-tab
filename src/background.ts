@@ -11,7 +11,10 @@ chrome.runtime.onInstalled.addListener((details) => {
     chrome.tabs.create({ url: chrome.runtime.getURL('setup/setup.html') });
   } else if (details.reason === 'update') {
     const manifest = chrome.runtime.getManifest();
-    chrome.storage.local.set({ extension_updated_version: manifest.version });
+    chrome.storage.local.set({ 
+      extension_updated_version: manifest.version,
+      new_features_version: manifest.version
+    });
   }
 });
 

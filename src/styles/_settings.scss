@@ -489,6 +489,7 @@ body {
 .group-title-wrapper {
   display: flex;
   align-items: center;
+  position: relative;
 
   .settings-group-title {
     margin: 0;
@@ -731,6 +732,7 @@ body {
 .md3-checkbox-label {
   display: flex;
   align-items: center;
+  position: relative;
   gap: 0.75rem;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -1261,3 +1263,28 @@ body {
     color: var(--color-on-tertiary-container);
   }
 }
+
+.new-feature-badge {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-tertiary);
+  color: var(--color-on-tertiary);
+  margin-left: 0.5rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  
+  body.show-new-features & {
+    display: inline-flex;
+  }
+}
+

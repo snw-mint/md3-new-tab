@@ -15,7 +15,28 @@ export function initSidebarControls(): void {
   ) as HTMLButtonElement | null;
   const body = document.body;
   const toggleSidebar = () => {
+    const isOpening = !body.classList.contains('sidebar-open');
     body.classList.toggle('sidebar-open');
+
+    if (isOpening) {
+      if (typeof chrome !== 'undefined' && chrome.storage && chrome.runtime) {
+        chrome.storage.local.get(['new_features_version'], (result) => {
+          const manifest = chrome.runtime.getManifest();
+          if (result.new_features_version === manifest.version) {
+            body.classList.add('show-new-features');
+          }
+        });
+      }
+    } else {
+      if (body.classList.contains('show-new-features')) {
+        setTimeout(() => {
+          body.classList.remove('show-new-features');
+          if (typeof chrome !== 'undefined' && chrome.storage) {
+            chrome.storage.local.remove(['new_features_version']);
+          }
+        }, 300);
+      }
+    }
   };
   if (settingsBtn) {
     settingsBtn.addEventListener('click', toggleSidebar);
