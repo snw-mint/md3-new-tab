@@ -13,6 +13,30 @@ export const DOM = {
     },
   },
   settings: {
+    get wallpaperColorToggle(): HTMLInputElement | null {
+      return document.getElementById('wallpaperColorToggle') as HTMLInputElement | null;
+    },
+    get wallpaperToggle(): HTMLInputElement | null {
+      return document.getElementById('wallpaperToggle') as HTMLInputElement | null;
+    },
+    get wallpaperBlock(): HTMLElement | null {
+      return document.getElementById('wallpaperSettingsBlock');
+    },
+    get wallpaperUploadBtn(): HTMLButtonElement | null {
+      return document.getElementById('wallpaperUploadBtn') as HTMLButtonElement | null;
+    },
+    get wallpaperFileInput(): HTMLInputElement | null {
+      return document.getElementById('wallpaperFileInput') as HTMLInputElement | null;
+    },
+    get wallpaperAddIcon(): HTMLElement | null {
+      return document.getElementById('wallpaperAddIcon');
+    },
+    get wallpaperRemoveIcon(): HTMLElement | null {
+      return document.getElementById('wallpaperRemoveIcon');
+    },
+    get wallpaperLayer(): HTMLElement | null {
+      return document.getElementById('wallpaperLayer');
+    },
     get displayToggle(): HTMLInputElement | null {
       return document.getElementById('displayToggle') as HTMLInputElement | null;
     },

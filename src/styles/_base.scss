@@ -16,7 +16,9 @@ html {
   -ms-user-select: none;
 }
 
-input, textarea, [contenteditable="true"] {
+input,
+textarea,
+[contenteditable='true'] {
   user-select: text;
   -webkit-user-select: text;
   -moz-user-select: text;
@@ -35,4 +37,97 @@ input, textarea, [contenteditable="true"] {
   margin: auto;
   padding: 4rem 0;
   display: flex;
+}
+
+.wallpaper-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition:
+    opacity 0.4s ease-in-out,
+    background-image 0.4s ease-in-out;
+  pointer-events: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+  }
+}
+
+body.has-wallpaper {
+  .wallpaper-layer {
+    opacity: 1;
+
+    &::after {
+      opacity: 1;
+    }
+  }
+  .weather-widget,
+  .shortcut-title,
+  .display-widget,
+  .main-header {
+    color: #ffffff;
+    --color-secondary-container: color-mix(in srgb, var(--sys-primary-dark, #ffffff) 80%, black);
+    .weather-temp,
+    .weather-city,
+    .greetings-text,
+    .date-display,
+    #ampmText,
+    .header-link,
+    .icon-btn,
+    .engine-circle-btn {
+      color: #ffffff !important;
+    }
+  }
+  .menu-btn {
+    color: #ffffff !important;
+  }
+  .display-widget:not(.expressive_clock) {
+    #hourDisplay,
+    #minuteDisplay,
+    .time-separator {
+      color: #ffffff !important;
+    }
+  }
+  .highlighted-name.active {
+    color: var(--sys-primary-dark, #ffffff) !important;
+    .name-sparkle-svg {
+      color: var(--sys-primary-dark, #ffffff) !important;
+    }
+  }
+  .display-widget.expressive_clock {
+    .d-h1,
+    .d-m1 {
+      color: var(--sys-primary-dark, #ffffff) !important;
+    }
+    .d-h2,
+    .d-m2 {
+      color: color-mix(in srgb, var(--sys-primary-dark, #ffffff) 60%, #ffffff) !important;
+    }
+    .digit {
+      text-shadow:
+        -3px -3px 0 rgba(0, 0, 0, 0.3),
+        0 -3px 0 rgba(0, 0, 0, 0.3),
+        3px -3px 0 rgba(0, 0, 0, 0.3),
+        3px 0 0 rgba(0, 0, 0, 0.3),
+        3px 3px 0 rgba(0, 0, 0, 0.3),
+        0 3px 0 rgba(0, 0, 0, 0.3),
+        -3px 3px 0 rgba(0, 0, 0, 0.3),
+        -3px 0 0 rgba(0, 0, 0, 0.3) !important;
+    }
+  }
 }

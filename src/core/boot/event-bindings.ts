@@ -72,7 +72,7 @@ function showSearchSuggestionsPermissionModal(onGranted: () => void, onDenied: (
 }
 
 export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => void): void {
-  const { weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, searchToggle, searchBlock, searchSuggestionsToggle, launcherToggle, launcherBlock, displayToggle, displayBlock, displayStyleSelect, displayClockOptions, greetingNameInputWrapper, greetingNameInput, greetingHighlightNameCheckbox, clock12hFormat, clockShowDate } = DOM.settings;
+  const { wallpaperToggle, wallpaperBlock, wallpaperColorToggle, weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, searchToggle, searchBlock, searchSuggestionsToggle, launcherToggle, launcherBlock, displayToggle, displayBlock, displayStyleSelect, displayClockOptions, greetingNameInputWrapper, greetingNameInput, greetingHighlightNameCheckbox, clock12hFormat, clockShowDate } = DOM.settings;
   const { appLauncherBtn } = DOM.header;
   const weatherOrigins = [
     'https://geocoding-api.open-meteo.com/*',
@@ -101,6 +101,10 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
   };
 
   globalState.subscribe((state) => {
+    DOMUnits.syncExpandableGroup(
+      { toggle: wallpaperToggle, block: wallpaperBlock },
+      state.wallpaperEnabled,
+    );
     DOMUnits.syncExpandableGroup(
       { toggle: displayToggle, block: displayBlock },
       state.displayEnabled,
@@ -141,7 +145,34 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
     if (state.shortcutsEnabled) {
       loadShortcutsModule();
     }
+    if (wallpaperColorToggle) {
+      if (!state.wallpaperEnabled || !state.wallpaperImage) {
+        wallpaperColorToggle.disabled = true;
+        wallpaperColorToggle.checked = false;
+        const group = wallpaperColorToggle.closest('.md3-checkbox-group');
+        if (group) group.classList.add('disabled');
+      } else {
+        wallpaperColorToggle.disabled = false;
+        wallpaperColorToggle.checked = state.colorFromWallpaper;
+        const group = wallpaperColorToggle.closest('.md3-checkbox-group');
+        if (group) group.classList.remove('disabled');
+      }
+    }
   });
+
+  if (wallpaperColorToggle) {
+    wallpaperColorToggle.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      globalState.current.colorFromWallpaper = target.checked;
+    });
+  }
+
+  if (wallpaperToggle) {
+    wallpaperToggle.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      globalState.current.wallpaperEnabled = target.checked;
+    });
+  }
 
   if (weatherToggle) {
     weatherToggle.addEventListener('change', async (e) => {

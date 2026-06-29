@@ -12,6 +12,7 @@ import { bindGlobalEvents } from './core/boot/event-bindings';
 import { initDisplay } from './core/boot/display';
 import { DOM } from './core/shared/dom-refs';
 import { initBackupSystem } from './core/ui/backup';
+import { initWallpaper } from './core/boot/wallpaper';
 import { showSnackbar } from './core/ui/snackbar';
 import { globalState } from './core/shared/state';
 import { getSavedEngine, applyEngineToForm, bindSearchForm } from './core/boot/search';
@@ -22,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSidebarControls();
   initThemeControls();
   initBackupSystem();
+  initWallpaper();
 
   let searchInitialized = globalState.current.searchEnabled;
   if (searchInitialized) {

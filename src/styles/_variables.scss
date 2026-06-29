@@ -15,6 +15,11 @@
   --color-secondary-container: var(--sys-secondary-container-light);
   --color-on-secondary-container: var(--sys-on-secondary-container-light);
 
+  --color-tertiary: var(--sys-tertiary-light);
+  --color-on-tertiary: var(--sys-on-tertiary-light);
+  --color-tertiary-container: var(--sys-tertiary-container-light);
+  --color-on-tertiary-container: var(--sys-on-tertiary-container-light);
+
   --color-background: var(--sys-background-light, #ffffff);
   --color-surface: var(--sys-surface-light, #ffffff);
   --color-surface-container: var(--color-surface);
@@ -46,6 +51,11 @@
 
   --color-secondary-container: var(--sys-secondary-container-dark);
   --color-on-secondary-container: var(--sys-on-secondary-container-dark);
+
+  --color-tertiary: var(--sys-tertiary-dark);
+  --color-on-tertiary: var(--sys-on-tertiary-dark);
+  --color-tertiary-container: var(--sys-tertiary-container-dark);
+  --color-on-tertiary-container: var(--sys-on-tertiary-container-dark);
 
   --color-background: var(--sys-background-dark, #1f1f1f);
   --color-surface: var(--sys-surface-dark, #1f1f1f);
