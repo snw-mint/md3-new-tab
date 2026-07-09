@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "MD3: Expressive New Tab",
-  "version": "1.1",
+  "version": "1.2",
   "description": "A minimalist, customizable New Tab page inspired by Google's Material Design.",
   "default_locale": "en_US",
   "icons": {
