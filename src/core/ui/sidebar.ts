@@ -6,6 +6,10 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { SidebarRouter } from './sidebar-router';
+
+let router: SidebarRouter | null = null;
+
 export function initSidebarControls(): void {
   const settingsBtn = document.getElementById(
     'settingsBtn',
@@ -14,6 +18,7 @@ export function initSidebarControls(): void {
     'closeSettingsBtn',
   ) as HTMLButtonElement | null;
   const body = document.body;
+
   const toggleSidebar = () => {
     const isOpening = !body.classList.contains('sidebar-open');
     body.classList.toggle('sidebar-open');
@@ -28,6 +33,9 @@ export function initSidebarControls(): void {
         });
       }
     } else {
+      // Reset router to root when sidebar closes
+      router?.reset();
+
       if (body.classList.contains('show-new-features')) {
         setTimeout(() => {
           body.classList.remove('show-new-features');
@@ -38,6 +46,7 @@ export function initSidebarControls(): void {
       }
     }
   };
+
   if (settingsBtn) {
     settingsBtn.addEventListener('click', toggleSidebar);
   }
@@ -80,3 +89,32 @@ export function initThemeControls(): void {
     });
   });
 }
+
+export function initSidebarRouter(): void {
+  const viewport = document.getElementById('sidebarNavViewport');
+  const rootPage = document.getElementById('sidebarRootPage');
+
+  if (!viewport || !rootPage) {
+    console.warn('[SidebarRouter] Required DOM elements not found. Router not initialized.');
+    return;
+  }
+
+  router = new SidebarRouter({ viewport, rootPage });
+
+  // Register all sub-pages
+  router.register({
+    id: 'appearance-advanced',
+    keepAlive: true,
+    load: () =>
+      import('../lazy/pages/appearance-advanced').then((m) => ({
+        template: m.template,
+        init: m.init,
+      })),
+  });
+
+  // Wire up trigger buttons
+  document.getElementById('advancedOptionsBtn')?.addEventListener('click', () => {
+    router!.push('appearance-advanced');
+  });
+}
+

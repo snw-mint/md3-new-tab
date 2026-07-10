@@ -7,7 +7,7 @@
  */
 
 import './core/ui/palette';
-import { initSidebarControls, initThemeControls } from './core/ui/sidebar';
+import { initSidebarControls, initThemeControls, initSidebarRouter } from './core/ui/sidebar';
 import { bindGlobalEvents } from './core/boot/event-bindings';
 import { initDisplay } from './core/boot/display';
 import { DOM } from './core/shared/dom-refs';
@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initDisplay();
   initSidebarControls();
   initThemeControls();
+  initSidebarRouter();
   initBackupSystem();
   initWallpaper();
 

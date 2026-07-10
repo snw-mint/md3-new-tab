@@ -5,7 +5,6 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-
 body {
   transition: padding-right 0.3s cubic-bezier(0.2, 0, 0, 1);
   overflow: hidden;
@@ -37,6 +36,7 @@ body {
   display: flex;
   flex-direction: column;
   z-index: 1000;
+  overflow: hidden;
 
   body.sidebar-open & {
     transform: translateX(0);
@@ -57,7 +57,6 @@ body {
 }
 
 .settings-inner-card {
-  flex: 1;
   background-color: var(--color-sidebar-inner);
   border-radius: var(--radius-lg);
   padding: 0.5rem;
@@ -65,7 +64,20 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
+}
+
+.sidebar-nav-viewport {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar-page {
+  position: absolute;
+  inset: 0;
   overflow-y: auto;
+  visibility: hidden;
+  background-color: var(--color-sidebar-bg);
 
   &::-webkit-scrollbar {
     width: 0.375rem;
@@ -78,6 +90,227 @@ body {
   &::-webkit-scrollbar-thumb {
     background-color: color-mix(in srgb, var(--color-on-surface-variant) 30%, transparent);
     border-radius: var(--radius-full);
+  }
+
+  &.is-active {
+    visibility: visible;
+    z-index: 1;
+  }
+
+  &.is-entering {
+    visibility: visible;
+    z-index: 2;
+    animation: sidebar-enter 0.3s cubic-bezier(0.2, 0, 0, 1) both;
+  }
+
+  &.is-exiting {
+    visibility: visible;
+    z-index: 2;
+    animation: sidebar-exit 0.3s cubic-bezier(0.2, 0, 0, 1) both;
+  }
+
+  &.is-returning {
+    visibility: visible;
+    z-index: 1;
+    animation: sidebar-return 0.3s cubic-bezier(0.2, 0, 0, 1) both;
+  }
+}
+
+@keyframes sidebar-enter {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes sidebar-exit {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes sidebar-return {
+  from {
+    transform: translateX(-15%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.settings-back-card {
+  background-color: var(--color-sidebar-card);
+  border-radius: var(--radius-md);
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  color: var(--color-on-surface);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.back-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.back-chevron-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--color-on-surface);
+  transition: background-color 0.2s cubic-bezier(0.2, 0, 0, 1);
+
+  &:hover {
+    background-color: color-mix(in srgb, var(--color-on-surface) 8%, transparent);
+  }
+
+  &:active {
+    background-color: color-mix(in srgb, var(--color-on-surface) 12%, transparent);
+  }
+
+  svg {
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+}
+
+.mockup-card {
+  padding: 1rem;
+  background-color: var(--color-sidebar-inner);
+  border-radius: 1rem;
+
+  .chrome-corner-card {
+    background-color: var(--color-sidebar-card);
+    border-radius: 10px;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .window-header {
+    background-color: var(--color-secondary-container);
+    height: 48px;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 12px;
+    user-select: none;
+  }
+
+  .chrome-chevron-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: 30px;
+    background-color: var(--color-sidebar-card);
+    color: var(--color-on-surface);
+    border-radius: 12px;
+    margin-right: 8px;
+    margin-bottom: 6px;
+    transition:
+      background-color 0.15s,
+      color 0.15s;
+  }
+
+  .chevron-icon {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+  }
+
+  .chrome-tab {
+    display: flex;
+    align-items: center;
+    height: 38px;
+    background-color: var(--color-sidebar-card);
+    color: var(--color-on-surface);
+    padding: 0 12px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    width: 160px;
+    font-size: 12px;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: -12px;
+      width: 12px;
+      height: 12px;
+      background: radial-gradient(circle at top left, transparent 11.5px, var(--color-sidebar-card) 12px);
+      pointer-events: none;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: -12px;
+      width: 12px;
+      height: 12px;
+      background: radial-gradient(circle at top right, transparent 11.5px, var(--color-sidebar-card) 12px);
+      pointer-events: none;
+    }
+  }
+
+  .tab-favicon {
+    width: 14px;
+    height: 14px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+
+  .tab-title {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 8px;
+    font-weight: 500;
+    color: var(--color-on-surface);
+  }
+
+  .tab-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    color: var(--color-on-surface-variant);
+  }
+
+  .close-icon {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+  }
+
+  .browser-viewport-band {
+    height: 10px;
+    background-color: var(--color-sidebar-card);
   }
 }
 
@@ -295,7 +528,9 @@ body {
     background-color: transparent;
     opacity: 0;
     transform: scale(0.5);
-    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+    transition:
+      opacity 0.2s cubic-bezier(0.2, 0, 0, 1),
+      transform 0.2s cubic-bezier(0.2, 0, 0, 1);
     z-index: 3;
     filter: drop-shadow(0 0.125rem 0.125rem rgba(0, 0, 0, 0.2));
   }
@@ -1289,7 +1524,7 @@ body {
 }
 
 .settings-button-card {
-  background-color: var(--color-sidebar-card);
+  background-color: transparent;
   border: none;
   border-radius: var(--radius-md);
   display: flex;
