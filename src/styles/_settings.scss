@@ -1282,9 +1282,36 @@ body {
   top: 50%;
   transform: translateY(-50%);
   white-space: nowrap;
-  
+
   body.show-new-features & {
     display: inline-flex;
   }
 }
 
+.settings-button-card {
+  background-color: var(--color-sidebar-card);
+  border: none;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  color: var(--color-on-surface);
+  font-family: var(--font-family);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s cubic-bezier(0.2, 0, 0, 1),
+    transform 0.1s ease;
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  svg {
+    flex-shrink: 0;
+    fill: currentColor;
+    color: var(--color-on-surface-variant);
+  }
+}
