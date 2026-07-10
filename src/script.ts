@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
       bindSearchForm();
       bindSearchSuggestions();
     }
+    document.title = state.customTabName || 'New Tab';
   });
 
   bindGlobalEvents((shortcutsGrid) => {

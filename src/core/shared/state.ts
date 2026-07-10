@@ -36,6 +36,7 @@ class ReactiveState {
       wallpaperImage: '',
       colorFromWallpaper: false,
       wallpaperColor: '',
+      customTabName: '',
     };
 
     const savedState = localStorage.getItem(this.storageKey);

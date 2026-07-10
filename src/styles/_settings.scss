@@ -322,6 +322,10 @@ body {
   width: 100%;
   transition: padding-bottom 0.3s cubic-bezier(0.2, 0, 0, 1);
 
+  .settings-group-title {
+    margin-bottom: 0.75rem;
+  }
+
   &.collapsed-card {
     padding-bottom: 1.8rem;
 

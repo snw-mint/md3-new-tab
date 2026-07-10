@@ -45,6 +45,15 @@ export const template = `<div class="settings-inner-card">
     </div>
 
     <div class="settings-group-card">
+      <h3 class="settings-group-title">Advanced option</h3>
+
+      <div class="input-with-action-row" style="margin-bottom: 1.25rem;">
+        <div class="md3-outlined-text-field" id="advTabNameFieldWrapper">
+          <input type="text" id="advTabNameInput" class="md3-input" placeholder=" " autocomplete="off" />
+          <label for="advTabNameInput" class="md3-label">Tab name</label>
+        </div>
+      </div>
+
       <div class="md3-checkbox-group" id="advWallpaperColorGroup">
         <label class="md3-checkbox-label">
           <input type="checkbox" id="advWallpaperColorToggle" class="md3-checkbox-input" />
@@ -62,6 +71,8 @@ export const template = `<div class="settings-inner-card">
 export function init(container: HTMLElement): void {
   const toggle = container.querySelector<HTMLInputElement>('#advWallpaperColorToggle');
   const group = container.querySelector<HTMLElement>('#advWallpaperColorGroup');
+  const tabNameInput = container.querySelector<HTMLInputElement>('#advTabNameInput');
+  const tabTitle = container.querySelector<HTMLElement>('.tab-title');
 
   if (!toggle || !group) return;
 
@@ -71,6 +82,11 @@ export function init(container: HTMLElement): void {
     toggle.disabled = !canEnable;
     toggle.checked = canEnable ? state.colorFromWallpaper : false;
     group.classList.toggle('disabled', !canEnable);
+
+    if (tabNameInput && tabTitle) {
+      tabNameInput.value = state.customTabName || '';
+      tabTitle.textContent = state.customTabName || 'New Tab';
+    }
   };
 
   syncState();
@@ -80,6 +96,13 @@ export function init(container: HTMLElement): void {
     const target = e.target as HTMLInputElement;
     globalState.current.colorFromWallpaper = target.checked;
   });
+
+  if (tabNameInput) {
+    tabNameInput.addEventListener('input', (e) => {
+      const target = e.target as HTMLInputElement;
+      globalState.current.customTabName = target.value;
+    });
+  }
 }
 
 export default { template, init } satisfies SidebarPageModule;

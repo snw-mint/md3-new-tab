@@ -26,6 +26,7 @@ export interface AppSettings {
   wallpaperImage: string;
   colorFromWallpaper: boolean;
   wallpaperColor: string;
+  customTabName: string;
 }
 
 export interface CityData {
