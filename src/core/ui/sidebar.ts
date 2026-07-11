@@ -6,14 +6,15 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { SidebarRouter } from './sidebar-router';
+
+let router: SidebarRouter | null = null;
+
 export function initSidebarControls(): void {
-  const settingsBtn = document.getElementById(
-    'settingsBtn',
-  ) as HTMLButtonElement | null;
-  const closeSettingsBtn = document.getElementById(
-    'closeSettingsBtn',
-  ) as HTMLButtonElement | null;
+  const settingsBtn = document.getElementById('settingsBtn') as HTMLButtonElement | null;
+  const closeSettingsBtn = document.getElementById('closeSettingsBtn') as HTMLButtonElement | null;
   const body = document.body;
+
   const toggleSidebar = () => {
     const isOpening = !body.classList.contains('sidebar-open');
     body.classList.toggle('sidebar-open');
@@ -28,6 +29,8 @@ export function initSidebarControls(): void {
         });
       }
     } else {
+      router?.reset();
+
       if (body.classList.contains('show-new-features')) {
         setTimeout(() => {
           body.classList.remove('show-new-features');
@@ -38,6 +41,7 @@ export function initSidebarControls(): void {
       }
     }
   };
+
   if (settingsBtn) {
     settingsBtn.addEventListener('click', toggleSidebar);
   }
@@ -71,12 +75,35 @@ export function initThemeControls(): void {
       target.classList.add('active');
       localStorage.setItem('theme', theme);
       applyTheme(theme);
-      // Update favicon to reflect new theme colors
       setTimeout(() => {
         import('./palette').then((module) => {
           module.updateFavicon();
         });
       }, 0);
     });
+  });
+}
+
+export function initSidebarRouter(): void {
+  const viewport = document.getElementById('sidebarNavViewport');
+  const rootPage = document.getElementById('sidebarRootPage');
+
+  if (!viewport || !rootPage) {
+    console.warn('[SidebarRouter] Required DOM elements not found. Router not initialized.');
+    return;
+  }
+
+  router = new SidebarRouter({ viewport, rootPage });
+  router.register({
+    id: 'appearance-advanced',
+    keepAlive: true,
+    load: () =>
+      import('../lazy/pages/appearance-advanced').then((m) => ({
+        template: m.template,
+        init: m.init,
+      })),
+  });
+  document.getElementById('advancedOptionsBtn')?.addEventListener('click', () => {
+    router!.push('appearance-advanced');
   });
 }
