@@ -18,27 +18,33 @@ function extractDominantColor(img: HTMLImageElement): string {
 
   ctx.drawImage(img, 0, 0, 10, 10);
   const data = ctx.getImageData(0, 0, 10, 10).data;
-  
-  let r = 0, g = 0, b = 0;
+
+  let r = 0,
+    g = 0,
+    b = 0;
   for (let i = 0; i < data.length; i += 4) {
-      r += data[i];
-      g += data[i+1];
-      b += data[i+2];
+    r += data[i];
+    g += data[i + 1];
+    b += data[i + 2];
   }
   const count = data.length / 4;
   r = Math.floor(r / count);
   g = Math.floor(g / count);
   b = Math.floor(b / count);
-  
-  const hex = '#' + [r, g, b].map(x => {
-      const hexStr = x.toString(16);
-      return hexStr.length === 1 ? '0' + hexStr : hexStr;
-  }).join('');
-  
+
+  const hex =
+    '#' +
+    [r, g, b]
+      .map((x) => {
+        const hexStr = x.toString(16);
+        return hexStr.length === 1 ? '0' + hexStr : hexStr;
+      })
+      .join('');
+
   return hex;
 }
 
-async function compressImageToWebP(file: File): Promise<{ dataUrl: string, dominantColor: string }> {
+async function compressImageToWebP(file: File): Promise<{ dataUrl: string; dominantColor: string }> {
   return new Promise((resolve, reject) => {
     const url = URL.createObjectURL(file);
     const img = new Image();
@@ -49,8 +55,6 @@ async function compressImageToWebP(file: File): Promise<{ dataUrl: string, domin
       const canvas = document.createElement('canvas');
       let { width, height } = img;
 
-      // Max dimensions to balance quality and storage limits (local storage max 5MB)
-      // 2560x1440 is standard 1440p, sufficient for high DPI without blowing up size
       const MAX_WIDTH = 2560;
       const MAX_HEIGHT = 1440;
 
@@ -75,12 +79,9 @@ async function compressImageToWebP(file: File): Promise<{ dataUrl: string, domin
         return;
       }
 
-      // Fill background to avoid transparent issues in webp conversion if the image has alpha
       ctx.fillStyle = '#000000';
       ctx.fillRect(0, 0, width, height);
       ctx.drawImage(img, 0, 0, width, height);
-
-      // Compress to WebP with 85% quality to keep it under local storage quota
       const dataUrl = canvas.toDataURL('image/webp', 0.85);
       const dominantColor = extractDominantColor(img);
       resolve({ dataUrl, dominantColor });
@@ -96,7 +97,8 @@ async function compressImageToWebP(file: File): Promise<{ dataUrl: string, domin
 }
 
 export function initWallpaper(): void {
-  const { wallpaperUploadBtn, wallpaperFileInput, wallpaperAddIcon, wallpaperRemoveIcon, wallpaperLayer } = DOM.settings;
+  const { wallpaperUploadBtn, wallpaperFileInput, wallpaperAddIcon, wallpaperRemoveIcon, wallpaperLayer } =
+    DOM.settings;
 
   if (!wallpaperUploadBtn || !wallpaperFileInput || !wallpaperAddIcon || !wallpaperRemoveIcon || !wallpaperLayer) {
     return;
@@ -115,39 +117,31 @@ export function initWallpaper(): void {
       wallpaperUploadBtn.classList.remove('active-state');
       wallpaperAddIcon.style.display = '';
       wallpaperRemoveIcon.style.display = 'none';
-
-      // We don't clear the backgroundImage so the fade out animation works smoothly
       document.body.classList.remove('has-wallpaper');
     }
+
+    document.documentElement.style.setProperty('--wallpaper-overlay', state.wallpaperOverlay.toString());
   };
 
-  // Subscribe to state changes
   globalState.subscribe(updateUI);
   updateUI(globalState.current);
 
-  // Handle button click
   wallpaperUploadBtn.addEventListener('click', () => {
     if (globalState.current.wallpaperImage) {
-      // Remove wallpaper
       globalState.current.wallpaperImage = '';
     } else {
-      // Add wallpaper
       wallpaperFileInput.click();
     }
   });
 
-  // Handle file selection
   wallpaperFileInput.addEventListener('change', async (event) => {
     const target = event.target as HTMLInputElement;
     const file = target.files?.[0];
 
     if (!file) return;
-
-    // Reset input so the same file can be selected again
     target.value = '';
 
     try {
-      // Add a loading state visually if needed (optional)
       wallpaperUploadBtn.style.opacity = '0.7';
       wallpaperUploadBtn.style.pointerEvents = 'none';
 

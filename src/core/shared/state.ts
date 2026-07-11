@@ -36,6 +36,7 @@ class ReactiveState {
       wallpaperImage: '',
       colorFromWallpaper: false,
       wallpaperColor: '',
+      wallpaperOverlay: 0.3,
       customTabName: '',
       customFavicon: true,
     };

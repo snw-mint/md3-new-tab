@@ -174,6 +174,42 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
     });
   }
 
+  const { wallpaperOverlaySlider } = DOM.settings;
+  if (wallpaperOverlaySlider) {
+    const updateSliderProgress = (value: number) => {
+      const progress = (value / 0.8) * 100;
+      wallpaperOverlaySlider.style.setProperty('--slider-progress', `${progress}%`);
+    };
+
+    wallpaperOverlaySlider.value = globalState.current.wallpaperOverlay.toString();
+    updateSliderProgress(globalState.current.wallpaperOverlay);
+
+    wallpaperOverlaySlider.addEventListener('input', (e) => {
+      const target = e.target as HTMLInputElement;
+      const val = parseFloat(target.value);
+      globalState.current.wallpaperOverlay = val;
+      updateSliderProgress(val);
+    });
+    globalState.subscribe((state) => {
+      const isDisabled = !state.wallpaperEnabled || !state.wallpaperImage;
+      wallpaperOverlaySlider.disabled = isDisabled;
+      
+      const sliderGroup = wallpaperOverlaySlider.closest('.slider-group');
+      if (sliderGroup) {
+        if (isDisabled) {
+          sliderGroup.classList.add('disabled');
+        } else {
+          sliderGroup.classList.remove('disabled');
+        }
+      }
+
+      if (wallpaperOverlaySlider.value !== state.wallpaperOverlay.toString()) {
+        wallpaperOverlaySlider.value = state.wallpaperOverlay.toString();
+        updateSliderProgress(state.wallpaperOverlay);
+      }
+    });
+  }
+
   if (weatherToggle) {
     weatherToggle.addEventListener('change', async (e) => {
       const target = e.target as HTMLInputElement;

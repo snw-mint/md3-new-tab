@@ -181,463 +181,476 @@
       <div class="sidebar-nav-viewport" id="sidebarNavViewport">
         <div class="sidebar-page is-active" id="sidebarRootPage">
           <div class="settings-inner-card">
-        <div class="settings-group-card">
-          <div id="colorPickerOverlay" class="color-picker-overlay"></div>
-          <div id="customColorModal" class="color-picker-modal">
-            <div class="color-picker-header">
-              <span class="color-picker-title">Color picker</span>
-              <button id="closeColorPickerBtn" class="icon-btn" aria-label="Close">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
-                  <path d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z" />
-                </svg>
-              </button>
-            </div>
-            <div class="color-picker-body">
-              <input type="range" id="hueSlider" class="hue-slider" min="0" max="360" value="0" />
-            </div>
-          </div>
-          <h3 class="settings-group-title" data-i18n="appearanceTitle">Appearance</h3>
-          <div class="segmented-button-group" id="themeSelector">
-            <button type="button" class="segmented-btn" data-theme-value="light">
-              <span class="btn-icon">
-                <svg class="icon-default" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                  <path
-                    d="M565-395q35-35 35-85t-35-85-85-35-85 35-35 85 35 85 85 35 85-35m-226.5 56.5Q280-397 280-480t58.5-141.5T480-680t141.5 58.5T680-480t-58.5 141.5T480-280t-141.5-58.5M80-440q-17 0-28.5-11.5T40-480t11.5-28.5T80-520h80q17 0 28.5 11.5T200-480t-11.5 28.5T160-440zm720 0q-17 0-28.5-11.5T760-480t11.5-28.5T800-520h80q17 0 28.5 11.5T920-480t-11.5 28.5T880-440zM451.5-771.5Q440-783 440-800v-80q0-17 11.5-28.5T480-920t28.5 11.5T520-880v80q0 17-11.5 28.5T480-760t-28.5-11.5m0 720Q440-63 440-80v-80q0-17 11.5-28.5T480-200t28.5 11.5T520-160v80q0 17-11.5 28.5T480-40t-28.5-11.5M226-678l-43-42q-12-11-11.5-28t11.5-29q12-12 29-12t28 12l42 43q11 12 11 28t-11 28-27.5 11.5T226-678m494 495-42-43q-11-12-11-28.5t11-27.5q11-12 27.5-11.5T734-282l43 42q12 11 11.5 28T777-183q-12 12-29 12t-28-12m-42-495q-12-11-11.5-27.5T678-734l42-43q11-12 28-11.5t29 11.5q12 12 12 29t-12 28l-43 42q-12 11-28 11t-28-11M183-183q-12-12-12-29t12-28l43-42q12-11 28.5-11t27.5 11q12 11 11.5 27.5T282-226l-42 43q-11 12-28 11.5T183-183m297-297" />
-                </svg>
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                  <path d="m382-354 339-339q12-12 28-12t28 12 12 28.5-12 28.5L410-268q-12 12-28 12t-28-12L182-440q-12-12-11.5-28.5T183-497t28.5-12 28.5 12z" />
-                </svg>
-              </span>
-              <span class="btn-label" data-i18n="themeLight">Light</span>
-            </button>
-            <button type="button" class="segmented-btn" data-theme-value="device">
-              <span class="btn-icon">
-                <svg class="icon-default" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                  <path d="M80-120q-17 0-28.5-11.5T40-160t11.5-28.5T80-200h800q17 0 28.5 11.5T920-160t-11.5 28.5T880-120zm80-120q-33 0-56.5-23.5T80-320v-440q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v440q0 33-23.5 56.5T800-240zm0-80h640v-440H160zm0 0v-440z" />
-                </svg>
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                  <path d="m382-354 339-339q12-12 28-12t28 12 12 28.5-12 28.5L410-268q-12 12-28 12t-28-12L182-440q-12-12-11.5-28.5T183-497t28.5-12 28.5 12z" />
-                </svg>
-              </span>
-              <span class="btn-label" data-i18n="themeDevice">Device</span>
-            </button>
-            <button type="button" class="segmented-btn" data-theme-value="dark">
-              <span class="btn-icon">
-                <svg class="icon-default" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                  <path d="M480-120q-151 0-255.5-104.5T120-480q0-138 90-239.5T440-838q13-2 23 3.5t16 14.5 6.5 21-7.5 23q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q11-7 22.5-6.5T819-479q10 5 15.5 15t3.5 24q-14 138-117.5 229T480-120m0-80q88 0 158-48.5T740-375q-20 5-40 8t-40 3q-123 0-209.5-86.5T364-660q0-20 3-40t8-40q-78 32-126.5 102T200-480q0 116 82 198t198 82m-10-270" />
-                </svg>
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                  <path d="m382-354 339-339q12-12 28-12t28 12 12 28.5-12 28.5L410-268q-12 12-28 12t-28-12L182-440q-12-12-11.5-28.5T183-497t28.5-12 28.5 12z" />
-                </svg>
-              </span>
-              <span class="btn-label" data-i18n="themeDark">Dark</span>
-            </button>
-          </div>
-
-          <div class="color-palette-group" id="colorPaletteSelector">
-            <div class="palette-card">
-              <button type="button" class="color-circle-btn active" data-palette="default" style="--theme-c1: #0b57d0; --theme-c2: #d3e3fd; --theme-c3: #ffffff" title="Default Theme" aria-label="Default Color">
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                  <path d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                </svg>
-              </button>
-            </div>
-
-            <div class="palette-card">
-              <button type="button" class="color-circle-btn" data-palette="expressive" style="--theme-c1: #65558f; --theme-c2: #e8def8; --theme-c3: #ffffff" title="Expressive Theme" aria-label="Expressive Color">
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                  <path d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                </svg>
-              </button>
-            </div>
-
-            <div class="palette-card">
-              <button type="button" class="color-circle-btn" data-palette="leaf" style="--theme-c1: #518242; --theme-c2: #d6e8ce; --theme-c3: #ffffff" title="Leaf Theme" aria-label="Leaf Color">
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                  <path d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                </svg>
-              </button>
-            </div>
-
-            <div class="palette-card">
-              <button type="button" class="color-circle-btn" data-palette="gold" style="--theme-c1: #797a1e; --theme-c2: #e5e68c; --theme-c3: #ffffff" title="Gold Theme" aria-label="Gold Color">
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                  <path d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                </svg>
-              </button>
-            </div>
-
-            <div class="palette-card">
-              <button type="button" class="color-circle-btn" data-palette="sun" style="--theme-c1: #d87739; --theme-c2: #ffdbc6; --theme-c3: #ffffff" title="Sun Theme" aria-label="Sun Color">
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                  <path d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                </svg>
-              </button>
-            </div>
-
-            <div class="palette-card">
-              <button type="button" class="color-circle-btn" data-palette="candy" style="--theme-c1: #b90063; --theme-c2: #ffd9e2; --theme-c3: #ffffff" title="Candy Theme" aria-label="Candy Color">
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                  <path d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                </svg>
-              </button>
-            </div>
-
-            <div class="palette-card">
-              <button type="button" class="color-circle-btn" data-palette="love" style="--theme-c1: #c0001b; --theme-c2: #ffdad5; --theme-c3: #ffffff" title="Love Theme" aria-label="Love Color">
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                  <path d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                </svg>
-              </button>
-            </div>
-
-            <div class="palette-card">
-              <button type="button" class="color-circle-btn custom-picker-btn" id="customColorPickerBtn" data-palette="custom" style="--theme-c1: var(--sys-primary-light, #1f1f1f); --theme-c2: var(--sys-primary-container-light, #e3e3e3); --theme-c3: var(--sys-secondary-container-light, #3c3c3c)" title="Custom Color" aria-label="Custom Color">
-                <svg class="icon-picker" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                  <path d="M120-160v-117q0-16 6-30.5t17-25.5l335-335-58-56 58-56 76 76 124-124q5-5 12.5-8t15.5-3 15 3 13 8l94 94q5 6 8 13t3 15-3 15.5-8 12.5L705-555l76 78-57 57-56-58-335 335q-11 11-25.5 17t-30.5 6H160q-17 0-28.5-11.5T120-160m80-40h78l332-334-76-76-334 332z" />
-                </svg>
-                <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-                  <path d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                </svg>
-              </button>
-            </div>
-          </div>
-          
-          <hr class="settings-divider" />
-          
-          <div class="md3-checkbox-group disabled" style="display: none">
-            <label class="md3-checkbox-label">
-              <input type="checkbox" id="wallpaperColorToggle" class="md3-checkbox-input" disabled />
-              <span class="md3-checkbox-box">
-                <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
-                <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
-              </span>
-              <span style="position: relative; display: inline-flex; align-items: center;">
-                <span class="checkbox-text" data-i18n="wallpaperColorTitle">Color from wallpaper</span>
-                <span class="new-feature-badge">NEW</span>
-              </span>
-            </label>
-          </div>
-
-          <button type="button" class="settings-button-card" id="advancedOptionsBtn" style="margin-top: 1.25rem">
-            <span class="button-card-title">Advanced options</span>
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M504-480 348-636q-11-11-11-28t11-28q11-11 28-11t28 11l184 184q6 6 8.5 13t2.5 15q0 8-2.5 15t-8.5 13L404-268q-11 11-28 11t-28-11q-11-11-11-28t11-28l156-156Z"/></svg>
-          </button>
-        </div>
-
-        <div class="settings-group-card">
-          <div class="group-header">
-            <div class="group-title-wrapper">
-              <h3 class="settings-group-title" data-i18n="wallpaperTitle">Wallpaper</h3>
-              <span class="new-feature-badge">NEW</span>
-            </div>
-            <label class="md3-switch">
-              <input type="checkbox" id="wallpaperToggle" />
-              <span class="switch-track">
-                <span class="switch-thumb"></span>
-              </span>
-            </label>
-          </div>
-
-          <div class="expandable-content collapsed" id="wallpaperSettingsBlock">
-            <div class="wallpaper-upload-wrapper">
-              <input type="file" id="wallpaperFileInput" accept="image/*" style="display: none" />
-              <button type="button" id="wallpaperUploadBtn" class="wallpaper-btn" aria-label="Set Wallpaper">
-                <!-- Add Icon -->
-                <svg id="wallpaperAddIcon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                  <path d="M200-120q-33 0-56.5-23.5T120-200v-200q0-17 11.5-28.5T160-440t28.5 11.5T200-400v200h200q17 0 28.5 11.5T440-160t-11.5 28.5T400-120zm560 0H560q-17 0-28.5-11.5T520-160t11.5-28.5T560-200h200v-200q0-17 11.5-28.5T800-440t28.5 11.5T840-400v200q0 33-23.5 56.5T760-120M450-320l104-139q6-8 16-8t16 8l110 147q8 10 2 21t-18 11H280q-12 0-18-11t2-21l80-107q6-8 16-8t16 8zM120-760q0-33 23.5-56.5T200-840h200q17 0 28.5 11.5T440-800t-11.5 28.5T400-760H200v200q0 17-11.5 28.5T160-520t-28.5-11.5T120-560zm720 0v200q0 17-11.5 28.5T800-520t-28.5-11.5T760-560v-200H560q-17 0-28.5-11.5T520-800t11.5-28.5T560-840h200q33 0 56.5 23.5T840-760M577-577q-17-17-17-43t17-43 43-17 43 17 17 43-17 43-43 17-43-17"/>
-                </svg>
-                <!-- Remove Icon -->
-                <svg id="wallpaperRemoveIcon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor" style="display: none">
-                  <path d="M480-424 284-228q-11 11-28 11t-28-11-11-28 11-28l196-196-196-196q-11-11-11-28t11-28 28-11 28 11l196 196 196-196q11-11 28-11t28 11 11 28-11 28L536-480l196 196q11 11 11 28t-11 28-28 11-28-11z"/>
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="settings-group-card">
-          <div class="group-header">
-            <div class="group-title-wrapper">
-              <h3 class="settings-group-title" data-i18n="displayTitle">Display</h3>
-            </div>
-            <label class="md3-switch">
-              <input type="checkbox" id="displayToggle" checked />
-              <span class="switch-track">
-                <span class="switch-thumb"></span>
-              </span>
-            </label>
-          </div>
-
-          <div class="expandable-content compact-gap" id="displaySettingsBlock">
-            <div class="md3-outlined-select-wrapper">
-              <button type="button" id="displayStyleSelect" class="md3-outlined-select md3-select-trigger" aria-label="Display Widget" value="greetings">
-                <span class="md3-select-value" data-i18n="displayGreetings">Greetings</span>
-                <template class="md3-select-options">
-                  <div data-value="greetings" data-i18n="displayGreetings">Greetings</div>
-                  <div data-value="simple_clock" data-i18n="clockStyle1">Basic Clock</div>
-                  <div data-value="expressive_clock" data-i18n="clockStyle2">Expressive Clock</div>
-                </template>
-              </button>
-              <label for="displayStyleSelect" class="md3-select-label" data-i18n="displayStyleLabel">Display Widget</label>
-              <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                <path d="M459-381 314-526q-3-3-4.5-6.5T308-540q0-8 5.5-14t14.5-6h304q9 0 14.5 6t5.5 14q0 2-6 14L501-381q-5 5-10 7t-11 2-11-2-10-7" />
-              </svg>
-            </div>
-
-            <hr class="settings-divider" />
-
-            <div id="greetingNameInputWrapper" style="display: none">
-              <div class="input-with-action-row" style="margin-top: 1rem">
-                <div class="md3-outlined-text-field" id="greetingNameFieldWrapper">
-                  <input type="text" id="greetingNameInput" class="md3-input" placeholder=" " autocomplete="off" />
-                  <label for="greetingNameInput" class="md3-label" data-i18n="namePlaceholder">Your Name (optional)</label>
+            <div class="settings-group-card">
+              <div id="colorPickerOverlay" class="color-picker-overlay"></div>
+              <div id="customColorModal" class="color-picker-modal">
+                <div class="color-picker-header">
+                  <span class="color-picker-title">Color picker</span>
+                  <button id="closeColorPickerBtn" class="icon-btn" aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
+                      <path d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z" />
+                    </svg>
+                  </button>
+                </div>
+                <div class="color-picker-body">
+                  <input type="range" id="hueSlider" class="hue-slider" min="0" max="360" value="0" />
                 </div>
               </div>
-              <div class="md3-checkbox-group" style="margin-top: 1.25rem">
+              <h3 class="settings-group-title" data-i18n="appearanceTitle">Appearance</h3>
+              <div class="segmented-button-group" id="themeSelector">
+                <button type="button" class="segmented-btn" data-theme-value="light">
+                  <span class="btn-icon">
+                    <svg class="icon-default" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+                      <path
+                        d="M565-395q35-35 35-85t-35-85-85-35-85 35-35 85 35 85 85 35 85-35m-226.5 56.5Q280-397 280-480t58.5-141.5T480-680t141.5 58.5T680-480t-58.5 141.5T480-280t-141.5-58.5M80-440q-17 0-28.5-11.5T40-480t11.5-28.5T80-520h80q17 0 28.5 11.5T200-480t-11.5 28.5T160-440zm720 0q-17 0-28.5-11.5T760-480t11.5-28.5T800-520h80q17 0 28.5 11.5T920-480t-11.5 28.5T880-440zM451.5-771.5Q440-783 440-800v-80q0-17 11.5-28.5T480-920t28.5 11.5T520-880v80q0 17-11.5 28.5T480-760t-28.5-11.5m0 720Q440-63 440-80v-80q0-17 11.5-28.5T480-200t28.5 11.5T520-160v80q0 17-11.5 28.5T480-40t-28.5-11.5M226-678l-43-42q-12-11-11.5-28t11.5-29q12-12 29-12t28 12l42 43q11 12 11 28t-11 28-27.5 11.5T226-678m494 495-42-43q-11-12-11-28.5t11-27.5q11-12 27.5-11.5T734-282l43 42q12 11 11.5 28T777-183q-12 12-29 12t-28-12m-42-495q-12-11-11.5-27.5T678-734l42-43q11-12 28-11.5t29 11.5q12 12 12 29t-12 28l-43 42q-12 11-28 11t-28-11M183-183q-12-12-12-29t12-28l43-42q12-11 28.5-11t27.5 11q12 11 11.5 27.5T282-226l-42 43q-11 12-28 11.5T183-183m297-297" />
+                    </svg>
+                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+                      <path d="m382-354 339-339q12-12 28-12t28 12 12 28.5-12 28.5L410-268q-12 12-28 12t-28-12L182-440q-12-12-11.5-28.5T183-497t28.5-12 28.5 12z" />
+                    </svg>
+                  </span>
+                  <span class="btn-label" data-i18n="themeLight">Light</span>
+                </button>
+                <button type="button" class="segmented-btn" data-theme-value="device">
+                  <span class="btn-icon">
+                    <svg class="icon-default" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+                      <path d="M80-120q-17 0-28.5-11.5T40-160t11.5-28.5T80-200h800q17 0 28.5 11.5T920-160t-11.5 28.5T880-120zm80-120q-33 0-56.5-23.5T80-320v-440q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v440q0 33-23.5 56.5T800-240zm0-80h640v-440H160zm0 0v-440z" />
+                    </svg>
+                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+                      <path d="m382-354 339-339q12-12 28-12t28 12 12 28.5-12 28.5L410-268q-12 12-28 12t-28-12L182-440q-12-12-11.5-28.5T183-497t28.5-12 28.5 12z" />
+                    </svg>
+                  </span>
+                  <span class="btn-label" data-i18n="themeDevice">Device</span>
+                </button>
+                <button type="button" class="segmented-btn" data-theme-value="dark">
+                  <span class="btn-icon">
+                    <svg class="icon-default" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+                      <path d="M480-120q-151 0-255.5-104.5T120-480q0-138 90-239.5T440-838q13-2 23 3.5t16 14.5 6.5 21-7.5 23q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q11-7 22.5-6.5T819-479q10 5 15.5 15t3.5 24q-14 138-117.5 229T480-120m0-80q88 0 158-48.5T740-375q-20 5-40 8t-40 3q-123 0-209.5-86.5T364-660q0-20 3-40t8-40q-78 32-126.5 102T200-480q0 116 82 198t198 82m-10-270" />
+                    </svg>
+                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+                      <path d="m382-354 339-339q12-12 28-12t28 12 12 28.5-12 28.5L410-268q-12 12-28 12t-28-12L182-440q-12-12-11.5-28.5T183-497t28.5-12 28.5 12z" />
+                    </svg>
+                  </span>
+                  <span class="btn-label" data-i18n="themeDark">Dark</span>
+                </button>
+              </div>
+
+              <div class="color-palette-group" id="colorPaletteSelector">
+                <div class="palette-card">
+                  <button type="button" class="color-circle-btn active" data-palette="default" style="--theme-c1: #0b57d0; --theme-c2: #d3e3fd; --theme-c3: #ffffff" title="Default Theme" aria-label="Default Color">
+                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                      <path d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="palette-card">
+                  <button type="button" class="color-circle-btn" data-palette="expressive" style="--theme-c1: #65558f; --theme-c2: #e8def8; --theme-c3: #ffffff" title="Expressive Theme" aria-label="Expressive Color">
+                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                      <path d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="palette-card">
+                  <button type="button" class="color-circle-btn" data-palette="leaf" style="--theme-c1: #518242; --theme-c2: #d6e8ce; --theme-c3: #ffffff" title="Leaf Theme" aria-label="Leaf Color">
+                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                      <path d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="palette-card">
+                  <button type="button" class="color-circle-btn" data-palette="gold" style="--theme-c1: #797a1e; --theme-c2: #e5e68c; --theme-c3: #ffffff" title="Gold Theme" aria-label="Gold Color">
+                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                      <path d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="palette-card">
+                  <button type="button" class="color-circle-btn" data-palette="sun" style="--theme-c1: #d87739; --theme-c2: #ffdbc6; --theme-c3: #ffffff" title="Sun Theme" aria-label="Sun Color">
+                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                      <path d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="palette-card">
+                  <button type="button" class="color-circle-btn" data-palette="candy" style="--theme-c1: #b90063; --theme-c2: #ffd9e2; --theme-c3: #ffffff" title="Candy Theme" aria-label="Candy Color">
+                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                      <path d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="palette-card">
+                  <button type="button" class="color-circle-btn" data-palette="love" style="--theme-c1: #c0001b; --theme-c2: #ffdad5; --theme-c3: #ffffff" title="Love Theme" aria-label="Love Color">
+                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                      <path d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="palette-card">
+                  <button type="button" class="color-circle-btn custom-picker-btn" id="customColorPickerBtn" data-palette="custom" style="--theme-c1: var(--sys-primary-light, #1f1f1f); --theme-c2: var(--sys-primary-container-light, #e3e3e3); --theme-c3: var(--sys-secondary-container-light, #3c3c3c)" title="Custom Color" aria-label="Custom Color">
+                    <svg class="icon-picker" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                      <path d="M120-160v-117q0-16 6-30.5t17-25.5l335-335-58-56 58-56 76 76 124-124q5-5 12.5-8t15.5-3 15 3 13 8l94 94q5 6 8 13t3 15-3 15.5-8 12.5L705-555l76 78-57 57-56-58-335 335q-11 11-25.5 17t-30.5 6H160q-17 0-28.5-11.5T120-160m80-40h78l332-334-76-76-334 332z" />
+                    </svg>
+                    <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+                      <path d="m424-408-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zm56 328q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <hr class="settings-divider" />
+
+              <div class="md3-checkbox-group disabled" style="display: none">
                 <label class="md3-checkbox-label">
-                  <input type="checkbox" id="greetingHighlightNameCheckbox" class="md3-checkbox-input" />
+                  <input type="checkbox" id="wallpaperColorToggle" class="md3-checkbox-input" disabled />
                   <span class="md3-checkbox-box">
                     <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
                     <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
                   </span>
-                  <span class="checkbox-text" data-i18n="highlightNameLabel">Highlight name</span>
+                  <span style="position: relative; display: inline-flex; align-items: center">
+                    <span class="checkbox-text" data-i18n="wallpaperColorTitle">Color from wallpaper</span>
+                    <span class="new-feature-badge">NEW</span>
+                  </span>
                 </label>
               </div>
-            </div>
 
-            <div class="md3-checkbox-group" id="displayClockOptions">
-              <label class="md3-checkbox-label">
-                <input type="checkbox" id="clock12hFormat" class="md3-checkbox-input" />
-                <span class="md3-checkbox-box">
-                  <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
-                  <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
+              <button type="button" class="settings-button-card" id="advancedOptionsBtn" style="margin-top: 1.25rem">
+                <span style="position: relative; display: inline-flex; align-items: center">
+                  <span class="button-card-title">Advanced options</span>
+                  <span class="new-feature-badge">NEW</span>
                 </span>
-                <span class="checkbox-text" data-i18n="clock12hLabel">12h Format</span>
-              </label>
-
-              <label class="md3-checkbox-label">
-                <input type="checkbox" id="clockShowDate" class="md3-checkbox-input" checked />
-                <span class="md3-checkbox-box">
-                  <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
-                  <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
-                </span>
-                <span class="checkbox-text" data-i18n="clockShowDateLabel">Show Date</span>
-              </label>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M504-480 348-636q-11-11-11-28t11-28q11-11 28-11t28 11l184 184q6 6 8.5 13t2.5 15q0 8-2.5 15t-8.5 13L404-268q-11 11-28 11t-28-11q-11-11-11-28t11-28l156-156Z" /></svg>
+              </button>
             </div>
-          </div>
-        </div>
 
-        <div class="settings-group-card">
-          <div class="group-header">
-            <div class="group-title-wrapper">
-              <h3 class="settings-group-title" data-i18n="weatherTitle">Weather</h3>
-            </div>
-            <label class="md3-switch">
-              <input type="checkbox" id="weatherToggle" checked />
-              <span class="switch-track">
-                <span class="switch-thumb"></span>
-              </span>
-            </label>
-          </div>
+            <div class="settings-group-card">
+              <div class="group-header">
+                <div class="group-title-wrapper">
+                  <h3 class="settings-group-title" data-i18n="wallpaperTitle">Wallpaper</h3>
+                </div>
+                <label class="md3-switch">
+                  <input type="checkbox" id="wallpaperToggle" />
+                  <span class="switch-track">
+                    <span class="switch-thumb"></span>
+                  </span>
+                </label>
+              </div>
 
-          <div class="expandable-content compact-gap" id="weatherSettingsBlock">
-            <div class="input-with-action-row">
-              <div class="md3-outlined-text-field" id="cityInputWrapper">
-                <input type="text" id="weatherCityInput" class="md3-input" placeholder=" " autocomplete="off" />
-                <label for="weatherCityInput" class="md3-label" data-i18n="weatherCityLabel">City name</label>
+              <div class="expandable-content collapsed" id="wallpaperSettingsBlock">
+                <div class="wallpaper-upload-wrapper">
+                  <input type="file" id="wallpaperFileInput" accept="image/*" style="display: none" />
+                  <button type="button" id="wallpaperUploadBtn" class="wallpaper-btn" aria-label="Set Wallpaper">
+                    <svg id="wallpaperAddIcon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+                      <path
+                        d="M200-120q-33 0-56.5-23.5T120-200v-200q0-17 11.5-28.5T160-440t28.5 11.5T200-400v200h200q17 0 28.5 11.5T440-160t-11.5 28.5T400-120zm560 0H560q-17 0-28.5-11.5T520-160t11.5-28.5T560-200h200v-200q0-17 11.5-28.5T800-440t28.5 11.5T840-400v200q0 33-23.5 56.5T760-120M450-320l104-139q6-8 16-8t16 8l110 147q8 10 2 21t-18 11H280q-12 0-18-11t2-21l80-107q6-8 16-8t16 8zM120-760q0-33 23.5-56.5T200-840h200q17 0 28.5 11.5T440-800t-11.5 28.5T400-760H200v200q0 17-11.5 28.5T160-520t-28.5-11.5T120-560zm720 0v200q0 17-11.5 28.5T800-520t-28.5-11.5T760-560v-200H560q-17 0-28.5-11.5T520-800t11.5-28.5T560-840h200q33 0 56.5 23.5T840-760M577-577q-17-17-17-43t17-43 43-17 43 17 17 43-17 43-43 17-43-17" />
+                    </svg>
+                    <svg id="wallpaperRemoveIcon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor" style="display: none">
+                      <path d="M480-424 284-228q-11 11-28 11t-28-11-11-28 11-28l196-196-196-196q-11-11-11-28t11-28 28-11 28 11l196 196 196-196q11-11 28-11t28 11 11 28-11 28L536-480l196 196q11 11 11 28t-11 28-28 11-28-11z" />
+                    </svg>
+                  </button>
+                </div>
 
-                <button type="button" class="icon-btn clear-input-btn" id="searchCityBtn" aria-label="Search city">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                    <path d="M380-320q-109 0-184.5-75.5T120-580t75.5-184.5T380-840t184.5 75.5T640-580q0 44-14 83t-38 69l224 224q11 11 11 28t-11 28-28 11-28-11L532-372q-30 24-69 38t-83 14m0-80q75 0 127.5-52.5T560-580t-52.5-127.5T380-760t-127.5 52.5T200-580t52.5 127.5T380-400" />
-                  </svg>
-                </button>
-
-                <svg class="error-icon-svg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                  <path d="M508.5-291.5Q520-303 520-320t-11.5-28.5T480-360t-28.5 11.5T440-320t11.5 28.5T480-280t28.5-11.5m0-160Q520-463 520-480v-160q0-17-11.5-28.5T480-680t-28.5 11.5T440-640v160q0 17 11.5 28.5T480-440t28.5-11.5M480-80q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
-                </svg>
+                <hr class="settings-divider" />
+                <div class="slider-group">
+                  <div class="slider-header" style="margin-bottom: 0.5rem">
+                    <span style="position: relative; display: inline-flex; align-items: center">
+                      <span class="slider-label" style="font-size: 0.875rem; color: var(--color-on-surface); font-weight: 500">Wallpaper overlay</span>
+                      <span class="new-feature-badge">NEW</span>
+                    </span>
+                  </div>
+                  <div class="md3-slider-wrapper">
+                    <input type="range" id="wallpaperOverlaySlider" class="md3-custom-slider" min="0" max="0.8" step="0.01" value="0.3" />
+                  </div>
+                </div>
               </div>
             </div>
 
-            <hr class="settings-divider" />
-            <div class="md3-radio-group">
-              <label class="md3-radio">
-                <span class="radio-text">Celsius (°C)</span>
-                <input type="radio" name="tempUnit" value="C" checked />
-                <div class="radio-outer">
-                  <div class="radio-inner"></div>
+            <div class="settings-group-card">
+              <div class="group-header">
+                <div class="group-title-wrapper">
+                  <h3 class="settings-group-title" data-i18n="displayTitle">Display</h3>
                 </div>
-              </label>
+                <label class="md3-switch">
+                  <input type="checkbox" id="displayToggle" checked />
+                  <span class="switch-track">
+                    <span class="switch-thumb"></span>
+                  </span>
+                </label>
+              </div>
 
-              <label class="md3-radio">
-                <span class="radio-text">Fahrenheit (°F)</span>
-                <input type="radio" name="tempUnit" value="F" />
-                <div class="radio-outer">
-                  <div class="radio-inner"></div>
+              <div class="expandable-content compact-gap" id="displaySettingsBlock">
+                <div class="md3-outlined-select-wrapper">
+                  <button type="button" id="displayStyleSelect" class="md3-outlined-select md3-select-trigger" aria-label="Display Widget" value="greetings">
+                    <span class="md3-select-value" data-i18n="displayGreetings">Greetings</span>
+                    <template class="md3-select-options">
+                      <div data-value="greetings" data-i18n="displayGreetings">Greetings</div>
+                      <div data-value="simple_clock" data-i18n="clockStyle1">Basic Clock</div>
+                      <div data-value="expressive_clock" data-i18n="clockStyle2">Expressive Clock</div>
+                    </template>
+                  </button>
+                  <label for="displayStyleSelect" class="md3-select-label" data-i18n="displayStyleLabel">Display Widget</label>
+                  <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+                    <path d="M459-381 314-526q-3-3-4.5-6.5T308-540q0-8 5.5-14t14.5-6h304q9 0 14.5 6t5.5 14q0 2-6 14L501-381q-5 5-10 7t-11 2-11-2-10-7" />
+                  </svg>
                 </div>
-              </label>
-            </div>
-          </div>
-        </div>
 
-        <div class="settings-group-card">
-          <div class="group-header">
-            <div class="group-title-wrapper">
-              <h3 class="settings-group-title" data-i18n="shortcutsTitle">Shortcuts</h3>
-            </div>
-            <label class="md3-switch">
-              <input type="checkbox" id="shortcutsToggle" checked />
-              <span class="switch-track">
-                <span class="switch-thumb"></span>
-              </span>
-            </label>
-          </div>
+                <hr class="settings-divider" />
 
-          <div class="expandable-content compact-gap" id="shortcutsSettingsBlock">
-            <div class="md3-outlined-select-wrapper">
-              <button type="button" id="shortcutsRowsSelect" class="md3-outlined-select md3-select-trigger" aria-label="Shortcuts Rows" value="1">
-                <span class="md3-select-value" data-i18n="rows1">1 Row</span>
-                <template class="md3-select-options">
-                  <div data-value="1" data-i18n="rows1">1 Row</div>
-                  <div data-value="2" data-i18n="rows2">2 Rows</div>
-                  <div data-value="3" data-i18n="rows3">3 Rows</div>
-                  <div data-value="4" data-i18n="rows4">4 Rows</div>
-                </template>
-              </button>
-              <label for="shortcutsRowsSelect" class="md3-select-label" data-i18n="shortcutsRowsLabel">Rows</label>
-              <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                <path d="M459-381 314-526q-3-3-4.5-6.5T308-540q0-8 5.5-14t14.5-6h304q9 0 14.5 6t5.5 14q0 2-6 14L501-381q-5 5-10 7t-11 2-11-2-10-7" />
-              </svg>
-            </div>
-          </div>
-        </div>
+                <div id="greetingNameInputWrapper" style="display: none">
+                  <div class="input-with-action-row" style="margin-top: 1rem">
+                    <div class="md3-outlined-text-field" id="greetingNameFieldWrapper">
+                      <input type="text" id="greetingNameInput" class="md3-input" placeholder=" " autocomplete="off" />
+                      <label for="greetingNameInput" class="md3-label" data-i18n="namePlaceholder">Your Name (optional)</label>
+                    </div>
+                  </div>
+                  <div class="md3-checkbox-group" style="margin-top: 1.25rem">
+                    <label class="md3-checkbox-label">
+                      <input type="checkbox" id="greetingHighlightNameCheckbox" class="md3-checkbox-input" />
+                      <span class="md3-checkbox-box">
+                        <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
+                        <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
+                      </span>
+                      <span class="checkbox-text" data-i18n="highlightNameLabel">Highlight name</span>
+                    </label>
+                  </div>
+                </div>
 
-        <div class="settings-group-card">
-          <div class="group-header">
-            <div class="group-title-wrapper">
-              <h3 class="settings-group-title" data-i18n="searchTitle">Search bar</h3>
-              <span class="new-feature-badge">NEW</span>
-            </div>
-            <label class="md3-switch">
-              <input type="checkbox" id="searchToggle" checked />
-              <span class="switch-track">
-                <span class="switch-thumb"></span>
-              </span>
-            </label>
-          </div>
+                <div class="md3-checkbox-group" id="displayClockOptions">
+                  <label class="md3-checkbox-label">
+                    <input type="checkbox" id="clock12hFormat" class="md3-checkbox-input" />
+                    <span class="md3-checkbox-box">
+                      <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
+                      <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
+                    </span>
+                    <span class="checkbox-text" data-i18n="clock12hLabel">12h Format</span>
+                  </label>
 
-          <div class="expandable-content compact-gap" id="searchSettingsBlock">
-            <hr class="settings-divider search-divider" />
-            <div class="md3-checkbox-group">
-              <label class="md3-checkbox-label">
-                <input type="checkbox" id="searchSuggestionsToggle" class="md3-checkbox-input" />
-                <span class="md3-checkbox-box">
-                  <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
-                  <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
-                </span>
-                <span class="checkbox-text" data-i18n="searchSuggestionsLabel">Search Suggestions</span>
-              </label>
+                  <label class="md3-checkbox-label">
+                    <input type="checkbox" id="clockShowDate" class="md3-checkbox-input" checked />
+                    <span class="md3-checkbox-box">
+                      <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
+                      <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
+                    </span>
+                    <span class="checkbox-text" data-i18n="clockShowDateLabel">Show Date</span>
+                  </label>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <div class="settings-group-card">
-          <div class="group-header">
-            <div class="group-title-wrapper">
-              <h3 class="settings-group-title" data-i18n="appLauncherTitle">App Launcher</h3>
-            </div>
-            <label class="md3-switch">
-              <input type="checkbox" id="launcherToggle" checked />
-              <span class="switch-track">
-                <span class="switch-thumb"></span>
-              </span>
-            </label>
-          </div>
+            <div class="settings-group-card">
+              <div class="group-header">
+                <div class="group-title-wrapper">
+                  <h3 class="settings-group-title" data-i18n="weatherTitle">Weather</h3>
+                </div>
+                <label class="md3-switch">
+                  <input type="checkbox" id="weatherToggle" checked />
+                  <span class="switch-track">
+                    <span class="switch-thumb"></span>
+                  </span>
+                </label>
+              </div>
 
-          <div class="expandable-content compact-gap" id="launcherSettingsBlock">
-            <div class="md3-outlined-select-wrapper">
-              <button type="button" id="launcherProviderSelect" class="md3-outlined-select md3-select-trigger" aria-label="Ecosystem" value="google">
-                <span class="md3-select-value">Google Workspace</span>
-                <template class="md3-select-options">
-                  <div data-value="google">Google Workspace</div>
-                  <div data-value="microsoft">Microsoft 365</div>
-                  <div data-value="proton">Proton AG</div>
-                </template>
-              </button>
-              <label for="launcherProviderSelect" class="md3-select-label" data-i18n="launcherEcosystemLabel">Ecosystem</label>
-              <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                <path d="M459-381 314-526q-3-3-4.5-6.5T308-540q0-8 5.5-14t14.5-6h304q9 0 14.5 6t5.5 14q0 2-6 14L501-381q-5 5-10 7t-11 2-11-2-10-7" />
-              </svg>
-            </div>
-          </div>
-        </div>
-        <div class="settings-group-card">
-          <div class="group-header">
-            <div class="group-title-wrapper">
-              <h3 class="settings-group-title" data-i18n="dataBackupTitle">Data & Backup</h3>
-            </div>
-          </div>
-          <div class="expandable-content" id="backupSettingsBlock" style="margin-top: 0.5rem">
-            <div class="backup-row" style="flex-direction: row">
-              <button id="importBtn" class="backup-btn" title="Import Settings">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                  <path d="M240-160q-33 0-56.5-23.5T160-240v-80q0-17 11.5-28.5T200-360t28.5 11.5T240-320v80h480v-80q0-17 11.5-28.5T760-360t28.5 11.5T800-320v80q0 33-23.5 56.5T720-160zm200-486-75 75q-12 12-28.5 11.5T308-572q-11-12-11.5-28t11.5-28l144-144q6-6 13-8.5t15-2.5 15 2.5 13 8.5l144 144q12 12 11.5 28T652-572q-12 12-28.5 12.5T595-571l-75-75v286q0 17-11.5 28.5T480-320t-28.5-11.5T440-360z" />
-                </svg>
-                <span data-i18n="importBtn">Import</span>
-              </button>
-              <input type="file" id="importInput" accept=".json" style="display: none" />
-              <button id="exportBtn" class="backup-btn" title="Export Settings">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                  <path d="M465-339.5q-7-2.5-13-8.5L308-492q-12-12-11.5-28t11.5-28q12-12 28.5-12.5T365-549l75 75v-286q0-17 11.5-28.5T480-800t28.5 11.5T520-760v286l75-75q12-12 28.5-11.5T652-548q11 12 11.5 28T652-492L508-348q-6 6-13 8.5t-15 2.5-15-2.5M240-160q-33 0-56.5-23.5T160-240v-80q0-17 11.5-28.5T200-360t28.5 11.5T240-320v80h480v-80q0-17 11.5-28.5T760-360t28.5 11.5T800-320v80q0 33-23.5 56.5T720-160z" />
-                </svg>
-                <span data-i18n="exportBtn">Export</span>
-              </button>
-            </div>
-          </div>
-        </div>
+              <div class="expandable-content compact-gap" id="weatherSettingsBlock">
+                <div class="input-with-action-row">
+                  <div class="md3-outlined-text-field" id="cityInputWrapper">
+                    <input type="text" id="weatherCityInput" class="md3-input" placeholder=" " autocomplete="off" />
+                    <label for="weatherCityInput" class="md3-label" data-i18n="weatherCityLabel">City name</label>
 
-        <a href="https://buymeacoffee.com/snw.mint" target="_blank" class="settings-info-card">
-          <div class="info-card-icon">
-            <svg class="info-icon-fg" viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg">
-              <path fill="currentColor" d="m390.1 137.3-.2-.1-.5-.2c.1.2.4.3.7.3m3.3 23.6-.3.1zm-3.3-23.7q-.15 0 0 0m3 23.5.4-.2.1-.1.1-.1c-.2.1-.4.3-.6.4" />
-              <path fill="currentColor" d="m390.7 137.8-.4-.4-.3-.1c.2.2.4.4.7.5M297 366.2c-.3.1-.6.3-.8.6l.2-.2c.3-.2.5-.3.6-.4m54.5-10.8c0-.3-.2-.3-.1.9 0-.1 0-.2.1-.3q-.15-.15 0-.6m-5.7 10.8c-.3.1-.6.3-.8.6l.2-.2c.3-.2.5-.3.6-.4m-87.1 2.5c-.2-.2-.5-.3-.8-.4.2.1.5.2.6.3zm-8.5-8.2c0-.3-.1-.7-.3-1 .1.3.2.6.3 1" />
-              <path fill="var(--color-primary)" d="M308 212.8c-11.8 5.1-25.3 10.8-42.7 10.8-7.3 0-14.5-1-21.5-3l12 123.6c.4 5.2 2.8 10 6.6 13.5s8.8 5.5 14 5.5c0 0 17.1.9 22.8.9 6.1 0 24.5-.9 24.5-.9 5.2 0 10.2-1.9 14-5.5 3.8-3.5 6.2-8.3 6.6-13.5l12.9-136.5c-5.8-2-11.6-3.3-18.1-3.3-11.4 0-20.5 3.9-31.1 8.4" />
-              <path fill="currentColor" d="m206.5 160.2.2.2.1.1q0-.3-.3-.3" />
-              <path
-                fill="currentColor"
-                d="m412.8 148.7-1.8-9.1c-1.6-8.2-5.3-16-13.7-18.9-2.7-.9-5.8-1.4-7.8-3.3-2.1-2-2.7-5-3.2-7.8-.9-5.2-1.7-10.4-2.6-15.6-.8-4.5-1.4-9.5-3.4-13.5-2.7-5.5-8.2-8.7-13.7-10.8-2.8-1-5.7-1.9-8.6-2.7-13.7-3.6-28.1-4.9-42.2-5.7-16.9-.9-33.9-.7-50.8.8-12.6 1.1-25.8 2.5-37.7 6.9-4.4 1.6-8.9 3.5-12.2 6.9-4.1 4.1-5.4 10.6-2.4 15.7 2.1 3.7 5.7 6.3 9.5 8 4.9 2.2 10.1 3.9 15.4 5 14.8 3.3 30 4.5 45.1 5.1 16.7.7 33.4.1 50.1-1.6 4.1-.5 8.2-1 12.3-1.6 4.8-.7 7.9-7.1 6.5-11.4-1.7-5.3-6.3-7.3-11.4-6.5-.8.1-1.5.2-2.3.3l-.5.1c-1.8.2-3.5.4-5.3.6-3.6.4-7.2.7-10.9 1-8.1.6-16.3.8-24.5.8-8 0-16-.2-24-.8-3.7-.2-7.3-.5-10.9-.9-1.7-.2-3.3-.4-4.9-.6l-1.6-.2h-.3l-1.6-.2q-4.95-.75-9.9-1.8c-.3-.1-.6-.3-.8-.5s-.3-.6-.3-.9.1-.7.3-.9.5-.4.8-.5h.1c2.8-.6 5.7-1.1 8.6-1.6 1-.2 1.9-.3 2.9-.4 1.8-.1 3.6-.4 5.4-.7 15.6-1.6 31.3-2.2 47-1.7 7.6.2 15.2.7 22.8 1.4 1.6.2 3.3.3 4.9.5.6.1 1.2.2 1.9.2l1.3.2c3.7.5 7.3 1.2 11 2 5.4 1.2 12.3 1.6 14.7 7.4.8 1.9 1.1 3.9 1.5 5.9l.5 2.5v.1c1.3 5.9 2.5 11.8 3.8 17.7.1.4.1.9 0 1.3s-.3.9-.5 1.2c-.3.4-.6.7-1 .9s-.8.4-1.2.4l-.8.1-.8.1c-2.4.3-4.9.6-7.3.9-4.8.5-9.6 1-14.4 1.4-9.6.8-19.1 1.3-28.7 1.6-4.9.1-9.8.2-14.7.2-19.5 0-38.9-1.1-58.2-3.4-2.1-.2-4.2-.5-6.3-.8 1.6.2-1.2-.2-1.7-.2-1.3-.2-2.7-.4-4-.6-4.5-.7-8.9-1.5-13.4-2.2-5.4-.9-10.5-.4-15.4 2.2-4 2.2-7.2 5.5-9.3 9.6-2.1 4.3-2.7 9.1-3.7 13.7-.9 4.7-2.4 9.7-1.8 14.5 1.2 10.3 8.4 18.7 18.8 20.6 9.8 1.8 19.6 3.2 29.5 4.4 38.7 4.7 77.9 5.3 116.7 1.7 3.2-.3 6.3-.6 9.5-1 1-.1 2 0 2.9.3s1.8.9 2.5 1.6 1.2 1.5 1.6 2.5c.3.9.5 1.9.4 2.9l-1 9.6c-2 19.3-4 38.6-5.9 58-2.1 20.3-4.1 40.6-6.2 60.9l-1.8 17.1c-.6 5.6-.6 11.4-1.7 17-1.7 8.7-7.6 14.1-16.2 16.1-7.9 1.8-16 2.7-24.1 2.8-9 0-18-.3-27-.3-9.6.1-21.4-.8-28.8-8-6.5-6.3-7.4-16.1-8.3-24.6-1.2-11.2-2.4-22.5-3.5-33.7l-6.5-62.5-4.2-40.5c-.1-.7-.1-1.3-.2-2-.5-4.8-3.9-9.5-9.3-9.3-4.6.2-9.8 4.1-9.3 9.3l3.1 30 6.5 62c1.8 17.6 3.7 35.2 5.5 52.9.4 3.4.7 6.8 1.1 10.1 2 18.5 16.1 28.4 33.6 31.2 10.2 1.6 20.6 2 31 2.1 13.3.2 26.7.7 39.7-1.7 19.3-3.5 33.8-16.4 35.9-36.5.6-5.8 1.2-11.6 1.8-17.3 2-19.1 3.9-38.2 5.9-57.4l6.4-62.5 2.9-28.6c.1-1.4.7-2.8 1.7-3.8s2.2-1.8 3.6-2c5.5-1.1 10.8-2.9 14.7-7.1 5.8-6.6 7-15.3 4.8-24.1M205 154.9c.1 0-.1.7-.1 1-.1-.5-.1-1 .1-1m.5 4.1s.2.1.3.4c-.2-.2-.3-.4-.3-.4m.5.7c.2.4.3.6 0 0m1.1.9s.1 0 0 0m185.4-1.3c-2 1.9-5 2.8-7.9 3.2-33.1 4.9-66.8 7.4-100.3 6.3-24-.8-47.7-3.5-71.5-6.8-2.3-.3-4.8-.8-6.4-2.5-3-3.2-1.5-9.7-.7-13.7.7-3.6 2.1-8.4 6.4-8.9 6.6-.8 14.4 2 20.9 3 7.9 1.2 15.9 2.2 23.8 2.9 34 3.1 68.7 2.6 102.5-1.9 6.2-.8 12.3-1.8 18.5-2.9 5.5-1 11.5-2.8 14.8 2.8 2.3 3.9 2.6 9 2.2 13.4 0 2-.9 3.8-2.3 5.1" />
-            </svg>
-          </div>
-          <span class="info-card-title">Buy Me A Coffe</span>
-          <svg class="info-card-link-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M640-624 284-268q-11 11-28 11t-28-11-11-28 11-28l356-356H280q-17 0-28.5-11.5T240-720t11.5-28.5T280-760h400q17 0 28.5 11.5T720-720v400q0 17-11.5 28.5T680-280t-28.5-11.5T640-320z" /></svg>
-        </a>
+                    <button type="button" class="icon-btn clear-input-btn" id="searchCityBtn" aria-label="Search city">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+                        <path d="M380-320q-109 0-184.5-75.5T120-580t75.5-184.5T380-840t184.5 75.5T640-580q0 44-14 83t-38 69l224 224q11 11 11 28t-11 28-28 11-28-11L532-372q-30 24-69 38t-83 14m0-80q75 0 127.5-52.5T560-580t-52.5-127.5T380-760t-127.5 52.5T200-580t52.5 127.5T380-400" />
+                      </svg>
+                    </button>
 
-        <div class="settings-group-card">
-          <div class="settings-footer">
-            <div class="footer-links">
-              <a href="https://github.com/snw-mint/md3-new-tab/issues/new?template=bug_report.yml">Report Bug</a>
-              <span class="footer-separator">|</span>
-              <a href="https://github.com/snw-mint/md3-new-tab/issues/new?template=feature_request.yml">Request Feature</a>
-              <span class="footer-separator">|</span>
-              <a href="https://snw-mint.github.io/md3-new-tab/privacy.html">Privacy Policy</a>
+                    <svg class="error-icon-svg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+                      <path d="M508.5-291.5Q520-303 520-320t-11.5-28.5T480-360t-28.5 11.5T440-320t11.5 28.5T480-280t28.5-11.5m0-160Q520-463 520-480v-160q0-17-11.5-28.5T480-680t-28.5 11.5T440-640v160q0 17 11.5 28.5T480-440t28.5-11.5M480-80q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80" />
+                    </svg>
+                  </div>
+                </div>
+
+                <hr class="settings-divider" />
+                <div class="md3-radio-group">
+                  <label class="md3-radio">
+                    <span class="radio-text">Celsius (°C)</span>
+                    <input type="radio" name="tempUnit" value="C" checked />
+                    <div class="radio-outer">
+                      <div class="radio-inner"></div>
+                    </div>
+                  </label>
+
+                  <label class="md3-radio">
+                    <span class="radio-text">Fahrenheit (°F)</span>
+                    <input type="radio" name="tempUnit" value="F" />
+                    <div class="radio-outer">
+                      <div class="radio-inner"></div>
+                    </div>
+                  </label>
+                </div>
+              </div>
             </div>
-            <div class="footer-bottom">
-              <span class="footer-version" id="appVersionDisplay">v0.0</span>
-              <span class="footer-author">by <a href="https://github.com/snw-mint" target="_blank" class="hidden-link">Snow Mint</a></span>
-              <a href="https://github.com/snw-mint/md3-new-tab" target="_blank" class="hidden-link footer-github-icon">
-                <svg viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+            <div class="settings-group-card">
+              <div class="group-header">
+                <div class="group-title-wrapper">
+                  <h3 class="settings-group-title" data-i18n="shortcutsTitle">Shortcuts</h3>
+                </div>
+                <label class="md3-switch">
+                  <input type="checkbox" id="shortcutsToggle" checked />
+                  <span class="switch-track">
+                    <span class="switch-thumb"></span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="expandable-content compact-gap" id="shortcutsSettingsBlock">
+                <div class="md3-outlined-select-wrapper">
+                  <button type="button" id="shortcutsRowsSelect" class="md3-outlined-select md3-select-trigger" aria-label="Shortcuts Rows" value="1">
+                    <span class="md3-select-value" data-i18n="rows1">1 Row</span>
+                    <template class="md3-select-options">
+                      <div data-value="1" data-i18n="rows1">1 Row</div>
+                      <div data-value="2" data-i18n="rows2">2 Rows</div>
+                      <div data-value="3" data-i18n="rows3">3 Rows</div>
+                      <div data-value="4" data-i18n="rows4">4 Rows</div>
+                    </template>
+                  </button>
+                  <label for="shortcutsRowsSelect" class="md3-select-label" data-i18n="shortcutsRowsLabel">Rows</label>
+                  <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+                    <path d="M459-381 314-526q-3-3-4.5-6.5T308-540q0-8 5.5-14t14.5-6h304q9 0 14.5 6t5.5 14q0 2-6 14L501-381q-5 5-10 7t-11 2-11-2-10-7" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-group-card">
+              <div class="group-header">
+                <div class="group-title-wrapper">
+                  <h3 class="settings-group-title" data-i18n="searchTitle">Search bar</h3>
+                </div>
+                <label class="md3-switch">
+                  <input type="checkbox" id="searchToggle" checked />
+                  <span class="switch-track">
+                    <span class="switch-thumb"></span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="expandable-content compact-gap" id="searchSettingsBlock">
+                <hr class="settings-divider search-divider" />
+                <div class="md3-checkbox-group">
+                  <label class="md3-checkbox-label">
+                    <input type="checkbox" id="searchSuggestionsToggle" class="md3-checkbox-input" />
+                    <span class="md3-checkbox-box">
+                      <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
+                      <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
+                    </span>
+                    <span class="checkbox-text" data-i18n="searchSuggestionsLabel">Search Suggestions</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-group-card">
+              <div class="group-header">
+                <div class="group-title-wrapper">
+                  <h3 class="settings-group-title" data-i18n="appLauncherTitle">App Launcher</h3>
+                </div>
+                <label class="md3-switch">
+                  <input type="checkbox" id="launcherToggle" checked />
+                  <span class="switch-track">
+                    <span class="switch-thumb"></span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="expandable-content compact-gap" id="launcherSettingsBlock">
+                <div class="md3-outlined-select-wrapper">
+                  <button type="button" id="launcherProviderSelect" class="md3-outlined-select md3-select-trigger" aria-label="Ecosystem" value="google">
+                    <span class="md3-select-value">Google Workspace</span>
+                    <template class="md3-select-options">
+                      <div data-value="google">Google Workspace</div>
+                      <div data-value="microsoft">Microsoft 365</div>
+                      <div data-value="proton">Proton AG</div>
+                    </template>
+                  </button>
+                  <label for="launcherProviderSelect" class="md3-select-label" data-i18n="launcherEcosystemLabel">Ecosystem</label>
+                  <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+                    <path d="M459-381 314-526q-3-3-4.5-6.5T308-540q0-8 5.5-14t14.5-6h304q9 0 14.5 6t5.5 14q0 2-6 14L501-381q-5 5-10 7t-11 2-11-2-10-7" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="settings-group-card">
+              <div class="group-header">
+                <div class="group-title-wrapper">
+                  <h3 class="settings-group-title" data-i18n="dataBackupTitle">Data & Backup</h3>
+                </div>
+              </div>
+              <div class="expandable-content" id="backupSettingsBlock" style="margin-top: 0.5rem">
+                <div class="backup-row" style="flex-direction: row">
+                  <button id="importBtn" class="backup-btn" title="Import Settings">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+                      <path d="M240-160q-33 0-56.5-23.5T160-240v-80q0-17 11.5-28.5T200-360t28.5 11.5T240-320v80h480v-80q0-17 11.5-28.5T760-360t28.5 11.5T800-320v80q0 33-23.5 56.5T720-160zm200-486-75 75q-12 12-28.5 11.5T308-572q-11-12-11.5-28t11.5-28l144-144q6-6 13-8.5t15-2.5 15 2.5 13 8.5l144 144q12 12 11.5 28T652-572q-12 12-28.5 12.5T595-571l-75-75v286q0 17-11.5 28.5T480-320t-28.5-11.5T440-360z" />
+                    </svg>
+                    <span data-i18n="importBtn">Import</span>
+                  </button>
+                  <input type="file" id="importInput" accept=".json" style="display: none" />
+                  <button id="exportBtn" class="backup-btn" title="Export Settings">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+                      <path d="M465-339.5q-7-2.5-13-8.5L308-492q-12-12-11.5-28t11.5-28q12-12 28.5-12.5T365-549l75 75v-286q0-17 11.5-28.5T480-800t28.5 11.5T520-760v286l75-75q12-12 28.5-11.5T652-548q11 12 11.5 28T652-492L508-348q-6 6-13 8.5t-15 2.5-15-2.5M240-160q-33 0-56.5-23.5T160-240v-80q0-17 11.5-28.5T200-360t28.5 11.5T240-320v80h480v-80q0-17 11.5-28.5T760-360t28.5 11.5T800-320v80q0 33-23.5 56.5T720-160z" />
+                    </svg>
+                    <span data-i18n="exportBtn">Export</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <a href="https://buymeacoffee.com/snw.mint" target="_blank" class="settings-info-card">
+              <div class="info-card-icon">
+                <svg class="info-icon-fg" viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg">
+                  <path fill="currentColor" d="m390.1 137.3-.2-.1-.5-.2c.1.2.4.3.7.3m3.3 23.6-.3.1zm-3.3-23.7q-.15 0 0 0m3 23.5.4-.2.1-.1.1-.1c-.2.1-.4.3-.6.4" />
+                  <path fill="currentColor" d="m390.7 137.8-.4-.4-.3-.1c.2.2.4.4.7.5M297 366.2c-.3.1-.6.3-.8.6l.2-.2c.3-.2.5-.3.6-.4m54.5-10.8c0-.3-.2-.3-.1.9 0-.1 0-.2.1-.3q-.15-.15 0-.6m-5.7 10.8c-.3.1-.6.3-.8.6l.2-.2c.3-.2.5-.3.6-.4m-87.1 2.5c-.2-.2-.5-.3-.8-.4.2.1.5.2.6.3zm-8.5-8.2c0-.3-.1-.7-.3-1 .1.3.2.6.3 1" />
+                  <path fill="var(--color-primary)" d="M308 212.8c-11.8 5.1-25.3 10.8-42.7 10.8-7.3 0-14.5-1-21.5-3l12 123.6c.4 5.2 2.8 10 6.6 13.5s8.8 5.5 14 5.5c0 0 17.1.9 22.8.9 6.1 0 24.5-.9 24.5-.9 5.2 0 10.2-1.9 14-5.5 3.8-3.5 6.2-8.3 6.6-13.5l12.9-136.5c-5.8-2-11.6-3.3-18.1-3.3-11.4 0-20.5 3.9-31.1 8.4" />
+                  <path fill="currentColor" d="m206.5 160.2.2.2.1.1q0-.3-.3-.3" />
                   <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42 6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23 12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7 3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78 11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41 3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86 9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3 5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76 11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67 10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z"
-                    transform="scale(64)"
-                    fill="currentColor" />
+                    fill="currentColor"
+                    d="m412.8 148.7-1.8-9.1c-1.6-8.2-5.3-16-13.7-18.9-2.7-.9-5.8-1.4-7.8-3.3-2.1-2-2.7-5-3.2-7.8-.9-5.2-1.7-10.4-2.6-15.6-.8-4.5-1.4-9.5-3.4-13.5-2.7-5.5-8.2-8.7-13.7-10.8-2.8-1-5.7-1.9-8.6-2.7-13.7-3.6-28.1-4.9-42.2-5.7-16.9-.9-33.9-.7-50.8.8-12.6 1.1-25.8 2.5-37.7 6.9-4.4 1.6-8.9 3.5-12.2 6.9-4.1 4.1-5.4 10.6-2.4 15.7 2.1 3.7 5.7 6.3 9.5 8 4.9 2.2 10.1 3.9 15.4 5 14.8 3.3 30 4.5 45.1 5.1 16.7.7 33.4.1 50.1-1.6 4.1-.5 8.2-1 12.3-1.6 4.8-.7 7.9-7.1 6.5-11.4-1.7-5.3-6.3-7.3-11.4-6.5-.8.1-1.5.2-2.3.3l-.5.1c-1.8.2-3.5.4-5.3.6-3.6.4-7.2.7-10.9 1-8.1.6-16.3.8-24.5.8-8 0-16-.2-24-.8-3.7-.2-7.3-.5-10.9-.9-1.7-.2-3.3-.4-4.9-.6l-1.6-.2h-.3l-1.6-.2q-4.95-.75-9.9-1.8c-.3-.1-.6-.3-.8-.5s-.3-.6-.3-.9.1-.7.3-.9.5-.4.8-.5h.1c2.8-.6 5.7-1.1 8.6-1.6 1-.2 1.9-.3 2.9-.4 1.8-.1 3.6-.4 5.4-.7 15.6-1.6 31.3-2.2 47-1.7 7.6.2 15.2.7 22.8 1.4 1.6.2 3.3.3 4.9.5.6.1 1.2.2 1.9.2l1.3.2c3.7.5 7.3 1.2 11 2 5.4 1.2 12.3 1.6 14.7 7.4.8 1.9 1.1 3.9 1.5 5.9l.5 2.5v.1c1.3 5.9 2.5 11.8 3.8 17.7.1.4.1.9 0 1.3s-.3.9-.5 1.2c-.3.4-.6.7-1 .9s-.8.4-1.2.4l-.8.1-.8.1c-2.4.3-4.9.6-7.3.9-4.8.5-9.6 1-14.4 1.4-9.6.8-19.1 1.3-28.7 1.6-4.9.1-9.8.2-14.7.2-19.5 0-38.9-1.1-58.2-3.4-2.1-.2-4.2-.5-6.3-.8 1.6.2-1.2-.2-1.7-.2-1.3-.2-2.7-.4-4-.6-4.5-.7-8.9-1.5-13.4-2.2-5.4-.9-10.5-.4-15.4 2.2-4 2.2-7.2 5.5-9.3 9.6-2.1 4.3-2.7 9.1-3.7 13.7-.9 4.7-2.4 9.7-1.8 14.5 1.2 10.3 8.4 18.7 18.8 20.6 9.8 1.8 19.6 3.2 29.5 4.4 38.7 4.7 77.9 5.3 116.7 1.7 3.2-.3 6.3-.6 9.5-1 1-.1 2 0 2.9.3s1.8.9 2.5 1.6 1.2 1.5 1.6 2.5c.3.9.5 1.9.4 2.9l-1 9.6c-2 19.3-4 38.6-5.9 58-2.1 20.3-4.1 40.6-6.2 60.9l-1.8 17.1c-.6 5.6-.6 11.4-1.7 17-1.7 8.7-7.6 14.1-16.2 16.1-7.9 1.8-16 2.7-24.1 2.8-9 0-18-.3-27-.3-9.6.1-21.4-.8-28.8-8-6.5-6.3-7.4-16.1-8.3-24.6-1.2-11.2-2.4-22.5-3.5-33.7l-6.5-62.5-4.2-40.5c-.1-.7-.1-1.3-.2-2-.5-4.8-3.9-9.5-9.3-9.3-4.6.2-9.8 4.1-9.3 9.3l3.1 30 6.5 62c1.8 17.6 3.7 35.2 5.5 52.9.4 3.4.7 6.8 1.1 10.1 2 18.5 16.1 28.4 33.6 31.2 10.2 1.6 20.6 2 31 2.1 13.3.2 26.7.7 39.7-1.7 19.3-3.5 33.8-16.4 35.9-36.5.6-5.8 1.2-11.6 1.8-17.3 2-19.1 3.9-38.2 5.9-57.4l6.4-62.5 2.9-28.6c.1-1.4.7-2.8 1.7-3.8s2.2-1.8 3.6-2c5.5-1.1 10.8-2.9 14.7-7.1 5.8-6.6 7-15.3 4.8-24.1M205 154.9c.1 0-.1.7-.1 1-.1-.5-.1-1 .1-1m.5 4.1s.2.1.3.4c-.2-.2-.3-.4-.3-.4m.5.7c.2.4.3.6 0 0m1.1.9s.1 0 0 0m185.4-1.3c-2 1.9-5 2.8-7.9 3.2-33.1 4.9-66.8 7.4-100.3 6.3-24-.8-47.7-3.5-71.5-6.8-2.3-.3-4.8-.8-6.4-2.5-3-3.2-1.5-9.7-.7-13.7.7-3.6 2.1-8.4 6.4-8.9 6.6-.8 14.4 2 20.9 3 7.9 1.2 15.9 2.2 23.8 2.9 34 3.1 68.7 2.6 102.5-1.9 6.2-.8 12.3-1.8 18.5-2.9 5.5-1 11.5-2.8 14.8 2.8 2.3 3.9 2.6 9 2.2 13.4 0 2-.9 3.8-2.3 5.1" />
                 </svg>
-              </a>
+              </div>
+              <span class="info-card-title">Buy Me A Coffe</span>
+              <svg class="info-card-link-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M640-624 284-268q-11 11-28 11t-28-11-11-28 11-28l356-356H280q-17 0-28.5-11.5T240-720t11.5-28.5T280-760h400q17 0 28.5 11.5T720-720v400q0 17-11.5 28.5T680-280t-28.5-11.5T640-320z" /></svg>
+            </a>
+
+            <div class="settings-group-card">
+              <div class="settings-footer">
+                <div class="footer-links">
+                  <a href="https://github.com/snw-mint/md3-new-tab/issues/new?template=bug_report.yml">Report Bug</a>
+                  <span class="footer-separator">|</span>
+                  <a href="https://github.com/snw-mint/md3-new-tab/issues/new?template=feature_request.yml">Request Feature</a>
+                  <span class="footer-separator">|</span>
+                  <a href="https://snw-mint.github.io/md3-new-tab/privacy.html">Privacy Policy</a>
+                </div>
+                <div class="footer-bottom">
+                  <span class="footer-version" id="appVersionDisplay">v0.0</span>
+                  <span class="footer-author">by <a href="https://github.com/snw-mint" target="_blank" class="hidden-link">Snow Mint</a></span>
+                  <a href="https://github.com/snw-mint/md3-new-tab" target="_blank" class="hidden-link footer-github-icon">
+                    <svg viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42 6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23 12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7 3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78 11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41 3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86 9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3 5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76 11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67 10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z"
+                        transform="scale(64)"
+                        fill="currentColor" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
         </div>
       </div>
     </aside>
