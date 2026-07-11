@@ -29,7 +29,11 @@ export const template = `<div class="settings-inner-card">
             </div>
 
             <div class="chrome-tab">
-              <div class="tab-favicon"></div>
+              <div class="tab-favicon">
+                <svg viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M303.126 76.863c-11.875-11.875-38.932-6.003-71.579 12.818C221.771 53.286 206.79 30 189.996 30c-16.793 0-31.773 23.284-41.549 59.678-32.645-18.82-59.7-24.69-71.575-12.817-11.875 11.876-6.002 38.935 12.823 71.585C53.29 158.222 30 173.204 30 190c0 16.793 23.283 31.773 59.675 41.549-18.825 32.651-24.7 59.712-12.824 71.588s38.939 6.001 71.593-12.827c9.776 36.401 24.757 59.69 41.552 59.69 16.796 0 31.778-23.291 41.554-59.693 32.655 18.829 59.72 24.705 71.596 12.829s6.002-38.936-12.823-71.587C326.716 221.773 350 206.793 350 190c0-16.796-23.292-31.778-59.696-41.554 18.824-32.649 24.697-59.708 12.822-71.583" fill="currentColor"/>
+                </svg>
+              </div>
               <span class="tab-title">New Tab</span>
               <div class="tab-close-btn" title="Fechar">
                 <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
@@ -45,13 +49,24 @@ export const template = `<div class="settings-inner-card">
     </div>
 
     <div class="settings-group-card">
-      <h3 class="settings-group-title">Advanced option</h3>
+      <h3 class="settings-group-title">Advanced options</h3>
 
       <div class="input-with-action-row" style="margin-bottom: 1.25rem;">
         <div class="md3-outlined-text-field" id="advTabNameFieldWrapper">
           <input type="text" id="advTabNameInput" class="md3-input" placeholder=" " autocomplete="off" />
           <label for="advTabNameInput" class="md3-label">Tab name</label>
         </div>
+      </div>
+
+      <div class="md3-checkbox-group" style="margin-bottom: 1.25rem;">
+        <label class="md3-checkbox-label">
+          <input type="checkbox" id="advCustomFaviconToggle" class="md3-checkbox-input" />
+          <span class="md3-checkbox-box">
+            <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
+            <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
+          </span>
+          <span class="checkbox-text">Custom favicon</span>
+        </label>
       </div>
 
       <div class="md3-checkbox-group" id="advWallpaperColorGroup">
@@ -72,7 +87,9 @@ export function init(container: HTMLElement): void {
   const toggle = container.querySelector<HTMLInputElement>('#advWallpaperColorToggle');
   const group = container.querySelector<HTMLElement>('#advWallpaperColorGroup');
   const tabNameInput = container.querySelector<HTMLInputElement>('#advTabNameInput');
+  const faviconToggle = container.querySelector<HTMLInputElement>('#advCustomFaviconToggle');
   const tabTitle = container.querySelector<HTMLElement>('.tab-title');
+  const tabFavicon = container.querySelector<HTMLElement>('.tab-favicon');
 
   if (!toggle || !group) return;
 
@@ -86,6 +103,15 @@ export function init(container: HTMLElement): void {
     if (tabNameInput && tabTitle) {
       tabNameInput.value = state.customTabName || '';
       tabTitle.textContent = state.customTabName || 'New Tab';
+    }
+
+    if (faviconToggle && tabFavicon) {
+      faviconToggle.checked = state.customFavicon;
+      if (state.customFavicon) {
+        tabFavicon.innerHTML = `<svg viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M303.126 76.863c-11.875-11.875-38.932-6.003-71.579 12.818C221.771 53.286 206.79 30 189.996 30c-16.793 0-31.773 23.284-41.549 59.678-32.645-18.82-59.7-24.69-71.575-12.817-11.875 11.876-6.002 38.935 12.823 71.585C53.29 158.222 30 173.204 30 190c0 16.793 23.283 31.773 59.675 41.549-18.825 32.651-24.7 59.712-12.824 71.588s38.939 6.001 71.593-12.827c9.776 36.401 24.757 59.69 41.552 59.69 16.796 0 31.778-23.291 41.554-59.693 32.655 18.829 59.72 24.705 71.596 12.829s6.002-38.936-12.823-71.587C326.716 221.773 350 206.793 350 190c0-16.796-23.292-31.778-59.696-41.554 18.824-32.649 24.697-59.708 12.822-71.583" fill="currentColor"/></svg>`;
+      } else {
+        tabFavicon.innerHTML = `<img src="/assets/icon-128.png" width="100%" height="100%" style="object-fit: contain" alt="" />`;
+      }
     }
   };
 
@@ -101,6 +127,13 @@ export function init(container: HTMLElement): void {
     tabNameInput.addEventListener('input', (e) => {
       const target = e.target as HTMLInputElement;
       globalState.current.customTabName = target.value;
+    });
+  }
+
+  if (faviconToggle) {
+    faviconToggle.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      globalState.current.customFavicon = target.checked;
     });
   }
 }

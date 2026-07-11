@@ -11,12 +11,8 @@ import { SidebarRouter } from './sidebar-router';
 let router: SidebarRouter | null = null;
 
 export function initSidebarControls(): void {
-  const settingsBtn = document.getElementById(
-    'settingsBtn',
-  ) as HTMLButtonElement | null;
-  const closeSettingsBtn = document.getElementById(
-    'closeSettingsBtn',
-  ) as HTMLButtonElement | null;
+  const settingsBtn = document.getElementById('settingsBtn') as HTMLButtonElement | null;
+  const closeSettingsBtn = document.getElementById('closeSettingsBtn') as HTMLButtonElement | null;
   const body = document.body;
 
   const toggleSidebar = () => {
@@ -33,7 +29,6 @@ export function initSidebarControls(): void {
         });
       }
     } else {
-      // Reset router to root when sidebar closes
       router?.reset();
 
       if (body.classList.contains('show-new-features')) {
@@ -80,7 +75,6 @@ export function initThemeControls(): void {
       target.classList.add('active');
       localStorage.setItem('theme', theme);
       applyTheme(theme);
-      // Update favicon to reflect new theme colors
       setTimeout(() => {
         import('./palette').then((module) => {
           module.updateFavicon();
@@ -100,8 +94,6 @@ export function initSidebarRouter(): void {
   }
 
   router = new SidebarRouter({ viewport, rootPage });
-
-  // Register all sub-pages
   router.register({
     id: 'appearance-advanced',
     keepAlive: true,
@@ -111,10 +103,7 @@ export function initSidebarRouter(): void {
         init: m.init,
       })),
   });
-
-  // Wire up trigger buttons
   document.getElementById('advancedOptionsBtn')?.addEventListener('click', () => {
     router!.push('appearance-advanced');
   });
 }
-
