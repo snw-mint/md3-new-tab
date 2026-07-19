@@ -39,6 +39,7 @@ class ReactiveState {
       wallpaperOverlay: 0.3,
       customTabName: '',
       customFavicon: true,
+      hideGoogleShortcuts: false,
     };
 
     const savedState = localStorage.getItem(this.storageKey);

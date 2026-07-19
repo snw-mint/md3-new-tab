@@ -69,6 +69,17 @@ export const template = `<div class="settings-inner-card">
         </label>
       </div>
 
+      <div class="md3-checkbox-group" style="margin-bottom: 1.25rem;">
+        <label class="md3-checkbox-label">
+          <input type="checkbox" id="advHideGoogleShortcutsToggle" class="md3-checkbox-input" />
+          <span class="md3-checkbox-box">
+            <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
+            <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
+          </span>
+          <span class="checkbox-text">Hide Google shortcuts</span>
+        </label>
+      </div>
+
       <div class="md3-checkbox-group" id="advWallpaperColorGroup">
         <label class="md3-checkbox-label">
           <input type="checkbox" id="advWallpaperColorToggle" class="md3-checkbox-input" />
@@ -88,6 +99,7 @@ export function init(container: HTMLElement): void {
   const group = container.querySelector<HTMLElement>('#advWallpaperColorGroup');
   const tabNameInput = container.querySelector<HTMLInputElement>('#advTabNameInput');
   const faviconToggle = container.querySelector<HTMLInputElement>('#advCustomFaviconToggle');
+  const hideGoogleShortcutsToggle = container.querySelector<HTMLInputElement>('#advHideGoogleShortcutsToggle');
   const tabTitle = container.querySelector<HTMLElement>('.tab-title');
   const tabFavicon = container.querySelector<HTMLElement>('.tab-favicon');
 
@@ -113,6 +125,10 @@ export function init(container: HTMLElement): void {
         tabFavicon.innerHTML = `<img src="/assets/icon-128.png" width="100%" height="100%" style="object-fit: contain" alt="" />`;
       }
     }
+
+    if (hideGoogleShortcutsToggle) {
+      hideGoogleShortcutsToggle.checked = !!state.hideGoogleShortcuts;
+    }
   };
 
   syncState();
@@ -134,6 +150,13 @@ export function init(container: HTMLElement): void {
     faviconToggle.addEventListener('change', (e) => {
       const target = e.target as HTMLInputElement;
       globalState.current.customFavicon = target.checked;
+    });
+  }
+
+  if (hideGoogleShortcutsToggle) {
+    hideGoogleShortcutsToggle.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      globalState.current.hideGoogleShortcuts = target.checked;
     });
   }
 }

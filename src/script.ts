@@ -41,6 +41,12 @@ document.addEventListener('DOMContentLoaded', () => {
       bindSearchSuggestions();
     }
     document.title = state.customTabName || 'New Tab';
+
+    if (state.hideGoogleShortcuts) {
+      document.documentElement.setAttribute('data-hide-google-shortcuts', 'true');
+    } else {
+      document.documentElement.removeAttribute('data-hide-google-shortcuts');
+    }
   });
 
   bindGlobalEvents((shortcutsGrid) => {

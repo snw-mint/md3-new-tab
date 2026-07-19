@@ -60,7 +60,6 @@ export class SidebarRouter {
     this.busy = true;
 
     const prevEl = this.currentEl();
-    prevEl.classList.remove('is-active');
 
     let cached = this.cache.get(id);
     if (!cached) {
@@ -78,7 +77,6 @@ export class SidebarRouter {
         cached = { el, scrollTop: 0 };
         this.cache.set(id, cached);
       } catch (err) {
-        prevEl.classList.add('is-active');
         console.error('[SidebarRouter] Failed to load page:', err);
         this.busy = false;
         return;
@@ -92,6 +90,7 @@ export class SidebarRouter {
     afterAnim(cached.el, () => {
       cached!.el.classList.remove('is-entering');
       cached!.el.classList.add('is-active');
+      prevEl.classList.remove('is-active');
       this.busy = false;
     });
   }
