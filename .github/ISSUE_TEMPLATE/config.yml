@@ -3,3 +3,13 @@ contact_links:
   - name: Feedbacks & Discussions
     url: https://github.com/snw-mint/md3-new-tab/discussions
     about: Got questions? Ask here! Use Discussions for general inquiries and support.
+issue_templates:
+  - name: Bug Report
+    about: Report a bug or issue
+    filename: bug_report.yml
+  - name: Feature Request
+    about: Suggest a new feature
+    filename: feature_request.yml
+  - name: Translation Request
+    about: Contribute a translation or fix an existing one
+    filename: translation.yml
