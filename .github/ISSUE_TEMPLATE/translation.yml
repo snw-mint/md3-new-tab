@@ -1,7 +1,7 @@
 name: Translation Request
 description: Contribute a new translation or fix an existing one by copying messages.json
-title: '[Translation]: <Language Name>'
-labels: ['translation']
+title: '[Translation]: '
+labels: ['documentation']
 body:
   - type: markdown
     attributes:
