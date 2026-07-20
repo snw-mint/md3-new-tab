@@ -292,11 +292,11 @@
             </div>
             <div class="md3-outlined-select-wrapper">
               <button type="button" id="select-launcher" class="md3-outlined-select md3-select-trigger" aria-label="Ecosystem" value="google">
-                <span class="md3-select-value">Google Workspace</span>
+                <span class="md3-select-value" data-i18n="launcherGoogle">Google Workspace</span>
                 <template class="md3-select-options">
-                  <div data-value="google">Google Workspace</div>
-                  <div data-value="microsoft">Microsoft 365</div>
-                  <div data-value="proton">Proton AG</div>
+                  <div data-value="google" data-i18n="launcherGoogle">Google Workspace</div>
+                  <div data-value="microsoft" data-i18n="launcherMicrosoft">Microsoft 365</div>
+                  <div data-value="proton" data-i18n="launcherProton">Proton AG</div>
                 </template>
               </button>
               <label for="select-launcher" class="md3-select-label" data-i18n="launcherEcosystemLabel">Ecosystem</label>
@@ -326,13 +326,13 @@
                 <span class="md3-select-value" data-i18n="searchEngineSystem">System Default</span>
                 <template class="md3-select-options">
                   <div data-value="system" data-i18n="searchEngineSystem">System Default</div>
-                  <div data-value="google">Google</div>
-                  <div data-value="bing">Bing</div>
-                  <div data-value="duck">DuckDuckGo</div>
-                  <div data-value="brave">Brave</div>
-                  <div data-value="ecosia">Ecosia</div>
-                  <div data-value="startpage">Startpage</div>
-                  <div data-value="kagi">Kagi</div>
+                  <div data-value="google" data-i18n="searchEngineGoogle">Google</div>
+                  <div data-value="bing" data-i18n="searchEngineBing">Bing</div>
+                  <div data-value="duck" data-i18n="searchEngineDuck">DuckDuckGo</div>
+                  <div data-value="brave" data-i18n="searchEngineBrave">Brave</div>
+                  <div data-value="ecosia" data-i18n="searchEngineEcosia">Ecosia</div>
+                  <div data-value="startpage" data-i18n="searchEngineStartpage">Startpage</div>
+                  <div data-value="kagi" data-i18n="searchEngineKagi">Kagi</div>
                 </template>
               </button>
               <label for="select-search" class="md3-select-label" data-i18n="searchEngineLabel">Provider</label>
@@ -390,16 +390,16 @@
     </div>
 
     <footer class="setup-footer">
-      <a href="https://github.com/snw-mint" target="_blank" rel="noopener noreferrer">By Snow Mint</a>
+      <a href="https://github.com/snw-mint" target="_blank" rel="noopener noreferrer" data-i18n="aboutSnowMint">By Snow Mint</a>
       <span>&middot;</span>
-      <a href="https://snw-mint.github.io/md3-new-tab/privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+      <a href="https://snw-mint.github.io/md3-new-tab/privacy.html" target="_blank" rel="noopener noreferrer" data-i18n="privacyPolicy">Privacy Policy</a>
       <span>&middot;</span>
-      <a href="https://snw-mint.github.io/md3-new-tab/terms.html" target="_blank" rel="noopener noreferrer">Terms of Use</a>
+      <a href="https://snw-mint.github.io/md3-new-tab/terms.html" target="_blank" rel="noopener noreferrer" data-i18n="termsOfUse">Terms of Use</a>
     </footer>
 
     <div id="warningModal" class="modal-overlay">
       <div class="modal-content">
-        <h3 id="wizardBackupErrorTitle">Error</h3>
+        <h3 id="wizardBackupErrorTitle" data-i18n="warningErrorTitle">Error</h3>
         <p id="warning-modal-message" class="warning-modal-text"></p>
         <div class="modal-actions">
           <button id="warning-btn-cancel" class="btn-cancel" data-i18n="warningUnderstood">Understood</button>

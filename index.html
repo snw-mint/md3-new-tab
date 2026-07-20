@@ -170,7 +170,7 @@
 
     <aside id="settingsSidebar" class="settings-sidebar">
       <header class="sidebar-header">
-        <h2 class="sidebar-title">Customize Expressive New Tab</h2>
+        <h2 class="sidebar-title" data-i18n="sidebarTitle">Customize Expressive New Tab</h2>
         <button id="closeSettingsBtn" class="icon-btn" aria-label="Close settings">
           <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
             <path d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z" />
@@ -185,7 +185,7 @@
               <div id="colorPickerOverlay" class="color-picker-overlay"></div>
               <div id="customColorModal" class="color-picker-modal">
                 <div class="color-picker-header">
-                  <span class="color-picker-title">Color picker</span>
+                  <span class="color-picker-title" data-i18n="colorPickerTitle">Color picker</span>
                   <button id="closeColorPickerBtn" class="icon-btn" aria-label="Close">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
                       <path d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z" />
@@ -314,15 +314,15 @@
                   </span>
                   <span style="position: relative; display: inline-flex; align-items: center">
                     <span class="checkbox-text" data-i18n="wallpaperColorTitle">Color from wallpaper</span>
-                    <span class="new-feature-badge">NEW</span>
+                    <span class="new-feature-badge" data-i18n="newFeatureBadge">NEW</span>
                   </span>
                 </label>
               </div>
 
               <button type="button" class="settings-button-card" id="advancedOptionsBtn" style="margin-top: 1.25rem">
                 <span style="position: relative; display: inline-flex; align-items: center">
-                  <span class="button-card-title">Advanced options</span>
-                  <span class="new-feature-badge">NEW</span>
+                  <span class="button-card-title" data-i18n="advancedOptionsTitle">Advanced options</span>
+                  <span class="new-feature-badge" data-i18n="newFeatureBadge">NEW</span>
                 </span>
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M504-480 348-636q-11-11-11-28t11-28q11-11 28-11t28 11l184 184q6 6 8.5 13t2.5 15q0 8-2.5 15t-8.5 13L404-268q-11 11-28 11t-28-11q-11-11-11-28t11-28l156-156Z" /></svg>
               </button>
@@ -359,8 +359,8 @@
                 <div class="slider-group">
                   <div class="slider-header" style="margin-bottom: 0.5rem">
                     <span style="position: relative; display: inline-flex; align-items: center">
-                      <span class="slider-label" style="font-size: 0.875rem; color: var(--color-on-surface); font-weight: 500">Wallpaper overlay</span>
-                      <span class="new-feature-badge">NEW</span>
+                      <span class="slider-label" style="font-size: 0.875rem; color: var(--color-on-surface); font-weight: 500" data-i18n="wallpaperOverlayTitle">Wallpaper overlay</span>
+                      <span class="new-feature-badge" data-i18n="newFeatureBadge">NEW</span>
                     </span>
                   </div>
                   <div class="md3-slider-wrapper">
@@ -476,7 +476,7 @@
                 <hr class="settings-divider" />
                 <div class="md3-radio-group">
                   <label class="md3-radio">
-                    <span class="radio-text">Celsius (°C)</span>
+                    <span class="radio-text" data-i18n="weatherCelsius">Celsius (°C)</span>
                     <input type="radio" name="tempUnit" value="C" checked />
                     <div class="radio-outer">
                       <div class="radio-inner"></div>
@@ -484,7 +484,7 @@
                   </label>
 
                   <label class="md3-radio">
-                    <span class="radio-text">Fahrenheit (°F)</span>
+                    <span class="radio-text" data-i18n="weatherFahrenheit">Fahrenheit (°F)</span>
                     <input type="radio" name="tempUnit" value="F" />
                     <div class="radio-outer">
                       <div class="radio-inner"></div>
@@ -570,11 +570,11 @@
               <div class="expandable-content compact-gap" id="launcherSettingsBlock">
                 <div class="md3-outlined-select-wrapper">
                   <button type="button" id="launcherProviderSelect" class="md3-outlined-select md3-select-trigger" aria-label="Ecosystem" value="google">
-                    <span class="md3-select-value">Google Workspace</span>
+                    <span class="md3-select-value" data-i18n="launcherGoogle">Google Workspace</span>
                     <template class="md3-select-options">
-                      <div data-value="google">Google Workspace</div>
-                      <div data-value="microsoft">Microsoft 365</div>
-                      <div data-value="proton">Proton AG</div>
+                      <div data-value="google" data-i18n="launcherGoogle">Google Workspace</div>
+                      <div data-value="microsoft" data-i18n="launcherMicrosoft">Microsoft 365</div>
+                      <div data-value="proton" data-i18n="launcherProton">Proton AG</div>
                     </template>
                   </button>
                   <label for="launcherProviderSelect" class="md3-select-label" data-i18n="launcherEcosystemLabel">Ecosystem</label>
@@ -607,7 +607,7 @@
                   </svg>
                 </div>
                 <p class="language-translate-hint">
-                  Missing a language? <a href="https://github.com/snw-mint/md3-new-tab/blob/main/_locales/TRANSLATING.md" target="_blank" rel="noopener noreferrer">Help us translate!</a>
+                  Missing a language? <a href="https://github.com/snw-mint/md3-new-tab/blob/main/_locales/TRANSLATING.md" target="_blank" rel="noopener noreferrer" data-i18n="helpTranslate">Help us translate!</a>
                 </p>
               </div>
             </div>
@@ -648,22 +648,22 @@
                     d="m412.8 148.7-1.8-9.1c-1.6-8.2-5.3-16-13.7-18.9-2.7-.9-5.8-1.4-7.8-3.3-2.1-2-2.7-5-3.2-7.8-.9-5.2-1.7-10.4-2.6-15.6-.8-4.5-1.4-9.5-3.4-13.5-2.7-5.5-8.2-8.7-13.7-10.8-2.8-1-5.7-1.9-8.6-2.7-13.7-3.6-28.1-4.9-42.2-5.7-16.9-.9-33.9-.7-50.8.8-12.6 1.1-25.8 2.5-37.7 6.9-4.4 1.6-8.9 3.5-12.2 6.9-4.1 4.1-5.4 10.6-2.4 15.7 2.1 3.7 5.7 6.3 9.5 8 4.9 2.2 10.1 3.9 15.4 5 14.8 3.3 30 4.5 45.1 5.1 16.7.7 33.4.1 50.1-1.6 4.1-.5 8.2-1 12.3-1.6 4.8-.7 7.9-7.1 6.5-11.4-1.7-5.3-6.3-7.3-11.4-6.5-.8.1-1.5.2-2.3.3l-.5.1c-1.8.2-3.5.4-5.3.6-3.6.4-7.2.7-10.9 1-8.1.6-16.3.8-24.5.8-8 0-16-.2-24-.8-3.7-.2-7.3-.5-10.9-.9-1.7-.2-3.3-.4-4.9-.6l-1.6-.2h-.3l-1.6-.2q-4.95-.75-9.9-1.8c-.3-.1-.6-.3-.8-.5s-.3-.6-.3-.9.1-.7.3-.9.5-.4.8-.5h.1c2.8-.6 5.7-1.1 8.6-1.6 1-.2 1.9-.3 2.9-.4 1.8-.1 3.6-.4 5.4-.7 15.6-1.6 31.3-2.2 47-1.7 7.6.2 15.2.7 22.8 1.4 1.6.2 3.3.3 4.9.5.6.1 1.2.2 1.9.2l1.3.2c3.7.5 7.3 1.2 11 2 5.4 1.2 12.3 1.6 14.7 7.4.8 1.9 1.1 3.9 1.5 5.9l.5 2.5v.1c1.3 5.9 2.5 11.8 3.8 17.7.1.4.1.9 0 1.3s-.3.9-.5 1.2c-.3.4-.6.7-1 .9s-.8.4-1.2.4l-.8.1-.8.1c-2.4.3-4.9.6-7.3.9-4.8.5-9.6 1-14.4 1.4-9.6.8-19.1 1.3-28.7 1.6-4.9.1-9.8.2-14.7.2-19.5 0-38.9-1.1-58.2-3.4-2.1-.2-4.2-.5-6.3-.8 1.6.2-1.2-.2-1.7-.2-1.3-.2-2.7-.4-4-.6-4.5-.7-8.9-1.5-13.4-2.2-5.4-.9-10.5-.4-15.4 2.2-4 2.2-7.2 5.5-9.3 9.6-2.1 4.3-2.7 9.1-3.7 13.7-.9 4.7-2.4 9.7-1.8 14.5 1.2 10.3 8.4 18.7 18.8 20.6 9.8 1.8 19.6 3.2 29.5 4.4 38.7 4.7 77.9 5.3 116.7 1.7 3.2-.3 6.3-.6 9.5-1 1-.1 2 0 2.9.3s1.8.9 2.5 1.6 1.2 1.5 1.6 2.5c.3.9.5 1.9.4 2.9l-1 9.6c-2 19.3-4 38.6-5.9 58-2.1 20.3-4.1 40.6-6.2 60.9l-1.8 17.1c-.6 5.6-.6 11.4-1.7 17-1.7 8.7-7.6 14.1-16.2 16.1-7.9 1.8-16 2.7-24.1 2.8-9 0-18-.3-27-.3-9.6.1-21.4-.8-28.8-8-6.5-6.3-7.4-16.1-8.3-24.6-1.2-11.2-2.4-22.5-3.5-33.7l-6.5-62.5-4.2-40.5c-.1-.7-.1-1.3-.2-2-.5-4.8-3.9-9.5-9.3-9.3-4.6.2-9.8 4.1-9.3 9.3l3.1 30 6.5 62c1.8 17.6 3.7 35.2 5.5 52.9.4 3.4.7 6.8 1.1 10.1 2 18.5 16.1 28.4 33.6 31.2 10.2 1.6 20.6 2 31 2.1 13.3.2 26.7.7 39.7-1.7 19.3-3.5 33.8-16.4 35.9-36.5.6-5.8 1.2-11.6 1.8-17.3 2-19.1 3.9-38.2 5.9-57.4l6.4-62.5 2.9-28.6c.1-1.4.7-2.8 1.7-3.8s2.2-1.8 3.6-2c5.5-1.1 10.8-2.9 14.7-7.1 5.8-6.6 7-15.3 4.8-24.1M205 154.9c.1 0-.1.7-.1 1-.1-.5-.1-1 .1-1m.5 4.1s.2.1.3.4c-.2-.2-.3-.4-.3-.4m.5.7c.2.4.3.6 0 0m1.1.9s.1 0 0 0m185.4-1.3c-2 1.9-5 2.8-7.9 3.2-33.1 4.9-66.8 7.4-100.3 6.3-24-.8-47.7-3.5-71.5-6.8-2.3-.3-4.8-.8-6.4-2.5-3-3.2-1.5-9.7-.7-13.7.7-3.6 2.1-8.4 6.4-8.9 6.6-.8 14.4 2 20.9 3 7.9 1.2 15.9 2.2 23.8 2.9 34 3.1 68.7 2.6 102.5-1.9 6.2-.8 12.3-1.8 18.5-2.9 5.5-1 11.5-2.8 14.8 2.8 2.3 3.9 2.6 9 2.2 13.4 0 2-.9 3.8-2.3 5.1" />
                 </svg>
               </div>
-              <span class="info-card-title">Buy Me A Coffe</span>
+              <span class="info-card-title" data-i18n="buyMeCoffee">Buy Me a Coffee</span>
               <svg class="info-card-link-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M640-624 284-268q-11 11-28 11t-28-11-11-28 11-28l356-356H280q-17 0-28.5-11.5T240-720t11.5-28.5T280-760h400q17 0 28.5 11.5T720-720v400q0 17-11.5 28.5T680-280t-28.5-11.5T640-320z" /></svg>
             </a>
 
             <div class="settings-group-card">
               <div class="settings-footer">
                 <div class="footer-links">
-                  <a href="https://github.com/snw-mint/md3-new-tab/issues/new?template=bug_report.yml">Report Bug</a>
+                  <a href="https://github.com/snw-mint/md3-new-tab/issues/new?template=bug_report.yml" data-i18n="reportBug">Report Bug</a>
                   <span class="footer-separator">|</span>
-                  <a href="https://github.com/snw-mint/md3-new-tab/issues/new?template=feature_request.yml">Request Feature</a>
+                  <a href="https://github.com/snw-mint/md3-new-tab/issues/new?template=feature_request.yml" data-i18n="requestFeature">Request Feature</a>
                   <span class="footer-separator">|</span>
-                  <a href="https://snw-mint.github.io/md3-new-tab/privacy.html">Privacy Policy</a>
+                  <a href="https://snw-mint.github.io/md3-new-tab/privacy.html" data-i18n="privacyPolicy">Privacy Policy</a>
                 </div>
                 <div class="footer-bottom">
                   <span class="footer-version" id="appVersionDisplay">v0.0</span>
-                  <span class="footer-author">by <a href="https://github.com/snw-mint" target="_blank" class="hidden-link">Snow Mint</a></span>
+                  <span class="footer-author">by <a href="https://github.com/snw-mint" target="_blank" class="hidden-link" data-i18n="aboutSnowMint">Snow Mint</a></span>
                   <a href="https://github.com/snw-mint/md3-new-tab" target="_blank" class="hidden-link footer-github-icon">
                     <svg viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -698,18 +698,18 @@
 
     <div id="shortcutModal" class="md3-dialog-overlay">
       <div class="md3-dialog">
-        <h2 id="shortcut-modal-title" class="md3-dialog-title">Add</h2>
+        <h2 id="shortcut-modal-title" class="md3-dialog-title" data-i18n="shortcutAddTitle">Add</h2>
         <div class="md3-dialog-content">
           <form id="shortcutForm" class="shortcut-form">
             <div class="md3-filled-input-wrapper">
               <input type="text" id="shortcutName" class="md3-filled-input" placeholder=" " />
-              <label for="shortcutName" class="md3-filled-label">Name</label>
+              <label for="shortcutName" class="md3-filled-label" data-i18n="shortcutNameLabel">Name</label>
               <div class="md3-filled-indicator"></div>
             </div>
 
             <div class="md3-filled-input-wrapper">
               <input type="url" id="shortcutUrl" class="md3-filled-input" placeholder=" " required />
-              <label for="shortcutUrl" class="md3-filled-label">URL</label>
+              <label for="shortcutUrl" class="md3-filled-label" data-i18n="shortcutUrlLabel">URL</label>
               <button type="button" class="clear-input-btn" tabindex="-1">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
                   <path d="m480-424 116 116q11 11 28 11t28-11 11-28-11-28L536-480l116-116q11-11 11-28t-11-28-28-11-28 11L480-536 364-652q-11-11-28-11t-28 11-11 28 11 28l116 116-116 116q-11 11-11 28t11 28 28 11 28-11zm0 344q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80m0-80q134 0 227-93t93-227-93-227-227-93-227 93-93 227 93 227 227 93m0-320" />
@@ -723,7 +723,7 @@
 
             <div class="md3-filled-input-wrapper">
               <input type="url" id="shortcutIconUrl" class="md3-filled-input" placeholder=" " />
-              <label for="shortcutIconUrl" class="md3-filled-label">Icon URL (optional)</label>
+              <label for="shortcutIconUrl" class="md3-filled-label" data-i18n="shortcutIconUrlLabel">Icon URL (optional)</label>
               <button type="button" class="clear-input-btn" tabindex="-1">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
                   <path d="m480-424 116 116q11 11 28 11t28-11 11-28-11-28L536-480l116-116q11-11 11-28t-11-28-28-11-28 11L480-536 364-652q-11-11-28-11t-28 11-11 28 11 28l116 116-116 116q-11 11-11 28t11 28 28 11 28-11zm0 344q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80m0-80q134 0 227-93t93-227-93-227-227-93-227 93-93 227 93 227 227 93m0-320" />
@@ -738,8 +738,8 @@
         </div>
 
         <div class="md3-dialog-actions">
-          <button type="button" id="shortcut-btn-cancel" class="md3-text-btn">Cancel</button>
-          <button type="submit" form="shortcutForm" id="shortcut-btn-confirm" class="md3-filled-btn">Save</button>
+          <button type="button" id="shortcut-btn-cancel" class="md3-text-btn" data-i18n="btnCancel">Cancel</button>
+          <button type="submit" form="shortcutForm" id="shortcut-btn-confirm" class="md3-filled-btn" data-i18n="btnSave">Save</button>
         </div>
       </div>
     </div>

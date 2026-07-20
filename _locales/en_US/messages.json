@@ -1,7 +1,4 @@
 {
-  "moreApps": {
-    "message": "More apps"
-  },
   "displayTitle": {
     "message": "Display"
   },
@@ -471,5 +468,110 @@
   },
   "wizardRestoreError": {
     "message": "Invalid backup file."
+  },
+  "sidebarTitle": {
+    "message": "Customize Expressive New Tab"
+  },
+  "colorPickerTitle": {
+    "message": "Color picker"
+  },
+  "newFeatureBadge": {
+    "message": "NEW"
+  },
+  "advancedOptionsTitle": {
+    "message": "Advanced options"
+  },
+  "wallpaperOverlayTitle": {
+    "message": "Wallpaper overlay"
+  },
+  "weatherCelsius": {
+    "message": "Celsius (°C)"
+  },
+  "weatherFahrenheit": {
+    "message": "Fahrenheit (°F)"
+  },
+  "launcherGoogle": {
+    "message": "Google Workspace"
+  },
+  "launcherMicrosoft": {
+    "message": "Microsoft 365"
+  },
+  "launcherProton": {
+    "message": "Proton AG"
+  },
+  "helpTranslate": {
+    "message": "Help us translate!"
+  },
+  "buyMeCoffee": {
+    "message": "Buy Me a Coffee"
+  },
+  "reportBug": {
+    "message": "Report Bug"
+  },
+  "requestFeature": {
+    "message": "Request Feature"
+  },
+  "privacyPolicy": {
+    "message": "Privacy Policy"
+  },
+  "termsOfUse": {
+    "message": "Terms of Use"
+  },
+  "aboutSnowMint": {
+    "message": "Snow Mint"
+  },
+  "shortcutAddTitle": {
+    "message": "Add"
+  },
+  "shortcutNameLabel": {
+    "message": "Name"
+  },
+  "shortcutUrlLabel": {
+    "message": "URL"
+  },
+  "shortcutIconUrlLabel": {
+    "message": "Icon URL (optional)"
+  },
+  "btnCancel": {
+    "message": "Cancel"
+  },
+  "btnSave": {
+    "message": "Save"
+  },
+  "warningErrorTitle": {
+    "message": "Error"
+  },
+  "searchEngineGoogle": {
+    "message": "Google"
+  },
+  "searchEngineBing": {
+    "message": "Bing"
+  },
+  "searchEngineDuck": {
+    "message": "DuckDuckGo"
+  },
+  "searchEngineBrave": {
+    "message": "Brave Search"
+  },
+  "searchEngineEcosia": {
+    "message": "Ecosia Search"
+  },
+  "searchEngineStartpage": {
+    "message": "Start Page"
+  },
+  "searchEngineKagi": {
+    "message": "Kagi"
+  },
+  "wallpaperColorTitle": {
+    "message": "Color from wallpaper"
+  },
+  "wallpaperTitle": {
+    "message": "Wallpaper"
+  },
+  "btnDeleteLocalData": {
+    "message": "Delete local data"
+  },
+  "btnDelete": {
+    "message": "Delete"
   }
 }

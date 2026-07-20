@@ -19,6 +19,20 @@ import { getSavedEngine, applyEngineToForm, bindSearchForm } from './core/boot/s
 import { bindSearchSuggestions } from './core/boot/search-suggestions';
 
 document.addEventListener('DOMContentLoaded', () => {
+  if (typeof chrome !== 'undefined' && chrome.i18n) {
+    document.querySelectorAll<HTMLElement>('[data-i18n]').forEach((el) => {
+      const key = el.getAttribute('data-i18n');
+      if (!key) return;
+      const msg = chrome.i18n.getMessage(key);
+      if (!msg) return;
+      if (el.tagName === 'INPUT' && el.hasAttribute('placeholder')) {
+        (el as HTMLInputElement).placeholder = msg;
+      } else {
+        el.textContent = msg;
+      }
+    });
+  }
+
   initDisplay();
   initSidebarControls();
   initThemeControls();
