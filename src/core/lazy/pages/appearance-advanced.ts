@@ -8,6 +8,7 @@
 
 import type { SidebarPageModule } from '../../ui/sidebar-router';
 import { globalState } from '../../shared/state';
+import { applyTranslations, t } from '../../shared/i18n';
 
 export const template = `<div class="settings-inner-card">
     <div class="settings-back-card">
@@ -17,7 +18,7 @@ export const template = `<div class="settings-inner-card">
             <path d="m432-480 156 156q11 11 11 28t-11 28q-11 11-28 11t-28-11L348-452q-6-6-8.5-13t-2.5-15q0-8 2.5-15t8.5-13l184-184q11-11 28-11t28 11q11 11 11 28t-11 28L432-480Z"/>
           </svg>
         </button>
-        <span class="back-card-label">Appearance</span>
+        <span class="back-card-label" data-i18n="appearanceTitle">Appearance</span>
       </div>
       <div class="mockup-card">
         <div class="chrome-corner-card">
@@ -49,12 +50,12 @@ export const template = `<div class="settings-inner-card">
     </div>
 
     <div class="settings-group-card">
-      <h3 class="settings-group-title">Advanced options</h3>
+      <h3 class="settings-group-title" data-i18n="advancedOptionsTitle">Advanced options</h3>
 
       <div class="input-with-action-row" style="margin-bottom: 1.25rem;">
         <div class="md3-outlined-text-field" id="advTabNameFieldWrapper">
           <input type="text" id="advTabNameInput" class="md3-input" placeholder=" " autocomplete="off" />
-          <label for="advTabNameInput" class="md3-label">Tab name</label>
+          <label for="advTabNameInput" class="md3-label" data-i18n="tabNameLabel">Tab name</label>
         </div>
       </div>
 
@@ -65,7 +66,7 @@ export const template = `<div class="settings-inner-card">
             <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
             <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
           </span>
-          <span class="checkbox-text">Custom favicon</span>
+          <span class="checkbox-text" data-i18n="customFaviconLabel">Custom favicon</span>
         </label>
       </div>
 
@@ -76,7 +77,7 @@ export const template = `<div class="settings-inner-card">
             <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
             <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
           </span>
-          <span class="checkbox-text">Color from wallpaper</span>
+          <span class="checkbox-text" data-i18n="colorFromWallpaperLabel">Color from wallpaper</span>
         </label>
       </div>
     </div>
@@ -102,7 +103,7 @@ export function init(container: HTMLElement): void {
 
     if (tabNameInput && tabTitle) {
       tabNameInput.value = state.customTabName || '';
-      tabTitle.textContent = state.customTabName || 'New Tab';
+      tabTitle.textContent = state.customTabName || t('newTabPlaceholder') || 'New Tab';
     }
 
     if (faviconToggle && tabFavicon) {
@@ -136,6 +137,8 @@ export function init(container: HTMLElement): void {
       globalState.current.customFavicon = target.checked;
     });
   }
+
+  applyTranslations(container);
 }
 
 export default { template, init } satisfies SidebarPageModule;

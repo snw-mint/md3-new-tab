@@ -19,14 +19,15 @@
     <div id="step-welcome" class="step step-welcome active">
       <div class="setup-top-bar">
         <div class="md3-outlined-select-wrapper setup-language-select">
-          <button type="button" id="select-language" class="md3-outlined-select md3-select-trigger" aria-label="Language" value="en">
+          <button type="button" id="select-language" class="md3-outlined-select md3-select-trigger" aria-label="Language" value="en_US">
             <svg class="language-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-              <path d="m603-202-34 97q-4 11-14 18t-22 7q-20 0-32.5-16.5T496-133l152-402q5-11 15-18t22-7h30q12 0 22 7t15 18l152 403q8 19-4 35.5T868-80q-13 0-22.5-7T831-106l-34-96H603ZM362-401 188-228q-11 11-27.5 11.5T132-228q-11-11-11-28t11-28l174-174q-35-35-63.5-80T190-640h84q20 39 40 68t48 58q33-33 68.5-92.5T484-720H80q-17 0-28.5-11.5T40-760q0-17 11.5-28.5T80-800h240v-40q0-17 11.5-28.5T360-880q17 0 28.5 11.5T400-840v40h240q17 0 28.5 11.5T680-760q0 17-11.5 28.5T640-720h-76q-21 72-63 148t-83 116l96 98-30 82-122-125Zm266 129h144l-72-204-72 204Z"/>
+              <path
+                d="m603-202-34 97q-4 11-14 18t-22 7q-20 0-32.5-16.5T496-133l152-402q5-11 15-18t22-7h30q12 0 22 7t15 18l152 403q8 19-4 35.5T868-80q-13 0-22.5-7T831-106l-34-96H603ZM362-401 188-228q-11 11-27.5 11.5T132-228q-11-11-11-28t11-28l174-174q-35-35-63.5-80T190-640h84q20 39 40 68t48 58q33-33 68.5-92.5T484-720H80q-17 0-28.5-11.5T40-760q0-17 11.5-28.5T80-800h240v-40q0-17 11.5-28.5T360-880q17 0 28.5 11.5T400-840v40h240q17 0 28.5 11.5T680-760q0 17-11.5 28.5T640-720h-76q-21 72-63 148t-83 116l96 98-30 82-122-125Zm266 129h144l-72-204-72 204Z" />
             </svg>
-            <span class="md3-select-value" data-i18n="languageEn">English</span>
+            <span class="md3-select-value">English</span>
             <template class="md3-select-options">
-              <div data-value="en" data-i18n="languageEn">English</div>
-              <div data-value="pt" data-i18n="languagePt">Portuguese</div>
+              <div data-value="en_US">English</div>
+              <div data-value="pt_BR">Português (BR)</div>
             </template>
           </button>
           <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
@@ -294,9 +295,9 @@
               <button type="button" id="select-launcher" class="md3-outlined-select md3-select-trigger" aria-label="Ecosystem" value="google">
                 <span class="md3-select-value" data-i18n="launcherGoogle">Google Workspace</span>
                 <template class="md3-select-options">
-                  <div data-value="google" data-i18n="launcherGoogle">Google Workspace</div>
-                  <div data-value="microsoft" data-i18n="launcherMicrosoft">Microsoft 365</div>
-                  <div data-value="proton" data-i18n="launcherProton">Proton AG</div>
+                  <div data-value="google">Google Workspace</div>
+                  <div data-value="microsoft">Microsoft 365</div>
+                  <div data-value="proton">Proton AG</div>
                 </template>
               </button>
               <label for="select-launcher" class="md3-select-label" data-i18n="launcherEcosystemLabel">Ecosystem</label>
@@ -326,13 +327,13 @@
                 <span class="md3-select-value" data-i18n="searchEngineSystem">System Default</span>
                 <template class="md3-select-options">
                   <div data-value="system" data-i18n="searchEngineSystem">System Default</div>
-                  <div data-value="google" data-i18n="searchEngineGoogle">Google</div>
-                  <div data-value="bing" data-i18n="searchEngineBing">Bing</div>
-                  <div data-value="duck" data-i18n="searchEngineDuck">DuckDuckGo</div>
-                  <div data-value="brave" data-i18n="searchEngineBrave">Brave</div>
-                  <div data-value="ecosia" data-i18n="searchEngineEcosia">Ecosia</div>
-                  <div data-value="startpage" data-i18n="searchEngineStartpage">Startpage</div>
-                  <div data-value="kagi" data-i18n="searchEngineKagi">Kagi</div>
+                  <div data-value="google">Google</div>
+                  <div data-value="bing">Bing</div>
+                  <div data-value="duck">DuckDuckGo</div>
+                  <div data-value="brave">Brave</div>
+                  <div data-value="ecosia">Ecosia</div>
+                  <div data-value="startpage">Startpage</div>
+                  <div data-value="kagi">Kagi</div>
                 </template>
               </button>
               <label for="select-search" class="md3-select-label" data-i18n="searchEngineLabel">Provider</label>
@@ -390,11 +391,11 @@
     </div>
 
     <footer class="setup-footer">
-      <a href="https://github.com/snw-mint" target="_blank" rel="noopener noreferrer" data-i18n="aboutSnowMint">By Snow Mint</a>
+      <a href="https://github.com/snw-mint" target="_blank" rel="noopener noreferrer">By Snow Mint</a>
       <span>&middot;</span>
-      <a href="https://snw-mint.github.io/md3-new-tab/privacy.html" target="_blank" rel="noopener noreferrer" data-i18n="privacyPolicy">Privacy Policy</a>
+      <a href="https://snw-mint.github.io/md3-new-tab/privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
       <span>&middot;</span>
-      <a href="https://snw-mint.github.io/md3-new-tab/terms.html" target="_blank" rel="noopener noreferrer" data-i18n="termsOfUse">Terms of Use</a>
+      <a href="https://snw-mint.github.io/md3-new-tab/terms.html" target="_blank" rel="noopener noreferrer">Terms of Use</a>
     </footer>
 
     <div id="warningModal" class="modal-overlay">

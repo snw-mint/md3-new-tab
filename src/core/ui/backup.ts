@@ -96,10 +96,10 @@ export function initBackupSystem(): void {
           const data = parsedData as Record<string, string>;
 
           showWarningModal({
-            title: 'Restore Backup?',
-            messageHtml: 'This will replace your current settings and shortcuts with the backup file data.',
-            confirmText: 'Restore',
-            cancelText: 'Cancel',
+            title: chrome.i18n.getMessage('warningRestoreTitle') || 'Restore Backup?',
+            messageHtml: chrome.i18n.getMessage('warningRestoreMessage') || 'This will replace your current settings and shortcuts with the backup file data.',
+            confirmText: chrome.i18n.getMessage('warningRestore') || 'Restore',
+            cancelText: chrome.i18n.getMessage('btnCancel') || 'Cancel',
             onConfirm: () => {
               if (data['shortcuts']) {
                 localStorage.setItem('ent_shortcuts', data['shortcuts']);

@@ -11,6 +11,7 @@ import { DOMUnits } from '../shared/dom-units';
 import { globalState } from '../shared/state';
 import { updateWeatherWidget } from './weather';
 import { showWarningModal } from '../ui/modals';
+import { t } from '../shared/i18n';
 
 async function checkPermission(origins: string[]): Promise<boolean> {
   return new Promise((resolve) => {
@@ -34,10 +35,10 @@ async function requestPermission(origins: string[]): Promise<boolean> {
 
 function showPermissionModal(onGranted: () => void, onDenied: () => void) {
   showWarningModal({
-    title: 'Permission Required',
-    messageHtml: 'To use this feature, MD3: Expressive New Tab needs permission to access <a href="https://open-meteo.com" target="_blank">Open-Meteo API</a>. This ensures your privacy and security.',
-    confirmText: 'Agree',
-    cancelText: 'Cancel',
+    title: t('warningPermissionTitle'),
+    messageHtml: t('warningPermissionMessage').replace('$API_LINK$', '<a href="https://open-meteo.com" target="_blank">Open-Meteo API</a>'),
+    confirmText: t('warningAgree'),
+    cancelText: t('btnCancel'),
     onConfirm: async () => {
       const granted = await requestPermission([
         'https://geocoding-api.open-meteo.com/*',
@@ -54,10 +55,10 @@ function showPermissionModal(onGranted: () => void, onDenied: () => void) {
 
 function showSearchSuggestionsPermissionModal(onGranted: () => void, onDenied: () => void) {
   showWarningModal({
-    title: 'Permission Required',
-    messageHtml: 'To use Search Suggestions, MD3: Expressive New Tab needs permission to access <a href="https://duckduckgo.com" target="_blank">DuckDuckGo API</a> for providing autocomplete suggestions.',
-    confirmText: 'Agree',
-    cancelText: 'Cancel',
+    title: t('warningPermissionTitle'),
+    messageHtml: t('warningPermissionMessage').replace('$API_LINK$', '<a href="https://duckduckgo.com" target="_blank">DuckDuckGo API</a>'),
+    confirmText: t('warningAgree'),
+    cancelText: t('btnCancel'),
     onConfirm: async () => {
       const granted = await requestPermission([
         'https://duckduckgo.com/*'

@@ -487,6 +487,7 @@ function syncTriggerText(trigger) {
     const i18nKey = selectedOption.getAttribute('data-i18n');
     if (i18nKey) {
       valueDisplay.setAttribute('data-i18n', i18nKey);
+      valueDisplay.textContent = t(i18nKey) || selectedOption.textContent;
     } else {
       valueDisplay.removeAttribute('data-i18n');
     }
@@ -560,7 +561,7 @@ function initCustomSelectSystem() {
 
       const item = document.createElement('div');
       item.className = 'md3-custom-select-item';
-      item.textContent = text;
+      item.textContent = i18nKey ? (t(i18nKey) || text) : text;
       item.setAttribute('role', 'option');
       item.setAttribute('data-value', val);
       if (i18nKey) item.setAttribute('data-i18n', i18nKey);

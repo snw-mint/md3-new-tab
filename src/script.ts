@@ -17,19 +17,19 @@ import { showSnackbar } from './core/ui/snackbar';
 import { globalState } from './core/shared/state';
 import { getSavedEngine, applyEngineToForm, bindSearchForm } from './core/boot/search';
 import { bindSearchSuggestions } from './core/boot/search-suggestions';
+import { loadTranslations } from './core/shared/i18n';
 
 document.addEventListener('DOMContentLoaded', () => {
-  if (typeof chrome !== 'undefined' && chrome.i18n) {
-    document.querySelectorAll<HTMLElement>('[data-i18n]').forEach((el) => {
-      const key = el.getAttribute('data-i18n');
-      if (!key) return;
-      const msg = chrome.i18n.getMessage(key);
-      if (!msg) return;
-      if (el.tagName === 'INPUT' && el.hasAttribute('placeholder')) {
-        (el as HTMLInputElement).placeholder = msg;
-      } else {
-        el.textContent = msg;
-      }
+  loadTranslations();
+
+  const languageSelect = document.getElementById('languageSelect') as HTMLButtonElement | null;
+  if (languageSelect) {
+    const savedLang = localStorage.getItem('userLanguage') || 'en_US';
+    languageSelect.value = savedLang;
+    languageSelect.addEventListener('change', (e: any) => {
+      const newLang = e.detail?.value || languageSelect.value;
+      localStorage.setItem('userLanguage', newLang);
+      loadTranslations();
     });
   }
 

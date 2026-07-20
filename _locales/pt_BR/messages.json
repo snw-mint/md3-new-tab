@@ -1,108 +1,108 @@
 {
   "displayTitle": {
-    "message": "Display"
+    "message": "Exibição"
   },
   "highlightNameLabel": {
-    "message": "Highlight name"
+    "message": "Destacar nome"
   },
   "weatherTitle": {
-    "message": "Weather"
+    "message": "Clima"
   },
   "shortcutsTitle": {
-    "message": "Shortcuts"
+    "message": "Atalhos"
   },
   "rows1": {
-    "message": "1 Row"
+    "message": "1 Linha"
   },
   "rows2": {
-    "message": "2 Rows"
+    "message": "2 Linhas"
   },
   "rows3": {
-    "message": "3 Rows"
+    "message": "3 Linhas"
   },
   "rows4": {
-    "message": "4 Rows"
+    "message": "4 Linhas"
   },
   "appLauncherTitle": {
-    "message": "App Launcher"
+    "message": "Launcher de aplicativos"
   },
   "searchPlaceholder": {
-    "message": "Search the web"
+    "message": "Pesquisar na web"
   },
   "namePlaceholder": {
-    "message": "Your Name (optional)"
+    "message": "Seu nome (opcional)"
   },
   "dataBackupTitle": {
-    "message": "Data & Backup"
+    "message": "Dados & Backup"
   },
   "importBtn": {
-    "message": "Import"
+    "message": "Importar"
   },
   "exportBtn": {
-    "message": "Export"
+    "message": "Exportar"
   },
   "appearanceTitle": {
-    "message": "Appearance"
+    "message": "Aparência"
   },
   "themeLight": {
-    "message": "Light"
+    "message": "Claro"
   },
   "themeDevice": {
-    "message": "Device"
+    "message": "Sistema"
   },
   "themeDark": {
-    "message": "Dark"
+    "message": "Escuro"
   },
   "displayGreetings": {
-    "message": "Greetings"
+    "message": "Saudações"
   },
   "clockStyle1": {
-    "message": "Basic Clock"
+    "message": "Relógio Básico"
   },
   "clockStyle2": {
-    "message": "Expressive Clock"
+    "message": "Relógio Expressivo"
   },
   "displayStyleLabel": {
-    "message": "Display Widget"
+    "message": "Widget de Exibição"
   },
   "clock12hLabel": {
-    "message": "12h Format"
+    "message": "Formato 12h"
   },
   "clockShowDateLabel": {
-    "message": "Show Date"
+    "message": "Mostrar data"
   },
   "weatherCityLabel": {
-    "message": "City name"
+    "message": "Nome da cidade"
   },
   "shortcutsRowsLabel": {
-    "message": "Rows"
+    "message": "Linhas"
   },
   "launcherEcosystemLabel": {
-    "message": "Ecosystem"
+    "message": "Ecossistema"
   },
   "weekday_0": {
-    "message": "Sunday"
+    "message": "Domingo"
   },
   "weekday_1": {
-    "message": "Monday"
+    "message": "Segunda-feira"
   },
   "weekday_2": {
-    "message": "Tuesday"
+    "message": "Terça-feira"
   },
   "weekday_3": {
-    "message": "Wednesday"
+    "message": "Quarta-feira"
   },
   "weekday_4": {
-    "message": "Thursday"
+    "message": "Quinta-feira"
   },
   "weekday_5": {
-    "message": "Friday"
+    "message": "Sexta-feira"
   },
   "weekday_6": {
-    "message": "Saturday"
+    "message": "Sábado"
   },
   "greetMorning1": {
-    "message": "Have a great $WEEK$ ahead$USER$!",
+    "message": "Tenha uma ótima $WEEK$$USER$!",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -114,7 +114,7 @@
     }
   },
   "greetMorning2": {
-    "message": "A fresh start to this morning$USER$.",
+    "message": "Um novo começo para esta manhã$USER$.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -126,7 +126,7 @@
     }
   },
   "greetMorning3": {
-    "message": "Good morning! Ready for the day$USER$?",
+    "message": "Bom dia! Pronto para o dia$USER$?",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -138,7 +138,7 @@
     }
   },
   "greetMorning4": {
-    "message": "Embrace the possibilities of today$USER$.",
+    "message": "Aproveite as possibilidades de hoje$USER$.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -150,7 +150,7 @@
     }
   },
   "greetMorning5": {
-    "message": "Rise and shine$USER$!",
+    "message": "Hora de acordar e brilhar$USER$!",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -162,7 +162,7 @@
     }
   },
   "greetAfternoon1": {
-    "message": "Enjoying this $WEEK$$USER$?",
+    "message": "Aproveitando esta $WEEK$$USER$?",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -174,7 +174,7 @@
     }
   },
   "greetAfternoon2": {
-    "message": "Good afternoon$USER$! Keep up the good work.",
+    "message": "Boa tarde$USER$! Continue com o bom trabalho.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -186,7 +186,7 @@
     }
   },
   "greetAfternoon3": {
-    "message": "Halfway through the day$USER$.",
+    "message": "Metade do dia já passou$USER$.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -198,7 +198,7 @@
     }
   },
   "greetAfternoon4": {
-    "message": "Hope your afternoon is going well$USER$.",
+    "message": "Espero que sua tarde esteja indo bem$USER$.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -210,7 +210,7 @@
     }
   },
   "greetAfternoon5": {
-    "message": "Take a quick breather$USER$.",
+    "message": "Tire um pequeno descanso$USER$.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -222,7 +222,7 @@
     }
   },
   "greetEvening1": {
-    "message": "Hope you had a good $WEEK$$USER$.",
+    "message": "Espero que tenha tido uma boa $WEEK$$USER$.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -234,7 +234,7 @@
     }
   },
   "greetEvening2": {
-    "message": "Good evening$USER$. Time to unwind.",
+    "message": "Boa noite$USER$. Hora de relaxar.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -246,7 +246,7 @@
     }
   },
   "greetEvening3": {
-    "message": "The day is almost over$USER$. Great job!",
+    "message": "O dia está quase no fim$USER$. Ótimo trabalho!",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -258,7 +258,7 @@
     }
   },
   "greetEvening4": {
-    "message": "Relax and enjoy your evening$USER$.",
+    "message": "Relaxe e aproveite sua noite$USER$.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -270,7 +270,7 @@
     }
   },
   "greetEvening5": {
-    "message": "A peaceful evening to you$USER$.",
+    "message": "Uma noite tranquila para você$USER$.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -282,7 +282,7 @@
     }
   },
   "greetNight1": {
-    "message": "It's getting quite late$USER$.",
+    "message": "Já está ficando bem tarde$USER$.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -294,7 +294,7 @@
     }
   },
   "greetNight2": {
-    "message": "A quiet and peaceful night$USER$.",
+    "message": "Uma noite calma e tranquila$USER$.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -306,7 +306,7 @@
     }
   },
   "greetNight3": {
-    "message": "Still up$USER$?",
+    "message": "Ainda acordado$USER$?",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -318,7 +318,7 @@
     }
   },
   "greetNight4": {
-    "message": "Don't forget to rest$USER$.",
+    "message": "Não se esqueça de descansar$USER$.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -330,7 +330,7 @@
     }
   },
   "greetNight5": {
-    "message": "Sweet dreams$USER$.",
+    "message": "Bons sonhos$USER$.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -342,7 +342,7 @@
     }
   },
   "snackbarUpdate": {
-    "message": "MD3: Expressive New Tab has been updated to version $VERSION$",
+    "message": "MD3: Expressive New Tab foi atualizado para a versão $VERSION$",
     "placeholders": {
       "version": {
         "content": "$1"
@@ -350,145 +350,145 @@
     }
   },
   "snackbarReleaseNotes": {
-    "message": "Release Notes"
+    "message": "Notas da versão"
   },
   "snackbarSettingsExported": {
-    "message": "Settings saved in the file"
+    "message": "Configurações salvas no arquivo"
   },
   "snackbarSettingsRestored": {
-    "message": "Settings restored"
+    "message": "Configurações restauradas"
   },
   "snackbarBackupInvalid": {
-    "message": "The backup file is invalid."
+    "message": "O arquivo de backup é inválido."
   },
   "searchTitle": {
-    "message": "Search bar"
+    "message": "Barra de pesquisa"
   },
   "searchSuggestionsLabel": {
-    "message": "Search Suggestions"
+    "message": "Sugestões de pesquisa"
   },
   "languageTitle": {
-    "message": "Language"
+    "message": "Idioma"
   },
   "languageLabel": {
-    "message": "Language"
+    "message": "Idioma"
   },
   "languageEn": {
-    "message": "English"
+    "message": "Inglês"
   },
   "languagePt": {
-    "message": "Portuguese"
+    "message": "Português"
   },
   "wizardWelcomeTitle": {
-    "message": "Welcome home"
+    "message": "Boas-vindas"
   },
   "wizardWelcomeSubtitle": {
-    "message": "Your expressive new tab is ready. Choose your next step below."
+    "message": "Sua nova aba expressiva está pronta. Escolha seu próximo passo abaixo."
   },
   "wizardRestoreTitle": {
-    "message": "Restore settings"
+    "message": "Restaurar configurações"
   },
   "wizardRestoreDesc": {
-    "message": "Do you have a backup file?"
+    "message": "Você possui um arquivo de backup?"
   },
   "wizardStartTitle": {
-    "message": "Start the setup"
+    "message": "Iniciar configuração"
   },
   "wizardStartDesc": {
-    "message": "Start with a few steps."
+    "message": "Comece com apenas alguns passos."
   },
   "wizardSkipTitle": {
-    "message": "Skip setup"
+    "message": "Pular configuração"
   },
   "wizardSkipDesc": {
-    "message": "Start with the default setup."
+    "message": "Começar com a configuração padrão."
   },
   "wizardAppearanceTitle": {
-    "message": "Style & Appearance"
+    "message": "Estilo & Aparência"
   },
   "wizardAppearanceDesc": {
-    "message": "Set your theme, accent color, and name."
+    "message": "Defina seu tema, cor de destaque e nome."
   },
   "wizardThemeAuto": {
-    "message": "System"
+    "message": "Sistema"
   },
   "wizardThemeLight": {
-    "message": "Light"
+    "message": "Claro"
   },
   "wizardThemeDark": {
-    "message": "Dark"
+    "message": "Escuro"
   },
   "wizardAccentLabel": {
-    "message": "Accent Color"
+    "message": "Cor de destaque"
   },
   "wizardWidgetsTitle": {
-    "message": "Widgets & Utilities"
+    "message": "Widgets & Utilitários"
   },
   "wizardWidgetsDesc": {
-    "message": "Choose what shows up on your page."
+    "message": "Escolha o que será exibido em sua página."
   },
   "wizardFinalTitle": {
-    "message": "You're all set"
+    "message": "Tudo pronto"
   },
   "wizardFinalSubtitle": {
-    "message": "Thank you for using Expressive New Tab! :D"
+    "message": "Obrigado por usar o Expressive New Tab! :D"
   },
   "wizardFinalGithubTitle": {
-    "message": "Source code"
+    "message": "Código fonte"
   },
   "wizardFinalGithubDesc": {
-    "message": "View project on GitHub."
+    "message": "Ver projeto no GitHub."
   },
   "wizardFinalStartTitle": {
-    "message": "Get started"
+    "message": "Começar"
   },
   "wizardFinalStartDesc": {
-    "message": "Open your new tab page."
+    "message": "Abrir sua página de nova aba."
   },
   "wizardFinalSupportTitle": {
-    "message": "Support the project"
+    "message": "Apoie o projeto"
   },
   "wizardFinalSupportDesc": {
-    "message": "Help keep the project updated."
+    "message": "Ajude a manter o projeto atualizado."
   },
   "btnBack": {
-    "message": "Back"
+    "message": "Voltar"
   },
   "btnNext": {
-    "message": "Continue"
+    "message": "Continuar"
   },
   "greetingNameLabel": {
-    "message": "Your Name"
+    "message": "Seu nome"
   },
   "searchEngineTitle": {
-    "message": "Search Engine"
+    "message": "Mecanismo de busca"
   },
   "searchEngineLabel": {
-    "message": "Provider"
+    "message": "Provedor"
   },
   "searchEngineSystem": {
-    "message": "System Default"
+    "message": "Padrão do sistema"
   },
   "warningUnderstood": {
-    "message": "Understood"
+    "message": "Entendido"
   },
   "wizardRestoreError": {
-    "message": "Invalid backup file."
+    "message": "Arquivo de backup inválido."
   },
   "sidebarTitle": {
-    "message": "Customize Expressive New Tab"
+    "message": "Personalizar Expressive New Tab"
   },
   "colorPickerTitle": {
-    "message": "Color picker"
+    "message": "Seletor de cores"
   },
   "newFeatureBadge": {
-    "message": "NEW"
+    "message": "NOVO"
   },
   "advancedOptionsTitle": {
-    "message": "Advanced options"
+    "message": "Opções avançadas"
   },
   "wallpaperOverlayTitle": {
-    "message": "Wallpaper overlay"
+    "message": "Escurecimento do papel de parede"
   },
   "weatherCelsius": {
     "message": "Celsius (°C)"
@@ -496,47 +496,50 @@
   "weatherFahrenheit": {
     "message": "Fahrenheit (°F)"
   },
+  "helpTranslate": {
+    "message": "Ajude a traduzir!"
+  },
   "shortcutEditTitle": {
-    "message": "Edit"
+    "message": "Editar"
   },
   "shortcutAddTitle": {
-    "message": "Add"
+    "message": "Adicionar"
   },
   "shortcutNameLabel": {
-    "message": "Name"
+    "message": "Nome"
   },
   "shortcutUrlLabel": {
     "message": "URL"
   },
   "shortcutIconUrlLabel": {
-    "message": "Icon URL (optional)"
+    "message": "URL do ícone (opcional)"
   },
   "btnCancel": {
-    "message": "Cancel"
+    "message": "Cancelar"
   },
   "btnSave": {
-    "message": "Save"
+    "message": "Salvar"
   },
   "warningErrorTitle": {
-    "message": "Error"
+    "message": "Erro"
   },
   "wallpaperColorTitle": {
-    "message": "Color from wallpaper"
+    "message": "Cor do papel de parede"
   },
   "wallpaperTitle": {
-    "message": "Wallpaper"
+    "message": "Papel de parede"
   },
   "btnDeleteLocalData": {
-    "message": "Delete local data"
+    "message": "Excluir dados locais"
   },
   "btnDelete": {
-    "message": "Delete"
+    "message": "Excluir"
   },
   "warningPermissionTitle": {
-    "message": "Permission Required"
+    "message": "Permissão Necessária"
   },
   "warningPermissionMessage": {
-    "message": "To use this feature, MD3: Expressive New Tab needs permission to access $API_LINK$. This ensures your privacy and security.",
+    "message": "Para usar este recurso, MD3: Expressive New Tab precisa de permissão para acessar $API_LINK$. Isso garante sua privacidade e segurança.",
     "placeholders": {
       "api_link": {
         "content": "$1"
@@ -544,33 +547,33 @@
     }
   },
   "warningRestoreTitle": {
-    "message": "Restore Backup?"
+    "message": "Restaurar Backup?"
   },
   "warningRestoreMessage": {
-    "message": "This will replace your current settings and shortcuts with the backup file data."
+    "message": "Isso substituirá suas configurações e atalhos atuais com os dados do arquivo de backup."
   },
   "warningAgree": {
-    "message": "Agree"
+    "message": "Concordar"
   },
   "warningRestore": {
-    "message": "Restore"
+    "message": "Restaurar"
   },
   "tabNameLabel": {
-    "message": "Tab name"
+    "message": "Nome da guia"
   },
   "customFaviconLabel": {
-    "message": "Custom favicon"
+    "message": "Favicon customizado"
   },
   "colorFromWallpaperLabel": {
-    "message": "Color from wallpaper"
+    "message": "Cor do papel de parede"
   },
   "newTabPlaceholder": {
-    "message": "New Tab"
+    "message": "Nova Guia"
   },
   "appearanceTitle": {
-    "message": "Appearance"
+    "message": "Aparência"
   },
   "advancedOptionsTitle": {
-    "message": "Advanced options"
+    "message": "Opções avançadas"
   }
 }
