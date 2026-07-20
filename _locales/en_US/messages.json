@@ -561,16 +561,13 @@
   "customFaviconLabel": {
     "message": "Custom favicon"
   },
+  "hideGoogleShortcutsLabel": {
+    "message": "Hide Google shortcuts"
+  },
   "colorFromWallpaperLabel": {
     "message": "Color from wallpaper"
   },
   "newTabPlaceholder": {
     "message": "New Tab"
-  },
-  "appearanceTitle": {
-    "message": "Appearance"
-  },
-  "advancedOptionsTitle": {
-    "message": "Advanced options"
   }
 }

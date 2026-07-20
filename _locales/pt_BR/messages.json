@@ -564,16 +564,13 @@
   "customFaviconLabel": {
     "message": "Favicon customizado"
   },
+  "hideGoogleShortcutsLabel": {
+    "message": "Ocultar atalhos do Google"
+  },
   "colorFromWallpaperLabel": {
     "message": "Cor do papel de parede"
   },
   "newTabPlaceholder": {
     "message": "Nova Guia"
-  },
-  "appearanceTitle": {
-    "message": "Aparência"
-  },
-  "advancedOptionsTitle": {
-    "message": "Opções avançadas"
   }
 }
