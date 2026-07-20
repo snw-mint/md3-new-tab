@@ -1,15 +1,13 @@
 name: Translation Request
 description: Contribute a new translation or fix an existing one by copying messages.json
 title: '[Translation]: '
-labels: ['documentation']
+labels: ['translation']
 body:
   - type: markdown
     attributes:
       value: |
         Thank you for helping us translate MD3: Expressive New Tab!
-        
-        Please read the [**Translation Guide**](https://github.com/snw-mint/md3-new-tab/blob/main/_locales/TRANSLATING.md) before submitting.
-        
+                
         ⚠️ **Important Warnings:**
         - Do **NOT** translate JSON keys (e.g., `"greetMorning1"`).
         - Do **NOT** translate placeholder variables (e.g., `$WEEK$`).
