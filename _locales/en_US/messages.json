@@ -363,5 +363,17 @@
   },
   "snackbarBackupInvalid": {
     "message": "The backup file is invalid."
+  },
+  "languageTitle": {
+    "message": "Language"
+  },
+  "languageLabel": {
+    "message": "Language"
+  },
+  "languageEn": {
+    "message": "English"
+  },
+  "languagePt": {
+    "message": "Portuguese"
   }
 }
