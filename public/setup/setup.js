@@ -110,6 +110,10 @@ function saveAppearance() {
   const theme = document.querySelector('.theme-circle-big.active')?.dataset.theme || 'auto';
   const palette = document.querySelector('.color-circle-btn.active')?.dataset.palette || 'expressive';
   const name = document.getElementById('input-name')?.value.trim() || '';
+  const langSelect = document.getElementById('select-language');
+  if (langSelect) {
+    localStorage.setItem('userLanguage', langSelect.value);
+  }
   localStorage.setItem('theme', theme);
   localStorage.setItem('ent_selected_palette', palette);
 
@@ -286,6 +290,21 @@ function initNameInput() {
   const settingsStr = localStorage.getItem('ent_global_settings');
   const settings = settingsStr ? JSON.parse(settingsStr) : {};
   input.value = settings.greetingName || '';
+}
+
+function initLanguageSelect() {
+  const select = document.getElementById('select-language');
+  if (!select) return;
+  const savedLang = localStorage.getItem('userLanguage') || 'en';
+  select.value = savedLang;
+
+  select.addEventListener('change', () => {
+    const newLang = select.value;
+    localStorage.setItem('userLanguage', newLang);
+    const cacheKey = `i18n_cache_${newLang}`;
+    localStorage.removeItem(cacheKey);
+    loadTranslations();
+  });
 }
 
 function initWidgetToggles() {
@@ -483,19 +502,32 @@ function initCustomSelectSystem() {
 
   function positionPopup(trigger) {
     const rect = trigger.getBoundingClientRect();
-    const computedStyles = window.getComputedStyle(trigger);
-    popup.style.borderRadius = computedStyles.borderRadius;
-    popup.style.width = `${rect.width}px`;
-    popup.style.left = `${rect.left}px`;
+
+    const computedRadius = parseFloat(window.getComputedStyle(trigger).borderRadius) || 12;
+    popup.style.borderRadius = `${Math.min(computedRadius, 16)}px`;
+
+    const popupWidth = Math.max(rect.width, 192);
+    popup.style.width = `${popupWidth}px`;
+
+    let leftPos = rect.left;
+    if (rect.left + popupWidth > window.innerWidth - 16) {
+      leftPos = rect.right - popupWidth;
+    }
+    if (leftPos + popupWidth > window.innerWidth - 16) {
+      leftPos = window.innerWidth - popupWidth - 16;
+    }
+    if (leftPos < 16) leftPos = 16;
+
+    popup.style.left = `${leftPos}px`;
 
     const popupHeight = Math.min(260, selectListContainer.scrollHeight + 8);
     const checkOverflowBottom = rect.bottom + popupHeight > window.innerHeight;
     const checkOverflowTop = rect.top - popupHeight > 0;
 
     if (checkOverflowBottom && checkOverflowTop) {
-      popup.style.top = `${rect.top + window.scrollY - popupHeight - 6}px`;
+      popup.style.top = `${rect.top - 6 - popupHeight}px`;
     } else {
-      popup.style.top = `${rect.bottom + window.scrollY + 6}px`;
+      popup.style.top = `${rect.bottom + 6}px`;
     }
   }
 
@@ -618,15 +650,16 @@ function init() {
   applyTheme(savedTheme);
 
   const savedStep = localStorage.getItem('setup_current_step') || 'welcome';
-  if (savedStep !== 'final') {
-    showStep(savedStep);
-  } else {
+  if (savedStep === 'final') {
     showStep('welcome');
+  } else {
+    showStep(savedStep);
   }
 
   initThemePicker();
   initAccentPicker();
   initNameInput();
+  initLanguageSelect();
   initWidgetToggles();
   initCustomSelectSystem();
 
@@ -685,7 +718,11 @@ function init() {
   const btnFinalStart = document.getElementById('btn-final-start');
   if (btnFinalStart) {
     btnFinalStart.addEventListener('click', () => {
-      chrome.tabs.update({ url: chrome.runtime.getURL('index.html') });
+      if (typeof chrome !== 'undefined' && chrome.tabs && chrome.tabs.update) {
+        chrome.tabs.update({ url: chrome.runtime.getURL('index.html') });
+      } else {
+        window.location.href = typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.getURL ? chrome.runtime.getURL('index.html') : '/index.html';
+      }
     });
   }
 }

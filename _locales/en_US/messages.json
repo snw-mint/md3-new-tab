@@ -375,5 +375,101 @@
   },
   "languagePt": {
     "message": "Portuguese"
+  },
+  "wizardWelcomeTitle": {
+    "message": "Welcome home"
+  },
+  "wizardWelcomeSubtitle": {
+    "message": "Your expressive new tab is ready. Choose your next step below."
+  },
+  "wizardRestoreTitle": {
+    "message": "Restore settings"
+  },
+  "wizardRestoreDesc": {
+    "message": "Do you have a backup file?"
+  },
+  "wizardStartTitle": {
+    "message": "Start the setup"
+  },
+  "wizardStartDesc": {
+    "message": "Start with a few steps."
+  },
+  "wizardSkipTitle": {
+    "message": "Skip setup"
+  },
+  "wizardSkipDesc": {
+    "message": "Start with the default setup."
+  },
+  "wizardAppearanceTitle": {
+    "message": "Style & Appearance"
+  },
+  "wizardAppearanceDesc": {
+    "message": "Set your theme, accent color, and name."
+  },
+  "wizardThemeAuto": {
+    "message": "System"
+  },
+  "wizardThemeLight": {
+    "message": "Light"
+  },
+  "wizardThemeDark": {
+    "message": "Dark"
+  },
+  "wizardAccentLabel": {
+    "message": "Accent Color"
+  },
+  "wizardWidgetsTitle": {
+    "message": "Widgets & Utilities"
+  },
+  "wizardWidgetsDesc": {
+    "message": "Choose what shows up on your page."
+  },
+  "wizardFinalTitle": {
+    "message": "You're all set"
+  },
+  "wizardFinalSubtitle": {
+    "message": "Thank you for using Expressive New Tab! :D"
+  },
+  "wizardFinalGithubTitle": {
+    "message": "Source code"
+  },
+  "wizardFinalGithubDesc": {
+    "message": "View project on GitHub."
+  },
+  "wizardFinalStartTitle": {
+    "message": "Get started"
+  },
+  "wizardFinalStartDesc": {
+    "message": "Open your new tab page."
+  },
+  "wizardFinalSupportTitle": {
+    "message": "Support the project"
+  },
+  "wizardFinalSupportDesc": {
+    "message": "Help keep the project updated."
+  },
+  "btnBack": {
+    "message": "Back"
+  },
+  "btnNext": {
+    "message": "Continue"
+  },
+  "greetingNameLabel": {
+    "message": "Your Name"
+  },
+  "searchEngineTitle": {
+    "message": "Search Engine"
+  },
+  "searchEngineLabel": {
+    "message": "Provider"
+  },
+  "searchEngineSystem": {
+    "message": "System Default"
+  },
+  "warningUnderstood": {
+    "message": "Understood"
+  },
+  "wizardRestoreError": {
+    "message": "Invalid backup file."
   }
 }

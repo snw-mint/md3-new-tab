@@ -30,18 +30,30 @@ export function initCustomSelectSystem(): void {
   function positionPopup(trigger: HTMLElement): void {
     const rect = trigger.getBoundingClientRect();
 
-    const computedStyles = window.getComputedStyle(trigger);
-    popup!.style.borderRadius = computedStyles.borderRadius;
+    const computedRadius =
+      parseFloat(window.getComputedStyle(trigger).borderRadius) || 12;
+    popup!.style.borderRadius = `${Math.min(computedRadius, 16)}px`;
 
-    popup!.style.width = `${rect.width}px`;
-    popup!.style.left = `${rect.left}px`;
+    const popupWidth = Math.max(rect.width, 192);
+    popup!.style.width = `${popupWidth}px`;
+
+    let leftPos = rect.left;
+    if (rect.left + popupWidth > window.innerWidth - 16) {
+      leftPos = rect.right - popupWidth;
+    }
+    if (leftPos + popupWidth > window.innerWidth - 16) {
+      leftPos = window.innerWidth - popupWidth - 16;
+    }
+    if (leftPos < 16) leftPos = 16;
+
+    popup!.style.left = `${leftPos}px`;
 
     const popupHeight = Math.min(260, listContainer!.scrollHeight + 8);
     const checkOverflowBottom = rect.bottom + popupHeight > window.innerHeight;
     const checkOverflowTop = rect.top - popupHeight > 0;
 
     if (checkOverflowBottom && checkOverflowTop) {
-      popup!.style.top = `${rect.top - popupHeight - 6}px`;
+      popup!.style.top = `${rect.top - 6 - popupHeight}px`;
     } else {
       popup!.style.top = `${rect.bottom + 6}px`;
     }
