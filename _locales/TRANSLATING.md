@@ -8,23 +8,26 @@ Help make MD3: Expressive New Tab accessible globally! Translations are maintain
 
 There are two ways to contribute translations:
 
-### 1. Pull Request (corrections & new translations)
+### 1. Pull Request (continuous translations)
 
-Open a **Pull Request** editing the relevant `_locales/<locale>/messages.json` file directly. This is the preferred path for:
+Open a **Pull Request** editing the relevant `_locales/<locale>/messages.json` file directly. This is the preferred path for continuous translations and regular contributors. Use this method for:
 
 - Fixing an incorrect or mistranslated string in an existing language.
 - Adding a missing string to a language that already exists.
 - Adding a brand-new locale that isn't in the repository yet (see [Adding a New Language](#adding-a-new-language)).
 
-### 2. Issue with the `feedback` label (suggestions & reports)
+### 2. Translation Request Issue (easy translation requests)
 
-If you spotted a translation problem but don't want to edit files yourself, open a **GitHub Issue** and apply the **`feedback`** label. Describe:
+If you spotted a translation problem or want to contribute a new translation but don't want to deal with Pull Requests, you can open a **Translation Request** issue.
 
-- The locale code (e.g. `pt_BR`).
-- The key name (e.g. `greetMorning1`).
-- The current (wrong) text and your suggested fix.
+1. Go to the [Issues page](https://github.com/snw-mint/md3-new-tab/issues/new/choose) and select the **Translation Request** template.
+2. Follow the instructions in the template to copy the English source file.
+3. Paste the copied JSON into the issue description.
+4. Translate **only the texts inside the `"message": "..."` quotes**.
+   - Do not translate the JSON keys.
+   - Do not translate placeholder variables like `$WEEK$`.
 
-A maintainer will apply the correction.
+A maintainer will review your issue and apply the translation for you.
 
 ---
 
@@ -63,7 +66,7 @@ Keys that use dynamic values also include a `placeholders` block:
 }
 ```
 
-**Copy the entire entry** (including the `placeholders` block) from `en_US/messages.json` into your locale file, then translate only the `message` value.
+If you are contributing via Pull Request, **copy the entire entry** (including the `placeholders` block) from `en_US/messages.json` into your locale file, then translate only the `message` value.
 
 ---
 
@@ -92,7 +95,7 @@ Not sure what a key does? The [`_locales/README.md`](../_locales/README.md) cont
 
 ---
 
-## Adding a New Language
+## Adding a New Language (via PR)
 
 1. Check the [Chrome locale codes list](https://developer.chrome.com/docs/extensions/reference/api/i18n#locales) for the correct locale identifier (e.g. `pl_PL`, `ko_KR`).
 2. Create the folder `_locales/<locale_code>/` and add a `messages.json` file inside it.
@@ -100,7 +103,7 @@ Not sure what a key does? The [`_locales/README.md`](../_locales/README.md) cont
 4. Translate every `"message"` value. Leave `"placeholders"` blocks untouched.
 5. Open a Pull Request with the new folder.
 
-> If you are unsure about the correct locale code or whether a language is already partially translated, open an Issue with the `feedback` label before starting.
+> If you are unsure about the correct locale code or whether a language is already partially translated, you can open a **Translation Request** issue instead of making a Pull Request.
 
 ---
 
@@ -110,6 +113,6 @@ Not sure what a key does? The [`_locales/README.md`](../_locales/README.md) cont
 
 1. Add the key to `_locales/en_US/messages.json` (English source).
 2. Add the same key to every other locale file in `_locales/`, using the English string as a temporary fallback (`// TODO: translate`).
-3. Open an Issue with the `feedback` label to notify translators, or include translations in your PR if you have them.
+3. Open a **Translation Request** issue to notify translators, or include translations in your PR if you have them.
 
 The i18n system falls back to `en_US` at runtime if a key is missing, but keeping all files in sync avoids silent gaps.
