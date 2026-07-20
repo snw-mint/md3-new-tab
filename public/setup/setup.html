@@ -17,6 +17,24 @@
 
   <body>
     <div id="step-welcome" class="step step-welcome active">
+      <div class="setup-top-bar">
+        <div class="md3-outlined-select-wrapper setup-language-select">
+          <button type="button" id="select-language" class="md3-outlined-select md3-select-trigger" aria-label="Language" value="en_US">
+            <svg class="language-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+              <path
+                d="m603-202-34 97q-4 11-14 18t-22 7q-20 0-32.5-16.5T496-133l152-402q5-11 15-18t22-7h30q12 0 22 7t15 18l152 403q8 19-4 35.5T868-80q-13 0-22.5-7T831-106l-34-96H603ZM362-401 188-228q-11 11-27.5 11.5T132-228q-11-11-11-28t11-28l174-174q-35-35-63.5-80T190-640h84q20 39 40 68t48 58q33-33 68.5-92.5T484-720H80q-17 0-28.5-11.5T40-760q0-17 11.5-28.5T80-800h240v-40q0-17 11.5-28.5T360-880q17 0 28.5 11.5T400-840v40h240q17 0 28.5 11.5T680-760q0 17-11.5 28.5T640-720h-76q-21 72-63 148t-83 116l96 98-30 82-122-125Zm266 129h144l-72-204-72 204Z" />
+            </svg>
+            <span class="md3-select-value">English</span>
+            <template class="md3-select-options">
+              <div data-value="en_US">English</div>
+              <div data-value="pt_BR">Português (BR)</div>
+            </template>
+          </button>
+          <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+            <path d="M459-381 314-526q-3-3-4.5-6.5T308-540q0-8 5.5-14t14.5-6h304q9 0 14.5 6t5.5 14q0 2-6 14L501-381q-5 5-10 7t-11 2-11-2-10-7" />
+          </svg>
+        </div>
+      </div>
       <div class="welcome-container">
         <h1 class="welcome-title" data-i18n="wizardWelcomeTitle">Welcome home</h1>
         <p class="welcome-subtitle" data-i18n="wizardWelcomeSubtitle">Your expressive new tab is ready. Choose your next step below.</p>
@@ -57,7 +75,6 @@
             <span class="welcome-card-desc" data-i18n="wizardSkipDesc">Start with the default setup.</span>
           </button>
         </div>
-        <p class="temp-note">NOTE: You are using early versions; new fixes and features are still to come.</p>
       </div>
     </div>
 
@@ -276,7 +293,7 @@
             </div>
             <div class="md3-outlined-select-wrapper">
               <button type="button" id="select-launcher" class="md3-outlined-select md3-select-trigger" aria-label="Ecosystem" value="google">
-                <span class="md3-select-value">Google Workspace</span>
+                <span class="md3-select-value" data-i18n="launcherGoogle">Google Workspace</span>
                 <template class="md3-select-options">
                   <div data-value="google">Google Workspace</div>
                   <div data-value="microsoft">Microsoft 365</div>
@@ -383,7 +400,7 @@
 
     <div id="warningModal" class="modal-overlay">
       <div class="modal-content">
-        <h3 id="wizardBackupErrorTitle">Error</h3>
+        <h3 id="wizardBackupErrorTitle" data-i18n="warningErrorTitle">Error</h3>
         <p id="warning-modal-message" class="warning-modal-text"></p>
         <div class="modal-actions">
           <button id="warning-btn-cancel" class="btn-cancel" data-i18n="warningUnderstood">Understood</button>

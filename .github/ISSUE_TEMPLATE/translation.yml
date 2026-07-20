@@ -1,0 +1,51 @@
+name: Translation Request
+description: Contribute a new translation or fix an existing one by copying messages.json
+title: '[Translation]: <Language Name>'
+labels: ['translation']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping us translate MD3: Expressive New Tab!
+        
+        Please read the [**Translation Guide**](https://github.com/snw-mint/md3-new-tab/blob/main/_locales/TRANSLATING.md) before submitting.
+        
+        ⚠️ **Important Warnings:**
+        - Do **NOT** translate JSON keys (e.g., `"greetMorning1"`).
+        - Do **NOT** translate placeholder variables (e.g., `$WEEK$`).
+        - Translate **ONLY** the values inside `"message": "..."`.
+
+  - type: input
+    id: language
+    attributes:
+      label: Language & Locale Code
+      description: What language are you translating to? (e.g., Portuguese (pt_BR))
+      placeholder: e.g., Portuguese (pt_BR)
+    validations:
+      required: true
+
+  - type: textarea
+    id: translation_json
+    attributes:
+      label: Translated messages.json
+      description: Paste the copied JSON here and translate the "message" values.
+      placeholder: |
+        {
+          "sidebarTitle": {
+            "message": "Sua tradução aqui"
+          },
+          ...
+        }
+      render: json
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: ✅ Checklist
+      options:
+        - label: I only translated the values inside `"message": "..."` and left the keys untouched.
+          required: true
+        - label: I left placeholder variables like `$USER$` exactly as they are.
+          required: true

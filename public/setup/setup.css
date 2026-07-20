@@ -146,6 +146,51 @@ body.slide-prev .step.active {
   background-color: var(--bg-color);
 }
 
+.setup-top-bar {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+}
+
+.setup-language-select {
+  width: auto !important;
+  margin-top: 0 !important;
+}
+
+.setup-language-select .md3-outlined-select {
+  border: none !important;
+  background-color: transparent !important;
+  height: 2.5rem !important;
+  padding: 0.5rem 2.5rem 0.5rem 0.625rem !important;
+  gap: 0.5rem !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: none !important;
+}
+
+.setup-language-select .md3-outlined-select:hover {
+  background-color: var(--overlay-weak) !important;
+}
+
+.setup-language-select .md3-outlined-select:focus,
+.setup-language-select .md3-outlined-select.popup-open {
+  border: none !important;
+  padding: 0.5rem 2.5rem 0.5rem 0.625rem !important;
+}
+
+.setup-language-select .language-icon {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: var(--text-color);
+}
+
+.setup-language-select .dropdown-icon {
+  right: 0.625rem !important;
+}
+
 .welcome-container {
   display: flex;
   flex-direction: column;

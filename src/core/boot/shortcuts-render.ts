@@ -7,6 +7,7 @@
  */
 
 import { globalState } from '../shared/state';
+import { t } from '../shared/i18n';
 
 export interface ShortcutItem {
   id: string;
@@ -182,12 +183,12 @@ export class ShortcutsManager {
 
     if (index !== null && this.shortcuts[index]) {
       const item = this.shortcuts[index];
-      this.modalTitle.textContent = 'Edit Shortcut';
+      this.modalTitle.textContent = t('shortcutEditTitle');
       this.inputName.value = item.name;
       this.inputUrl.value = item.url;
       this.inputIconUrl.value = item.iconUrl || '';
     } else {
-      this.modalTitle.textContent = 'Add';
+      this.modalTitle.textContent = t('shortcutAddTitle');
       this.inputName.value = '';
       this.inputUrl.value = '';
       this.inputIconUrl.value = '';
@@ -497,7 +498,7 @@ export class ShortcutsManager {
 
     const title = document.createElement('span');
     title.className = 'shortcut-title';
-    title.textContent = 'Add';
+    title.textContent = t('shortcutAddTitle');
 
     wrapper.appendChild(card);
     wrapper.appendChild(title);

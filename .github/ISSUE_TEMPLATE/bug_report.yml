@@ -1,4 +1,4 @@
-name: 🔴 Bug Report
+name: Bug Report
 description: Report a bug to help us improve the extension
 title: '[Bug]: '
 labels: ['bug']
@@ -22,7 +22,7 @@ body:
         - Google Chrome
         - Mozilla Firefox
         - Microsoft Edge
-        - Other Chromium-based
+        - Other
     validations:
       required: true
 

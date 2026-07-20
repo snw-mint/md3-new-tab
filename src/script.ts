@@ -17,8 +17,22 @@ import { showSnackbar } from './core/ui/snackbar';
 import { globalState } from './core/shared/state';
 import { getSavedEngine, applyEngineToForm, bindSearchForm } from './core/boot/search';
 import { bindSearchSuggestions } from './core/boot/search-suggestions';
+import { loadTranslations } from './core/shared/i18n';
 
 document.addEventListener('DOMContentLoaded', () => {
+  loadTranslations();
+
+  const languageSelect = document.getElementById('languageSelect') as HTMLButtonElement | null;
+  if (languageSelect) {
+    const savedLang = localStorage.getItem('userLanguage') || 'en_US';
+    languageSelect.value = savedLang;
+    languageSelect.addEventListener('change', (e: any) => {
+      const newLang = e.detail?.value || languageSelect.value;
+      localStorage.setItem('userLanguage', newLang);
+      loadTranslations();
+    });
+  }
+
   initDisplay();
   initSidebarControls();
   initThemeControls();
