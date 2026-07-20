@@ -3,6 +3,3 @@ contact_links:
   - name: Feedbacks & Discussions
     url: https://github.com/snw-mint/md3-new-tab/discussions
     about: Got questions? Ask here! Use Discussions for general inquiries and support.
-  - name: Help with Translation
-    url: https://github.com/snw-mint/md3-new-tab/blob/main/.github/TRANSLATING.md
-    about: Contribute translations on Github.
