@@ -144,7 +144,7 @@ export function initBackupSystem(): void {
         } catch (error) {
           showSnackbar({
             text: chrome.i18n.getMessage('snackbarBackupInvalid'),
-            actionHtml: '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M480-424 284-228q-11 11-28 11t-28-11-11-28 11-28l196-196-196-196q-11-11-11-28t11-28 28-11 28 11l196 196 196-196q11-11 28-11t28 11 11 28-11 28L536-480l196 196q11 11 11 28t-11 28-28 11-28-11z"/></svg>',
+            actionText: 'Close',
             duration: 10000
           });
         }

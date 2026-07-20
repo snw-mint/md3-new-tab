@@ -10,7 +10,7 @@ import { SnackbarOptions } from '../shared/types';
 
 let snackbarTimeout: number | null = null;
 
-export function showSnackbar({ text, actionText, actionHtml, duration = 4000, onAction }: SnackbarOptions): void {
+export function showSnackbar({ text, actionText, duration = 4000, onAction }: SnackbarOptions): void {
   const snackbar = document.getElementById('global-snackbar');
   const textEl = document.getElementById('snackbarText');
   const actionEl = document.getElementById('snackbarAction');
@@ -19,12 +19,8 @@ export function showSnackbar({ text, actionText, actionHtml, duration = 4000, on
 
   textEl.textContent = text;
 
-  if (actionText || actionHtml) {
-    if (actionHtml) {
-      actionEl.innerHTML = actionHtml;
-    } else if (actionText) {
-      actionEl.textContent = actionText;
-    }
+  if (actionText) {
+    actionEl.textContent = actionText;
     actionEl.style.display = '';
     actionEl.onclick = () => {
       if (onAction) onAction();
