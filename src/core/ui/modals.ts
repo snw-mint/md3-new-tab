@@ -21,7 +21,12 @@ export function showWarningModal(options: WarningModalOptions) {
   }
 
   titleEl.textContent = options.title;
-  msgEl.innerHTML = options.messageHtml;
+  msgEl.innerHTML = '';
+  if (typeof options.message === 'string') {
+    msgEl.textContent = options.message;
+  } else if (options.message instanceof Node) {
+    msgEl.appendChild(options.message);
+  }
   btnConfirm.textContent = options.confirmText || 'Agree';
   btnCancel.textContent = options.cancelText || 'Cancel';
 

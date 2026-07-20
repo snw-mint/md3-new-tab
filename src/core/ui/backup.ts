@@ -97,7 +97,7 @@ export function initBackupSystem(): void {
 
           showWarningModal({
             title: 'Restore Backup?',
-            messageHtml: 'This will replace your current settings and shortcuts with the backup file data.',
+            message: 'This will replace your current settings and shortcuts with the backup file data.',
             confirmText: 'Restore',
             cancelText: 'Cancel',
             onConfirm: () => {

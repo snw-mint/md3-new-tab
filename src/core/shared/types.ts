@@ -88,7 +88,7 @@ export interface SnackbarOptions {
 
 export interface WarningModalOptions {
   title: string;
-  messageHtml: string;
+  message: string | Node;
   confirmText?: string;
   cancelText?: string;
   onConfirm: () => void;

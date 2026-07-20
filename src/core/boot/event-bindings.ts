@@ -33,9 +33,18 @@ async function requestPermission(origins: string[]): Promise<boolean> {
 }
 
 function showPermissionModal(onGranted: () => void, onDenied: () => void) {
+  const weatherMessageFragment = document.createDocumentFragment();
+  weatherMessageFragment.appendChild(document.createTextNode('To use this feature, MD3: Expressive New Tab needs permission to access '));
+  const weatherLink = document.createElement('a');
+  weatherLink.href = 'https://open-meteo.com';
+  weatherLink.target = '_blank';
+  weatherLink.textContent = 'Open-Meteo API';
+  weatherMessageFragment.appendChild(weatherLink);
+  weatherMessageFragment.appendChild(document.createTextNode('. This ensures your privacy and security.'));
+
   showWarningModal({
     title: 'Permission Required',
-    messageHtml: 'To use this feature, MD3: Expressive New Tab needs permission to access <a href="https://open-meteo.com" target="_blank">Open-Meteo API</a>. This ensures your privacy and security.',
+    message: weatherMessageFragment,
     confirmText: 'Agree',
     cancelText: 'Cancel',
     onConfirm: async () => {
@@ -53,9 +62,18 @@ function showPermissionModal(onGranted: () => void, onDenied: () => void) {
 }
 
 function showSearchSuggestionsPermissionModal(onGranted: () => void, onDenied: () => void) {
+  const searchMessageFragment = document.createDocumentFragment();
+  searchMessageFragment.appendChild(document.createTextNode('To use Search Suggestions, MD3: Expressive New Tab needs permission to access '));
+  const searchLink = document.createElement('a');
+  searchLink.href = 'https://duckduckgo.com';
+  searchLink.target = '_blank';
+  searchLink.textContent = 'DuckDuckGo API';
+  searchMessageFragment.appendChild(searchLink);
+  searchMessageFragment.appendChild(document.createTextNode(' for providing autocomplete suggestions.'));
+
   showWarningModal({
     title: 'Permission Required',
-    messageHtml: 'To use Search Suggestions, MD3: Expressive New Tab needs permission to access <a href="https://duckduckgo.com" target="_blank">DuckDuckGo API</a> for providing autocomplete suggestions.',
+    message: searchMessageFragment,
     confirmText: 'Agree',
     cancelText: 'Cancel',
     onConfirm: async () => {
