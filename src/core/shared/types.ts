@@ -29,6 +29,7 @@ export interface AppSettings {
   wallpaperOverlay: number;
   customTabName: string;
   customFavicon: boolean;
+  hideGoogleShortcuts: boolean;
 }
 
 export interface CityData {

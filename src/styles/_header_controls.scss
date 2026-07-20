@@ -38,6 +38,13 @@
   }
 }
 
+[data-hide-google-shortcuts='true'] {
+  #gmailLink,
+  #imagesLink {
+    display: none !important;
+  }
+}
+
 .icon-btn {
   background: transparent;
   border: none;

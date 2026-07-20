@@ -65,6 +65,10 @@
     if (settings.searchEnabled === false) {
       root.setAttribute('data-search-enabled', 'false');
     }
+
+    if (settings.hideGoogleShortcuts === true) {
+      root.setAttribute('data-hide-google-shortcuts', 'true');
+    }
   } catch (e) {}
 
   try {
