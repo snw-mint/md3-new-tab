@@ -5,6 +5,12 @@
   "highlightNameLabel": {
     "message": "Highlight name"
   },
+  "greetingSettingTitle": {
+    "message": "Greeting Settings"
+  },
+  "clockTitle": {
+    "message": "Clock Settings"
+  },
   "weatherTitle": {
     "message": "Weather"
   },
@@ -59,12 +65,6 @@
   "displayClock": {
     "message": "Clock"
   },
-  "clockStyle1": {
-    "message": "Basic Clock"
-  },
-  "clockStyle2": {
-    "message": "Expressive Clock"
-  },
   "displayStyleLabel": {
     "message": "Display Widget"
   },
@@ -73,6 +73,9 @@
   },
   "clockShowDateLabel": {
     "message": "Show Date"
+  },
+  "clockExpressiveColorLabel": {
+    "message": "Expressive Color"
   },
   "weatherCityLabel": {
     "message": "City name"

@@ -83,6 +83,15 @@ export const template = `<div class="settings-inner-card">
           </span>
           <span class="checkbox-text" data-i18n="clockShowDateLabel">Show Date</span>
         </label>
+
+        <label class="md3-checkbox-label">
+          <input type="checkbox" id="advClockExpressiveColor" class="md3-checkbox-input" />
+          <span class="md3-checkbox-box">
+            <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
+            <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
+          </span>
+          <span class="checkbox-text" data-i18n="clockExpressiveColorLabel">Expressive Color</span>
+        </label>
       </div>
     </div>
   </div>
@@ -94,6 +103,7 @@ export function init(container: HTMLElement): void {
   const clockStyleSelect = container.querySelector<HTMLButtonElement>('#advClockStyleSelect');
   const clock12hFormat = container.querySelector<HTMLInputElement>('#advClock12hFormat');
   const clockShowDate = container.querySelector<HTMLInputElement>('#advClockShowDate');
+  const clockExpressiveColor = container.querySelector<HTMLInputElement>('#advClockExpressiveColor');
 
   const syncState = () => {
     const state = globalState.current;
@@ -128,6 +138,10 @@ export function init(container: HTMLElement): void {
 
     if (clockShowDate) {
       clockShowDate.checked = state.clockShowDate;
+    }
+
+    if (clockExpressiveColor) {
+      clockExpressiveColor.checked = state.clockExpressiveColor;
     }
   };
 
@@ -170,6 +184,13 @@ export function init(container: HTMLElement): void {
     clockShowDate.addEventListener('change', (e) => {
       const target = e.target as HTMLInputElement;
       globalState.current.clockShowDate = target.checked;
+    });
+  }
+
+  if (clockExpressiveColor) {
+    clockExpressiveColor.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      globalState.current.clockExpressiveColor = target.checked;
     });
   }
 

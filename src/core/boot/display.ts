@@ -77,7 +77,11 @@ function tick(): void {
       const hStr = h.toString().padStart(2, '0');
       const mStr = now.getMinutes().toString().padStart(2, '0');
       
-      clockDisplay.textContent = `${hStr}:${mStr}`;
+      if (globalState.current.clockExpressiveColor) {
+        clockDisplay.innerHTML = `${hStr}<span class="expressive-minutes">:${mStr}</span>`;
+      } else {
+        clockDisplay.textContent = `${hStr}:${mStr}`;
+      }
       clockDisplay.style.fontFamily = globalState.current.clockStyle;
     }
   } else {
@@ -89,7 +93,8 @@ function tick(): void {
   if (dateEl) {
     if (clockShowDate && displayStyle === 'clock') {
       dateEl.style.display = '';
-      dateEl.textContent = now.toLocaleDateString(undefined, {
+      const userLang = (localStorage.getItem('userLanguage') || navigator.language || 'en-US').replace('_', '-');
+      dateEl.textContent = now.toLocaleDateString(userLang, {
         weekday: 'long',
         month: 'short',
         day: 'numeric',

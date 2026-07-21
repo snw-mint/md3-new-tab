@@ -89,10 +89,19 @@ html[data-display-style='greetings'] #greetingsDisplay {
   color: var(--color-primary);
   margin: 1rem 0 0 0;
   transition: color 0.3s ease;
+
+  .expressive-minutes {
+    color: var(--color-tertiary);
+    transition: color 0.3s ease;
+  }
 }
 
 body.has-wallpaper .clock-display {
   color: var(--color-primary-container);
+
+  .expressive-minutes {
+    color: var(--color-tertiary-container);
+  }
 }
 
 html[data-display-style='clock'] #clockDisplay {
