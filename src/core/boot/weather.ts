@@ -106,7 +106,7 @@ export async function updateWeatherWidget(): Promise<void> {
   const unitSymbol = isCelsius ? '°C' : '°F';
   const filename = getFluentIconFilename(weathercode, is_day);
 
-  if (cityEl) cityEl.textContent = cityData.name;
+  if (cityEl) cityEl.textContent = cityData.name.split(',')[0].trim();
   if (tempEl) tempEl.textContent = `${Math.round(tempValue)}${unitSymbol}`;
 
   if (iconEl) {

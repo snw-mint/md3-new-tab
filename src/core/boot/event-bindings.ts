@@ -434,11 +434,11 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
     });
   });
 
-  const searchBtn = document.getElementById('searchCityBtn');
   const cityInput = document.getElementById('weatherCityInput') as HTMLInputElement;
   const cityInputWrapper = document.getElementById('cityInputWrapper');
+  const clearCityBtn = document.getElementById('clearCityBtn') || cityInputWrapper?.querySelector('.clear-input-btn');
 
-  if (searchBtn && cityInput) {
+  if (cityInput) {
     const cityString = localStorage.getItem('ent_weather_city');
     if (cityString) {
       try {
@@ -449,47 +449,134 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
       } catch (e) {}
     }
 
-    cityInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        searchBtn.click();
+    const cityAutocompletePopup = document.getElementById('cityAutocompletePopup');
+    const cityAutocompleteList = document.getElementById('cityAutocompleteList');
+    let citySearchDebounceTimer: number | null = null;
+
+    const closeAutocomplete = () => {
+      cityAutocompletePopup?.classList.remove('active');
+    };
+
+    const positionAutocomplete = () => {
+      if (!cityAutocompletePopup || !cityInputWrapper || !cityAutocompleteList) return;
+      const rect = cityInputWrapper.getBoundingClientRect();
+      const computedRadius = parseFloat(window.getComputedStyle(cityInputWrapper).borderRadius) || 12;
+      
+      cityAutocompletePopup.style.borderRadius = `${Math.min(computedRadius, 16)}px`;
+      cityAutocompletePopup.style.width = `${rect.width}px`;
+      cityAutocompletePopup.style.left = `${rect.left}px`;
+      
+      const popupHeight = Math.min(260, cityAutocompleteList.scrollHeight + 8);
+      const checkOverflowBottom = rect.bottom + popupHeight > window.innerHeight;
+      const checkOverflowTop = rect.top - popupHeight > 0;
+
+      if (checkOverflowBottom && checkOverflowTop) {
+        cityAutocompletePopup.style.top = `${rect.top - 4 - popupHeight}px`;
+      } else {
+        cityAutocompletePopup.style.top = `${rect.bottom + 4}px`;
       }
-    });
+    };
+
+    const handleCitySelect = async (res: any) => {
+      const displayName = [res.name, res.admin1].filter(Boolean).join(', ');
+      const cityData = { name: displayName, lat: res.latitude, lon: res.longitude, country: res.country };
+      
+      if (cityInputWrapper) cityInputWrapper.classList.remove('has-error');
+      localStorage.setItem('ent_weather_city', JSON.stringify(cityData));
+      globalState.current.weatherCity = cityData.name;
+      cityInput.value = cityData.name;
+      closeAutocomplete();
+      await updateWeatherWidget();
+    };
 
     cityInput.addEventListener('input', () => {
       if (cityInputWrapper) cityInputWrapper.classList.remove('has-error');
-    });
-
-    searchBtn.addEventListener('click', async () => {
+      
       const query = cityInput.value.trim();
-      if (!query) return;
-
-      searchBtn.classList.add('loading');
-
-      const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=1&language=en&format=json`;
-      let cityData = null;
-      try {
-        const response = await fetch(url);
-        const data = await response.json();
-        if (data.results && data.results.length > 0) {
-          const res = data.results[0];
-          cityData = { name: res.name, lat: res.latitude, lon: res.longitude, country: res.country };
+      
+      if (citySearchDebounceTimer) {
+        window.clearTimeout(citySearchDebounceTimer);
+      }
+      
+      if (query.length < 3) {
+        closeAutocomplete();
+        return;
+      }
+      
+      citySearchDebounceTimer = window.setTimeout(async () => {
+        if (!cityAutocompleteList || !cityAutocompletePopup) return;
+        
+        try {
+          const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=3&language=en&format=json`;
+          const response = await fetch(url);
+          const data = await response.json();
+          
+          cityAutocompleteList.innerHTML = '';
+          
+          if (data.results && data.results.length > 0) {
+            data.results.forEach((res: any) => {
+              const item = document.createElement('div');
+              item.className = 'md3-custom-select-item';
+              item.textContent = [res.name, res.admin1].filter(Boolean).join(', ');
+              item.addEventListener('click', (e) => {
+                e.stopPropagation();
+                handleCitySelect(res);
+              });
+              cityAutocompleteList.appendChild(item);
+            });
+          } else {
+            const item = document.createElement('div');
+            item.className = 'md3-custom-select-item empty';
+            item.setAttribute('data-i18n', 'noResultsFound');
+            item.textContent = t('noResultsFound') || 'No results found';
+            cityAutocompleteList.appendChild(item);
+          }
+          
+          cityAutocompletePopup.classList.add('active');
+          positionAutocomplete();
+        } catch (error) {
+          console.error('Autocomplete fetch error:', error);
         }
-      } catch (error) {
-        console.error('Geocoding fetch error:', error);
-      }
-
-      if (cityData) {
-        if (cityInputWrapper) cityInputWrapper.classList.remove('has-error');
-        localStorage.setItem('ent_weather_city', JSON.stringify(cityData));
-        globalState.current.weatherCity = cityData.name;
-        cityInput.value = cityData.name;
-        await updateWeatherWidget();
-      } else {
-        if (cityInputWrapper) cityInputWrapper.classList.add('has-error');
-      }
-
-      searchBtn.classList.remove('loading');
+      }, 500);
     });
+
+    window.addEventListener('resize', () => {
+      if (cityAutocompletePopup?.classList.contains('active')) {
+        positionAutocomplete();
+      }
+    });
+
+    document.querySelectorAll('.settings-popup, .expandable-content').forEach((container) => {
+      container.addEventListener('scroll', () => {
+        closeAutocomplete();
+      });
+    });
+
+    cityInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (cityAutocompletePopup?.classList.contains('active')) {
+          const firstResult = cityAutocompleteList?.querySelector('.md3-custom-select-item:not(.empty)') as HTMLElement;
+          if (firstResult) {
+            firstResult.click();
+          }
+        }
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (cityAutocompletePopup?.classList.contains('active') && !cityInputWrapper?.contains(e.target as Node)) {
+        closeAutocomplete();
+      }
+    });
+
+    if (clearCityBtn) {
+      clearCityBtn.addEventListener('click', () => {
+        cityInput.value = '';
+        cityInput.focus();
+        closeAutocomplete();
+        if (cityInputWrapper) cityInputWrapper.classList.remove('has-error');
+      });
+    }
   }
 }

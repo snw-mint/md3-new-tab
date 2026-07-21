@@ -80,6 +80,9 @@
   "launcherEcosystemLabel": {
     "message": "Ecossistema"
   },
+  "noResultsFound": {
+    "message": "Nenhum resultado encontrado"
+  },
   "weekday_0": {
     "message": "Domingo"
   },

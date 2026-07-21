@@ -23,7 +23,7 @@ export const template = `<div class="settings-inner-card">
       <div class="mockup-card">
         <div class="chrome-corner-card">
           <div class="window-header">
-            <div class="chrome-chevron-button" title="Menu">
+            <div class="chrome-chevron-button">
               <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
                 <path d="M465-363.5q-7-2.5-13-8.5L268-556q-11-11-11-28t11-28q11-11 28-11t28 11l156 156 156-156q11-11 28-11t28 11q11 11 11 28t-11 28L508-372q-6 6-13 8.5t-15 2.5q-8 0-15-2.5Z" />
               </svg>
@@ -36,7 +36,7 @@ export const template = `<div class="settings-inner-card">
                 </svg>
               </div>
               <span class="tab-title">New Tab</span>
-              <div class="tab-close-btn" title="Fechar">
+              <div class="tab-close-btn">
                 <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
                   <path d="M480-424 284-228q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536-480l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-424Z" />
                 </svg>
@@ -78,6 +78,7 @@ export const template = `<div class="settings-inner-card">
             <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
           </span>
           <span class="checkbox-text" data-i18n="hideGoogleShortcutsLabel">Hide Google shortcuts</span>
+          <span class="new-feature-badge" data-i18n="newFeatureBadge" style="position: relative; left: auto; top: auto; transform: none; margin-left: 0.5rem;">NEW</span>
         </label>
       </div>
 
