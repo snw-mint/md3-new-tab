@@ -61,6 +61,12 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       document.documentElement.removeAttribute('data-hide-google-shortcuts');
     }
+
+    if (!state.launcherEnabled) {
+      document.documentElement.setAttribute('data-hide-app-launcher', 'true');
+    } else {
+      document.documentElement.removeAttribute('data-hide-app-launcher');
+    }
   });
 
   bindGlobalEvents((shortcutsGrid) => {

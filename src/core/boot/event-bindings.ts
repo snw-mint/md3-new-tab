@@ -131,9 +131,6 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
     } else {
       document.documentElement.setAttribute('data-search-enabled', 'false');
     }
-    if (appLauncherBtn) {
-      appLauncherBtn.style.display = state.launcherEnabled ? '' : 'none';
-    }
     const shortcutsGrid = document.getElementById('shortcutsGrid');
     if (shortcutsGrid) {
       shortcutsGrid.style.display = state.shortcutsEnabled ? '' : 'none';

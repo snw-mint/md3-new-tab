@@ -38,10 +38,70 @@
   }
 }
 
+#gmailLink, #imagesLink, #appLauncherWrapper {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 1;
+  transform: translateY(0);
+  max-width: 100px; /* Safe upper bound */
+}
+#appLauncherWrapper {
+  display: flex; /* Override inline-block for flex layout */
+  overflow: visible; /* Need visible so popup doesn't clip */
+}
+
+/* Showing animations */
+#imagesLink, #appLauncherWrapper {
+  transition: opacity 0.3s ease, transform 0.3s ease, max-width 0.3s ease, padding 0.3s ease, margin 0.3s ease;
+  transition-delay: 0s;
+}
+
+#gmailLink {
+  transition: opacity 0.3s ease, transform 0.3s ease, max-width 0.3s ease, padding 0.3s ease, margin 0.3s ease;
+  transition-delay: 0.15s;
+}
+
 [data-hide-google-shortcuts='true'] {
-  #gmailLink,
+  #gmailLink, #imagesLink {
+    opacity: 0;
+    transform: translateY(-15px);
+    max-width: 0;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+    pointer-events: none;
+    border: none;
+  }
+
+  /* Hiding animations (Gmail first, then Images) */
+  #gmailLink {
+    transition: opacity 0.3s ease, transform 0.3s ease, max-width 0.3s ease, padding 0.3s ease, margin 0.3s ease;
+    transition-delay: 0s;
+  }
+
   #imagesLink {
-    display: none !important;
+    transition: opacity 0.3s ease, transform 0.3s ease, max-width 0.3s ease, padding 0.3s ease, margin 0.3s ease;
+    transition-delay: 0.15s;
+  }
+}
+
+[data-hide-app-launcher='true'] {
+  #appLauncherWrapper {
+    opacity: 0;
+    transform: translateY(-15px);
+    max-width: 0;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+    pointer-events: none;
+    border: none;
+    overflow: hidden; /* Hide overflow when collapsing */
+    
+    transition: opacity 0.3s ease, transform 0.3s ease, max-width 0.3s ease, padding 0.3s ease, margin 0.3s ease;
+    transition-delay: 0s;
   }
 }
 

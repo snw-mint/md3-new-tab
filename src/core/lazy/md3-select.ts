@@ -157,13 +157,27 @@ export function initCustomSelectSystem(): void {
     if (activeSelectTrigger) positionPopup(activeSelectTrigger);
   });
 
-  document.querySelectorAll('.settings-popup').forEach((container) => {
-    container.addEventListener('scroll', () => {
-      if (activeSelectTrigger) {
+  document.addEventListener('pointerdown', (e) => {
+    if (activeSelectTrigger && popup) {
+      if (
+        !popup.contains(e.target as Node) &&
+        !activeSelectTrigger.contains(e.target as Node)
+      ) {
         closeSelectPopup();
       }
-    });
+    }
   });
+
+  window.addEventListener(
+    'scroll',
+    (e) => {
+      if (activeSelectTrigger && popup) {
+        if (popup.contains(e.target as Node)) return;
+        closeSelectPopup();
+      }
+    },
+    { capture: true }
+  );
 
   document.addEventListener('i18nReady', () => {
     triggers.forEach(syncTriggerText);
