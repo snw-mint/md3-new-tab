@@ -1,6 +1,6 @@
 {
   "name": "MD3: Expressive New Tab",
-  "version": "1.2.1",
+  "version": "1.3",
   "private": true,
   "description": "Build tooling for MD3: Expressive New Tab (browser extension)",
   "scripts": {
