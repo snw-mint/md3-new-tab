@@ -82,7 +82,6 @@ export interface LauncherProviderData {
 export interface SnackbarOptions {
   text: string;
   actionText?: string | null;
-  actionHtml?: string | null;
   duration?: number;
   onAction?: () => void;
 }
