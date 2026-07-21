@@ -73,7 +73,7 @@ function showSearchSuggestionsPermissionModal(onGranted: () => void, onDenied: (
 }
 
 export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => void): void {
-  const { wallpaperToggle, wallpaperBlock, wallpaperColorToggle, weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, searchToggle, searchBlock, searchSuggestionsToggle, launcherToggle, launcherBlock, displayToggle, displayBlock, displayStyleSelect, displayClockOptions, greetingNameInputWrapper, greetingNameInput, greetingHighlightNameCheckbox, clock12hFormat, clockShowDate } = DOM.settings;
+  const { wallpaperToggle, wallpaperBlock, wallpaperColorToggle, weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, searchToggle, searchBlock, searchSuggestionsToggle, launcherToggle, launcherBlock, displayToggle, displayBlock, displayStyleSelect } = DOM.settings;
   const { appLauncherBtn } = DOM.header;
   const weatherOrigins = [
     'https://geocoding-api.open-meteo.com/*',
@@ -288,92 +288,28 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
   }
 
   if (displayStyleSelect) {
-    const updateDisplaySettingsUI = (style: string) => {
-      if (style === 'greetings') {
-        if (greetingNameInputWrapper) greetingNameInputWrapper.style.display = '';
-        if (displayClockOptions) displayClockOptions.style.display = 'none';
-      } else {
-        if (greetingNameInputWrapper) greetingNameInputWrapper.style.display = 'none';
-        if (displayClockOptions) displayClockOptions.style.display = '';
+    const updateDisplayStyleVal = (val: string) => {
+      if (displayStyleSelect.value !== val) displayStyleSelect.value = val;
+      if (displayStyleSelect.getAttribute('value') !== val) displayStyleSelect.setAttribute('value', val);
+      const valEl = displayStyleSelect.querySelector('.md3-select-value');
+      const optEl = displayStyleSelect.querySelector(`[data-value="${val}"]`);
+      if (valEl && optEl) {
+        valEl.textContent = optEl.textContent;
+        valEl.setAttribute('data-i18n', optEl.getAttribute('data-i18n') || '');
       }
     };
 
-    displayStyleSelect.value = globalState.current.displayStyle;
-    displayStyleSelect.setAttribute('value', globalState.current.displayStyle);
-    updateDisplaySettingsUI(globalState.current.displayStyle);
+    updateDisplayStyleVal(globalState.current.displayStyle);
 
     displayStyleSelect.addEventListener('change', (e) => {
       const target = e.target as HTMLSelectElement;
       globalState.current.displayStyle = target.value;
     });
     globalState.subscribe((state) => {
-      if (displayStyleSelect.value !== state.displayStyle) {
-        displayStyleSelect.value = state.displayStyle;
-      }
-      if (displayStyleSelect.getAttribute('value') !== state.displayStyle) {
-        displayStyleSelect.setAttribute('value', state.displayStyle);
-      }
-      updateDisplaySettingsUI(state.displayStyle);
+      updateDisplayStyleVal(state.displayStyle);
     });
   }
 
-  if (greetingNameInput) {
-    greetingNameInput.value = globalState.current.greetingName;
-    greetingNameInput.addEventListener('input', (e) => {
-      const target = e.target as HTMLInputElement;
-      globalState.current.greetingName = target.value;
-    });
-    globalState.subscribe((state) => {
-      if (greetingNameInput.value !== state.greetingName) {
-        greetingNameInput.value = state.greetingName;
-      }
-      if (greetingHighlightNameCheckbox) {
-        const hasName = state.greetingName.trim().length > 0;
-        greetingHighlightNameCheckbox.disabled = !hasName;
-
-        if (!hasName && state.greetingHighlightName) {
-          globalState.current.greetingHighlightName = false;
-        } else if (greetingHighlightNameCheckbox.checked !== state.greetingHighlightName) {
-          greetingHighlightNameCheckbox.checked = state.greetingHighlightName;
-        }
-      }
-    });
-  }
-
-  if (greetingHighlightNameCheckbox) {
-    greetingHighlightNameCheckbox.checked = globalState.current.greetingHighlightName;
-    greetingHighlightNameCheckbox.disabled = !globalState.current.greetingName.trim();
-    greetingHighlightNameCheckbox.addEventListener('change', (e) => {
-      const target = e.target as HTMLInputElement;
-      globalState.current.greetingHighlightName = target.checked;
-    });
-  }
-
-  if (clock12hFormat) {
-    clock12hFormat.checked = globalState.current.clock12hFormat;
-    clock12hFormat.addEventListener('change', (e) => {
-      const target = e.target as HTMLInputElement;
-      globalState.current.clock12hFormat = target.checked;
-    });
-    globalState.subscribe((state) => {
-      if (clock12hFormat.checked !== state.clock12hFormat) {
-        clock12hFormat.checked = state.clock12hFormat;
-      }
-    });
-  }
-
-  if (clockShowDate) {
-    clockShowDate.checked = globalState.current.clockShowDate;
-    clockShowDate.addEventListener('change', (e) => {
-      const target = e.target as HTMLInputElement;
-      globalState.current.clockShowDate = target.checked;
-    });
-    globalState.subscribe((state) => {
-      if (clockShowDate.checked !== state.clockShowDate) {
-        clockShowDate.checked = state.clockShowDate;
-      }
-    });
-  }
 
   const shortcutsRowsSelect = document.getElementById('shortcutsRowsSelect') as HTMLButtonElement | null;
   if (shortcutsRowsSelect) {

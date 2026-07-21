@@ -9,25 +9,16 @@
 import { globalState } from '../shared/state';
 import { t } from '../shared/i18n';
 
-function pad(n: number): string {
-  return n.toString().padStart(2, '0');
-}
-
 let lastMessageBase = '';
 
 function tick(): void {
   const now = new Date();
-  const hourEl = document.getElementById('hourDisplay');
-  const minuteEl = document.getElementById('minuteDisplay');
   const dateEl = document.getElementById('dateDisplay');
   const greetingsDisplay = document.getElementById('greetingsDisplay');
-  const clockContainer = document.getElementById('clockExpressiveContainer');
 
-  const { clock12hFormat, clockShowDate, displayStyle, greetingName, greetingHighlightName } = globalState.current;
+  const { clockShowDate, displayStyle, greetingName, greetingHighlightName } = globalState.current;
 
   if (displayStyle === 'greetings') {
-    if (clockContainer) clockContainer.style.display = 'none';
-    if (dateEl) dateEl.style.display = 'none';
     if (greetingsDisplay) {
       greetingsDisplay.style.display = '';
 
@@ -68,47 +59,48 @@ function tick(): void {
           highlightedNameEl.classList.remove('active');
         }
       }
+    }
+    const clockDisplay = document.getElementById('clockDisplay');
+    if (clockDisplay) clockDisplay.style.display = 'none';
+  } else if (displayStyle === 'clock') {
+    if (greetingsDisplay) greetingsDisplay.style.display = 'none';
 
+    const clockDisplay = document.getElementById('clockDisplay');
+    if (clockDisplay) {
+      clockDisplay.style.display = '';
+      
+      let h = now.getHours();
+      if (globalState.current.clock12hFormat) {
+        h = h % 12 || 12;
+      }
+      
+      const hStr = h.toString().padStart(2, '0');
+      const mStr = now.getMinutes().toString().padStart(2, '0');
+      
+      if (globalState.current.clockExpressiveColor) {
+        clockDisplay.innerHTML = `${hStr}<span class="expressive-minutes">:${mStr}</span>`;
+      } else {
+        clockDisplay.textContent = `${hStr}:${mStr}`;
+      }
+      clockDisplay.style.fontFamily = globalState.current.clockStyle;
     }
   } else {
     if (greetingsDisplay) greetingsDisplay.style.display = 'none';
-    if (clockContainer) clockContainer.style.display = '';
+    const clockDisplay = document.getElementById('clockDisplay');
+    if (clockDisplay) clockDisplay.style.display = 'none';
+  }
 
-    const ampmEl = document.getElementById('ampmDisplay');
-    const ampmTextEl = document.getElementById('ampmText');
-
-    if (hourEl) {
-      let hours = now.getHours();
-      let isPm = hours >= 12;
-      if (clock12hFormat) {
-        hours = hours % 12 || 12;
-        if (ampmEl && ampmTextEl) {
-          ampmEl.style.display = '';
-          ampmTextEl.textContent = isPm ? 'PM' : 'AM';
-        }
-      } else {
-        if (ampmEl) ampmEl.style.display = 'none';
-      }
-      const hStr = pad(hours);
-      hourEl.innerHTML = `<span class="digit d-h1">${hStr[0]}</span><span class="digit d-h2">${hStr[1]}</span>`;
-    }
-
-    if (minuteEl) {
-      const mStr = pad(now.getMinutes());
-      minuteEl.innerHTML = `<span class="digit d-m1">${mStr[0]}</span><span class="digit d-m2">${mStr[1]}</span>`;
-    }
-
-    if (dateEl) {
-      if (clockShowDate) {
-        dateEl.style.display = '';
-        dateEl.textContent = now.toLocaleDateString(undefined, {
-          weekday: 'long',
-          month: 'short',
-          day: 'numeric',
-        });
-      } else {
-        dateEl.style.display = 'none';
-      }
+  if (dateEl) {
+    if (clockShowDate && displayStyle === 'clock') {
+      dateEl.style.display = '';
+      const userLang = (localStorage.getItem('userLanguage') || navigator.language || 'en-US').replace('_', '-');
+      dateEl.textContent = now.toLocaleDateString(userLang, {
+        weekday: 'long',
+        month: 'short',
+        day: 'numeric',
+      });
+    } else {
+      dateEl.style.display = 'none';
     }
   }
 }

@@ -13,6 +13,8 @@ export interface AppSettings {
   greetingHighlightName: boolean;
   clock12hFormat: boolean;
   clockShowDate: boolean;
+  clockExpressiveColor: boolean;
+  clockStyle: string;
   weatherEnabled: boolean;
   tempUnit: 'C' | 'F';
   weatherCity: string;

@@ -14,6 +14,9 @@
     <link rel="preconnect" href="https://api.open-meteo.com" />
     <link rel="preconnect" href="https://geocoding-api.open-meteo.com" />
     <link rel="preconnect" href="https://duckduckgo.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alatsi&family=Capriola&family=Modak&family=Monoton&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/src/style.scss" />
     <script src="/scripts/theme-loader.js"></script>
   </head>
@@ -67,18 +70,7 @@
     <div class="container">
       <div id="displayWidget" class="display-widget">
         <div id="greetingsDisplay" class="greetings-text" style="display: none"></div>
-        <div class="clock-expressive" id="clockExpressiveContainer">
-          <div class="time-card hour-card">
-            <span id="hourDisplay">00</span>
-          </div>
-          <div class="time-separator">:</div>
-          <div class="time-card minute-card">
-            <span id="minuteDisplay">00</span>
-          </div>
-          <div id="ampmDisplay" class="ampm-container" style="display: none">
-            <span id="ampmText">AM</span>
-          </div>
-        </div>
+        <div id="clockDisplay" class="clock-display" style="display: none"></div>
         <div id="dateDisplay" class="date-display" style="display: none"></div>
       </div>
       <form id="searchForm" action="https://www.google.com/search" method="GET" class="search-bar">
@@ -388,8 +380,7 @@
                     <span class="md3-select-value" data-i18n="displayGreetings">Greetings</span>
                     <template class="md3-select-options">
                       <div data-value="greetings" data-i18n="displayGreetings">Greetings</div>
-                      <div data-value="simple_clock" data-i18n="clockStyle1">Basic Clock</div>
-                      <div data-value="expressive_clock" data-i18n="clockStyle2">Expressive Clock</div>
+                      <div data-value="clock" data-i18n="displayClock">Clock</div>
                     </template>
                   </button>
                   <label for="displayStyleSelect" class="md3-select-label" data-i18n="displayStyleLabel">Display Widget</label>
@@ -399,45 +390,10 @@
                 </div>
 
                 <hr class="settings-divider" />
-
-                <div id="greetingNameInputWrapper" style="display: none">
-                  <div class="input-with-action-row" style="margin-top: 1rem">
-                    <div class="md3-outlined-text-field" id="greetingNameFieldWrapper">
-                      <input type="text" id="greetingNameInput" class="md3-input" placeholder=" " autocomplete="off" />
-                      <label for="greetingNameInput" class="md3-label" data-i18n="namePlaceholder">Your Name (optional)</label>
-                    </div>
-                  </div>
-                  <div class="md3-checkbox-group" style="margin-top: 1.25rem">
-                    <label class="md3-checkbox-label">
-                      <input type="checkbox" id="greetingHighlightNameCheckbox" class="md3-checkbox-input" />
-                      <span class="md3-checkbox-box">
-                        <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
-                        <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
-                      </span>
-                      <span class="checkbox-text" data-i18n="highlightNameLabel">Highlight name</span>
-                    </label>
-                  </div>
-                </div>
-
-                <div class="md3-checkbox-group" id="displayClockOptions">
-                  <label class="md3-checkbox-label">
-                    <input type="checkbox" id="clock12hFormat" class="md3-checkbox-input" />
-                    <span class="md3-checkbox-box">
-                      <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
-                      <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
-                    </span>
-                    <span class="checkbox-text" data-i18n="clock12hLabel">12h Format</span>
-                  </label>
-
-                  <label class="md3-checkbox-label">
-                    <input type="checkbox" id="clockShowDate" class="md3-checkbox-input" checked />
-                    <span class="md3-checkbox-box">
-                      <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
-                      <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
-                    </span>
-                    <span class="checkbox-text" data-i18n="clockShowDateLabel">Show Date</span>
-                  </label>
-                </div>
+                <button type="button" class="settings-button-card" id="advancedDisplayOptionsBtn">
+                  <span class="button-card-title" data-i18n="advancedOptionsTitle">Advanced options</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M504-480 348-636q-11-11-11-28t11-28q11-11 28-11t28 11l184 184q6 6 8.5 13t2.5 15q0 8-2.5 15t-8.5 13L404-268q-11 11-28 11t-28-11q-11-11-11-28l156-156Z" /></svg>
+                </button>
               </div>
             </div>
 

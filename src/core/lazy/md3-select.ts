@@ -122,10 +122,11 @@ export function initCustomSelectSystem(): void {
   }
 
   const triggers = document.querySelectorAll<HTMLButtonElement>(
-    '.md3-select-trigger',
+    '.md3-select-trigger:not([data-initialized])',
   );
 
   triggers.forEach((trigger) => {
+    trigger.setAttribute('data-initialized', 'true');
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (
