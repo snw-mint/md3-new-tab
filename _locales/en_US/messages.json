@@ -56,6 +56,9 @@
   "displayGreetings": {
     "message": "Greetings"
   },
+  "displayClock": {
+    "message": "Clock"
+  },
   "clockStyle1": {
     "message": "Basic Clock"
   },

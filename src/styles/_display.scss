@@ -62,7 +62,7 @@
 }
 
 .date-display {
-  margin-top: 1rem;
+  margin-top: 0.25rem;
   font-size: 1rem;
   font-weight: 500;
   color: var(--color-on-surface);
@@ -76,5 +76,25 @@ html[data-display-enabled='false'] #displayWidget {
 }
 
 html[data-display-style='greetings'] #greetingsDisplay {
+  display: block !important;
+}
+
+
+
+
+.clock-display {
+  font-size: 6rem;
+  line-height: 1;
+  text-align: center;
+  color: var(--color-primary);
+  margin: 1rem 0 0 0;
+  transition: color 0.3s ease;
+}
+
+body.has-wallpaper .clock-display {
+  color: var(--color-primary-container);
+}
+
+html[data-display-style='clock'] #clockDisplay {
   display: block !important;
 }

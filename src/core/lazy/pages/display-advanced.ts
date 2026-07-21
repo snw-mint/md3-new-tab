@@ -48,6 +48,23 @@ export const template = `<div class="settings-inner-card">
     <div class="settings-group-card">
       <h3 class="settings-group-title" data-i18n="clockTitle" style="margin-bottom: 1.5rem;">Clock Settings</h3>
 
+      <div class="md3-outlined-select-wrapper" style="margin-bottom: 1.25rem;">
+        <button type="button" id="advClockStyleSelect" class="md3-outlined-select md3-select-trigger" aria-label="Clock Style" value="Alatsi">
+          <span class="md3-select-value">Sharp Clock</span>
+          <template class="md3-select-options">
+            <div data-value="Alatsi">Sharp Clock</div>
+            <div data-value="Capriola">Playful Clock</div>
+            <div data-value="Modak">Bold Clock</div>
+            <div data-value="Abril Fatface">Serif Clock</div>
+            <div data-value="Monoton">Retro Clock</div>
+          </template>
+        </button>
+        <label for="advClockStyleSelect" class="md3-select-label" data-i18n="clockStyleLabel">Clock Style</label>
+        <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+          <path d="M459-381 314-526q-3-3-4.5-6.5T308-540q0-8 5.5-14t14.5-6h304q9 0 14.5 6t5.5 14q0 2-6 14L501-381q-5 5-10 7t-11 2-11-2-10-7" />
+        </svg>
+      </div>
+
       <div class="md3-checkbox-group" id="advDisplayClockOptions" style="margin-top: 0.75rem; gap: 0.5rem;">
         <label class="md3-checkbox-label">
           <input type="checkbox" id="advClock12hFormat" class="md3-checkbox-input" />
@@ -74,6 +91,7 @@ export const template = `<div class="settings-inner-card">
 export function init(container: HTMLElement): void {
   const greetingNameInput = container.querySelector<HTMLInputElement>('#advGreetingNameInput');
   const greetingHighlightNameCheckbox = container.querySelector<HTMLInputElement>('#advGreetingHighlightNameCheckbox');
+  const clockStyleSelect = container.querySelector<HTMLButtonElement>('#advClockStyleSelect');
   const clock12hFormat = container.querySelector<HTMLInputElement>('#advClock12hFormat');
   const clockShowDate = container.querySelector<HTMLInputElement>('#advClockShowDate');
 
@@ -88,6 +106,20 @@ export function init(container: HTMLElement): void {
       const hasName = state.greetingName.trim().length > 0;
       greetingHighlightNameCheckbox.disabled = !hasName;
       greetingHighlightNameCheckbox.checked = state.greetingHighlightName;
+    }
+
+    if (clockStyleSelect) {
+      if (clockStyleSelect.value !== state.clockStyle) {
+        clockStyleSelect.value = state.clockStyle;
+      }
+      if (clockStyleSelect.getAttribute('value') !== state.clockStyle) {
+        clockStyleSelect.setAttribute('value', state.clockStyle);
+      }
+      const valEl = clockStyleSelect.querySelector('.md3-select-value');
+      const optEl = clockStyleSelect.querySelector(`[data-value="${state.clockStyle}"]`);
+      if (valEl && optEl) {
+        valEl.textContent = optEl.textContent;
+      }
     }
 
     if (clock12hFormat) {
@@ -113,6 +145,17 @@ export function init(container: HTMLElement): void {
     greetingHighlightNameCheckbox.addEventListener('change', (e) => {
       const target = e.target as HTMLInputElement;
       globalState.current.greetingHighlightName = target.checked;
+    });
+  }
+
+  if (clockStyleSelect) {
+    import('../md3-select').then(({ initCustomSelectSystem }) => {
+      initCustomSelectSystem();
+    });
+
+    clockStyleSelect.addEventListener('change', (e) => {
+      const target = e.target as HTMLButtonElement;
+      globalState.current.clockStyle = target.value;
     });
   }
 

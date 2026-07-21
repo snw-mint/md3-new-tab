@@ -60,12 +60,34 @@ function tick(): void {
         }
       }
     }
+    const clockDisplay = document.getElementById('clockDisplay');
+    if (clockDisplay) clockDisplay.style.display = 'none';
+  } else if (displayStyle === 'clock') {
+    if (greetingsDisplay) greetingsDisplay.style.display = 'none';
+
+    const clockDisplay = document.getElementById('clockDisplay');
+    if (clockDisplay) {
+      clockDisplay.style.display = '';
+      
+      let h = now.getHours();
+      if (globalState.current.clock12hFormat) {
+        h = h % 12 || 12;
+      }
+      
+      const hStr = h.toString().padStart(2, '0');
+      const mStr = now.getMinutes().toString().padStart(2, '0');
+      
+      clockDisplay.textContent = `${hStr}:${mStr}`;
+      clockDisplay.style.fontFamily = globalState.current.clockStyle;
+    }
   } else {
     if (greetingsDisplay) greetingsDisplay.style.display = 'none';
+    const clockDisplay = document.getElementById('clockDisplay');
+    if (clockDisplay) clockDisplay.style.display = 'none';
   }
 
   if (dateEl) {
-    if (clockShowDate) {
+    if (clockShowDate && displayStyle === 'clock') {
       dateEl.style.display = '';
       dateEl.textContent = now.toLocaleDateString(undefined, {
         weekday: 'long',

@@ -23,6 +23,7 @@ class ReactiveState {
       greetingHighlightName: false,
       clock12hFormat: false,
       clockShowDate: true,
+      clockStyle: 'Alatsi',
       weatherEnabled: false,
       tempUnit: 'C',
       weatherCity: '',

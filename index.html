@@ -14,6 +14,9 @@
     <link rel="preconnect" href="https://api.open-meteo.com" />
     <link rel="preconnect" href="https://geocoding-api.open-meteo.com" />
     <link rel="preconnect" href="https://duckduckgo.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alatsi&family=Capriola&family=Modak&family=Monoton&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/src/style.scss" />
     <script src="/scripts/theme-loader.js"></script>
   </head>
@@ -67,6 +70,7 @@
     <div class="container">
       <div id="displayWidget" class="display-widget">
         <div id="greetingsDisplay" class="greetings-text" style="display: none"></div>
+        <div id="clockDisplay" class="clock-display" style="display: none"></div>
         <div id="dateDisplay" class="date-display" style="display: none"></div>
       </div>
       <form id="searchForm" action="https://www.google.com/search" method="GET" class="search-bar">
@@ -376,6 +380,7 @@
                     <span class="md3-select-value" data-i18n="displayGreetings">Greetings</span>
                     <template class="md3-select-options">
                       <div data-value="greetings" data-i18n="displayGreetings">Greetings</div>
+                      <div data-value="clock" data-i18n="displayClock">Clock</div>
                     </template>
                   </button>
                   <label for="displayStyleSelect" class="md3-select-label" data-i18n="displayStyleLabel">Display Widget</label>

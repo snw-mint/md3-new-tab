@@ -288,20 +288,25 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
   }
 
   if (displayStyleSelect) {
-    displayStyleSelect.value = globalState.current.displayStyle;
-    displayStyleSelect.setAttribute('value', globalState.current.displayStyle);
+    const updateDisplayStyleVal = (val: string) => {
+      if (displayStyleSelect.value !== val) displayStyleSelect.value = val;
+      if (displayStyleSelect.getAttribute('value') !== val) displayStyleSelect.setAttribute('value', val);
+      const valEl = displayStyleSelect.querySelector('.md3-select-value');
+      const optEl = displayStyleSelect.querySelector(`[data-value="${val}"]`);
+      if (valEl && optEl) {
+        valEl.textContent = optEl.textContent;
+        valEl.setAttribute('data-i18n', optEl.getAttribute('data-i18n') || '');
+      }
+    };
+
+    updateDisplayStyleVal(globalState.current.displayStyle);
 
     displayStyleSelect.addEventListener('change', (e) => {
       const target = e.target as HTMLSelectElement;
       globalState.current.displayStyle = target.value;
     });
     globalState.subscribe((state) => {
-      if (displayStyleSelect.value !== state.displayStyle) {
-        displayStyleSelect.value = state.displayStyle;
-      }
-      if (displayStyleSelect.getAttribute('value') !== state.displayStyle) {
-        displayStyleSelect.setAttribute('value', state.displayStyle);
-      }
+      updateDisplayStyleVal(state.displayStyle);
     });
   }
 
