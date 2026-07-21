@@ -99,7 +99,6 @@ body.has-wallpaper {
     .weather-city,
     .greetings-text,
     .date-display,
-    #ampmText,
     .header-link,
     .icon-btn,
     .engine-circle-btn {
@@ -109,38 +108,10 @@ body.has-wallpaper {
   .menu-btn {
     color: #ffffff !important;
   }
-  .display-widget:not(.expressive_clock) {
-    #hourDisplay,
-    #minuteDisplay,
-    .time-separator {
-      color: #ffffff !important;
-    }
-  }
   .highlighted-name.active {
     color: var(--sys-primary-dark, #ffffff) !important;
     .name-sparkle-svg {
       color: var(--sys-primary-dark, #ffffff) !important;
-    }
-  }
-  .display-widget.expressive_clock {
-    .d-h1,
-    .d-m1 {
-      color: var(--sys-primary-dark, #ffffff) !important;
-    }
-    .d-h2,
-    .d-m2 {
-      color: color-mix(in srgb, var(--sys-primary-dark, #ffffff) 60%, #ffffff) !important;
-    }
-    .digit {
-      text-shadow:
-        -3px -3px 0 rgba(0, 0, 0, 0.3),
-        0 -3px 0 rgba(0, 0, 0, 0.3),
-        3px -3px 0 rgba(0, 0, 0, 0.3),
-        3px 0 0 rgba(0, 0, 0, 0.3),
-        3px 3px 0 rgba(0, 0, 0, 0.3),
-        0 3px 0 rgba(0, 0, 0, 0.3),
-        -3px 3px 0 rgba(0, 0, 0, 0.3),
-        -3px 0 0 rgba(0, 0, 0, 0.3) !important;
     }
   }
 }

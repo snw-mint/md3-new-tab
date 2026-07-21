@@ -67,18 +67,6 @@
     <div class="container">
       <div id="displayWidget" class="display-widget">
         <div id="greetingsDisplay" class="greetings-text" style="display: none"></div>
-        <div class="clock-expressive" id="clockExpressiveContainer">
-          <div class="time-card hour-card">
-            <span id="hourDisplay">00</span>
-          </div>
-          <div class="time-separator">:</div>
-          <div class="time-card minute-card">
-            <span id="minuteDisplay">00</span>
-          </div>
-          <div id="ampmDisplay" class="ampm-container" style="display: none">
-            <span id="ampmText">AM</span>
-          </div>
-        </div>
         <div id="dateDisplay" class="date-display" style="display: none"></div>
       </div>
       <form id="searchForm" action="https://www.google.com/search" method="GET" class="search-bar">
@@ -388,8 +376,6 @@
                     <span class="md3-select-value" data-i18n="displayGreetings">Greetings</span>
                     <template class="md3-select-options">
                       <div data-value="greetings" data-i18n="displayGreetings">Greetings</div>
-                      <div data-value="simple_clock" data-i18n="clockStyle1">Basic Clock</div>
-                      <div data-value="expressive_clock" data-i18n="clockStyle2">Expressive Clock</div>
                     </template>
                   </button>
                   <label for="displayStyleSelect" class="md3-select-label" data-i18n="displayStyleLabel">Display Widget</label>

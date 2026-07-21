@@ -61,59 +61,6 @@
   margin-top: -1rem;
 }
 
-.clock-expressive {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  position: relative;
-}
-
-.time-card {
-  background-color: var(--color-secondary-container);
-  border-radius: 2rem;
-  padding: 1.5rem 2rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 4rem;
-}
-
-#hourDisplay,
-#minuteDisplay {
-  font-size: 3rem;
-  font-weight: 700;
-  color: var(--color-primary);
-  line-height: 1;
-  letter-spacing: -0.05em;
-}
-
-#ampmText {
-  display: inline-block;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--color-primary);
-  line-height: 1;
-  letter-spacing: normal;
-}
-
-.ampm-container {
-  position: absolute;
-  bottom: 0;
-  left: 100%;
-  margin-left: 0.5rem;
-  padding-bottom: 0.25rem;
-  display: flex;
-  align-items: flex-end;
-}
-
-.time-separator {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--color-primary);
-  opacity: 0.5;
-  padding-bottom: 1rem;
-}
-
 .date-display {
   margin-top: 1rem;
   font-size: 1rem;
@@ -124,118 +71,10 @@
   text-transform: capitalize;
 }
 
-.display-widget.expressive_clock {
-  .clock-expressive {
-    gap: 0;
-    margin-bottom: -1rem;
-  }
-
-  .time-card {
-    background-color: transparent;
-    padding: 0;
-    min-width: auto;
-  }
-
-  .minute-card {
-    margin-left: 0;
-    z-index: 2;
-  }
-
-  .time-separator {
-    display: flex;
-    align-items: center;
-    font-size: 3rem;
-    z-index: 3;
-    font-weight: 900;
-    color: var(--color-primary);
-  }
-
-  #hourDisplay,
-  #minuteDisplay {
-    display: flex;
-    font-size: 8rem;
-    line-height: 1;
-    letter-spacing: normal;
-  }
-
-  .ampm-container {
-    bottom: 1.5rem;
-    margin-left: -0.5rem;
-    padding-bottom: 0;
-    z-index: 5;
-  }
-
-  #ampmText {
-    font-size: 1.5rem;
-    font-weight: 900;
-    font-variation-settings: 'wght' 900;
-    color: var(--color-primary);
-    transform: none;
-  }
-
-  .digit {
-    font-weight: 900;
-    font-variation-settings: 'wght' 900;
-    text-shadow:
-      -3px -3px 0 var(--color-surface),
-      0 -3px 0 var(--color-surface),
-      3px -3px 0 var(--color-surface),
-      3px 0 0 var(--color-surface),
-      3px 3px 0 var(--color-surface),
-      0 3px 0 var(--color-surface),
-      -3px 3px 0 var(--color-surface),
-      -3px 0 0 var(--color-surface);
-    display: inline-block;
-    margin-left: -1.5rem;
-    position: relative;
-
-    &:first-child {
-      margin-left: 0;
-    }
-  }
-
-  .d-h1 {
-    color: var(--color-primary);
-    transform: rotate(-2deg);
-    z-index: 1;
-  }
-
-  .d-h2 {
-    color: color-mix(in srgb, var(--color-primary) 70%, var(--color-surface));
-    transform: rotate(2deg);
-    z-index: 2;
-  }
-
-  .d-m1 {
-    color: var(--color-primary);
-    transform: rotate(-2deg);
-    z-index: 4;
-    margin-left: -1rem;
-  }
-
-  .d-m2 {
-    color: color-mix(in srgb, var(--color-primary) 70%, var(--color-surface));
-    transform: rotate(2deg);
-    z-index: 5;
-  }
-}
-
 html[data-display-enabled='false'] #displayWidget {
   display: none !important;
 }
 
-html[data-display-style='greetings'] #clockExpressiveContainer {
-  display: none !important;
-}
 html[data-display-style='greetings'] #greetingsDisplay {
   display: block !important;
-}
-
-html[data-display-style='simple_clock'] #greetingsDisplay,
-html[data-display-style='expressive_clock'] #greetingsDisplay {
-  display: none !important;
-}
-html[data-display-style='simple_clock'] #clockExpressiveContainer,
-html[data-display-style='expressive_clock'] #clockExpressiveContainer {
-  display: flex !important;
 }

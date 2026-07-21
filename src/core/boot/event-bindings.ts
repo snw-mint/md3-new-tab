@@ -291,11 +291,10 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
     const updateDisplaySettingsUI = (style: string) => {
       if (style === 'greetings') {
         if (greetingNameInputWrapper) greetingNameInputWrapper.style.display = '';
-        if (displayClockOptions) displayClockOptions.style.display = 'none';
       } else {
         if (greetingNameInputWrapper) greetingNameInputWrapper.style.display = 'none';
-        if (displayClockOptions) displayClockOptions.style.display = '';
       }
+      if (displayClockOptions) displayClockOptions.style.display = '';
     };
 
     displayStyleSelect.value = globalState.current.displayStyle;
