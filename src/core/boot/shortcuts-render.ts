@@ -183,12 +183,12 @@ export class ShortcutsManager {
 
     if (index !== null && this.shortcuts[index]) {
       const item = this.shortcuts[index];
-      this.modalTitle.textContent = t('shortcutEditTitle');
+      this.modalTitle.textContent = t('shortcutEditTitle', 'Edit Shortcut');
       this.inputName.value = item.name;
       this.inputUrl.value = item.url;
       this.inputIconUrl.value = item.iconUrl || '';
     } else {
-      this.modalTitle.textContent = t('shortcutAddTitle');
+      this.modalTitle.textContent = t('shortcutAddTitle', 'Add Shortcut');
       this.inputName.value = '';
       this.inputUrl.value = '';
       this.inputIconUrl.value = '';
@@ -498,7 +498,8 @@ export class ShortcutsManager {
 
     const title = document.createElement('span');
     title.className = 'shortcut-title';
-    title.textContent = t('shortcutAddTitle');
+    title.setAttribute('data-i18n', 'shortcutAddTitle');
+    title.textContent = t('shortcutAddTitle', 'Add Shortcut');
 
     wrapper.appendChild(card);
     wrapper.appendChild(title);

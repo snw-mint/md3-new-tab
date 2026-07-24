@@ -1,7 +1,14 @@
 let translations: Record<string, { message: string }> = {};
 
-export function t(key: string): string {
-  return translations[key] ? translations[key].message : key;
+export function t(key: string, fallback?: string): string {
+  if (translations[key] && translations[key].message) {
+    return translations[key].message;
+  }
+  if (typeof chrome !== 'undefined' && chrome.i18n && typeof chrome.i18n.getMessage === 'function') {
+    const msg = chrome.i18n.getMessage(key);
+    if (msg) return msg;
+  }
+  return fallback !== undefined ? fallback : key;
 }
 
 export function applyTranslations(root: Document | HTMLElement = document) {
@@ -28,6 +35,7 @@ export async function loadTranslations() {
     try {
       translations = JSON.parse(cached);
       applyTranslations();
+      document.dispatchEvent(new CustomEvent('i18nReady'));
       // Still fetch in background to ensure it's up to date
     } catch {
       localStorage.removeItem(cacheKey);
@@ -52,5 +60,7 @@ export async function loadTranslations() {
     translations = messages;
     localStorage.setItem(cacheKey, JSON.stringify(translations));
     applyTranslations();
+    document.dispatchEvent(new CustomEvent('i18nReady'));
   }
 }
+

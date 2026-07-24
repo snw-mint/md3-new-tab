@@ -116,7 +116,7 @@ export function init(container: HTMLElement): void {
 
     if (tabNameInput && tabTitle) {
       tabNameInput.value = state.customTabName || '';
-      tabTitle.textContent = state.customTabName || t('newTabPlaceholder') || 'New Tab';
+      tabTitle.textContent = state.customTabName || t('newTabPlaceholder', 'New Tab');
     }
 
     if (faviconToggle && tabFavicon) {

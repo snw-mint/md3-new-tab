@@ -35,10 +35,10 @@ async function requestPermission(origins: string[]): Promise<boolean> {
 
 function showPermissionModal(onGranted: () => void, onDenied: () => void) {
   showWarningModal({
-    title: t('warningPermissionTitle'),
-    messageHtml: t('warningPermissionMessage').replace('$API_LINK$', '<a href="https://open-meteo.com" target="_blank">Open-Meteo API</a>'),
-    confirmText: t('warningAgree'),
-    cancelText: t('btnCancel'),
+    title: t('warningPermissionTitle', 'Permission Required'),
+    messageHtml: t('warningPermissionMessage', 'This feature requires permissions to access $API_LINK$.').replace('$API_LINK$', '<a href="https://open-meteo.com" target="_blank">Open-Meteo API</a>'),
+    confirmText: t('warningAgree', 'Allow'),
+    cancelText: t('btnCancel', 'Cancel'),
     onConfirm: async () => {
       const granted = await requestPermission([
         'https://geocoding-api.open-meteo.com/*',
@@ -55,10 +55,10 @@ function showPermissionModal(onGranted: () => void, onDenied: () => void) {
 
 function showSearchSuggestionsPermissionModal(onGranted: () => void, onDenied: () => void) {
   showWarningModal({
-    title: t('warningPermissionTitle'),
-    messageHtml: t('warningPermissionMessage').replace('$API_LINK$', '<a href="https://duckduckgo.com" target="_blank">DuckDuckGo API</a>'),
-    confirmText: t('warningAgree'),
-    cancelText: t('btnCancel'),
+    title: t('warningPermissionTitle', 'Permission Required'),
+    messageHtml: t('warningPermissionMessage', 'This feature requires permissions to access $API_LINK$.').replace('$API_LINK$', '<a href="https://duckduckgo.com" target="_blank">DuckDuckGo API</a>'),
+    confirmText: t('warningAgree', 'Allow'),
+    cancelText: t('btnCancel', 'Cancel'),
     onConfirm: async () => {
       const granted = await requestPermission([
         'https://duckduckgo.com/*'
@@ -294,8 +294,15 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
       const valEl = displayStyleSelect.querySelector('.md3-select-value');
       const optEl = displayStyleSelect.querySelector(`[data-value="${val}"]`);
       if (valEl && optEl) {
-        valEl.textContent = optEl.textContent;
-        valEl.setAttribute('data-i18n', optEl.getAttribute('data-i18n') || '');
+        const i18nKey = optEl.getAttribute('data-i18n');
+        const fallbackText = optEl.textContent || '';
+        if (i18nKey) {
+          valEl.setAttribute('data-i18n', i18nKey);
+          valEl.textContent = t(i18nKey, fallbackText);
+        } else {
+          valEl.removeAttribute('data-i18n');
+          valEl.textContent = fallbackText;
+        }
       }
     };
 
@@ -461,7 +468,7 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
             const item = document.createElement('div');
             item.className = 'md3-custom-select-item empty';
             item.setAttribute('data-i18n', 'noResultsFound');
-            item.textContent = t('noResultsFound') || 'No results found';
+            item.textContent = t('noResultsFound', 'No results found');
             cityAutocompleteList.appendChild(item);
           }
           

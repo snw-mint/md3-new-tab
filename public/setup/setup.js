@@ -52,7 +52,7 @@ async function loadTranslations() {
 
   if (!messages) {
     try {
-      const url = chrome.runtime.getURL('crowdin/messages.json');
+      const url = chrome.runtime.getURL(`_locales/en_US/messages.json`);
       const res = await fetch(url);
       if (res.ok) messages = await res.json();
     } catch {}
@@ -66,8 +66,15 @@ async function loadTranslations() {
   applyTranslations();
 }
 
-function t(key) {
-  return translations[key] ? translations[key].message : key;
+function t(key, fallback) {
+  if (translations[key] && translations[key].message) {
+    return translations[key].message;
+  }
+  if (typeof chrome !== 'undefined' && chrome.i18n && typeof chrome.i18n.getMessage === 'function') {
+    const msg = chrome.i18n.getMessage(key);
+    if (msg) return msg;
+  }
+  return fallback !== undefined ? fallback : key;
 }
 
 function applyTranslations() {
@@ -561,7 +568,7 @@ function initCustomSelectSystem() {
 
       const item = document.createElement('div');
       item.className = 'md3-custom-select-item';
-      item.textContent = i18nKey ? (t(i18nKey) || text) : text;
+      item.textContent = i18nKey ? t(i18nKey, text) : text;
       item.setAttribute('role', 'option');
       item.setAttribute('data-value', val);
       if (i18nKey) item.setAttribute('data-i18n', i18nKey);
