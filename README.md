@@ -1,6 +1,6 @@
 # <img src="public\assets\icon-128.png" width="50" align="center"> MD3: Expressive New Tab &nbsp; [ ![lastest version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fsnw-mint%2Fmd3-new-tab%2Frefs%2Fheads%2Fmain%2Fmanifest.json&query=version&style=flat&label=latest%20version&color=%2365558f) ](https://github.com/snw-mint/md3-new-tab/releases) [ ![last commit](https://img.shields.io/github/last-commit/snw-mint/md3-new-tab?color=%2365558f) ](https://github.com/snw-mint/md3-new-tab/activity) [ ![license](https://img.shields.io/badge/GPLv3-message?style=flat&label=license&color=%2365558f) ](https://github.com/snw-mint/md3-new-tab?tab=GPL-3.0-1-ov-file)
 
-![MD3: Expressive New Tab Main](repo-assets/main.webp)
+![MD3: Expressive New Tab Main](repo-assets/main.png)
 
 <p align="center">
   <strong>A beautiful new tab inspired by Google's Material Design 3.</strong>

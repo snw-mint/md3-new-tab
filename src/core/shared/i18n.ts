@@ -1,11 +1,20 @@
 let translations: Record<string, { message: string }> = {};
 
+export function normalizeLang(lang?: string | null): string {
+  if (!lang) return 'en_US';
+  const clean = lang.replace('-', '_');
+  if (clean.toLowerCase().startsWith('pt')) return 'pt_BR';
+  if (clean.toLowerCase().startsWith('en')) return 'en_US';
+  if (clean === 'pt_BR' || clean === 'en_US') return clean;
+  return 'en_US';
+}
+
 export function t(key: string, fallback?: string): string {
   if (translations[key] && translations[key].message) {
     return translations[key].message;
   }
   if (typeof chrome !== 'undefined' && chrome.i18n && typeof chrome.i18n.getMessage === 'function') {
-    const msg = chrome.i18n.getMessage(key);
+    const msg = chrome.i18n.getMessage(key, ['$WEEK$', '$USER$']);
     if (msg) return msg;
   }
   return fallback !== undefined ? fallback : key;
@@ -27,7 +36,10 @@ export function applyTranslations(root: Document | HTMLElement = document) {
 }
 
 export async function loadTranslations() {
-  const lang = localStorage.getItem('userLanguage') || 'en_US';
+  const rawLang = localStorage.getItem('userLanguage') || (typeof navigator !== 'undefined' ? navigator.language : 'en_US');
+  const lang = normalizeLang(rawLang);
+  localStorage.setItem('userLanguage', lang);
+
   const cacheKey = `i18n_cache_${lang}`;
   const cached = localStorage.getItem(cacheKey);
 
@@ -36,7 +48,6 @@ export async function loadTranslations() {
       translations = JSON.parse(cached);
       applyTranslations();
       document.dispatchEvent(new CustomEvent('i18nReady'));
-      // Still fetch in background to ensure it's up to date
     } catch {
       localStorage.removeItem(cacheKey);
     }
@@ -44,16 +55,31 @@ export async function loadTranslations() {
 
   let messages = null;
   try {
-    if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.getURL) {
-      const url = chrome.runtime.getURL(`_locales/${lang}/messages.json`);
-      const res = await fetch(url);
-      if (res.ok) messages = await res.json();
-    } else {
-      const res = await fetch(`_locales/${lang}/messages.json`);
-      if (res.ok) messages = await res.json();
+    let relPath = `_locales/${lang}/messages.json`;
+    if (typeof chrome !== 'undefined' && chrome.runtime && typeof chrome.runtime.getURL === 'function') {
+      relPath = chrome.runtime.getURL(relPath);
+    }
+    const res = await fetch(relPath);
+    if (res.ok) {
+      messages = await res.json();
     }
   } catch (e) {
     console.warn('Failed to load locale:', lang, e);
+  }
+
+  if (!messages && lang !== 'en_US') {
+    try {
+      let fallbackPath = `_locales/en_US/messages.json`;
+      if (typeof chrome !== 'undefined' && chrome.runtime && typeof chrome.runtime.getURL === 'function') {
+        fallbackPath = chrome.runtime.getURL(fallbackPath);
+      }
+      const res = await fetch(fallbackPath);
+      if (res.ok) {
+        messages = await res.json();
+      }
+    } catch (e) {
+      console.warn('Failed to load fallback locale en_US:', e);
+    }
   }
 
   if (messages) {
@@ -63,4 +89,3 @@ export async function loadTranslations() {
     document.dispatchEvent(new CustomEvent('i18nReady'));
   }
 }
-

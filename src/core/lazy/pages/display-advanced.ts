@@ -49,14 +49,14 @@ export const template = `<div class="settings-inner-card">
       <h3 class="settings-group-title" data-i18n="clockTitle" style="margin-bottom: 1.5rem;">Clock Settings</h3>
 
       <div class="md3-outlined-select-wrapper" style="margin-bottom: 1.25rem;">
-        <button type="button" id="advClockStyleSelect" class="md3-outlined-select md3-select-trigger" aria-label="Clock Style" value="Alatsi">
-          <span class="md3-select-value">Sharp Clock</span>
+        <button type="button" id="advClockStyleSelect" class="md3-outlined-select md3-select-trigger" aria-label="Clock Style" value="Expressive Clock">
+          <span class="md3-select-value">Expressive Clock</span>
           <template class="md3-select-options">
-            <div data-value="Alatsi">Sharp Clock</div>
-            <div data-value="Capriola">Playful Clock</div>
-            <div data-value="Modak">Bold Clock</div>
-            <div data-value="Abril Fatface">Serif Clock</div>
-            <div data-value="Monoton">Retro Clock</div>
+            <div data-value="Expressive Clock">Expressive Clock</div>
+            <div data-value="Playful Clock">Playful Clock</div>
+            <div data-value="Round Clock">Round Clock</div>
+            <div data-value="Tall Clock">Tall Clock</div>
+            <div data-value="Retro Clock">Retro Clock</div>
           </template>
         </button>
         <label for="advClockStyleSelect" class="md3-select-label" data-i18n="clockStyleLabel">Clock Style</label>

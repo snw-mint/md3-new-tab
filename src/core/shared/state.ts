@@ -24,7 +24,7 @@ class ReactiveState {
       clock12hFormat: false,
       clockShowDate: true,
       clockExpressiveColor: false,
-      clockStyle: 'Alatsi',
+      clockStyle: 'Expressive Clock',
       weatherEnabled: false,
       tempUnit: 'C',
       weatherCity: '',
@@ -44,10 +44,22 @@ class ReactiveState {
       hideGoogleShortcuts: false,
     };
 
+    const validClockStyles = [
+      'Expressive Clock',
+      'Playful Clock',
+      'Round Clock',
+      'Tall Clock',
+      'Retro Clock',
+    ];
+
     const savedState = localStorage.getItem(this.storageKey);
     const initialState = savedState
       ? { ...defaultState, ...JSON.parse(savedState) }
       : defaultState;
+
+    if (!validClockStyles.includes(initialState.clockStyle)) {
+      initialState.clockStyle = 'Expressive Clock';
+    }
 
     this.state = new Proxy(initialState, {
       set: (target, property, value) => {

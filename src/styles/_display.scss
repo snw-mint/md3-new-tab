@@ -90,17 +90,61 @@ html[data-display-style='greetings'] #greetingsDisplay {
   margin: 1rem 0 0 0;
   transition: color 0.3s ease;
 
-  .expressive-minutes {
-    color: var(--color-tertiary);
-    transition: color 0.3s ease;
+  &.expressive-clock-style {
+    font-family: 'Expressive Clock', sans-serif;
+    font-weight: 900;
+
+    --expressive-primary: var(--color-primary);
+    --expressive-lighter: color-mix(in srgb, var(--expressive-primary) 70%, #ffffff 30%);
+    --expressive-border: color-mix(in srgb, var(--expressive-primary) 25%, #ffffff 75%);
+
+    .digit-1,
+    .digit-3 {
+      color: var(--expressive-primary);
+      transition: color 0.3s ease;
+    }
+
+    .digit-2,
+    .digit-4 {
+      color: var(--expressive-lighter);
+      transition: color 0.3s ease;
+    }
+
+    .clock-colon {
+      color: var(--expressive-primary);
+      transition: color 0.3s ease;
+    }
+
+    .clock-digit,
+    .clock-colon {
+      -webkit-text-stroke: 3px var(--expressive-border);
+      paint-order: stroke fill;
+    }
+  }
+
+  &.expressive-color-mode:not(.expressive-clock-style) {
+    .digit-3,
+    .digit-4 {
+      color: var(--color-tertiary);
+      transition: color 0.3s ease;
+    }
   }
 }
 
 body.has-wallpaper .clock-display {
   color: var(--color-primary-container);
 
-  .expressive-minutes {
-    color: var(--color-tertiary-container);
+  &.expressive-clock-style {
+    --expressive-primary: var(--color-primary-container);
+    --expressive-lighter: color-mix(in srgb, var(--expressive-primary) 75%, #ffffff 25%);
+    --expressive-border: color-mix(in srgb, var(--expressive-primary) 30%, #ffffff 70%);
+  }
+
+  &.expressive-color-mode:not(.expressive-clock-style) {
+    .digit-3,
+    .digit-4 {
+      color: var(--color-tertiary-container);
+    }
   }
 }
 

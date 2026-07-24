@@ -77,12 +77,29 @@ function tick(): void {
       const hStr = h.toString().padStart(2, '0');
       const mStr = now.getMinutes().toString().padStart(2, '0');
       
-      if (globalState.current.clockExpressiveColor) {
-        clockDisplay.innerHTML = `${hStr}<span class="expressive-minutes">:${mStr}</span>`;
+      const clockStyle = globalState.current.clockStyle || 'Expressive Clock';
+      const isExpressiveClock = clockStyle === 'Expressive Clock';
+      
+      const d1 = hStr[0];
+      const d2 = hStr[1];
+      const d3 = mStr[0];
+      const d4 = mStr[1];
+      
+      clockDisplay.innerHTML = `<span class="clock-digit digit-1">${d1}</span><span class="clock-digit digit-2">${d2}</span><span class="clock-colon">:</span><span class="clock-digit digit-3">${d3}</span><span class="clock-digit digit-4">${d4}</span>`;
+      clockDisplay.style.fontFamily = `"${clockStyle}", sans-serif`;
+      clockDisplay.setAttribute('data-clock-style', clockStyle);
+
+      if (isExpressiveClock) {
+        clockDisplay.classList.add('expressive-clock-style');
       } else {
-        clockDisplay.textContent = `${hStr}:${mStr}`;
+        clockDisplay.classList.remove('expressive-clock-style');
       }
-      clockDisplay.style.fontFamily = globalState.current.clockStyle;
+
+      if (globalState.current.clockExpressiveColor) {
+        clockDisplay.classList.add('expressive-color-mode');
+      } else {
+        clockDisplay.classList.remove('expressive-color-mode');
+      }
     }
   } else {
     if (greetingsDisplay) greetingsDisplay.style.display = 'none';
