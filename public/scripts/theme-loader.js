@@ -40,7 +40,7 @@
     var maxRows = parseInt(settings.shortcutsRows || '1', 10) || 1;
     
     var shortcutsStr = localStorage.getItem('ent_shortcuts');
-    var shortcutsCount = 7; // default
+    var shortcutsCount = 7;
     if (shortcutsStr) {
       try {
         shortcutsCount = JSON.parse(shortcutsStr).length;
