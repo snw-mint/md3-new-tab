@@ -581,5 +581,14 @@
   },
   "newTabPlaceholder": {
     "message": "Nova Guia"
+  },
+  "rateUs": {
+    "message": "Avalie-nos!"
+  },
+  "rateUsSnackbarMessage": {
+    "message": "Gostando da extensão MD3 expressive new tab? Avalie-nos!"
+  },
+  "rateUsSnackbarAction": {
+    "message": "Avaliar!"
   }
 }

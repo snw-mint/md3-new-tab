@@ -18,9 +18,11 @@ import { globalState } from './core/shared/state';
 import { getSavedEngine, applyEngineToForm, bindSearchForm } from './core/boot/search';
 import { bindSearchSuggestions } from './core/boot/search-suggestions';
 import { loadTranslations } from './core/shared/i18n';
+import { initRatingSystem } from './core/boot/rating';
 
 document.addEventListener('DOMContentLoaded', () => {
   loadTranslations();
+  initRatingSystem();
 
   const languageSelect = document.getElementById('languageSelect') as HTMLButtonElement | null;
   if (languageSelect) {

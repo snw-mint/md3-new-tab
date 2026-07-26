@@ -30,15 +30,46 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Inject Chrome Store Link
+        run: |
+          sed -i 's|##STORE_LINK##|https://chromewebstore.google.com/detail/md3-expressive-new-tab/limheioemdhhaccglmbckadpkmnnkoab/reviews?hl=en-US#:~:text=write%20a%20review|g' index.html
+          sed -i 's|##STORE_LINK##|https://chromewebstore.google.com/detail/md3-expressive-new-tab/limheioemdhhaccglmbckadpkmnnkoab/reviews?hl=en-US#:~:text=write%20a%20review|g' src/core/boot/rating.ts
+
       - name: Run release build (Chrome)
         run: npm run build
 
       - name: Package Chrome extension
         run: |
           cd dist
-          zip -r "../md3-new-tab-v${{ steps.version.outputs.VERSION }}.zip" . \
+          zip -r "../md3-new-tab-v${{ steps.version.outputs.VERSION }}-chrome.zip" . \
             --exclude "*.map" \
             --exclude ".DS_Store"
+
+      - name: Revert Source Files
+        run: git checkout index.html src/core/boot/rating.ts
+
+      - name: Inject Edge Store Link
+        run: |
+          sed -i 's|##STORE_LINK##|https://microsoftedge.microsoft.com/addons/detail/md3-expressive-new-tab/jpdkkcflngfgknbgfdcaffnblbafkjgh/hcohjkajcimobdddlnfnfhdfnbapondc#:~:text=add%20a%20review|g' index.html
+          sed -i 's|##STORE_LINK##|https://microsoftedge.microsoft.com/addons/detail/md3-expressive-new-tab/jpdkkcflngfgknbgfdcaffnblbafkjgh/hcohjkajcimobdddlnfnfhdfnbapondc#:~:text=add%20a%20review|g' src/core/boot/rating.ts
+
+      - name: Run release build (Edge)
+        run: npm run build
+
+      - name: Package Edge extension
+        run: |
+          cd dist
+          zip -r "../md3-new-tab-v${{ steps.version.outputs.VERSION }}-edge.zip" . \
+            --exclude "*.map" \
+            --exclude ".DS_Store"
+
+      - name: Revert Source Files for Firefox
+        run: git checkout index.html src/core/boot/rating.ts
+
+      - name: Inject Firefox Store Link
+        run: |
+          sed -i 's|##STORE_LINK##|https://addons.mozilla.org/en-US/firefox/addon/md3-expressive-new-tab/#:~:text=rated|g' index.html
+          sed -i 's|##STORE_LINK##|https://addons.mozilla.org/en-US/firefox/addon/md3-expressive-new-tab/#:~:text=rated|g' src/core/boot/rating.ts
 
       - name: Run release build (Firefox)
         run: |
@@ -57,7 +88,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            md3-new-tab-v${{ steps.version.outputs.VERSION }}.zip
+            md3-new-tab-v${{ steps.version.outputs.VERSION }}-chrome.zip
+            md3-new-tab-v${{ steps.version.outputs.VERSION }}-edge.zip
             md3-new-tab-v${{ steps.version.outputs.VERSION }}-firefox.zip
           generate_release_notes: true
           draft: true
