@@ -78,7 +78,6 @@ function tick(): void {
       const mStr = now.getMinutes().toString().padStart(2, '0');
       
       const clockStyle = globalState.current.clockStyle || 'Expressive Clock';
-      const isExpressiveClock = clockStyle === 'Expressive Clock';
       
       const d1 = hStr[0];
       const d2 = hStr[1];
@@ -88,12 +87,6 @@ function tick(): void {
       clockDisplay.innerHTML = `<span class="clock-digit digit-1">${d1}</span><span class="clock-digit digit-2">${d2}</span><span class="clock-colon">:</span><span class="clock-digit digit-3">${d3}</span><span class="clock-digit digit-4">${d4}</span>`;
       clockDisplay.style.fontFamily = `"${clockStyle}", sans-serif`;
       clockDisplay.setAttribute('data-clock-style', clockStyle);
-
-      if (isExpressiveClock) {
-        clockDisplay.classList.add('expressive-clock-style');
-      } else {
-        clockDisplay.classList.remove('expressive-clock-style');
-      }
 
       if (globalState.current.clockExpressiveColor) {
         clockDisplay.classList.add('expressive-color-mode');

@@ -48,7 +48,7 @@ class ReactiveState {
       'Expressive Clock',
       'Playful Clock',
       'Round Clock',
-      'Tall Clock',
+      'Ultra Clock',
       'Retro Clock',
     ];
 

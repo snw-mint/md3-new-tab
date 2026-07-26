@@ -79,9 +79,6 @@ html[data-display-style='greetings'] #greetingsDisplay {
   display: block !important;
 }
 
-
-
-
 .clock-display {
   font-size: 6rem;
   line-height: 1;
@@ -90,14 +87,15 @@ html[data-display-style='greetings'] #greetingsDisplay {
   margin: 1rem 0 0 0;
   transition: color 0.3s ease;
 
-  &.expressive-clock-style {
-    font-family: 'Expressive Clock', sans-serif;
+  &[data-clock-style='Expressive Clock'] {
     font-weight: 900;
+  }
 
-    --expressive-primary: var(--color-primary);
-    --expressive-lighter: color-mix(in srgb, var(--expressive-primary) 70%, #ffffff 30%);
-    --expressive-border: color-mix(in srgb, var(--expressive-primary) 25%, #ffffff 75%);
+  --expressive-primary: var(--color-primary);
+  --expressive-lighter: color-mix(in srgb, var(--expressive-primary) 70%, var(--color-background) 30%);
+  --expressive-border: color-mix(in srgb, var(--expressive-primary) 25%, var(--color-background) 75%);
 
+  &.expressive-color-mode {
     .digit-1,
     .digit-3 {
       color: var(--expressive-primary);
@@ -115,37 +113,22 @@ html[data-display-style='greetings'] #greetingsDisplay {
       transition: color 0.3s ease;
     }
 
-    .clock-digit,
-    .clock-colon {
-      -webkit-text-stroke: 3px var(--expressive-border);
-      paint-order: stroke fill;
-    }
-  }
-
-  &.expressive-color-mode:not(.expressive-clock-style) {
-    .digit-3,
-    .digit-4 {
-      color: var(--color-tertiary);
-      transition: color 0.3s ease;
+    &:not([data-clock-style='Retro Clock']) {
+      .clock-digit,
+      .clock-colon {
+        -webkit-text-stroke: 3px var(--expressive-border);
+        paint-order: stroke fill;
+      }
     }
   }
 }
 
+
+
 body.has-wallpaper .clock-display {
-  color: var(--color-primary-container);
-
-  &.expressive-clock-style {
-    --expressive-primary: var(--color-primary-container);
-    --expressive-lighter: color-mix(in srgb, var(--expressive-primary) 75%, #ffffff 25%);
-    --expressive-border: color-mix(in srgb, var(--expressive-primary) 30%, #ffffff 70%);
-  }
-
-  &.expressive-color-mode:not(.expressive-clock-style) {
-    .digit-3,
-    .digit-4 {
-      color: var(--color-tertiary-container);
-    }
-  }
+  --color-primary: var(--sys-primary-dark);
+  --color-tertiary: var(--sys-tertiary-dark);
+  --color-background: var(--sys-background-dark, #1f1f1f);
 }
 
 html[data-display-style='clock'] #clockDisplay {

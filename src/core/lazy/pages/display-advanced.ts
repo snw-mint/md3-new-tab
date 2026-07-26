@@ -22,7 +22,7 @@ export const template = `<div class="settings-inner-card">
       </div>
     </div>
 
-    <div class="settings-group-card">
+    <div class="settings-group-card" id="advGreetingGroupCard">
       <h3 class="settings-group-title" data-i18n="greetingSettingTitle" style="margin-bottom: 1.5rem;">Greeting setting</h3>
 
       <div id="advGreetingNameInputWrapper">
@@ -45,7 +45,7 @@ export const template = `<div class="settings-inner-card">
       </div>
     </div>
 
-    <div class="settings-group-card">
+    <div class="settings-group-card" id="advClockGroupCard">
       <h3 class="settings-group-title" data-i18n="clockTitle" style="margin-bottom: 1.5rem;">Clock Settings</h3>
 
       <div class="md3-outlined-select-wrapper" style="margin-bottom: 1.25rem;">
@@ -55,7 +55,7 @@ export const template = `<div class="settings-inner-card">
             <div data-value="Expressive Clock">Expressive Clock</div>
             <div data-value="Playful Clock">Playful Clock</div>
             <div data-value="Round Clock">Round Clock</div>
-            <div data-value="Tall Clock">Tall Clock</div>
+            <div data-value="Ultra Clock">Ultra Clock</div>
             <div data-value="Retro Clock">Retro Clock</div>
           </template>
         </button>
@@ -98,6 +98,8 @@ export const template = `<div class="settings-inner-card">
 `;
 
 export function init(container: HTMLElement): void {
+  const greetingGroupCard = container.querySelector<HTMLElement>('#advGreetingGroupCard');
+  const clockGroupCard = container.querySelector<HTMLElement>('#advClockGroupCard');
   const greetingNameInput = container.querySelector<HTMLInputElement>('#advGreetingNameInput');
   const greetingHighlightNameCheckbox = container.querySelector<HTMLInputElement>('#advGreetingHighlightNameCheckbox');
   const clockStyleSelect = container.querySelector<HTMLButtonElement>('#advClockStyleSelect');
@@ -107,6 +109,14 @@ export function init(container: HTMLElement): void {
 
   const syncState = () => {
     const state = globalState.current;
+
+    if (greetingGroupCard) {
+      greetingGroupCard.style.display = state.displayStyle === 'greetings' ? '' : 'none';
+    }
+
+    if (clockGroupCard) {
+      clockGroupCard.style.display = state.displayStyle === 'clock' ? '' : 'none';
+    }
     
     if (greetingNameInput) {
       greetingNameInput.value = state.greetingName || '';
