@@ -51,12 +51,17 @@ function renderSuggestions(container: HTMLElement, items: SuggestionItem[], sear
   items.forEach((item) => {
     const div = document.createElement('div');
     div.className = 'suggestion-item';
-    div.innerHTML = `
-      <div class="suggestion-icon ${item.isFrequent ? 'frequent' : ''}">
-        ${item.isFrequent ? FREQUENT_ICON : SEARCH_ICON}
-      </div>
-      <span class="suggestion-text">${item.phrase}</span>
-    `;
+
+    const iconDiv = document.createElement('div');
+    iconDiv.className = `suggestion-icon ${item.isFrequent ? 'frequent' : ''}`;
+    iconDiv.innerHTML = item.isFrequent ? FREQUENT_ICON : SEARCH_ICON;
+
+    const textSpan = document.createElement('span');
+    textSpan.className = 'suggestion-text';
+    textSpan.textContent = item.phrase;
+
+    div.appendChild(iconDiv);
+    div.appendChild(textSpan);
 
     div.addEventListener('click', () => {
       searchInput.value = item.phrase;
