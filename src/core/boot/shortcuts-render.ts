@@ -9,15 +9,10 @@
 import { globalState } from '../shared/state';
 import { t } from '../shared/i18n';
 
-/**
- * Sanitizes a URL to prevent XSS via javascript: or vbscript: or other dangerous protocols.
- * Returns 'about:blank' if the URL is deemed unsafe.
- */
 export function sanitizeUrl(url: string | undefined | null): string {
   if (!url) return 'about:blank';
   const trimmed = url.trim();
 
-  // Clean all control characters and whitespace before checking
   const cleanUrl = trimmed.replace(/[^\x20-\x7E]/g, '').replace(/\s+/g, '');
   const lower = cleanUrl.toLowerCase();
 
@@ -33,11 +28,6 @@ export function sanitizeUrl(url: string | undefined | null): string {
   return trimmed;
 }
 
-/**
- * Sanitizes an icon URL.
- * Allows safe protocols (http, https) and safe data URIs (only data:image/).
- * Returns empty string if unsafe.
- */
 export function sanitizeIconUrl(url: string | undefined | null): string {
   if (!url) return '';
   const trimmed = url.trim();
@@ -432,6 +422,11 @@ export class ShortcutsManager {
       this.container.classList.add('single-row');
     } else {
       this.container.classList.remove('single-row');
+    }
+    if (globalState.current.hideShortcutNames) {
+      this.container.setAttribute('data-hide-names', 'true');
+    } else {
+      this.container.removeAttribute('data-hide-names');
     }
     this.container.style.setProperty(
       '--shortcut-count',

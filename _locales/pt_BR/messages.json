@@ -83,6 +83,9 @@
   "shortcutsRowsLabel": {
     "message": "Linhas"
   },
+  "hideShortcutNamesLabel": {
+    "message": "Ocultar nome dos atalhos"
+  },
   "launcherEcosystemLabel": {
     "message": "Ecossistema"
   },

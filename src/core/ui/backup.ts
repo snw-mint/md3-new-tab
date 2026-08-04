@@ -51,6 +51,7 @@ export function initBackupSystem(): void {
       backupData['weatherCity'] = state.weatherCity;
 
       backupData['shortcutsRows'] = String(state.shortcutsRows);
+      backupData['hideShortcutNames'] = String(state.hideShortcutNames);
       backupData['launcherEnabled'] = String(state.launcherEnabled);
       backupData['searchEnabled'] = String(state.searchEnabled);
       backupData['launcherProvider'] = state.launcherProvider;
@@ -128,6 +129,7 @@ export function initBackupSystem(): void {
               }
 
               if (data['shortcutsRows']) newState.shortcutsRows = data['shortcutsRows'];
+              if (data['hideShortcutNames']) newState.hideShortcutNames = data['hideShortcutNames'] === 'true';
               if (data['launcherEnabled']) newState.launcherEnabled = data['launcherEnabled'] === 'true';
               if (data['searchEnabled']) newState.searchEnabled = data['searchEnabled'] === 'true';
               if (data['launcherProvider']) newState.launcherProvider = data['launcherProvider'] as any;

@@ -22,6 +22,7 @@ export interface AppSettings {
   searchSuggestionsEnabled: boolean;
   shortcutsEnabled: boolean;
   shortcutsRows: string;
+  hideShortcutNames: boolean;
   launcherEnabled: boolean;
   launcherProvider: 'google' | 'microsoft' | 'proton';
   wallpaperEnabled: boolean;

@@ -83,6 +83,9 @@
   "shortcutsRowsLabel": {
     "message": "Rows"
   },
+  "hideShortcutNamesLabel": {
+    "message": "Hide shortcuts name"
+  },
   "launcherEcosystemLabel": {
     "message": "Ecosystem"
   },

@@ -32,6 +32,7 @@ class ReactiveState {
       searchSuggestionsEnabled: false,
       shortcutsEnabled: true,
       shortcutsRows: '1',
+      hideShortcutNames: false,
       launcherEnabled: true,
       launcherProvider: 'google',
       wallpaperEnabled: false,
