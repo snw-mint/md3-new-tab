@@ -9,6 +9,59 @@
 import { globalState } from '../shared/state';
 import { t } from '../shared/i18n';
 
+/**
+ * Sanitizes a URL to prevent XSS via javascript: or vbscript: or other dangerous protocols.
+ * Returns 'about:blank' if the URL is deemed unsafe.
+ */
+export function sanitizeUrl(url: string | undefined | null): string {
+  if (!url) return 'about:blank';
+  const trimmed = url.trim();
+
+  // Clean all control characters and whitespace before checking
+  const cleanUrl = trimmed.replace(/[^\x20-\x7E]/g, '').replace(/\s+/g, '');
+  const lower = cleanUrl.toLowerCase();
+
+  if (
+    lower.startsWith('javascript:') ||
+    lower.startsWith('data:') ||
+    lower.startsWith('vbscript:') ||
+    lower.startsWith('file:')
+  ) {
+    return 'about:blank';
+  }
+
+  return trimmed;
+}
+
+/**
+ * Sanitizes an icon URL.
+ * Allows safe protocols (http, https) and safe data URIs (only data:image/).
+ * Returns empty string if unsafe.
+ */
+export function sanitizeIconUrl(url: string | undefined | null): string {
+  if (!url) return '';
+  const trimmed = url.trim();
+
+  const cleanUrl = trimmed.replace(/[^\x20-\x7E]/g, '').replace(/\s+/g, '');
+  const lower = cleanUrl.toLowerCase();
+
+  if (
+    lower.startsWith('javascript:') ||
+    lower.startsWith('vbscript:') ||
+    lower.startsWith('file:')
+  ) {
+    return '';
+  }
+
+  if (lower.startsWith('data:')) {
+    if (!lower.startsWith('data:image/')) {
+      return '';
+    }
+  }
+
+  return trimmed;
+}
+
 export interface ShortcutItem {
   id: string;
   name: string;
@@ -392,7 +445,7 @@ export class ShortcutsManager {
   ): HTMLElement {
     const wrapper = document.createElement('a');
     wrapper.className = 'shortcut-item';
-    wrapper.href = shortcut.url;
+    wrapper.href = sanitizeUrl(shortcut.url);
     wrapper.draggable = true;
     wrapper.dataset.index = index.toString();
 
@@ -411,10 +464,11 @@ export class ShortcutsManager {
       }
     }
 
-    if (finalIconUrl) {
+    const sanitizedIconUrl = sanitizeIconUrl(finalIconUrl);
+    if (sanitizedIconUrl) {
       const img = document.createElement('img');
       img.className = 'shortcut-icon loaded';
-      img.src = finalIconUrl;
+      img.src = sanitizedIconUrl;
       img.draggable = false;
       img.onerror = () => {
         img.replaceWith(this.createFallbackIcon());
