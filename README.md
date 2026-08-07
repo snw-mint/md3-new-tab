@@ -3,7 +3,7 @@
 ![MD3: Expressive New Tab Main](repo-assets/main.png)
 
 <p align="center">
-  <strong>A beautiful new tab inspired by Google's Material Design 3.</strong>
+  <strong>A beautiful new tab inspired by Material Design 3.</strong>
 </p>
 
 <p align="center">
