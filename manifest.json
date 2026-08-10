@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "MD3: Material Design 3 New Tab",
-  "version": "1.4",
+  "version": "1.5",
   "description": "A minimalist New Tab page engineered around Material Design 3 Expressive.",
   "default_locale": "en_US",
   "icons": {
