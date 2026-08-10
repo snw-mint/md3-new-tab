@@ -18,17 +18,37 @@ const STORAGE_KEY = 'ent_search_history';
 const COOLDOWN_MS = 10 * 1000;
 const DECAY_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
 
+let cachedHistory: Record<string, SearchTermHistory> | null = null;
+let cachedFrequentSearches: string[] | null = null;
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('storage', (e) => {
+    if (e.key === STORAGE_KEY) {
+      cachedHistory = null;
+      cachedFrequentSearches = null;
+    }
+  });
+}
+
 function getHistory(): Record<string, SearchTermHistory> {
+  if (cachedHistory) {
+    return cachedHistory;
+  }
   try {
     const data = localStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : {};
+    cachedHistory = data ? JSON.parse(data) : {};
   } catch (e) {
-    return {};
+    cachedHistory = {};
   }
+  return cachedHistory;
 }
 
 function saveHistory(history: Record<string, SearchTermHistory>) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+  cachedHistory = history;
+  cachedFrequentSearches = null;
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+  } catch (e) {}
 }
 
 export function recordSearch(query: string): void {
@@ -95,11 +115,15 @@ export function decayFrequentSearches(): void {
 }
 
 export function getFrequentSearches(): string[] {
+  if (cachedFrequentSearches) {
+    return cachedFrequentSearches;
+  }
   const history = getHistory();
   const frequentList = Object.values(history)
     .filter((entry) => entry.frequent)
     .sort((a, b) => b.points - a.points)
     .map((entry) => entry.term);
 
-  return frequentList.slice(0, 2);
+  cachedFrequentSearches = frequentList.slice(0, 2);
+  return cachedFrequentSearches;
 }
