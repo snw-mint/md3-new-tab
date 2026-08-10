@@ -14,24 +14,58 @@ const FREQUENT_ICON = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewB
 
 let debounceTimer: number | undefined;
 
+const MAX_CACHE_SIZE = 100;
+const suggestionsCache = new Map<string, string[]>();
+
+function setInCache(key: string, value: string[]): void {
+  if (suggestionsCache.has(key)) {
+    suggestionsCache.delete(key);
+  } else if (suggestionsCache.size >= MAX_CACHE_SIZE) {
+    const oldestKey = suggestionsCache.keys().next().value;
+    if (oldestKey !== undefined) {
+      suggestionsCache.delete(oldestKey);
+    }
+  }
+  suggestionsCache.set(key, value);
+}
+
+function getFromCache(key: string): string[] | undefined {
+  if (!suggestionsCache.has(key)) return undefined;
+  const value = suggestionsCache.get(key)!;
+  suggestionsCache.delete(key);
+  suggestionsCache.set(key, value);
+  return value;
+}
+
+export function clearSuggestionsCache(): void {
+  suggestionsCache.clear();
+}
+
 interface SuggestionItem {
   phrase: string;
   isFrequent: boolean;
 }
 
-async function fetchSuggestions(query: string): Promise<string[]> {
+export async function fetchSuggestions(query: string): Promise<string[]> {
+  const cached = getFromCache(query);
+  if (cached !== undefined) {
+    return cached;
+  }
+
   try {
     const response = await fetch(`https://duckduckgo.com/ac/?q=${encodeURIComponent(query)}&type=list`);
     if (!response.ok) return [];
     const data = await response.json();
+    let suggestions: string[] = [];
+
     if (Array.isArray(data) && data.length > 1 && Array.isArray(data[1])) {
-      return data[1] as string[];
+      suggestions = data[1] as string[];
+    } else if (Array.isArray(data)) {
+      suggestions = data.map((item: any) => item.phrase || item).filter(Boolean);
     }
 
-    if (Array.isArray(data)) {
-      return data.map((item: any) => item.phrase || item).filter(Boolean);
-    }
-    return [];
+    setInCache(query, suggestions);
+    return suggestions;
   } catch (error) {
     console.error('Failed to fetch suggestions', error);
     return [];
