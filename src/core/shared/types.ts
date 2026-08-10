@@ -52,7 +52,8 @@ export interface WeatherApiResponse {
 
 export interface WeatherCache {
   timestamp: number;
-  city: string;
+  lat: number;
+  lon: number;
   data: WeatherApiResponse;
 }
 

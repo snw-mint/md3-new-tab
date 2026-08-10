@@ -7,13 +7,45 @@
  */
 
 import { globalState } from '../shared/state';
-import { CityData, WeatherApiResponse } from '../shared/types';
+import { CityData, WeatherApiResponse, WeatherCache } from '../shared/types';
 
-async function fetchWeatherData(cityData: CityData): Promise<WeatherApiResponse | null> {
+export async function fetchWeatherData(cityData: CityData): Promise<WeatherApiResponse | null> {
+  const cacheKey = 'ent_weather_cache';
+  try {
+    const cachedString = localStorage.getItem(cacheKey);
+    if (cachedString) {
+      const cached = JSON.parse(cachedString) as WeatherCache;
+      if (
+        cached &&
+        cached.lat === cityData.lat &&
+        cached.lon === cityData.lon &&
+        Date.now() - cached.timestamp < 30 * 60 * 1000
+      ) {
+        return cached.data;
+      }
+    }
+  } catch (error) {
+    console.error('Error reading weather cache:', error);
+  }
+
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${cityData.lat}&longitude=${cityData.lon}&current_weather=true`;
   try {
     const response = await fetch(url);
-    return (await response.json()) as WeatherApiResponse;
+    const data = (await response.json()) as WeatherApiResponse;
+    if (data && data.current_weather) {
+      try {
+        const cacheData: WeatherCache = {
+          timestamp: Date.now(),
+          lat: cityData.lat,
+          lon: cityData.lon,
+          data,
+        };
+        localStorage.setItem(cacheKey, JSON.stringify(cacheData));
+      } catch (error) {
+        console.error('Error writing weather cache:', error);
+      }
+    }
+    return data;
   } catch (error) {
     console.error('Weather API error:', error);
     return null;
