@@ -7,7 +7,7 @@
  */
 
 import { engines } from './search-engine-data';
-import { getSavedEngine, setSavedEngine, applyEngineToForm } from '../boot/search';
+import { setSavedEngine, applyEngineToForm } from '../boot/search';
 
 export function initSearchEngineDropdown(): void {
   const engineBtn = document.getElementById('engineBtn');
