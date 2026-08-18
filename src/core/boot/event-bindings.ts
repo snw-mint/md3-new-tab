@@ -74,7 +74,6 @@ function showSearchSuggestionsPermissionModal(onGranted: () => void, onDenied: (
 
 export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => void): void {
   const { wallpaperToggle, wallpaperBlock, wallpaperColorToggle, weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, hideShortcutNamesToggle, searchToggle, searchBlock, searchSuggestionsToggle, launcherToggle, launcherBlock, displayToggle, displayBlock, displayStyleSelect } = DOM.settings;
-  const { appLauncherBtn } = DOM.header;
   const weatherOrigins = [
     'https://geocoding-api.open-meteo.com/*',
     'https://api.open-meteo.com/*',
