@@ -581,14 +581,5 @@
   },
   "newTabPlaceholder": {
     "message": "New Tab"
-  },
-  "rateUs": {
-    "message": "Rate Us!"
-  },
-  "rateUsSnackbarMessage": {
-    "message": "Enjoying MD3 expressive new tab? Rate us!"
-  },
-  "rateUsSnackbarAction": {
-    "message": "Rate Us!"
   }
 }
