@@ -457,7 +457,7 @@ export function handleGlobalDrop(event: DragEvent): void {
   cleanupDrag();
 }
 
-export function handleGlobalDragEnd(event: DragEvent): void {
+export function handleGlobalDragEnd(_event: DragEvent): void {
   cleanupDrag();
 }
 
