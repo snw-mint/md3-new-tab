@@ -54,6 +54,53 @@ function showPermissionModal(onGranted: () => void, onDenied: () => void) {
   });
 }
 
+const wallpaperProviderConfigs: Record<string, { origins: string[]; name: string }> = {
+  unsplash: {
+    origins: ['https://unsplash.snw-mint.workers.dev/*'],
+    name: 'Unsplash API',
+  },
+  pexels: {
+    origins: ['https://pexels.snw-mint.workers.dev/*'],
+    name: 'Pexels API',
+  },
+  media_commons: {
+    origins: ['https://commons.wikimedia.org/*', 'https://upload.wikimedia.org/*'],
+    name: 'Wikimedia Commons API',
+  },
+  bing: {
+    origins: ['https://peapix.com/*', 'https://img.peapix.com/*'],
+    name: 'Bing Wallpaper API',
+  },
+};
+
+export function showWallpaperPermissionModal(
+  provider: string,
+  onGranted: () => void,
+  onDenied: () => void
+): void {
+  const config = wallpaperProviderConfigs[provider];
+  if (!config) {
+    onGranted();
+    return;
+  }
+
+  const privacyLink = `<a href="https://snw-mint.github.io/md3-new-tab/privacy.html" target="_blank" rel="noopener noreferrer">${t('readPrivacyPolicy', 'Read privacy policy')}</a>`;
+  showWarningModal({
+    title: t('warningPermissionTitle', 'Permission Required'),
+    messageHtml: `${t('warningPermissionMessage', 'This feature requires permissions to access $API_LINK$. This ensures your privacy and security.').replace('$API_LINK$', config.name)} ${privacyLink}`,
+    confirmText: t('warningAgree', 'Allow'),
+    cancelText: t('btnCancel', 'Cancel'),
+    onConfirm: async () => {
+      const granted = await requestPermission(config.origins);
+      if (granted) onGranted();
+      else onDenied();
+    },
+    onCancel: () => {
+      onDenied();
+    }
+  });
+}
+
 function showSearchSuggestionsPermissionModal(onGranted: () => void, onDenied: () => void) {
   showWarningModal({
     title: t('warningPermissionTitle', 'Permission Required'),
@@ -174,9 +221,38 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
   }
 
   if (wallpaperToggle) {
-    wallpaperToggle.addEventListener('change', (e) => {
+    wallpaperToggle.addEventListener('change', async (e) => {
       const target = e.target as HTMLInputElement;
-      globalState.current.wallpaperEnabled = target.checked;
+      const wantsToEnable = target.checked;
+
+      if (!wantsToEnable) {
+        globalState.current.wallpaperEnabled = false;
+        return;
+      }
+
+      const currentProvider = globalState.current.wallpaperProvider || 'upload';
+      const config = wallpaperProviderConfigs[currentProvider];
+
+      if (config) {
+        const hasPerm = await checkPermission(config.origins);
+        if (hasPerm) {
+          globalState.current.wallpaperEnabled = true;
+          return;
+        }
+
+        target.checked = false;
+        showWallpaperPermissionModal(
+          currentProvider,
+          () => {
+            globalState.current.wallpaperEnabled = true;
+          },
+          () => {
+            globalState.current.wallpaperEnabled = false;
+          }
+        );
+      } else {
+        globalState.current.wallpaperEnabled = true;
+      }
     });
   }
 
@@ -185,9 +261,39 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
     wallpaperProviderSelect.value = globalState.current.wallpaperProvider || 'upload';
     wallpaperProviderSelect.setAttribute('value', globalState.current.wallpaperProvider || 'upload');
 
-    wallpaperProviderSelect.addEventListener('change', (e) => {
+    wallpaperProviderSelect.addEventListener('change', async (e) => {
       const target = e.target as HTMLSelectElement;
-      globalState.current.wallpaperProvider = target.value as any;
+      const selectedProvider = target.value as 'upload' | 'unsplash' | 'pexels' | 'media_commons' | 'bing';
+      const prevProvider = globalState.current.wallpaperProvider || 'upload';
+      const config = wallpaperProviderConfigs[selectedProvider];
+
+      if (!config) {
+        globalState.current.wallpaperProvider = selectedProvider;
+        return;
+      }
+
+      const hasPerm = await checkPermission(config.origins);
+      if (hasPerm) {
+        globalState.current.wallpaperProvider = selectedProvider;
+        return;
+      }
+
+      showWallpaperPermissionModal(
+        selectedProvider,
+        () => {
+          globalState.current.wallpaperProvider = selectedProvider;
+        },
+        () => {
+          globalState.current.wallpaperProvider = prevProvider;
+          wallpaperProviderSelect.value = prevProvider;
+          wallpaperProviderSelect.setAttribute('value', prevProvider);
+          const valEl = wallpaperProviderSelect.querySelector('.md3-select-value');
+          const optEl = wallpaperProviderSelect.querySelector(`[data-value="${prevProvider}"]`);
+          if (valEl && optEl) {
+            valEl.textContent = optEl.textContent;
+          }
+        }
+      );
     });
 
     globalState.subscribe((state) => {
