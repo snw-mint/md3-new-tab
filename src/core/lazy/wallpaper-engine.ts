@@ -3,7 +3,7 @@ import { globalState } from '../shared/state';
 import {
   updateOverlay,
   clearWallpaper,
-  extractDominantColor,
+  extractDominantColorFromUrl,
 } from '../boot/wallpaper-render';
 import { fetchDailyWallpaper } from './providers/wallpaper-apis';
 
@@ -62,12 +62,11 @@ export class WallpaperEngine {
       const overlay = config.overlay ?? globalState.current.wallpaperOverlay;
       updateOverlay(overlay, config.enabled);
 
-      try {
-        const color = extractDominantColor(img);
+      extractDominantColorFromUrl(url).then((color) => {
         if (color) {
           globalState.current.wallpaperColor = color;
         }
-      } catch (e) {}
+      });
     };
 
     img.onerror = () => {

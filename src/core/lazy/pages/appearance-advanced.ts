@@ -7,7 +7,7 @@
  */
 
 import type { SidebarPageModule } from '../../ui/sidebar-router';
-import { globalState } from '../../shared/state';
+import { globalState, getWallpaperCache } from '../../shared/state';
 import { applyTranslations, t } from '../../shared/i18n';
 
 export const template = `<div class="settings-inner-card">
@@ -108,7 +108,7 @@ export function init(container: HTMLElement): void {
 
   const syncState = () => {
     const state = globalState.current;
-    const canEnable = state.wallpaperEnabled && !!state.wallpaperImage;
+    const canEnable = state.wallpaperEnabled && (state.wallpaperProvider !== 'upload' || !!state.wallpaperImage);
     toggle.disabled = !canEnable;
     toggle.checked = canEnable ? state.colorFromWallpaper : false;
     group.classList.toggle('disabled', !canEnable);
@@ -138,6 +138,22 @@ export function init(container: HTMLElement): void {
   toggle.addEventListener('change', (e) => {
     const target = e.target as HTMLInputElement;
     globalState.current.colorFromWallpaper = target.checked;
+
+    if (target.checked && !globalState.current.wallpaperColor) {
+      const state = globalState.current;
+      let url = state.wallpaperImage;
+      if (!url && state.wallpaperProvider !== 'upload') {
+        const cache = getWallpaperCache(`wallpaper_cache_${state.wallpaperProvider}`);
+        if (cache?.url) url = cache.url;
+      }
+      if (url) {
+        import('../../boot/wallpaper-render').then(({ extractDominantColorFromUrl }) => {
+          extractDominantColorFromUrl(url).then((color) => {
+            if (color) globalState.current.wallpaperColor = color;
+          });
+        });
+      }
+    }
   });
 
   if (tabNameInput) {

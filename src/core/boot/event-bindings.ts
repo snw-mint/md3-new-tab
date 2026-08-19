@@ -199,7 +199,8 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
       loadShortcutsModule();
     }
     if (wallpaperColorToggle) {
-      if (!state.wallpaperEnabled || !state.wallpaperImage) {
+      const canEnable = state.wallpaperEnabled && (state.wallpaperProvider !== 'upload' || !!state.wallpaperImage);
+      if (!canEnable) {
         wallpaperColorToggle.disabled = true;
         wallpaperColorToggle.checked = false;
         const group = wallpaperColorToggle.closest('.md3-checkbox-group');

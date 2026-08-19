@@ -36,6 +36,53 @@ export function extractDominantColor(img: HTMLImageElement): string {
   return hex;
 }
 
+export async function extractDominantColorFromUrl(imageUrl: string): Promise<string> {
+  let blobUrl: string | null = null;
+  let srcToLoad = imageUrl;
+
+  if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
+    try {
+      const res = await fetch(imageUrl);
+      if (res.ok) {
+        const blob = await res.blob();
+        blobUrl = URL.createObjectURL(blob);
+        srcToLoad = blobUrl;
+      }
+    } catch (e) {}
+  }
+
+  return new Promise((resolve) => {
+    const img = new Image();
+    if (!blobUrl && !imageUrl.startsWith('data:')) {
+      img.crossOrigin = 'anonymous';
+    }
+
+    const cleanup = () => {
+      if (blobUrl) {
+        URL.revokeObjectURL(blobUrl);
+      }
+    };
+
+    img.onload = () => {
+      try {
+        const color = extractDominantColor(img);
+        cleanup();
+        resolve(color);
+      } catch (error) {
+        cleanup();
+        resolve('#0B57D0');
+      }
+    };
+
+    img.onerror = () => {
+      cleanup();
+      resolve('#0B57D0');
+    };
+
+    img.src = srcToLoad;
+  });
+}
+
 export function updateOverlay(sliderValue: number, isEnabled: boolean): void {
   let val = Number(sliderValue);
   if (isNaN(val)) val = 0.3;
