@@ -34,9 +34,10 @@ async function requestPermission(origins: string[]): Promise<boolean> {
 }
 
 function showPermissionModal(onGranted: () => void, onDenied: () => void) {
+  const privacyLink = `<a href="https://snw-mint.github.io/md3-new-tab/privacy.html" target="_blank" rel="noopener noreferrer">${t('readPrivacyPolicy', 'Read privacy policy')}</a>`;
   showWarningModal({
     title: t('warningPermissionTitle', 'Permission Required'),
-    messageHtml: t('warningPermissionMessage', 'This feature requires permissions to access $API_LINK$.').replace('$API_LINK$', '<a href="https://open-meteo.com" target="_blank">Open-Meteo API</a>'),
+    messageHtml: `${t('warningPermissionMessage', 'This feature requires permissions to access $API_LINK$.').replace('$API_LINK$', 'Open-Meteo API')} ${privacyLink}`,
     confirmText: t('warningAgree', 'Allow'),
     cancelText: t('btnCancel', 'Cancel'),
     onConfirm: async () => {

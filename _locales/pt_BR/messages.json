@@ -567,6 +567,9 @@
       }
     }
   },
+  "readPrivacyPolicy": {
+    "message": "Leia a política de privacidade"
+  },
   "warningRestoreTitle": {
     "message": "Restaurar Backup?"
   },
