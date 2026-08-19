@@ -178,7 +178,10 @@ export function showCredits(provider: WallpaperProvider): void {
       if (cached.creditHtml) {
         safeRenderCreditHtml(creditTextSpan, cached.creditHtml);
       } else {
-        const text = cached.credit || 'Daily Wallpaper';
+        let text = cached.credit || 'Daily Wallpaper';
+        if (text.length > 30) {
+          text = text.substring(0, 30).trim() + '...';
+        }
         const url = cached.creditUrl || '';
 
         if (url) {

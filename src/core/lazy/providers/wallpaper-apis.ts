@@ -67,7 +67,11 @@ export async function fetchDailyWallpaper(
         if (data && data.length > 0) {
           const img = data[0];
           imageUrl = img.fullUrl || img.imageUrl || img.url || '';
-          creditText = `Bing: ${img.copyright || 'Daily Image'}`;
+          let rawCredit = `Bing: ${img.copyright || 'Daily Image'}`;
+          if (rawCredit.length > 30) {
+            rawCredit = rawCredit.substring(0, 30).trim() + '...';
+          }
+          creditText = rawCredit;
           creditUrl = img.copyrightLink || img.copyrightlink || img.url || '';
         }
       }
@@ -107,7 +111,7 @@ export async function fetchDailyWallpaper(
               creditText = meta?.Artist?.value || 'Wikimedia Commons';
               creditText = creditText.replace(/<[^>]*>?/gm, '');
 
-              const maxCreditLength = 120;
+              const maxCreditLength = 30;
               if (creditText.length > maxCreditLength) {
                 creditText =
                   creditText.substring(0, maxCreditLength).trim() + '...';
@@ -134,7 +138,10 @@ export async function fetchDailyWallpaper(
         const joiner = data.urls.raw.includes('?') ? '&' : '?';
         imageUrl = `${data.urls.raw}${joiner}w=${screenWidth}&q=80&fm=webp`;
 
-        const photographerName = data.user?.name || 'Photographer';
+        let photographerName = data.user?.name || 'Photographer';
+        if (photographerName.length > 20) {
+          photographerName = photographerName.substring(0, 20).trim() + '...';
+        }
         const photographerUrl = data.user?.links?.html
           ? `${data.user.links.html}?utm_source=md3_new_tab&utm_medium=referral`
           : 'https://unsplash.com/?utm_source=md3_new_tab&utm_medium=referral';
@@ -169,7 +176,11 @@ export async function fetchDailyWallpaper(
           imageUrl = pexelsUrl;
         }
 
-        creditText = `Pexels: ${photo?.photographer || 'Photographer'}`;
+        let photographer = photo?.photographer || 'Photographer';
+        if (photographer.length > 20) {
+          photographer = photographer.substring(0, 20).trim() + '...';
+        }
+        creditText = `Pexels: ${photographer}`;
         creditUrl = photo?.url || 'https://pexels.com/';
       }
     }

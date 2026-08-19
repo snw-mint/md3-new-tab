@@ -129,7 +129,7 @@ body.has-wallpaper {
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
   pointer-events: auto;
   user-select: none;
-  max-width: calc(100vw - 2.5rem);
+  max-width: min(16rem, calc(100vw - 2.5rem));
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -139,7 +139,7 @@ body.has-wallpaper {
 
   body.sidebar-open & {
     right: calc(22rem + 1.25rem);
-    max-width: calc(100vw - 22rem - 2.5rem);
+    max-width: min(16rem, calc(100vw - 22rem - 2.5rem));
   }
 
   .wallpaper-credits-icon {

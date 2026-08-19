@@ -89,7 +89,7 @@ export async function fetchRandomWikimedia(): Promise<{ url: string; credit: str
         const meta = info.extmetadata;
         let credit = meta?.Artist?.value || 'Wikimedia Commons';
         credit = credit.replace(/<[^>]*>?/gm, '');
-        if (credit.length > 120) credit = credit.substring(0, 120).trim() + '...';
+        if (credit.length > 30) credit = credit.substring(0, 30).trim() + '...';
 
         return { url, credit, creditUrl: info.descriptionurl || '' };
       }
