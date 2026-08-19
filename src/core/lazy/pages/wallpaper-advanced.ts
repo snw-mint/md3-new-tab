@@ -60,7 +60,7 @@ export function init(container: HTMLElement): void {
 
     const syncState = () => {
       const state = globalState.current;
-      const isDisabled = !state.wallpaperEnabled || !state.wallpaperImage;
+      const isDisabled = !state.wallpaperEnabled || (state.wallpaperProvider === 'upload' && !state.wallpaperImage);
       wallpaperOverlaySlider.disabled = isDisabled;
 
       const sliderGroup = wallpaperOverlaySlider.closest('.slider-group');

@@ -325,7 +325,7 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
       updateSliderProgress(val);
     });
     globalState.subscribe((state) => {
-      const isDisabled = !state.wallpaperEnabled || !state.wallpaperImage;
+      const isDisabled = !state.wallpaperEnabled || (state.wallpaperProvider === 'upload' && !state.wallpaperImage);
       wallpaperOverlaySlider.disabled = isDisabled;
       
       const sliderGroup = wallpaperOverlaySlider.closest('.slider-group');
