@@ -11,6 +11,7 @@
     <link rel="manifest" href="site.webmanifest" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="stylesheet" href="style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght,wdth,slnt,GRAD@10..144,100..1000,75..125,-10..0,0&display=swap" rel="stylesheet" />
     <style>
       :root {
@@ -458,24 +459,6 @@
         line-height: 1.4;
       }
 
-      footer {
-        padding: 32px;
-        text-align: center;
-        color: var(--md-sys-color-on-surface-variant);
-        font-size: 0.9rem;
-      }
-
-      footer a {
-        color: inherit;
-        font-weight: 600;
-        text-decoration: none;
-      }
-
-      footer a:hover {
-        color: var(--md-sys-color-primary);
-        text-decoration: underline;
-      }
-
       @media (max-width: 768px) {
         .form-container {
           padding: 32px 24px;
@@ -643,13 +626,68 @@
       </div>
     </main>
 
+    <div class="footer-divider">
+      <svg viewBox="0 0 1200 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M 0 20 Q 12.5 5 25 20 T 50 20 T 75 20 T 100 20 T 125 20 T 150 20 T 175 20 T 200 20 T 225 20 T 250 20 T 275 20 T 300 20 T 325 20 T 350 20 T 375 20 T 400 20 T 425 20 T 450 20 T 475 20 T 500 20 T 525 20 T 550 20 T 575 20 T 600 20 T 625 20 T 650 20 T 675 20 T 700 20 T 725 20 T 750 20 T 775 20 T 800 20 T 825 20 T 850 20 T 875 20 T 900 20 T 925 20 T 950 20 T 975 20 T 1000 20 T 1025 20 T 1050 20 T 1075 20 T 1100 20 T 1125 20 T 1150 20 T 1175 20 T 1200 20"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round" />
+      </svg>
+    </div>
+
     <footer>
-      <p>&copy; 2026 MD3: Material Design 3 New Tab. Created by <a href="https://github.com/snw-mint" target="_blank" rel="noopener noreferrer">snow mint</a>.</p>
+      <div class="footer-grid">
+        <div class="footer-col footer-brand">
+          <img src="assets/md3-logo.svg" alt="MD3: Material Design 3 New Tab Logo" class="logo-icon" />
+          <h3>MD3: Material Design 3 New Tab</h3>
+          <p>MD3: Material Design 3 New Tab is an independent open-source project and is not affiliated with, endorsed by, or sponsored by Google LLC.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Overview</h4>
+          <ul>
+            <li><a href="https://github.com/snw-mint/md3-new-tab">Repository</a></li>
+            <li><a href="https://snw-mint.github.io/fluent-new-tab/" target="_blank" rel="noopener">Fluent Edition</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Use</a></li>
+            <li><a href="mailto:snowmint.dev@gmail.com">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="https://github.com/snw-mint/md3-new-tab/issues/new?template=bug_report.yml">Report a Bug</a></li>
+            <li><a href="https://github.com/snw-mint/md3-new-tab/issues/new?template=feature_request.yml">Request a Feature</a></li>
+            <li><a href="https://github.com/snw-mint/md3-new-tab/issues/new?template=feedback.yml">General Feedback</a></li>
+            <li><a href="https://github.com/snw-mint/fluent-new-tab/discussions">Community</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Source Code</h4>
+          <ul>
+            <li><a href="https://github.com/snw-mint/md3-new-tab/blob/main/.github/CONTRIBUTING.md">Contributing</a></li>
+            <li><a href="https://github.com/snw-mint/md3-new-tab/blob/main/.github/TRANSLATING.md">Help Translate</a></li>
+            <li><a href="https://buymeacoffee.com/snw.mint">Support the Project</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Download</h4>
+          <ul>
+            <li><a href="https://chromewebstore.google.com/detail/limheioemdhhaccglmbckadpkmnnkoab/">Google Chrome</a></li>
+            <li><a href="https://addons.mozilla.org/firefox/addon/md3-expressive-new-tab/">Mozilla Firefox</a></li>
+            <li><a href="https://microsoftedge.microsoft.com/addons/detail/jpdkkcflngfgknbgfdcaffnblbafkjgh">Microsoft Edge</a></li>
+            <li><a href="https://github.com/snw-mint/md3-new-tab/releases">Manual Download</a></li>
+          </ul>
+        </div>
+      </div>
     </footer>
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        // Theme toggle
         const themeToggleBtn = document.getElementById('themeToggleBtn');
         const body = document.body;
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -659,7 +697,6 @@
           body.classList.toggle('dark-theme');
         });
 
-        // Form logic
         const form = document.getElementById('uninstall-form');
         const submitBtn = form.querySelector('button[type="submit"]');
         const radios = document.querySelectorAll('input[type="radio"]');
@@ -738,7 +775,6 @@
             submitBtn.classList.add('btn-disabled');
             submitBtn.disabled = true;
 
-            // Simulate form submission delay to show success screen
             setTimeout(() => {
               showSuccess();
             }, 600);
