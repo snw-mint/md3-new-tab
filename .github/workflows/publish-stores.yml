@@ -20,20 +20,23 @@ jobs:
         uses: robinraju/release-downloader@v1.11
         with:
           tag: ${{ github.event.release.tag_name }}
-          fileName: '*'
+          fileName: "*"
 
-      - name: Publish to Microsoft Edge Add-ons
+      - name: Publish to Web Stores
         uses: PlasmoHQ/bpp@v3
         with:
-          edge-product-id: ${{ secrets.EDGE_PRODUCT_ID }}
-          edge-client-id: ${{ secrets.EDGE_CLIENT_ID }}
-          edge-client-secret: ${{ secrets.EDGE_CLIENT_SECRET }}
-          edge-access-token-url: ${{ secrets.EDGE_ACCESS_TOKEN_URL }}
-          edge-zip: 'md3-new-tab-v${{ steps.version.outputs.VERSION }}.zip'
-
-      - name: Publish to Firefox Add-ons (AMO)
-        uses: PlasmoHQ/bpp@v3
-        with:
-          firefox-jwt-issuer: ${{ secrets.FIREFOX_JWT_ISSUER }}
-          firefox-jwt-secret: ${{ secrets.FIREFOX_JWT_SECRET }}
-          firefox-zip: 'md3-new-tab-v${{ steps.version.outputs.VERSION }}-firefox.zip'
+          keys: |
+            {
+              "edge": {
+                "productId": "${{ secrets.EDGE_PRODUCT_ID }}",
+                "clientId": "${{ secrets.EDGE_CLIENT_ID }}",
+                "clientSecret": "${{ secrets.EDGE_CLIENT_SECRET }}",
+                "accessTokenUrl": "${{ secrets.EDGE_ACCESS_TOKEN_URL }}"
+              },
+              "firefox": {
+                "jwtIssuer": "${{ secrets.FIREFOX_JWT_ISSUER }}",
+                "jwtSecret": "${{ secrets.FIREFOX_JWT_SECRET }}"
+              }
+            }
+          edge-file: "md3-new-tab-v${{ steps.version.outputs.VERSION }}.zip"
+          firefox-file: "md3-new-tab-v${{ steps.version.outputs.VERSION }}-firefox.zip"
