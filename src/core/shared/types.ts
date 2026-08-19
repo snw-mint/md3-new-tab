@@ -36,6 +36,17 @@ export interface AppSettings {
   hideGoogleShortcuts: boolean;
 }
 
+export type WallpaperProvider = 'upload' | 'unsplash' | 'pexels' | 'media_commons' | 'bing';
+
+export interface WallpaperCacheEntry {
+  url?: string;
+  date?: string;
+  credit?: string;
+  creditUrl?: string;
+  creditHtml?: string;
+  dominantColor?: string;
+}
+
 export interface CityData {
   name: string;
   lat: number;
