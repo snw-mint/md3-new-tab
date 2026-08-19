@@ -112,10 +112,22 @@ export function initSidebarRouter(): void {
         init: m.init,
       })),
   });
+  router.register({
+    id: 'wallpaper-advanced',
+    keepAlive: true,
+    load: () =>
+      import('../lazy/pages/wallpaper-advanced').then((m) => ({
+        template: m.template,
+        init: m.init,
+      })),
+  });
   document.getElementById('advancedOptionsBtn')?.addEventListener('click', () => {
     router!.push('appearance-advanced');
   });
   document.getElementById('advancedDisplayOptionsBtn')?.addEventListener('click', () => {
     router!.push('display-advanced');
+  });
+  document.getElementById('advancedWallpaperOptionsBtn')?.addEventListener('click', () => {
+    router!.push('wallpaper-advanced');
   });
 }

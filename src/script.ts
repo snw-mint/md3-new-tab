@@ -231,6 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
           text: chrome.i18n.getMessage('snackbarUpdate', [version]),
           actionText: chrome.i18n.getMessage('snackbarReleaseNotes'),
           duration: 8000,
+          priority: 1,
           onAction: () => {
             window.open('https://github.com/snw-mint/md3-new-tab/releases', '_blank');
           }

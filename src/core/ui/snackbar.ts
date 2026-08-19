@@ -9,14 +9,20 @@
 import { SnackbarOptions } from '../shared/types';
 
 let snackbarTimeout: number | null = null;
+let activePriority = 0;
 
-export function showSnackbar({ text, actionText, duration = 4000, onAction }: SnackbarOptions): void {
+export function showSnackbar({ text, actionText, duration = 4000, onAction, priority = 0 }: SnackbarOptions): void {
   const snackbar = document.getElementById('global-snackbar');
   const textEl = document.getElementById('snackbarText');
   const actionEl = document.getElementById('snackbarAction');
 
   if (!snackbar || !textEl || !actionEl) return;
 
+  if (snackbar.classList.contains('show') && priority < activePriority) {
+    return;
+  }
+
+  activePriority = priority;
   textEl.textContent = text;
 
   if (actionText) {
@@ -24,7 +30,7 @@ export function showSnackbar({ text, actionText, duration = 4000, onAction }: Sn
     actionEl.style.display = '';
     actionEl.onclick = () => {
       if (onAction) onAction();
-      hideSnackbar();
+      hideSnackbar(priority, true);
     };
   } else {
     actionEl.style.display = 'none';
@@ -35,16 +41,28 @@ export function showSnackbar({ text, actionText, duration = 4000, onAction }: Sn
 
   if (snackbarTimeout !== null) {
     clearTimeout(snackbarTimeout);
+    snackbarTimeout = null;
   }
 
-  snackbarTimeout = window.setTimeout(() => {
-    hideSnackbar();
-  }, duration);
+  if (duration > 0) {
+    snackbarTimeout = window.setTimeout(() => {
+      hideSnackbar(priority, true);
+    }, duration);
+  }
 }
 
-export function hideSnackbar(): void {
+export function hideSnackbar(priority = 0, force = false): void {
   const snackbar = document.getElementById('global-snackbar');
-  if (snackbar) {
-    snackbar.classList.remove('show');
+  if (!snackbar) return;
+
+  if (!force && priority < activePriority && snackbar.classList.contains('show')) {
+    return;
   }
+
+  activePriority = 0;
+  if (snackbarTimeout !== null) {
+    clearTimeout(snackbarTimeout);
+    snackbarTimeout = null;
+  }
+  snackbar.classList.remove('show');
 }

@@ -36,10 +36,12 @@ class ReactiveState {
       launcherEnabled: true,
       launcherProvider: 'google',
       wallpaperEnabled: false,
+      wallpaperProvider: 'upload',
       wallpaperImage: '',
       colorFromWallpaper: false,
       wallpaperColor: '',
       wallpaperOverlay: 0.3,
+      wallpaperRefreshInterval: 'daily',
       customTabName: '',
       customFavicon: true,
       hideGoogleShortcuts: false,
@@ -87,3 +89,33 @@ class ReactiveState {
 }
 
 export const globalState = new ReactiveState();
+
+const wallpaperMemoryCache = new Map<string, any>();
+
+export function getWallpaperCache(cacheKey: string): any {
+  if (wallpaperMemoryCache.has(cacheKey)) {
+    return wallpaperMemoryCache.get(cacheKey) || null;
+  }
+  try {
+    const cached = JSON.parse(
+      localStorage.getItem(cacheKey) || 'null',
+    );
+    wallpaperMemoryCache.set(cacheKey, cached);
+    return cached;
+  } catch (e) {
+    console.error('Error reading cache', e);
+    return null;
+  }
+}
+
+export function setWallpaperCache(
+  cacheKey: string,
+  entry: any,
+): void {
+  wallpaperMemoryCache.set(cacheKey, entry);
+  try {
+    localStorage.setItem(cacheKey, JSON.stringify(entry));
+  } catch (e) {
+    console.error('Error writing cache', e);
+  }
+}

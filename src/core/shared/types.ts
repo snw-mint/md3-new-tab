@@ -26,13 +26,26 @@ export interface AppSettings {
   launcherEnabled: boolean;
   launcherProvider: 'google' | 'microsoft' | 'proton';
   wallpaperEnabled: boolean;
+  wallpaperProvider: 'upload' | 'unsplash' | 'pexels' | 'media_commons' | 'bing';
   wallpaperImage: string;
   colorFromWallpaper: boolean;
   wallpaperColor: string;
   wallpaperOverlay: number;
+  wallpaperRefreshInterval: 'daily' | 'hourly' | '15m' | '5m';
   customTabName: string;
   customFavicon: boolean;
   hideGoogleShortcuts: boolean;
+}
+
+export type WallpaperProvider = 'upload' | 'unsplash' | 'pexels' | 'media_commons' | 'bing';
+
+export interface WallpaperCacheEntry {
+  url?: string;
+  date?: string;
+  credit?: string;
+  creditUrl?: string;
+  creditHtml?: string;
+  dominantColor?: string;
 }
 
 export interface CityData {
@@ -88,6 +101,7 @@ export interface SnackbarOptions {
   actionText?: string | null;
   duration?: number;
   onAction?: () => void;
+  priority?: number;
 }
 
 export interface WarningModalOptions {

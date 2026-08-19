@@ -8,41 +8,8 @@
 
 import { DOM } from '../shared/dom-refs';
 import { globalState } from '../shared/state';
-
-function extractDominantColor(img: HTMLImageElement): string {
-  const canvas = document.createElement('canvas');
-  canvas.width = 10;
-  canvas.height = 10;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return '#0B57D0';
-
-  ctx.drawImage(img, 0, 0, 10, 10);
-  const data = ctx.getImageData(0, 0, 10, 10).data;
-
-  let r = 0,
-    g = 0,
-    b = 0;
-  for (let i = 0; i < data.length; i += 4) {
-    r += data[i];
-    g += data[i + 1];
-    b += data[i + 2];
-  }
-  const count = data.length / 4;
-  r = Math.floor(r / count);
-  g = Math.floor(g / count);
-  b = Math.floor(b / count);
-
-  const hex =
-    '#' +
-    [r, g, b]
-      .map((x) => {
-        const hexStr = x.toString(16);
-        return hexStr.length === 1 ? '0' + hexStr : hexStr;
-      })
-      .join('');
-
-  return hex;
-}
+import { bootWallpaper, extractDominantColor, updateOverlay } from './wallpaper-render';
+import { WallpaperEngine } from '../lazy/wallpaper-engine';
 
 async function compressImageToWebP(file: File): Promise<{ dataUrl: string; dominantColor: string }> {
   return new Promise((resolve, reject) => {
@@ -97,30 +64,76 @@ async function compressImageToWebP(file: File): Promise<{ dataUrl: string; domin
 }
 
 export function initWallpaper(): void {
-  const { wallpaperUploadBtn, wallpaperFileInput, wallpaperAddIcon, wallpaperRemoveIcon, wallpaperLayer } =
+  const { wallpaperUploadBtn, wallpaperFileInput, wallpaperAddIcon, wallpaperRemoveIcon, wallpaperLayer, wallpaperUploadWrapper } =
     DOM.settings;
 
   if (!wallpaperUploadBtn || !wallpaperFileInput || !wallpaperAddIcon || !wallpaperRemoveIcon || !wallpaperLayer) {
     return;
   }
 
-  const updateUI = (state: typeof globalState.current) => {
-    // If the wallpaper is enabled and an image exists
-    if (state.wallpaperEnabled && state.wallpaperImage) {
-      wallpaperUploadBtn.classList.add('active-state');
-      wallpaperAddIcon.style.display = 'none';
-      wallpaperRemoveIcon.style.display = '';
+  bootWallpaper(
+    globalState.current.wallpaperEnabled,
+    globalState.current.wallpaperProvider || 'upload',
+    globalState.current.wallpaperImage,
+    globalState.current.wallpaperOverlay,
+  );
 
-      wallpaperLayer.style.backgroundImage = `url(${state.wallpaperImage})`;
-      document.body.classList.add('has-wallpaper');
-    } else {
-      wallpaperUploadBtn.classList.remove('active-state');
-      wallpaperAddIcon.style.display = '';
-      wallpaperRemoveIcon.style.display = 'none';
-      document.body.classList.remove('has-wallpaper');
+  const initialIsUpload = (globalState.current.wallpaperProvider || 'upload') === 'upload';
+  if (globalState.current.wallpaperEnabled && !initialIsUpload) {
+    WallpaperEngine.render({
+      enabled: true,
+      provider: globalState.current.wallpaperProvider || 'upload',
+      image: globalState.current.wallpaperImage,
+      overlay: globalState.current.wallpaperOverlay,
+    });
+  }
+
+  let lastProvider = globalState.current.wallpaperProvider || 'upload';
+  let lastEnabled = globalState.current.wallpaperEnabled;
+
+  const updateUI = (state: typeof globalState.current) => {
+    const isUpload = (state.wallpaperProvider || 'upload') === 'upload';
+    if (wallpaperUploadWrapper) {
+      wallpaperUploadWrapper.style.display = isUpload ? '' : 'none';
     }
 
-    document.documentElement.style.setProperty('--wallpaper-overlay', state.wallpaperOverlay.toString());
+    if (isUpload) {
+      if (state.wallpaperEnabled && state.wallpaperImage) {
+        wallpaperUploadBtn.classList.add('active-state');
+        wallpaperAddIcon.style.display = 'none';
+        wallpaperRemoveIcon.style.display = '';
+
+        wallpaperLayer.style.backgroundImage = `url(${state.wallpaperImage})`;
+        document.body.classList.add('has-wallpaper');
+      } else {
+        wallpaperUploadBtn.classList.remove('active-state');
+        wallpaperAddIcon.style.display = '';
+        wallpaperRemoveIcon.style.display = 'none';
+        if (state.wallpaperEnabled && !state.wallpaperImage) {
+          wallpaperLayer.style.backgroundImage = 'none';
+          document.body.classList.remove('has-wallpaper');
+        }
+      }
+    }
+
+    if (
+      state.wallpaperProvider !== lastProvider ||
+      state.wallpaperEnabled !== lastEnabled
+    ) {
+      lastProvider = state.wallpaperProvider || 'upload';
+      lastEnabled = state.wallpaperEnabled;
+
+      if (!isUpload || !state.wallpaperEnabled) {
+        WallpaperEngine.render({
+          enabled: state.wallpaperEnabled,
+          provider: state.wallpaperProvider || 'upload',
+          image: state.wallpaperImage,
+          overlay: state.wallpaperOverlay,
+        });
+      }
+    }
+
+    updateOverlay(state.wallpaperOverlay, state.wallpaperEnabled);
   };
 
   globalState.subscribe(updateUI);
