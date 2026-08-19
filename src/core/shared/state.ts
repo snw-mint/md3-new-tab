@@ -41,6 +41,7 @@ class ReactiveState {
       colorFromWallpaper: false,
       wallpaperColor: '',
       wallpaperOverlay: 0.3,
+      wallpaperRefreshInterval: 'daily',
       customTabName: '',
       customFavicon: true,
       hideGoogleShortcuts: false,

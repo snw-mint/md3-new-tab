@@ -36,11 +36,32 @@ export const template = `<div class="settings-inner-card">
         </div>
       </div>
     </div>
+
+    <div class="settings-group-card" id="advWallpaperIntervalCard">
+      <h3 class="settings-group-title" data-i18n="refreshIntervalTitle" style="margin-bottom: 1.5rem;">Refresh interval</h3>
+
+      <div class="md3-outlined-select-wrapper">
+        <button type="button" id="advWallpaperIntervalSelect" class="md3-outlined-select md3-select-trigger" aria-label="Refresh interval" value="daily">
+          <span class="md3-select-value" data-i18n="intervalDaily">Every Day</span>
+          <template class="md3-select-options">
+            <div data-value="daily" data-i18n="intervalDaily">Every Day</div>
+            <div data-value="hourly" data-i18n="intervalHourly">Every Hour</div>
+            <div data-value="15m" data-i18n="interval15m">Every 15 Minutes</div>
+            <div data-value="5m" data-i18n="interval5m">Every 5 Minutes</div>
+          </template>
+        </button>
+        <label for="advWallpaperIntervalSelect" class="md3-select-label" data-i18n="refreshIntervalLabel">Refresh interval</label>
+        <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+          <path d="M459-381 314-526q-3-3-4.5-6.5T308-540q0-8 5.5-14t14.5-6h304q9 0 14.5 6t5.5 14q0 2-6 14L501-381q-5 5-10 7t-11 2-11-2-10-7" />
+        </svg>
+      </div>
+    </div>
   </div>
 `;
 
 export function init(container: HTMLElement): void {
   const wallpaperOverlaySlider = container.querySelector<HTMLInputElement>('#advWallpaperOverlaySlider');
+  const wallpaperIntervalSelect = container.querySelector<HTMLButtonElement>('#advWallpaperIntervalSelect');
 
   if (wallpaperOverlaySlider) {
     const updateSliderProgress = (value: number) => {
@@ -57,9 +78,27 @@ export function init(container: HTMLElement): void {
       globalState.current.wallpaperOverlay = val;
       updateSliderProgress(val);
     });
+  }
 
-    const syncState = () => {
-      const state = globalState.current;
+  if (wallpaperIntervalSelect) {
+    import('../md3-select').then(({ initCustomSelectSystem }) => {
+      initCustomSelectSystem();
+    });
+
+    const currentVal = globalState.current.wallpaperRefreshInterval || 'daily';
+    wallpaperIntervalSelect.value = currentVal;
+    wallpaperIntervalSelect.setAttribute('value', currentVal);
+
+    wallpaperIntervalSelect.addEventListener('change', (e) => {
+      const target = e.target as HTMLButtonElement;
+      globalState.current.wallpaperRefreshInterval = target.value as any;
+    });
+  }
+
+  const syncState = () => {
+    const state = globalState.current;
+
+    if (wallpaperOverlaySlider) {
       const isDisabled = !state.wallpaperEnabled || (state.wallpaperProvider === 'upload' && !state.wallpaperImage);
       wallpaperOverlaySlider.disabled = isDisabled;
 
@@ -70,13 +109,22 @@ export function init(container: HTMLElement): void {
 
       if (wallpaperOverlaySlider.value !== state.wallpaperOverlay.toString()) {
         wallpaperOverlaySlider.value = state.wallpaperOverlay.toString();
-        updateSliderProgress(state.wallpaperOverlay);
+        const progress = (state.wallpaperOverlay / 0.8) * 100;
+        wallpaperOverlaySlider.style.setProperty('--slider-progress', `${progress}%`);
       }
-    };
+    }
 
-    syncState();
-    globalState.subscribe(syncState);
-  }
+    if (wallpaperIntervalSelect) {
+      const currentInterval = state.wallpaperRefreshInterval || 'daily';
+      if (wallpaperIntervalSelect.value !== currentInterval) {
+        wallpaperIntervalSelect.value = currentInterval;
+        wallpaperIntervalSelect.setAttribute('value', currentInterval);
+      }
+    }
+  };
+
+  syncState();
+  globalState.subscribe(syncState);
 
   applyTranslations(container);
 }

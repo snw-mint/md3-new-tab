@@ -31,6 +31,7 @@ export interface AppSettings {
   colorFromWallpaper: boolean;
   wallpaperColor: string;
   wallpaperOverlay: number;
+  wallpaperRefreshInterval: 'daily' | 'hourly' | '15m' | '5m';
   customTabName: string;
   customFavicon: boolean;
   hideGoogleShortcuts: boolean;

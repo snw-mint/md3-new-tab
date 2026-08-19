@@ -604,5 +604,23 @@
         "content": "$1"
       }
     }
+  },
+  "refreshIntervalTitle": {
+    "message": "Intervalo de atualização"
+  },
+  "refreshIntervalLabel": {
+    "message": "Intervalo de atualização"
+  },
+  "intervalDaily": {
+    "message": "Every Day"
+  },
+  "intervalHourly": {
+    "message": "Every Hour"
+  },
+  "interval15m": {
+    "message": "Every 15 Minutes"
+  },
+  "interval5m": {
+    "message": "Every 5 Minutes"
   }
 }

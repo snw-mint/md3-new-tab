@@ -601,5 +601,23 @@
         "content": "$1"
       }
     }
+  },
+  "refreshIntervalTitle": {
+    "message": "Refresh interval"
+  },
+  "refreshIntervalLabel": {
+    "message": "Refresh interval"
+  },
+  "intervalDaily": {
+    "message": "Every Day"
+  },
+  "intervalHourly": {
+    "message": "Every Hour"
+  },
+  "interval15m": {
+    "message": "Every 15 Minutes"
+  },
+  "interval5m": {
+    "message": "Every 5 Minutes"
   }
 }
