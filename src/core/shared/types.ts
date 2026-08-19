@@ -28,18 +28,19 @@ export interface AppSettings {
   launcherEnabled: boolean;
   launcherProvider: 'google' | 'microsoft' | 'proton';
   wallpaperEnabled: boolean;
-  wallpaperProvider: 'upload' | 'unsplash' | 'pexels' | 'media_commons' | 'bing';
+  wallpaperProvider: 'upload' | 'pexels' | 'media_commons' | 'bing';
   wallpaperImage: string;
   colorFromWallpaper: boolean;
   wallpaperColor: string;
   wallpaperOverlay: number;
   wallpaperRefreshInterval: 'daily' | 'hourly' | '15m' | '5m';
+  bingCountry: string;
   customTabName: string;
   customFavicon: boolean;
   hideGoogleShortcuts: boolean;
 }
 
-export type WallpaperProvider = 'upload' | 'unsplash' | 'pexels' | 'media_commons' | 'bing';
+export type WallpaperProvider = 'upload' | 'pexels' | 'media_commons' | 'bing';
 
 export interface WallpaperCacheItem {
   url: string;

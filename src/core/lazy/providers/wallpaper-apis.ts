@@ -1,11 +1,10 @@
-import { WallpaperProvider, WallpaperCacheEntry } from '../../shared/types';
-import { getWallpaperCache, setWallpaperCache } from '../../shared/state';
+import { WallpaperProvider } from '../../shared/types';
+import { globalState, getWallpaperCache, setWallpaperCache } from '../../shared/state';
 import { fetchRandomBing, fetchRandomWikimedia } from './wallpaper-refresh';
 
 export const WALLPAPER_HOST_PERMISSIONS: Record<string, string[]> = {
   bing: ['https://peapix.com/*', 'https://img.peapix.com/*'],
   media_commons: ['https://commons.wikimedia.org/*', 'https://upload.wikimedia.org/*'],
-  unsplash: ['https://unsplash.snw-mint.workers.dev/*'],
   pexels: ['https://pexels.snw-mint.workers.dev/*'],
 };
 
@@ -31,7 +30,6 @@ export async function fetchDailyWallpaper(
 
   const today = new Date().toISOString().slice(0, 10);
 
-
   let imageUrl = '';
   let creditText = '';
   let creditUrl = '';
@@ -43,8 +41,10 @@ export async function fetchDailyWallpaper(
         imageUrl = (await fetchRandomBing()) || '';
         creditText = 'Bing Daily Image';
         creditUrl = 'https://www.bing.com';
-      } else {
-        const res = await fetch('https://peapix.com/bing/feed?country=us');
+      }
+      if (!imageUrl) {
+        const country = globalState.current.bingCountry || 'us';
+        const res = await fetch(`https://peapix.com/bing/feed?country=${country}&n=1`, { cache: 'no-store' });
         if (!res.ok) throw new Error(`Bing Error: ${res.status}`);
         const data = (await res.json()) as any[];
 
@@ -104,36 +104,6 @@ export async function fetchDailyWallpaper(
             }
           }
         }
-      }
-    } else if (source === 'unsplash') {
-      const url =
-        `https://unsplash.snw-mint.workers.dev/photos/random?topics=textures-patterns&orientation=landscape&_cb=${Date.now()}`;
-      const res = await fetch(url);
-      if (!res.ok) {
-        throw new Error(`Unsplash Worker Error: ${res.status}`);
-      }
-      const data = await res.json();
-      if (data && data.urls && data.urls.raw) {
-        let screenWidth = window.screen.width * (window.devicePixelRatio || 1);
-        screenWidth = Math.max(screenWidth, 1920);
-        screenWidth = Math.min(screenWidth, 3840);
-        screenWidth = Math.ceil(screenWidth / 240) * 240;
-
-        const joiner = data.urls.raw.includes('?') ? '&' : '?';
-        imageUrl = `${data.urls.raw}${joiner}w=${screenWidth}&q=80&fm=webp`;
-
-        let photographerName = data.user?.name || 'Photographer';
-        if (photographerName.length > 20) {
-          photographerName = photographerName.substring(0, 20).trim() + '...';
-        }
-        const photographerUrl = data.user?.links?.html
-          ? `${data.user.links.html}?utm_source=md3_new_tab&utm_medium=referral`
-          : 'https://unsplash.com/?utm_source=md3_new_tab&utm_medium=referral';
-        const unsplashUrl = `https://unsplash.com/?utm_source=md3_new_tab&utm_medium=referral`;
-
-        creditHtml = `Photo by <a href="${photographerUrl}" target="_blank" class="wallpaper-credit-link" style="color: inherit; text-decoration: none; pointer-events: auto;">${photographerName}</a> on <a href="${unsplashUrl}" target="_blank" class="wallpaper-credit-link" style="color: inherit; text-decoration: none; pointer-events: auto;">Unsplash</a>`;
-        creditText = `Photo by ${photographerName} on Unsplash`;
-        creditUrl = photographerUrl;
       }
     } else if (source === 'pexels') {
       const randomPage = Math.floor(Math.random() * 100) + 1;

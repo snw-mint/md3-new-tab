@@ -49,8 +49,7 @@ export class WallpaperEngine {
         return cached;
       }
     } catch {}
-    
-    // Check if we need to migrate from old CacheEntry to Queue
+
     try {
       const oldCached = getWallpaperCache(cacheKey) as any;
       if (oldCached && oldCached.date === today && oldCached.url && !Array.isArray(oldCached.items)) {
@@ -68,10 +67,6 @@ export class WallpaperEngine {
       }
     } catch {}
 
-    // If day changed or no cache, we clear it (or start fresh)
-    // Wait, the rule says: "após as 24h o ciclo volta do zero, mantendo a imagem atual que estiver na tela"
-    // To keep the current image, we need to extract it if possible, but currently we just return a fresh queue.
-    // Let's see if we can find the old image.
     try {
       const oldCached = getWallpaperCache(cacheKey) as any;
       if (oldCached && Array.isArray(oldCached.items) && oldCached.items.length > 0 && oldCached.currentIndex >= 0) {
@@ -165,15 +160,14 @@ export class WallpaperEngine {
         if (img) targetItem = { url: img };
       } else {
         const queue = WallpaperEngine._getQueue(config.provider);
-        const needsApiFetch = !paused && (queue.items.length === 0 || intervalExpired || fromTimer);
-        const random = needsApiFetch && interval !== 'daily';
+        const needsApiFetch = (!paused || fromTimer) && (queue.items.length === 0 || intervalExpired || fromTimer);
+        const random = (needsApiFetch && interval !== 'daily') || fromTimer;
 
         if (needsApiFetch) {
           if (interval === 'daily') {
             const providerNames: Record<string, string> = {
               bing: 'Bing',
               media_commons: 'Media Commons',
-              unsplash: 'Unsplash',
               pexels: 'Pexels',
             };
             const sourceName = providerNames[config.provider] || config.provider;
@@ -192,7 +186,6 @@ export class WallpaperEngine {
         } else if (queue.items.length > 0 && queue.currentIndex >= 0) {
           targetItem = queue.items[queue.currentIndex];
         } else {
-          // Fallback if cache exists but queue is empty? Fetch randomly
           const fetched = await fetchDailyWallpaper(config.provider, true);
           if (fetched) {
             targetItem = fetched;
@@ -239,7 +232,6 @@ export class WallpaperEngine {
       if (config.provider !== 'upload') {
         if (pushToQueue) {
           const queue = WallpaperEngine._getQueue(config.provider);
-          // Drop items after currentIndex if we fetched a new image while not at the end
           queue.items = queue.items.slice(0, queue.currentIndex + 1);
           queue.items.push(item);
           queue.currentIndex = queue.items.length - 1;
@@ -256,7 +248,7 @@ export class WallpaperEngine {
       extractDominantColorFromUrl(item.url).then((color) => {
         if (color) {
           globalState.current.wallpaperColor = color;
-          
+
           if (config.provider !== 'upload') {
             const queue = WallpaperEngine._getQueue(config.provider);
             const currentItem = queue.items[queue.currentIndex];
@@ -300,7 +292,7 @@ export class WallpaperEngine {
 
     queue.currentIndex--;
     WallpaperEngine._saveQueue(config.provider, queue);
-    
+
     WallpaperEngine.applyWallpaper(queue.items[queue.currentIndex], config, false);
     WallpaperEngine._actionTimer = setTimeout(() => { WallpaperEngine._actionTimer = null; }, 800);
   }
@@ -320,12 +312,11 @@ export class WallpaperEngine {
     }
 
     const interval = globalState.current.wallpaperRefreshInterval || 'daily';
-    
+
     if (interval === 'daily') {
       const providerNames: Record<string, string> = {
         bing: 'Bing',
         media_commons: 'Media Commons',
-        unsplash: 'Unsplash',
         pexels: 'Pexels',
       };
       const sourceName = providerNames[config.provider] || config.provider;
@@ -353,7 +344,6 @@ export class WallpaperEngine {
       if (WallpaperEngine._actionTimer) {
         clearTimeout(WallpaperEngine._actionTimer);
       }
-      // 1s delay block to prevent spam
       WallpaperEngine._actionTimer = setTimeout(() => { WallpaperEngine._actionTimer = null; }, 1000);
     }
   }

@@ -7,9 +7,10 @@
  */
 
 import type { SidebarPageModule } from '../../ui/sidebar-router';
-import { globalState } from '../../shared/state';
+import { globalState, setWallpaperCache } from '../../shared/state';
 import { applyTranslations } from '../../shared/i18n';
 import { WallpaperEngine } from '../wallpaper-engine';
+import { setLastRefreshTs } from '../providers/wallpaper-refresh';
 
 export const template = `<div class="settings-inner-card">
     <div class="settings-back-card">
@@ -50,7 +51,7 @@ export const template = `<div class="settings-inner-card">
           </span>
         </button>
 
-        <button type="button" id="advWallpaperPause" class="wallpaper-ctrl-btn wallpaper-ctrl-btn--pause" aria-label="Pause/Play wallpaper">
+        <button type="button" id="advWallpaperPause" class="wallpaper-ctrl-btn wallpaper-ctrl-btn--pause" aria-label="Keep current wallpaper">
           <span class="wallpaper-ctrl-bg wallpaper-ctrl-bg--spin">
             <svg width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M338.584 189.998c25.843 48.166 6.318 91.773-43.518 105.063-13.295 49.841-56.902 69.361-105.068 43.523-48.167 25.843-91.773 6.318-105.064-43.518-49.836-13.295-69.361-56.902-43.518-105.068-25.843-48.167-6.318-91.773 43.518-105.064 13.29-49.836 56.897-69.361 105.064-43.518 48.166-25.843 91.773-6.318 105.063 43.518 49.841 13.29 69.361 56.897 43.523 105.064" fill="currentColor"/></svg>
           </span>
@@ -69,7 +70,6 @@ export const template = `<div class="settings-inner-card">
         </button>
       </div>
     </div>
-
 
     <div class="settings-group-card" id="advWallpaperIntervalCard">
       <h3 class="settings-group-title" data-i18n="refreshIntervalTitle" style="margin-bottom: 1.5rem;">Refresh interval</h3>
@@ -90,12 +90,34 @@ export const template = `<div class="settings-inner-card">
         </svg>
       </div>
     </div>
+
+    <div class="settings-group-card" id="advWallpaperCountryCard">
+      <h3 class="settings-group-title" data-i18n="wallpaperCountryTitle" style="margin-bottom: 1.5rem;">Country</h3>
+
+      <div class="md3-outlined-select-wrapper">
+        <button type="button" id="advWallpaperCountrySelect" class="md3-outlined-select md3-select-trigger" aria-label="Country" value="us">
+          <span class="md3-select-value" data-i18n="countryUS">United States</span>
+          <template class="md3-select-options">
+            <div data-value="us" data-i18n="countryUS">United States</div>
+            <div data-value="br" data-i18n="countryBR">Brazil</div>
+            <div data-value="jp" data-i18n="countryJP">Japan</div>
+            <div data-value="it" data-i18n="countryIT">Italy</div>
+            <div data-value="es" data-i18n="countryES">Spain</div>
+          </template>
+        </button>
+        <label for="advWallpaperCountrySelect" class="md3-select-label" data-i18n="wallpaperCountryLabel">Country</label>
+        <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+          <path d="M459-381 314-526q-3-3-4.5-6.5T308-540q0-8 5.5-14t14.5-6h304q9 0 14.5 6t5.5 14q0 2-6 14L501-381q-5 5-10 7t-11 2-11-2-10-7" />
+        </svg>
+      </div>
+    </div>
   </div>
 `;
 
 export function init(container: HTMLElement): void {
   const wallpaperOverlaySlider = container.querySelector<HTMLInputElement>('#advWallpaperOverlaySlider');
   const wallpaperIntervalSelect = container.querySelector<HTMLButtonElement>('#advWallpaperIntervalSelect');
+  const wallpaperCountrySelect = container.querySelector<HTMLButtonElement>('#advWallpaperCountrySelect');
 
   if (wallpaperOverlaySlider) {
     const updateSliderProgress = (value: number) => {
@@ -114,11 +136,11 @@ export function init(container: HTMLElement): void {
     });
   }
 
-  if (wallpaperIntervalSelect) {
-    import('../md3-select').then(({ initCustomSelectSystem }) => {
-      initCustomSelectSystem();
-    });
+  import('../md3-select').then(({ initCustomSelectSystem }) => {
+    initCustomSelectSystem();
+  });
 
+  if (wallpaperIntervalSelect) {
     const currentVal = globalState.current.wallpaperRefreshInterval || 'daily';
     wallpaperIntervalSelect.value = currentVal;
     wallpaperIntervalSelect.setAttribute('value', currentVal);
@@ -126,6 +148,29 @@ export function init(container: HTMLElement): void {
     wallpaperIntervalSelect.addEventListener('change', (e) => {
       const target = e.target as HTMLButtonElement;
       globalState.current.wallpaperRefreshInterval = target.value as any;
+    });
+  }
+
+  if (wallpaperCountrySelect) {
+    const currentVal = globalState.current.bingCountry || 'us';
+    wallpaperCountrySelect.value = currentVal;
+    wallpaperCountrySelect.setAttribute('value', currentVal);
+
+    wallpaperCountrySelect.addEventListener('change', (e) => {
+      const target = e.target as HTMLButtonElement;
+      const val = target.value;
+      if (globalState.current.bingCountry !== val) {
+        globalState.current.bingCountry = val;
+        setWallpaperCache('wallpaper_cache_bing', null);
+        setLastRefreshTs(Date.now());
+        if (globalState.current.wallpaperEnabled && globalState.current.wallpaperProvider === 'bing') {
+          WallpaperEngine.render({
+            enabled: true,
+            provider: 'bing',
+            overlay: globalState.current.wallpaperOverlay,
+          }, true);
+        }
+      }
     });
   }
 
@@ -140,8 +185,10 @@ export function init(container: HTMLElement): void {
 
   const updatePauseIcon = () => {
     if (!pauseIcon) return;
-    pauseIcon.innerHTML = WallpaperEngine.isPaused() ? PLAY_SVG : PAUSE_SVG;
-    pauseBtn?.classList.toggle('is-paused', WallpaperEngine.isPaused());
+    const isPaused = WallpaperEngine.isPaused();
+    pauseIcon.innerHTML = isPaused ? PLAY_SVG : PAUSE_SVG;
+    pauseBtn?.classList.toggle('is-paused', isPaused);
+    pauseBtn?.setAttribute('aria-label', isPaused ? 'Resume wallpaper' : 'Keep current wallpaper');
   };
 
   if (backBtn) {
@@ -201,6 +248,14 @@ export function init(container: HTMLElement): void {
       }
     }
 
+    if (wallpaperCountrySelect) {
+      const currentCountry = state.bingCountry || 'us';
+      if (wallpaperCountrySelect.value !== currentCountry) {
+        wallpaperCountrySelect.value = currentCountry;
+        wallpaperCountrySelect.setAttribute('value', currentCountry);
+      }
+    }
+
     const isApi = state.wallpaperEnabled && state.wallpaperProvider !== 'upload';
     if (controlsCard) controlsCard.style.display = isApi ? '' : 'none';
 
@@ -214,8 +269,21 @@ export function init(container: HTMLElement): void {
       intervalCard.style.opacity = paused ? '0.45' : '';
     }
 
-    if (backBtn) backBtn.disabled = paused || !WallpaperEngine.canGoBack();
-    if (nextBtn) nextBtn.disabled = paused;
+    const countryCard = container.querySelector<HTMLElement>('#advWallpaperCountryCard');
+    if (countryCard) {
+      countryCard.style.display = (state.wallpaperEnabled && state.wallpaperProvider === 'bing') ? '' : 'none';
+    }
+
+    const hideNavigation = state.wallpaperProvider === 'bing';
+
+    if (backBtn) {
+      backBtn.style.display = hideNavigation ? 'none' : '';
+      backBtn.disabled = paused || !WallpaperEngine.canGoBack();
+    }
+    if (nextBtn) {
+      nextBtn.style.display = hideNavigation ? 'none' : '';
+      nextBtn.disabled = paused;
+    }
 
     updatePauseIcon();
   };

@@ -627,6 +627,27 @@
     "message": "Every 15 Minutes"
   },
   "interval5m": {
-    "message": "Every 5 Minutes"
+    "message": "A cada 5 minutos"
+  },
+  "wallpaperCountryTitle": {
+    "message": "País"
+  },
+  "wallpaperCountryLabel": {
+    "message": "País"
+  },
+  "countryUS": {
+    "message": "Estados Unidos"
+  },
+  "countryBR": {
+    "message": "Brasil"
+  },
+  "countryJP": {
+    "message": "Japão"
+  },
+  "countryIT": {
+    "message": "Itália"
+  },
+  "countryES": {
+    "message": "Espanha"
   }
 }

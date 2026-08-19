@@ -44,6 +44,7 @@ class ReactiveState {
       wallpaperColor: '',
       wallpaperOverlay: 0.3,
       wallpaperRefreshInterval: 'daily',
+      bingCountry: 'us',
       customTabName: '',
       customFavicon: true,
       hideGoogleShortcuts: false,
@@ -62,6 +63,10 @@ class ReactiveState {
       ? { ...defaultState, ...JSON.parse(savedState) }
       : defaultState;
 
+    if ((initialState.wallpaperProvider as any) === 'unsplash') {
+      initialState.wallpaperProvider = 'upload';
+    }
+
     if (!validClockStyles.includes(initialState.clockStyle)) {
       initialState.clockStyle = 'Expressive Clock';
     }
@@ -72,6 +77,10 @@ class ReactiveState {
 
     if (typeof initialState.clockScale !== 'number' || isNaN(initialState.clockScale)) {
       initialState.clockScale = 6;
+    }
+
+    if (!initialState.bingCountry) {
+      initialState.bingCountry = 'us';
     }
 
     this.state = new Proxy(initialState, {

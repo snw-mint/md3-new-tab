@@ -55,10 +55,6 @@ function showPermissionModal(onGranted: () => void, onDenied: () => void) {
 }
 
 const wallpaperProviderConfigs: Record<string, { origins: string[]; name: string }> = {
-  unsplash: {
-    origins: ['https://unsplash.snw-mint.workers.dev/*'],
-    name: 'Unsplash API',
-  },
   pexels: {
     origins: ['https://pexels.snw-mint.workers.dev/*'],
     name: 'Pexels API',
@@ -264,7 +260,7 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
 
     wallpaperProviderSelect.addEventListener('change', async (e) => {
       const target = e.target as HTMLSelectElement;
-      const selectedProvider = target.value as 'upload' | 'unsplash' | 'pexels' | 'media_commons' | 'bing';
+      const selectedProvider = target.value as 'upload' | 'pexels' | 'media_commons' | 'bing';
       const prevProvider = globalState.current.wallpaperProvider || 'upload';
       const config = wallpaperProviderConfigs[selectedProvider];
 
