@@ -22,6 +22,12 @@ export const DOM = {
     get wallpaperBlock(): HTMLElement | null {
       return document.getElementById('wallpaperSettingsBlock');
     },
+    get wallpaperProviderSelect(): HTMLButtonElement | null {
+      return document.getElementById('wallpaperProviderSelect') as HTMLButtonElement | null;
+    },
+    get wallpaperUploadWrapper(): HTMLElement | null {
+      return document.getElementById('wallpaperUploadWrapper');
+    },
     get wallpaperOverlaySlider(): HTMLInputElement | null {
       return document.getElementById('wallpaperOverlaySlider') as HTMLInputElement | null;
     },

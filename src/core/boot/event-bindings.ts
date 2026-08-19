@@ -179,6 +179,27 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
     });
   }
 
+  const { wallpaperProviderSelect } = DOM.settings;
+  if (wallpaperProviderSelect) {
+    wallpaperProviderSelect.value = globalState.current.wallpaperProvider || 'upload';
+    wallpaperProviderSelect.setAttribute('value', globalState.current.wallpaperProvider || 'upload');
+
+    wallpaperProviderSelect.addEventListener('change', (e) => {
+      const target = e.target as HTMLSelectElement;
+      globalState.current.wallpaperProvider = target.value as any;
+    });
+
+    globalState.subscribe((state) => {
+      const prov = state.wallpaperProvider || 'upload';
+      if (wallpaperProviderSelect.value !== prov) {
+        wallpaperProviderSelect.value = prov;
+      }
+      if (wallpaperProviderSelect.getAttribute('value') !== prov) {
+        wallpaperProviderSelect.setAttribute('value', prov);
+      }
+    });
+  }
+
   const { wallpaperOverlaySlider } = DOM.settings;
   if (wallpaperOverlaySlider) {
     const updateSliderProgress = (value: number) => {

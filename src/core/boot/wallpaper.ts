@@ -97,7 +97,7 @@ async function compressImageToWebP(file: File): Promise<{ dataUrl: string; domin
 }
 
 export function initWallpaper(): void {
-  const { wallpaperUploadBtn, wallpaperFileInput, wallpaperAddIcon, wallpaperRemoveIcon, wallpaperLayer } =
+  const { wallpaperUploadBtn, wallpaperFileInput, wallpaperAddIcon, wallpaperRemoveIcon, wallpaperLayer, wallpaperUploadWrapper } =
     DOM.settings;
 
   if (!wallpaperUploadBtn || !wallpaperFileInput || !wallpaperAddIcon || !wallpaperRemoveIcon || !wallpaperLayer) {
@@ -105,7 +105,10 @@ export function initWallpaper(): void {
   }
 
   const updateUI = (state: typeof globalState.current) => {
-    // If the wallpaper is enabled and an image exists
+    if (wallpaperUploadWrapper) {
+      wallpaperUploadWrapper.style.display = (state.wallpaperProvider || 'upload') === 'upload' ? '' : 'none';
+    }
+
     if (state.wallpaperEnabled && state.wallpaperImage) {
       wallpaperUploadBtn.classList.add('active-state');
       wallpaperAddIcon.style.display = 'none';

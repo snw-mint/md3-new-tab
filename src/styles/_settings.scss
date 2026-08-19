@@ -340,10 +340,6 @@ body {
 
   &.collapsed-card {
     padding-bottom: 1.8rem;
-
-    &:has(#wallpaperSettingsBlock) {
-      padding-bottom: 1.25rem;
-    }
   }
 }
 

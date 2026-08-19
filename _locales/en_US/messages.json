@@ -499,6 +499,12 @@
   "advancedOptionsTitle": {
     "message": "Advanced options"
   },
+  "wallpaperProviderLabel": {
+    "message": "Provider"
+  },
+  "wallpaperUploadOption": {
+    "message": "Upload Image"
+  },
   "wallpaperOverlayTitle": {
     "message": "Wallpaper overlay"
   },

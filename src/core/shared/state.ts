@@ -36,6 +36,7 @@ class ReactiveState {
       launcherEnabled: true,
       launcherProvider: 'google',
       wallpaperEnabled: false,
+      wallpaperProvider: 'upload',
       wallpaperImage: '',
       colorFromWallpaper: false,
       wallpaperColor: '',

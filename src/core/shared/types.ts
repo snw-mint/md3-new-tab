@@ -26,6 +26,7 @@ export interface AppSettings {
   launcherEnabled: boolean;
   launcherProvider: 'google' | 'microsoft' | 'proton';
   wallpaperEnabled: boolean;
+  wallpaperProvider: 'upload' | 'unsplash' | 'pexels' | 'media_commons' | 'bing';
   wallpaperImage: string;
   colorFromWallpaper: boolean;
   wallpaperColor: string;

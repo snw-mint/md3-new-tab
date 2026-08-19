@@ -325,8 +325,25 @@
                 </label>
               </div>
 
-              <div class="expandable-content collapsed" id="wallpaperSettingsBlock">
-                <div class="wallpaper-upload-wrapper">
+              <div class="expandable-content compact-gap collapsed" id="wallpaperSettingsBlock">
+                <div class="md3-outlined-select-wrapper">
+                  <button type="button" id="wallpaperProviderSelect" class="md3-outlined-select md3-select-trigger" aria-label="Provider" value="upload">
+                    <span class="md3-select-value" data-i18n="wallpaperUploadOption">Upload Image</span>
+                    <template class="md3-select-options">
+                      <div data-value="upload" data-i18n="wallpaperUploadOption">Upload Image</div>
+                      <div data-value="unsplash">Unsplash</div>
+                      <div data-value="pexels">Pexels</div>
+                      <div data-value="media_commons">Media Commons</div>
+                      <div data-value="bing">Bing</div>
+                    </template>
+                  </button>
+                  <label for="wallpaperProviderSelect" class="md3-select-label" data-i18n="wallpaperProviderLabel">Provider</label>
+                  <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+                    <path d="M459-381 314-526q-3-3-4.5-6.5T308-540q0-8 5.5-14t14.5-6h304q9 0 14.5 6t5.5 14q0 2-6 14L501-381q-5 5-10 7t-11 2-11-2-10-7" />
+                  </svg>
+                </div>
+
+                <div class="wallpaper-upload-wrapper" id="wallpaperUploadWrapper">
                   <input type="file" id="wallpaperFileInput" accept="image/*" style="display: none" />
                   <button type="button" id="wallpaperUploadBtn" class="wallpaper-btn" aria-label="Set Wallpaper">
                     <svg id="wallpaperAddIcon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
@@ -340,16 +357,10 @@
                 </div>
 
                 <hr class="settings-divider" />
-                <div class="slider-group">
-                  <div class="slider-header" style="margin-bottom: 0.5rem">
-                    <span style="position: relative; display: inline-flex; align-items: center">
-                      <span class="slider-label" style="font-size: 0.875rem; color: var(--color-on-surface); font-weight: 500" data-i18n="wallpaperOverlayTitle">Wallpaper overlay</span>
-                    </span>
-                  </div>
-                  <div class="md3-slider-wrapper">
-                    <input type="range" id="wallpaperOverlaySlider" class="md3-custom-slider" min="0" max="0.8" step="0.01" value="0.3" />
-                  </div>
-                </div>
+                <button type="button" class="settings-button-card" id="advancedWallpaperOptionsBtn">
+                  <span class="button-card-title" data-i18n="advancedOptionsTitle">Advanced options</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M504-480 348-636q-11-11-11-28t11-28q11-11 28-11t28 11l184 184q6 6 8.5 13t2.5 15q0 8-2.5 15t-8.5 13L404-268q-11 11-28 11t-28-11q-11-11-11-28l156-156Z" /></svg>
+                </button>
               </div>
             </div>
 

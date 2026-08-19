@@ -499,6 +499,12 @@
   "advancedOptionsTitle": {
     "message": "Opções avançadas"
   },
+  "wallpaperProviderLabel": {
+    "message": "Provedor"
+  },
+  "wallpaperUploadOption": {
+    "message": "Enviar Imagem"
+  },
   "wallpaperOverlayTitle": {
     "message": "Escurecimento do papel de parede"
   },
