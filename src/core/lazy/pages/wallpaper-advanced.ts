@@ -9,6 +9,7 @@
 import type { SidebarPageModule } from '../../ui/sidebar-router';
 import { globalState } from '../../shared/state';
 import { applyTranslations } from '../../shared/i18n';
+import { WallpaperEngine } from '../wallpaper-engine';
 
 export const template = `<div class="settings-inner-card">
     <div class="settings-back-card">
@@ -36,6 +37,39 @@ export const template = `<div class="settings-inner-card">
         </div>
       </div>
     </div>
+
+    <div class="settings-group-card" id="advWallpaperControlsCard">
+      <div class="wallpaper-controls-row">
+        <h3 class="settings-group-title" data-i18n="wallpaperControlsTitle" style="margin-bottom: 0; flex: 1;">Playback controls</h3>
+        <button type="button" id="advWallpaperBack" class="wallpaper-ctrl-btn" aria-label="Previous wallpaper">
+          <span class="wallpaper-ctrl-bg wallpaper-ctrl-bg--tilt">
+            <svg width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M230.389 50.473c62.72-27.24 126.378 36.418 99.138 99.138l-4.504 10.37a75.36 75.36 0 0 0 0 60.038l4.504 10.37c27.24 62.72-36.418 126.378-99.138 99.138l-10.37-4.504a75.36 75.36 0 0 0-60.038 0l-10.37 4.504c-62.72 27.24-126.378-36.418-99.138-99.138l4.504-10.37a75.36 75.36 0 0 0 0-60.038l-4.504-10.37c-27.24-62.72 36.418-126.378 99.138-99.138l10.37 4.504a75.36 75.36 0 0 0 60.038 0z" fill="currentColor"/></svg>
+          </span>
+          <span class="wallpaper-ctrl-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m313-440 196 196q12 12 11.5 28T508-188q-12 11-28 11.5T452-188L188-452q-6-6-8.5-13t-2.5-15 2.5-15 8.5-13l264-264q11-11 27.5-11t28.5 11q12 12 12 28.5T508-715L313-520h447q17 0 28.5 11.5T800-480t-11.5 28.5T760-440z"/></svg>
+          </span>
+        </button>
+
+        <button type="button" id="advWallpaperPause" class="wallpaper-ctrl-btn wallpaper-ctrl-btn--pause" aria-label="Pause/Play wallpaper">
+          <span class="wallpaper-ctrl-bg wallpaper-ctrl-bg--spin">
+            <svg width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M338.584 189.998c25.843 48.166 6.318 91.773-43.518 105.063-13.295 49.841-56.902 69.361-105.068 43.523-48.167 25.843-91.773 6.318-105.064-43.518-49.836-13.295-69.361-56.902-43.518-105.068-25.843-48.167-6.318-91.773 43.518-105.064 13.29-49.836 56.897-69.361 105.064-43.518 48.166-25.843 91.773-6.318 105.063 43.518 49.841 13.29 69.361 56.897 43.523 105.064" fill="currentColor"/></svg>
+          </span>
+          <span class="wallpaper-ctrl-icon" id="advWallpaperPauseIcon">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M600-200q-33 0-56.5-23.5T520-280v-400q0-33 23.5-56.5T600-760h80q33 0 56.5 23.5T760-680v400q0 33-23.5 56.5T680-200zm-320 0q-33 0-56.5-23.5T200-280v-400q0-33 23.5-56.5T280-760h80q33 0 56.5 23.5T440-680v400q0 33-23.5 56.5T360-200zm320-80h80v-400h-80zm-320 0h80v-400h-80zm0-400v400zm320 0v400z"/></svg>
+          </span>
+        </button>
+
+        <button type="button" id="advWallpaperNext" class="wallpaper-ctrl-btn" aria-label="Next wallpaper">
+          <span class="wallpaper-ctrl-bg wallpaper-ctrl-bg--tilt">
+            <svg width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M230.389 50.473c62.72-27.24 126.378 36.418 99.138 99.138l-4.504 10.37a75.36 75.36 0 0 0 0 60.038l4.504 10.37c27.24 62.72-36.418 126.378-99.138 99.138l-10.37-4.504a75.36 75.36 0 0 0-60.038 0l-10.37 4.504c-62.72 27.24-126.378-36.418-99.138-99.138l4.504-10.37a75.36 75.36 0 0 0 0-60.038l-4.504-10.37c-27.24-62.72 36.418-126.378 99.138-99.138l10.37 4.504a75.36 75.36 0 0 0 60.038 0z" fill="currentColor"/></svg>
+          </span>
+          <span class="wallpaper-ctrl-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M647-440H200q-17 0-28.5-11.5T160-480t11.5-28.5T200-520h447L451-716q-12-12-11.5-28t12.5-28q12-11 28-11.5t28 11.5l264 264q6 6 8.5 13t2.5 15-2.5 15-8.5 13L508-188q-11 11-27.5 11T452-188q-12-12-12-28.5t12-28.5z"/></svg>
+          </span>
+        </button>
+      </div>
+    </div>
+
 
     <div class="settings-group-card" id="advWallpaperIntervalCard">
       <h3 class="settings-group-title" data-i18n="refreshIntervalTitle" style="margin-bottom: 1.5rem;">Refresh interval</h3>
@@ -95,6 +129,51 @@ export function init(container: HTMLElement): void {
     });
   }
 
+  const controlsCard = container.querySelector<HTMLElement>('#advWallpaperControlsCard');
+  const backBtn = container.querySelector<HTMLButtonElement>('#advWallpaperBack');
+  const pauseBtn = container.querySelector<HTMLButtonElement>('#advWallpaperPause');
+  const nextBtn = container.querySelector<HTMLButtonElement>('#advWallpaperNext');
+  const pauseIcon = container.querySelector<HTMLElement>('#advWallpaperPauseIcon');
+
+  const PAUSE_SVG = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M600-200q-33 0-56.5-23.5T520-280v-400q0-33 23.5-56.5T600-760h80q33 0 56.5 23.5T760-680v400q0 33-23.5 56.5T680-200zm-320 0q-33 0-56.5-23.5T200-280v-400q0-33 23.5-56.5T280-760h80q33 0 56.5 23.5T440-680v400q0 33-23.5 56.5T360-200zm320-80h80v-400h-80zm-320 0h80v-400h-80zm0-400v400zm320 0v400z"/></svg>`;
+  const PLAY_SVG = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M320-273v-414q0-17 12-28.5t28-11.5q5 0 10.5 1.5T381-721l326 207q9 6 13.5 15t4.5 19-4.5 19-13.5 15L381-239q-5 3-10.5 4.5T360-233q-16 0-28-11.5T320-273m80-73 210-134-210-134z"/></svg>`;
+
+  const updatePauseIcon = () => {
+    if (!pauseIcon) return;
+    pauseIcon.innerHTML = WallpaperEngine.isPaused() ? PLAY_SVG : PAUSE_SVG;
+    pauseBtn?.classList.toggle('is-paused', WallpaperEngine.isPaused());
+  };
+
+  if (backBtn) {
+    backBtn.addEventListener('click', () => {
+      const bg = backBtn.querySelector<HTMLElement>('.wallpaper-ctrl-bg--tilt');
+      bg?.classList.add('tilt-once');
+      bg?.addEventListener('animationend', () => bg.classList.remove('tilt-once'), { once: true });
+      WallpaperEngine.prevWallpaper();
+    });
+  }
+
+  if (pauseBtn) {
+    pauseBtn.addEventListener('click', () => {
+      const bg = pauseBtn.querySelector<HTMLElement>('.wallpaper-ctrl-bg--spin');
+      bg?.classList.add('spin-once');
+      bg?.addEventListener('animationend', () => bg.classList.remove('spin-once'), { once: true });
+      WallpaperEngine.togglePause();
+      updatePauseIcon();
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      const bg = nextBtn.querySelector<HTMLElement>('.wallpaper-ctrl-bg--tilt');
+      bg?.classList.add('tilt-once');
+      bg?.addEventListener('animationend', () => bg.classList.remove('tilt-once'), { once: true });
+      WallpaperEngine.nextWallpaper();
+    });
+  }
+
+  window.addEventListener('wallpaper-controls-update', () => syncState && syncState());
+
   const syncState = () => {
     const state = globalState.current;
 
@@ -121,6 +200,23 @@ export function init(container: HTMLElement): void {
         wallpaperIntervalSelect.setAttribute('value', currentInterval);
       }
     }
+
+    const isApi = state.wallpaperEnabled && state.wallpaperProvider !== 'upload';
+    if (controlsCard) controlsCard.style.display = isApi ? '' : 'none';
+
+    const paused = WallpaperEngine.isPaused();
+
+    const intervalCard = container.querySelector<HTMLElement>('#advWallpaperIntervalCard');
+    if (intervalCard) {
+      intervalCard.classList.toggle('disabled', paused);
+      intervalCard.style.pointerEvents = paused ? 'none' : '';
+      intervalCard.style.opacity = paused ? '0.45' : '';
+    }
+
+    if (backBtn) backBtn.disabled = paused;
+    if (nextBtn) nextBtn.disabled = paused;
+
+    updatePauseIcon();
   };
 
   syncState();

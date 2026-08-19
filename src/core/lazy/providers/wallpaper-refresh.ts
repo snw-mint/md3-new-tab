@@ -66,31 +66,36 @@ export async function fetchRandomBing(): Promise<string | null> {
 }
 
 export async function fetchRandomWikimedia(): Promise<{ url: string; credit: string; creditUrl: string } | null> {
-  try {
-    const res = await fetch(
-      'https://commons.wikimedia.org/w/api.php?action=query&generator=random&grnnamespace=6&prop=imageinfo&iiprop=url|thumburl|extmetadata|descriptionurl&iiurlwidth=3840&format=json&origin=*',
-    );
-    if (!res.ok) throw new Error(`Wikimedia random error: ${res.status}`);
-    const data = await res.json();
-    const pages = data.query?.pages;
-    if (!pages) return null;
+  const IMAGE_EXTS = /\.(jpe?g|png|webp)(\?|$)/i;
+  const MAX_TRIES = 5;
 
-    for (const page of Object.values<any>(pages)) {
-      const info = page?.imageinfo?.[0];
-      if (!info) continue;
+  for (let attempt = 0; attempt < MAX_TRIES; attempt++) {
+    try {
+      const res = await fetch(
+        'https://commons.wikimedia.org/w/api.php?action=query&generator=random&grnnamespace=6&prop=imageinfo&iiprop=url|thumburl|extmetadata|descriptionurl&iiurlwidth=3840&format=json&origin=*',
+      );
+      if (!res.ok) break;
+      const data = await res.json();
+      const pages = data.query?.pages;
+      if (!pages) continue;
 
-      const url = info.thumburl || info.url;
-      if (!url) continue;
+      for (const page of Object.values<any>(pages)) {
+        const info = page?.imageinfo?.[0];
+        if (!info) continue;
 
-      const meta = info.extmetadata;
-      let credit = meta?.Artist?.value || 'Wikimedia Commons';
-      credit = credit.replace(/<[^>]*>?/gm, '');
-      if (credit.length > 120) credit = credit.substring(0, 120).trim() + '...';
+        const url = info.thumburl || info.url;
+        if (!url || !IMAGE_EXTS.test(url)) continue;
 
-      return { url, credit, creditUrl: info.descriptionurl || '' };
+        const meta = info.extmetadata;
+        let credit = meta?.Artist?.value || 'Wikimedia Commons';
+        credit = credit.replace(/<[^>]*>?/gm, '');
+        if (credit.length > 120) credit = credit.substring(0, 120).trim() + '...';
+
+        return { url, credit, creditUrl: info.descriptionurl || '' };
+      }
+    } catch {
+      break;
     }
-    return null;
-  } catch {
-    return null;
   }
+  return null;
 }

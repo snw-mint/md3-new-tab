@@ -36,12 +36,30 @@ export interface WallpaperConfig {
 
 export class WallpaperEngine {
   private static _refreshTimer: ReturnType<typeof setTimeout> | null = null;
+  private static _actionTimer: ReturnType<typeof setTimeout> | null = null;
+  private static _paused = localStorage.getItem('wallpaper_paused') === '1';
+  private static _history: string[] = [];
+  private static _historyIndex = -1;
+  private static _lastConfig: WallpaperConfig | null = null;
+
+  private static _pushHistory(url: string): void {
+    if (WallpaperEngine._history[WallpaperEngine._historyIndex] === url) return;
+    WallpaperEngine._history = WallpaperEngine._history.slice(0, WallpaperEngine._historyIndex + 1);
+    WallpaperEngine._history.push(url);
+    if (WallpaperEngine._history.length > 20) WallpaperEngine._history.shift();
+    WallpaperEngine._historyIndex = WallpaperEngine._history.length - 1;
+  }
+
+  public static isPaused(): boolean {
+    return WallpaperEngine._paused;
+  }
 
   public static updateOverlay(opacity: number, enabled: boolean): void {
     updateOverlay(opacity, enabled);
   }
 
   public static scheduleRefresh(config: WallpaperConfig): void {
+    if (WallpaperEngine._paused) return;
     if (WallpaperEngine._refreshTimer !== null) {
       clearTimeout(WallpaperEngine._refreshTimer);
       WallpaperEngine._refreshTimer = null;
@@ -79,7 +97,8 @@ export class WallpaperEngine {
     }
 
     let targetUrl: string | null = null;
-    const needsApiFetch = isApi && (!isWallpaperCacheValid(config.provider) || intervalExpired || fromTimer);
+    const paused = WallpaperEngine._paused;
+    const needsApiFetch = !paused && isApi && (!isWallpaperCacheValid(config.provider) || intervalExpired || fromTimer);
     const random = needsApiFetch && interval !== 'daily';
 
     try {
@@ -109,8 +128,9 @@ export class WallpaperEngine {
     }
 
     if (targetUrl) {
+      WallpaperEngine._lastConfig = config;
       this.applyWallpaper(targetUrl, config);
-      if (interval !== 'daily') WallpaperEngine.scheduleRefresh(config);
+      if (!paused && interval !== 'daily') WallpaperEngine.scheduleRefresh(config);
     } else {
       hideSnackbar();
       clearWallpaper();
@@ -121,6 +141,7 @@ export class WallpaperEngine {
   private static applyWallpaper(
     url: string,
     config: WallpaperConfig,
+    pushToHistory = true,
   ): void {
     const img = new Image();
     img.crossOrigin = 'anonymous';
@@ -143,6 +164,10 @@ export class WallpaperEngine {
         hideCredits();
       }
 
+      if (pushToHistory) WallpaperEngine._pushHistory(url);
+      WallpaperEngine._lastConfig = config;
+      WallpaperEngine._dispatchControlsUpdate();
+
       extractDominantColorFromUrl(url).then((color) => {
         if (color) {
           globalState.current.wallpaperColor = color;
@@ -155,5 +180,79 @@ export class WallpaperEngine {
       clearWallpaper();
       hideCredits();
     };
+  }
+
+  public static togglePause(): void {
+    WallpaperEngine._paused = !WallpaperEngine._paused;
+    localStorage.setItem('wallpaper_paused', WallpaperEngine._paused ? '1' : '0');
+    const config = WallpaperEngine._lastConfig;
+    if (!WallpaperEngine._paused && config) {
+      WallpaperEngine.scheduleRefresh(config);
+    } else if (WallpaperEngine._refreshTimer !== null) {
+      clearTimeout(WallpaperEngine._refreshTimer);
+      WallpaperEngine._refreshTimer = null;
+    }
+    WallpaperEngine._dispatchControlsUpdate();
+  }
+
+  public static async prevWallpaper(): Promise<void> {
+    if (WallpaperEngine._paused || WallpaperEngine._actionTimer) return;
+    if (WallpaperEngine._historyIndex <= 0) return;
+    WallpaperEngine._historyIndex--;
+    const url = WallpaperEngine._history[WallpaperEngine._historyIndex];
+    const config = WallpaperEngine._lastConfig;
+    if (url && config) {
+      WallpaperEngine.applyWallpaper(url, config, false);
+      WallpaperEngine._actionTimer = setTimeout(() => { WallpaperEngine._actionTimer = null; }, 800);
+    }
+  }
+
+  public static async nextWallpaper(): Promise<void> {
+    if (WallpaperEngine._paused || WallpaperEngine._actionTimer) return;
+    const config = WallpaperEngine._lastConfig;
+    if (!config) return;
+
+    if (WallpaperEngine._historyIndex < WallpaperEngine._history.length - 1) {
+      WallpaperEngine._historyIndex++;
+      const url = WallpaperEngine._history[WallpaperEngine._historyIndex];
+      WallpaperEngine.applyWallpaper(url, config, false);
+      WallpaperEngine._actionTimer = setTimeout(() => { WallpaperEngine._actionTimer = null; }, 800);
+      return;
+    }
+
+    const interval = globalState.current.wallpaperRefreshInterval || 'daily';
+    const random = interval !== 'daily';
+    const providerNames: Record<string, string> = {
+      bing: 'Bing',
+      media_commons: 'Media Commons',
+      unsplash: 'Unsplash',
+      pexels: 'Pexels',
+    };
+    const sourceName = providerNames[config.provider] || config.provider;
+    let msg = t('fetchingImagePlaceholder', `Fetching ${sourceName} image...`);
+    if (msg.includes('$SOURCE$')) msg = msg.replace(/\$SOURCE\$/g, sourceName);
+    showSnackbar({ text: msg, duration: 0 });
+
+    WallpaperEngine._actionTimer = setTimeout(() => { WallpaperEngine._actionTimer = null; }, 30000);
+
+    try {
+      invalidateCache(config.provider);
+      const url = await fetchDailyWallpaper(config.provider, random || true);
+      if (url) {
+        WallpaperEngine.applyWallpaper(url, config, true);
+        setLastRefreshTs(Date.now());
+        if (!WallpaperEngine._paused) WallpaperEngine.scheduleRefresh(config);
+      } else {
+        hideSnackbar();
+      }
+    } catch {
+      hideSnackbar();
+    } finally {
+      WallpaperEngine._actionTimer = null;
+    }
+  }
+
+  private static _dispatchControlsUpdate(): void {
+    window.dispatchEvent(new CustomEvent('wallpaper-controls-update'));
   }
 }
