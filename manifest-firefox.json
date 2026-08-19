@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "MD3: Material Design 3 New Tab",
-  "version": "1.5",
+  "version": "1.6",
   "description": "A minimalist New Tab page engineered around Material Design 3 Expressive.",
   "default_locale": "en_US",
   "icons": {
@@ -27,6 +27,12 @@
   },
   "permissions": ["storage", "unlimitedStorage"],
   "optional_host_permissions": [
+    "https://peapix.com/*",
+    "https://img.peapix.com/*",
+    "https://commons.wikimedia.org/*",
+    "https://upload.wikimedia.org/*",
+    "https://unsplash.snw-mint.workers.dev/*",
+    "https://pexels.snw-mint.workers.dev/*",
     "https://geocoding-api.open-meteo.com/*",
     "https://api.open-meteo.com/*",
     "https://duckduckgo.com/*"
