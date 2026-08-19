@@ -7,8 +7,8 @@
     <meta name="author" content="snw-mint" />
     <meta name="robots" content="index, follow" />
     <meta name="language" content="English" />
-    <meta name="application-name" content="MD3: Expressive New Tab" />
-    <title>MD3: Expressive New Tab - Browser Extension</title>
+    <meta name="application-name" content="MD3: Material Design 3 New Tab" />
+    <title>MD3: Material Design 3 New Tab</title>
     <meta name="theme-color" content="#0f6cbd" />
     <meta name="google-site-verification" content="o8yUQzgwJaDdduUxp62pQBIaOHGTHUSK1EhFHfpFtI4" />
     <meta property="og:type" content="website" />
@@ -16,8 +16,8 @@
     <meta property="og:title" content="65558f" />
     <meta property="og:description" content="A beautiful, customizable New Tab page inspired by Google's Meterial Design." />
     <meta property="og:image" content="https://snw-mint.github.io/md3-new-tab/assets/mockup.webp" />
-    <meta property="og:image:alt" content="MD3: Expressive New Tab extension interface preview" />
-    <meta property="og:site_name" content="MD3: Expressive New Tab" />
+    <meta property="og:image:alt" content="MD3: Material Design 3 New Tab extension interface preview" />
+    <meta property="og:site_name" content="MD3: Material Design 3 New Tab" />
     <meta property="og:locale" content="en_US" />
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://snw-mint.github.io/md3-new-tab/" />
@@ -60,7 +60,7 @@
       {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
-        "name": "MD3: Expressive New Tab",
+        "name": "MD3: Material Design 3 New Tab",
         "applicationCategory": "BrowserApplication",
         "operatingSystem": "Google Chrome, Microsoft Edge, Mozilla Firefox",
         "description": "A beautiful, fast, and fully customizable new tab page based on Material Design 3 guidelines.",
@@ -97,8 +97,8 @@
   <body>
     <header>
       <a href="#" class="logo">
-        <img src="assets/md3-logo.svg" alt="MD3: Expressive New Tab Logo" class="logo-icon" />
-        MD3: Expressive New Tab
+        <img src="assets/md3-logo.svg" alt="MD3: Material Design 3 New Tab Logo" class="logo-icon" />
+        MD3: Material Design 3 New Tab
       </a>
       <nav>
         <a href="#features">Features</a>
@@ -127,12 +127,16 @@
         </h1>
         <p class="hero-subtitle">A clean, fast, and fully customizable experience based on Material Design 3 guidelines. No distractions, just what you need.</p>
 
-        <img src="assets/main.webp" alt="MD3: Expressive New Tab Preview" class="hero-image" />
-
         <div class="btn-group">
-          <button id="openModalBtn" class="btn btn-filled">Add to browser</button>
-          <a href="https://github.com/snw-mint/md3-new-tab" class="btn btn-tonal">GitHub</a>
+          <button id="openModalBtn" class="btn btn-filled">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M465-339.5q-7-2.5-13-8.5L308-492q-12-12-11.5-28t11.5-28q12-12 28.5-12.5T365-549l75 75v-286q0-17 11.5-28.5T480-800t28.5 11.5T520-760v286l75-75q12-12 28.5-11.5T652-548q11 12 11.5 28T652-492L508-348q-6 6-13 8.5t-15 2.5-15-2.5M240-160q-33 0-56.5-23.5T160-240v-80q0-17 11.5-28.5T200-360t28.5 11.5T240-320v80h480v-80q0-17 11.5-28.5T760-360t28.5 11.5T800-320v80q0 33-23.5 56.5T720-160z"/></svg>
+            Add to browser
+          </button>
         </div>
+
+        <p class="hero-disclaimer">MD3: Material Design 3 New Tab is an independent open-source project and is not affiliated with, endorsed by, or sponsored by Google LLC. <a href="https://m3.material.io/" target="_blank" rel="noopener">Inspired by Material Design 3.</a></p>
+
+        <img src="assets/main.webp" alt="MD3: Material Design 3 New Tab Preview" class="hero-image" />
 
         <div class="sister-project-pill">
           <span>Prefer Microsoft's Fluent Design look?</span>
@@ -140,46 +144,52 @@
         </div>
       </section>
 
-      <section id="features">
-        <h2 class="section-title">The Main Features</h2>
-        <div class="features-grid">
-          <div class="feature-card">
-            <div class="card-icon-wrapper">
-              <svg class="icon-bg" width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M338.584 189.998c25.843 48.166 6.318 91.773-43.518 105.063-13.295 49.841-56.902 69.361-105.068 43.523-48.167 25.843-91.773 6.318-105.064-43.518-49.836-13.295-69.361-56.902-43.518-105.068-25.843-48.167-6.318-91.773 43.518-105.064 13.29-49.836 56.897-69.361 105.064-43.518 48.166-25.843 91.773-6.318 105.063 43.518 49.841 13.29 69.361 56.897 43.523 105.064" fill="currentColor" />
-              </svg>
-              <svg class="icon-fg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                <path
-                  d="M638-468 468-638q-6-6-8.5-13t-2.5-15 2.5-15 8.5-13l170-170q6-6 13-8.5t15-2.5 15 2.5 13 8.5l170 170q6 6 8.5 13t2.5 15-2.5 15-8.5 13L694-468q-6 6-13 8.5t-15 2.5-15-2.5-13-8.5m-518-92v-240q0-17 11.5-28.5T160-840h240q17 0 28.5 11.5T440-800v240q0 17-11.5 28.5T400-520H160q-17 0-28.5-11.5T120-560m400 400v-240q0-17 11.5-28.5T560-440h240q17 0 28.5 11.5T840-400v240q0 17-11.5 28.5T800-120H560q-17 0-28.5-11.5T520-160m-400 0v-240q0-17 11.5-28.5T160-440h240q17 0 28.5 11.5T440-400v240q0 17-11.5 28.5T400-120H160q-17 0-28.5-11.5T120-160m80-440h160v-160H200zm467 48 113-113-113-113-113 113zm-67 352h160v-160H600zm-400 0h160v-160H200zm400-160" />
-              </svg>
-            </div>
-            <span class="feature-title">Smart Widgets & Search</span>
-            <span class="feature-desc">Stay informed with real-time weather forecasts, custom greetings, date/time clocks, and a smart search bar with quick-toggle engines.</span>
+      <section class="feature-showcase-section">
+        <div class="feature-showcase-item">
+          <div class="showcase-text-col">
+            <span class="showcase-eyebrow">Design</span>
+            <h2 class="showcase-heading">Familiar design, deeply customizable</h2>
+            <p class="showcase-desc">Inspired by Google Chrome's clean layout, refined with Material Design 3 guidelines and expressive personalization.</p>
+            <button class="btn-text-action open-modal-trigger">Try MD3 New Tab Now</button>
           </div>
-
-          <div class="feature-card">
-            <div class="card-icon-wrapper">
-              <svg class="icon-bg" width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M155.064 49.459c21.029-15.279 49.505-15.279 70.534 0l97.328 70.712c21.029 15.279 29.828 42.361 21.796 67.082l-37.176 114.415c-8.032 24.722-31.07 41.459-57.063 41.459H130.18c-25.994 0-49.031-16.737-57.064-41.459L35.941 187.253c-8.033-24.721.767-51.803 21.796-67.082z" fill="currentColor" /></svg>
-              <svg class="icon-fg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                <path d="m159-168-34-14q-31-13-41.5-45t3.5-63l72-156zm160 88q-33 0-56.5-23.5T239-160v-240l106 294q3 7 6 13.5t8 12.5zm206-4q-32 12-62-3t-42-47L243-622q-12-32 2-62.5t46-41.5l302-110q32-12 62 3t42 47l178 488q12 32-2 62.5T827-194zm-57.5-487.5Q479-583 479-600t-11.5-28.5T439-640t-28.5 11.5T399-600t11.5 28.5T439-560t28.5-11.5M497-160l302-110-178-490-302 110zM319-650l302-110z" />
-              </svg>
-            </div>
-            <span class="feature-title">Total Layout Control</span>
-            <span class="feature-desc">You decide what is displayed. Disable any elements you don't need for a fully clean setup, and easily import or export your settings.</span>
+          <div class="showcase-media-col">
+            <img src="assets/section-1.webp" alt="Feature Preview 1" class="showcase-img" />
           </div>
+        </div>
 
-          <div class="feature-card">
-            <div class="card-icon-wrapper">
-              <svg class="icon-bg" width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M230.389 50.473c62.72-27.24 126.378 36.418 99.138 99.138l-4.504 10.37a75.36 75.36 0 0 0 0 60.038l4.504 10.37c27.24 62.72-36.418 126.378-99.138 99.138l-10.37-4.504a75.36 75.36 0 0 0-60.038 0l-10.37 4.504c-62.72 27.24-126.378-36.418-99.138-99.138l4.504-10.37a75.36 75.36 0 0 0 0-60.038l-4.504-10.37c-27.24-62.72 36.418-126.378 99.138-99.138l10.37 4.504a75.36 75.36 0 0 0 60.038 0z" fill="currentColor" />
-              </svg>
-              <svg class="icon-fg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-                <path
-                  d="M183.5-183.5Q160-207 160-240t23.5-56.5T240-320t56.5 23.5T320-240t-23.5 56.5T240-160t-56.5-23.5m240 0Q400-207 400-240t23.5-56.5T480-320t56.5 23.5T560-240t-23.5 56.5T480-160t-56.5-23.5m240 0Q640-207 640-240t23.5-56.5T720-320t56.5 23.5T800-240t-23.5 56.5T720-160t-56.5-23.5m-480-240Q160-447 160-480t23.5-56.5T240-560t56.5 23.5T320-480t-23.5 56.5T240-400t-56.5-23.5m240 0Q400-447 400-480t23.5-56.5T480-560t56.5 23.5T560-480t-23.5 56.5T480-400t-56.5-23.5m240 0Q640-447 640-480t23.5-56.5T720-560t56.5 23.5T800-480t-23.5 56.5T720-400t-56.5-23.5m-480-240Q160-687 160-720t23.5-56.5T240-800t56.5 23.5T320-720t-23.5 56.5T240-640t-56.5-23.5m240 0Q400-687 400-720t23.5-56.5T480-800t56.5 23.5T560-720t-23.5 56.5T480-640t-56.5-23.5m240 0Q640-687 640-720t23.5-56.5T720-800t56.5 23.5T800-720t-23.5 56.5T720-640t-56.5-23.5" />
-              </svg>
-            </div>
-            <span class="feature-title">Shortcuts & Launcher</span>
-            <span class="feature-desc">Organize up to 40 shortcuts in a flexible 4x10 grid with easy customization, and access productivity links from the integrated launcher.</span>
+        <div class="feature-showcase-item reverse">
+          <div class="showcase-text-col">
+            <span class="showcase-eyebrow">Modular</span>
+            <h2 class="showcase-heading">Modular and fully personalized</h2>
+            <p class="showcase-desc">Weather, shortcuts, search bar, and widgets—turn everything on or off to create your ideal setup.</p>
+            <button class="btn-text-action open-modal-trigger">Try MD3 New Tab Now</button>
+          </div>
+          <div class="showcase-media-col">
+            <img src="assets/section-2.webp" alt="Feature Preview 2" class="showcase-img" />
+          </div>
+        </div>
+
+        <div class="feature-showcase-item">
+          <div class="showcase-text-col">
+            <span class="showcase-eyebrow">Experience</span>
+            <h2 class="showcase-heading">Built for productivity and privacy</h2>
+            <p class="showcase-desc">A new tab that adapts to your daily routine and habits while keeping your personal data completely private.</p>
+            <button class="btn-text-action open-modal-trigger">Try MD3 New Tab Now</button>
+          </div>
+          <div class="showcase-media-col">
+            <img src="assets/section-3.webp" alt="Feature Preview 3" class="showcase-img" />
+          </div>
+        </div>
+
+        <div class="feature-showcase-item reverse">
+          <div class="showcase-text-col">
+            <span class="showcase-eyebrow">Quick Access</span>
+            <h2 class="showcase-heading">Everything right at your fingertips</h2>
+            <p class="showcase-desc">Access your top visited shortcuts from the app launcher and get smart private search suggestions instantly.</p>
+            <button class="btn-text-action open-modal-trigger">Try MD3 New Tab Now</button>
+          </div>
+          <div class="showcase-media-col">
+            <img src="assets/section-4.webp" alt="Feature Preview 4" class="showcase-img" />
           </div>
         </div>
       </section>
@@ -194,10 +204,15 @@
           </svg>
 
           <h2>Ready to upgrade your tab?</h2>
+          <img src="assets/main.webp" alt="MD3: Material Design 3 New Tab Preview" class="download-card-img" />
           <p>Experience a clean, elegant, and fully customizable browser homepage. Free, open-source, and privacy-respecting.</p>
 
           <div class="btn-group">
-            <button id="openModalBtnBottom" class="btn-download">Add to Browser</button>
+            <button id="openModalBtnBottom" class="btn-download">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M465-339.5q-7-2.5-13-8.5L308-492q-12-12-11.5-28t11.5-28q12-12 28.5-12.5T365-549l75 75v-286q0-17 11.5-28.5T480-800t28.5 11.5T520-760v286l75-75q12-12 28.5-11.5T652-548q11 12 11.5 28T652-492L508-348q-6 6-13 8.5t-15 2.5-15-2.5M240-160q-33 0-56.5-23.5T160-240v-80q0-17 11.5-28.5T200-360t28.5 11.5T240-320v80h480v-80q0-17 11.5-28.5T760-360t28.5 11.5T800-320v80q0 33-23.5 56.5T720-160z"/></svg>
+              Add to Browser
+            </button>
+            <a href="https://github.com/snw-mint/md3-new-tab" class="btn-secondary-download">GitHub</a>
           </div>
         </div>
       </section>
@@ -225,9 +240,9 @@
     <footer>
       <div class="footer-grid">
         <div class="footer-col footer-brand">
-          <img src="assets/md3-logo.svg" alt="MD3: Expressive New Tab Logo" class="logo-icon" />
-          <h3>MD3: Expressive New Tab</h3>
-          <p>MD3: Expressive New Tab is an independent open-source project and is not affiliated with, endorsed by, or sponsored by Google LLC.</p>
+          <img src="assets/md3-logo.svg" alt="MD3: Material Design 3 New Tab Logo" class="logo-icon" />
+          <h3>MD3: Material Design 3 New Tab</h3>
+          <p>MD3: Material Design 3 New Tab is an independent open-source project and is not affiliated with, endorsed by, or sponsored by Google LLC.</p>
         </div>
 
         <div class="footer-col">
@@ -307,7 +322,7 @@
           body.classList.toggle('dark-theme');
         });
         const modal = document.getElementById('downloadModal');
-        const openBtns = [document.getElementById('openModalBtn'), document.getElementById('openModalBtnBottom')];
+        const openBtns = document.querySelectorAll('#openModalBtn, #openModalBtnBottom, .open-modal-trigger');
         const closeBtn = document.getElementById('closeModalBtn');
         const toggleModal = (show) => {
           if (show) modal.classList.add('active');

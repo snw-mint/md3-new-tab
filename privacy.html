@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Privacy Policy for MD3: Expressive New Tab." />
-    <title>Privacy Policy - MD3: Expressive New Tab</title>
+    <meta name="description" content="Privacy Policy for MD3: Material Design 3 New Tab." />
+    <title>Privacy Policy - MD3: Material Design 3 New Tab</title>
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
@@ -41,6 +41,18 @@
         font-family: 'Google Sans Flex', sans-serif;
         scrollbar-width: thin;
         scrollbar-color: var(--md-sys-color-surface-variant) transparent;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      img {
+        -webkit-user-drag: none;
+        -khtml-user-drag: none;
+        -moz-user-drag: none;
+        -o-user-drag: none;
+        user-drag: none;
       }
 
       ::-webkit-scrollbar {
@@ -194,20 +206,21 @@
     <h1 class="section-title">Privacy Policy</h1>
 
     <div class="card">
-      <p>Thank you for using MD3: Expressive New Tab. Your privacy is and always will be critically important. This policy explains what data the extension handles and why, ensuring you have full transparency and control.</p>
+      <p>Thank you for using MD3: Material Design 3 New Tab. Your privacy is and always will be critically important. This policy explains what data the extension handles and why, ensuring you have full transparency and control.</p>
 
       <h2>1. The Golden Rule: No Personal Data Collection</h2>
-      <p><strong>MD3: Expressive New Tab does not collect, store, transmit, or sell your personal data. Period.</strong></p>
+      <p><strong>MD3: Material Design 3 New Tab does not collect, store, transmit, or sell your personal data. Period.</strong></p>
       <p>We do not use any tracking scripts, analytics, or telemetry. We have no way of knowing who you are, how you use the extension, or what you search for.</p>
 
       <h2>2. Your Data Stays On Your Device</h2>
       <p>All your settings—including preferences and custom shortcuts—are stored locally on your computer using the browser's built-in storage (<code>localStorage</code> and <code>IndexedDB</code>). This data is yours and yours alone; we have no access to it.</p>
 
       <h2>3. Third-Party Services: How Features Work</h2>
-      <p>To provide features like weather forecasts, the extension needs to request information from external services. This communication happens directly between your browser and the service provider. <strong>No data ever passes through our servers.</strong></p>
+      <p>To provide features like weather forecasts and dynamic wallpapers, the extension needs to request information from external services. This communication happens directly between your browser and the service provider. <strong>No data ever passes through our servers.</strong></p>
       <p>Below is a list of third-party services used and why:</p>
       <ul>
         <li><strong>Weather Information:</strong> If you enable the weather widget, the location you provide is sent to <code>Open-Meteo</code> to fetch current weather data and forecasts.</li>
+        <li><strong>Dynamic Wallpapers:</strong> When selecting an online wallpaper provider (Bing, Wikimedia Commons, Unsplash, or Pexels), the extension connects directly to their respective public APIs/endpoints to fetch high-resolution background images and author credits. No personal identifiers or browsing history are shared.</li>
       </ul>
 
       <h2>4. Permissions Explained</h2>
@@ -224,6 +237,10 @@
       <p>These optional permissions allow the extension to communicate with specific external services to fetch dynamic content. No data is ever sent to our servers.</p>
       <ul>
         <li><strong>Weather Widget</strong> (<code>https://geocoding-api.open-meteo.com/*</code>, <code>https://api.open-meteo.com/*</code>): Used to fetch geographic coordinates and current weather forecast data.</li>
+        <li><strong>Bing Wallpaper</strong> (<code>https://peapix.com/*</code>, <code>https://img.peapix.com/*</code>): Used to fetch Bing Daily and random background images.</li>
+        <li><strong>Wikimedia Commons Wallpaper</strong> (<code>https://commons.wikimedia.org/*</code>, <code>https://upload.wikimedia.org/*</code>): Used to fetch Picture of the Day and curated public domain community images.</li>
+        <li><strong>Unsplash Wallpaper</strong> (<code>https://unsplash.snw-mint.workers.dev/*</code>): Used to fetch high-resolution wallpapers from Unsplash.</li>
+        <li><strong>Pexels Wallpaper</strong> (<code>https://pexels.snw-mint.workers.dev/*</code>): Used to fetch high-resolution wallpapers from Pexels.</li>
       </ul>
 
       <h2>5. You Are in Control</h2>
@@ -235,7 +252,7 @@
       </ol>
 
       <h2>6. Open Source and Verifiable</h2>
-      <p>MD3: Expressive New Tab is 100% open-source. We invite you to review the <a href="https://github.com/snw-mint/md3-new-tab">source code on GitHub</a> to verify that the extension operates exactly as described in this policy.</p>
+      <p>MD3: Material Design 3 New Tab is 100% open-source. We invite you to review the <a href="https://github.com/snw-mint/md3-new-tab">source code on GitHub</a> to verify that the extension operates exactly as described in this policy.</p>
 
       <h2>7. Changes to This Policy</h2>
       <p>We may update this Privacy Policy to reflect new features or clarify our practices. Any changes will be posted on this page.</p>
