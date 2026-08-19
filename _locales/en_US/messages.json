@@ -11,6 +11,12 @@
   "clockTitle": {
     "message": "Clock Settings"
   },
+  "scaleDisplayTitle": {
+    "message": "Scale Display"
+  },
+  "scaleDisplayLabel": {
+    "message": "Font size"
+  },
   "weatherTitle": {
     "message": "Weather"
   },
@@ -114,7 +120,7 @@
     "message": "Saturday"
   },
   "greetMorning1": {
-    "message": "Have a great $WEEK$ ahead$USER$!",
+    "message": "Have an amazing $WEEK$ ahead$USER$!",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -126,7 +132,7 @@
     }
   },
   "greetMorning2": {
-    "message": "A fresh start to this morning$USER$.",
+    "message": "Rise and shine$USER$! Ready to make things happen?",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -138,7 +144,7 @@
     }
   },
   "greetMorning3": {
-    "message": "Good morning! Ready for the day$USER$?",
+    "message": "Fresh coffee and a brand new day await$USER$.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -150,7 +156,7 @@
     }
   },
   "greetMorning4": {
-    "message": "Embrace the possibilities of today$USER$.",
+    "message": "Good morning$USER$! Let's start today on a high note.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -162,7 +168,7 @@
     }
   },
   "greetMorning5": {
-    "message": "Rise and shine$USER$!",
+    "message": "Great things are in store for today$USER$!",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -174,7 +180,7 @@
     }
   },
   "greetAfternoon1": {
-    "message": "Enjoying this $WEEK$$USER$?",
+    "message": "How is your $WEEK$ going so far$USER$?",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -186,7 +192,7 @@
     }
   },
   "greetAfternoon2": {
-    "message": "Good afternoon$USER$! Keep up the good work.",
+    "message": "Good afternoon$USER$! Keep up the awesome momentum.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -198,7 +204,7 @@
     }
   },
   "greetAfternoon3": {
-    "message": "Halfway through the day$USER$.",
+    "message": "Halfway through the day$USER$! Don't forget to hydrate.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -210,7 +216,7 @@
     }
   },
   "greetAfternoon4": {
-    "message": "Hope your afternoon is going well$USER$.",
+    "message": "Powering through the afternoon$USER$? You've got this!",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -222,7 +228,7 @@
     }
   },
   "greetAfternoon5": {
-    "message": "Take a quick breather$USER$.",
+    "message": "Take a deep breath and enjoy the rest of the day$USER$.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -234,7 +240,7 @@
     }
   },
   "greetEvening1": {
-    "message": "Hope you had a good $WEEK$$USER$.",
+    "message": "Hope you had a productive $WEEK$$USER$!",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -246,7 +252,7 @@
     }
   },
   "greetEvening2": {
-    "message": "Good evening$USER$. Time to unwind.",
+    "message": "Good evening$USER$! Time to relax and recharge.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -258,7 +264,7 @@
     }
   },
   "greetEvening3": {
-    "message": "The day is almost over$USER$. Great job!",
+    "message": "You made it through the day$USER$! Great job.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -270,7 +276,7 @@
     }
   },
   "greetEvening4": {
-    "message": "Relax and enjoy your evening$USER$.",
+    "message": "Kick back, relax, and enjoy your evening$USER$.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -282,7 +288,7 @@
     }
   },
   "greetEvening5": {
-    "message": "A peaceful evening to you$USER$.",
+    "message": "Time to slow down and savor the quiet moments$USER$.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -294,7 +300,7 @@
     }
   },
   "greetNight1": {
-    "message": "It's getting quite late$USER$.",
+    "message": "Burning the midnight oil$USER$? Don't stay up too late!",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -306,7 +312,7 @@
     }
   },
   "greetNight2": {
-    "message": "A quiet and peaceful night$USER$.",
+    "message": "Night owl mode activated$USER$! Enjoy the peaceful hours.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -318,7 +324,7 @@
     }
   },
   "greetNight3": {
-    "message": "Still up$USER$?",
+    "message": "Still awake$USER$? Make sure to get some well-deserved rest.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -330,7 +336,7 @@
     }
   },
   "greetNight4": {
-    "message": "Don't forget to rest$USER$.",
+    "message": "The world is quiet and asleep$USER$. Take it easy.",
     "placeholders": {
       "week": {
         "content": "$1"
@@ -342,7 +348,7 @@
     }
   },
   "greetNight5": {
-    "message": "Sweet dreams$USER$.",
+    "message": "Rest up for tomorrow$USER$! Sweet dreams and good night.",
     "placeholders": {
       "week": {
         "content": "$1"

@@ -9,6 +9,7 @@
 import type { SidebarPageModule } from '../../ui/sidebar-router';
 import { globalState } from '../../shared/state';
 import { applyTranslations } from '../../shared/i18n';
+import type { AppSettings } from '../../shared/types';
 
 export const template = `<div class="settings-inner-card">
     <div class="settings-back-card">
@@ -94,18 +95,70 @@ export const template = `<div class="settings-inner-card">
         </label>
       </div>
     </div>
+
+    <div class="settings-group-card" id="advScaleGroupCard">
+      <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+        <h3 class="settings-group-title" data-i18n="scaleDisplayTitle" style="margin-bottom: 0;">Scale Display</h3>
+        <span class="new-feature-badge" data-i18n="newFeatureBadge">NEW</span>
+      </div>
+
+      <div class="slider-group">
+        <div class="slider-header" style="margin-bottom: 0.5rem">
+          <span style="position: relative; display: inline-flex; align-items: center">
+            <span class="slider-label" style="font-size: 0.875rem; color: var(--color-on-surface); font-weight: 500" data-i18n="scaleDisplayLabel">Font size</span>
+          </span>
+        </div>
+        <div class="md3-slider-wrapper">
+          <input type="range" id="advDisplayScaleSlider" class="md3-custom-slider" />
+        </div>
+      </div>
+    </div>
   </div>
 `;
 
 export function init(container: HTMLElement): void {
   const greetingGroupCard = container.querySelector<HTMLElement>('#advGreetingGroupCard');
   const clockGroupCard = container.querySelector<HTMLElement>('#advClockGroupCard');
+  const scaleGroupCard = container.querySelector<HTMLElement>('#advScaleGroupCard');
+  const displayScaleSlider = container.querySelector<HTMLInputElement>('#advDisplayScaleSlider');
   const greetingNameInput = container.querySelector<HTMLInputElement>('#advGreetingNameInput');
   const greetingHighlightNameCheckbox = container.querySelector<HTMLInputElement>('#advGreetingHighlightNameCheckbox');
   const clockStyleSelect = container.querySelector<HTMLButtonElement>('#advClockStyleSelect');
   const clock12hFormat = container.querySelector<HTMLInputElement>('#advClock12hFormat');
   const clockShowDate = container.querySelector<HTMLInputElement>('#advClockShowDate');
   const clockExpressiveColor = container.querySelector<HTMLInputElement>('#advClockExpressiveColor');
+
+  const updateScaleSlider = (state: AppSettings) => {
+    if (!displayScaleSlider) return;
+    const isGreetings = state.displayStyle === 'greetings';
+    const isClock = state.displayStyle === 'clock';
+
+    if (scaleGroupCard) {
+      scaleGroupCard.style.display = isGreetings || isClock ? '' : 'none';
+    }
+
+    if (isGreetings) {
+      const min = 1;
+      const max = 2;
+      const val = typeof state.greetingScale === 'number' ? state.greetingScale : 1.7;
+      displayScaleSlider.min = min.toString();
+      displayScaleSlider.max = max.toString();
+      displayScaleSlider.step = '0.05';
+      displayScaleSlider.value = val.toString();
+      const progress = Math.max(0, Math.min(100, ((val - min) / (max - min)) * 100));
+      displayScaleSlider.style.setProperty('--slider-progress', `${progress}%`);
+    } else if (isClock) {
+      const min = 4;
+      const max = 10;
+      const val = typeof state.clockScale === 'number' ? state.clockScale : 6;
+      displayScaleSlider.min = min.toString();
+      displayScaleSlider.max = max.toString();
+      displayScaleSlider.step = '0.25';
+      displayScaleSlider.value = val.toString();
+      const progress = Math.max(0, Math.min(100, ((val - min) / (max - min)) * 100));
+      displayScaleSlider.style.setProperty('--slider-progress', `${progress}%`);
+    }
+  };
 
   const syncState = () => {
     const state = globalState.current;
@@ -117,7 +170,9 @@ export function init(container: HTMLElement): void {
     if (clockGroupCard) {
       clockGroupCard.style.display = state.displayStyle === 'clock' ? '' : 'none';
     }
-    
+
+    updateScaleSlider(state);
+
     if (greetingNameInput) {
       greetingNameInput.value = state.greetingName || '';
     }
@@ -169,6 +224,19 @@ export function init(container: HTMLElement): void {
     greetingHighlightNameCheckbox.addEventListener('change', (e) => {
       const target = e.target as HTMLInputElement;
       globalState.current.greetingHighlightName = target.checked;
+    });
+  }
+
+  if (displayScaleSlider) {
+    displayScaleSlider.addEventListener('input', (e) => {
+      const target = e.target as HTMLInputElement;
+      const val = parseFloat(target.value);
+      if (globalState.current.displayStyle === 'greetings') {
+        globalState.current.greetingScale = val;
+      } else if (globalState.current.displayStyle === 'clock') {
+        globalState.current.clockScale = val;
+      }
+      updateScaleSlider(globalState.current);
     });
   }
 

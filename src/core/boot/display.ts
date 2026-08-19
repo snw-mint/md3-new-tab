@@ -10,6 +10,28 @@ import { globalState } from '../shared/state';
 import { t } from '../shared/i18n';
 
 let lastMessageBase = '';
+let currentPeriod = '';
+let currentGreetingIndex = 0;
+
+function getRandomGreetingIndex(period: string, max: number = 5): number {
+  const storageKey = `last_greet_index_${period}`;
+  let lastIndex = 0;
+  try {
+    lastIndex = parseInt(localStorage.getItem(storageKey) || '0', 10);
+  } catch {}
+
+  const available: number[] = [];
+  for (let i = 1; i <= max; i++) {
+    if (i !== lastIndex) available.push(i);
+  }
+
+  const selected = available[Math.floor(Math.random() * available.length)] || 1;
+  try {
+    localStorage.setItem(storageKey, selected.toString());
+  } catch {}
+
+  return selected;
+}
 
 function tick(): void {
   const now = new Date();
@@ -28,10 +50,14 @@ function tick(): void {
       else if (hour >= 12 && hour < 18) period = 'Afternoon';
       else if (hour >= 18 && hour < 24) period = 'Evening';
 
-      const index = (now.getDate() % 5) + 1;
+      if (period !== currentPeriod || currentGreetingIndex === 0) {
+        currentPeriod = period;
+        currentGreetingIndex = getRandomGreetingIndex(period, 5);
+      }
+
       const dayOfWeek = t(`weekday_${now.getDay()}`);
       const trimmedName = greetingName.trim();
-      const msgKey = `greet${period}${index}`;
+      const msgKey = `greet${period}${currentGreetingIndex}`;
       let text = t(msgKey);
 
       if (text === msgKey || !text) {
@@ -40,7 +66,7 @@ function tick(): void {
         text = text.replace('$WEEK$', dayOfWeek);
       }
 
-      const cacheKey = `${msgKey}|${dayOfWeek}|${trimmedName}`;
+      const cacheKey = `${msgKey}|${dayOfWeek}|${trimmedName}|${text}`;
 
       if (cacheKey !== lastMessageBase) {
         greetingsDisplay.textContent = '';
@@ -143,7 +169,7 @@ function tick(): void {
 }
 
 function applyDisplaySettings() {
-  const { displayEnabled, displayStyle } = globalState.current;
+  const { displayEnabled, displayStyle, greetingScale, clockScale } = globalState.current;
 
   const root = document.documentElement;
   if (displayStyle) {
@@ -154,6 +180,14 @@ function applyDisplaySettings() {
   } else {
     root.setAttribute('data-display-enabled', 'false');
   }
+
+  const gScale = typeof greetingScale === 'number' ? greetingScale : 1.7;
+  const cScale = typeof clockScale === 'number' ? clockScale : 6;
+  const dateScale = +(cScale / 6).toFixed(3);
+
+  root.style.setProperty('--greeting-font-size', `${gScale}rem`);
+  root.style.setProperty('--clock-font-size', `${cScale}rem`);
+  root.style.setProperty('--date-font-size', `${dateScale}rem`);
 
   const widget = document.getElementById('displayWidget');
   if (widget) {

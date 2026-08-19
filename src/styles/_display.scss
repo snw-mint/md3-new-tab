@@ -16,7 +16,7 @@
 }
 
 .greetings-text {
-  font-size: 1.7rem;
+  font-size: var(--greeting-font-size, 1.7rem);
   font-weight: 500;
   color: var(--color-on-surface);
   text-align: center;
@@ -63,7 +63,7 @@
 
 .date-display {
   margin-top: 0.25rem;
-  font-size: 1rem;
+  font-size: var(--date-font-size, 1rem);
   font-weight: 500;
   color: var(--color-on-surface);
   opacity: 0.8;
@@ -80,7 +80,7 @@ html[data-display-style='greetings'] #greetingsDisplay {
 }
 
 .clock-display {
-  font-size: 6rem;
+  font-size: var(--clock-font-size, 6rem);
   line-height: 1;
   text-align: center;
   color: var(--color-primary);

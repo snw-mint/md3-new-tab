@@ -21,10 +21,12 @@ class ReactiveState {
       displayStyle: 'greetings',
       greetingName: '',
       greetingHighlightName: false,
+      greetingScale: 1.7,
       clock12hFormat: false,
       clockShowDate: true,
       clockExpressiveColor: false,
       clockStyle: 'Expressive Clock',
+      clockScale: 6,
       weatherEnabled: false,
       tempUnit: 'C',
       weatherCity: '',
@@ -62,6 +64,14 @@ class ReactiveState {
 
     if (!validClockStyles.includes(initialState.clockStyle)) {
       initialState.clockStyle = 'Expressive Clock';
+    }
+
+    if (typeof initialState.greetingScale !== 'number' || isNaN(initialState.greetingScale)) {
+      initialState.greetingScale = 1.7;
+    }
+
+    if (typeof initialState.clockScale !== 'number' || isNaN(initialState.clockScale)) {
+      initialState.clockScale = 6;
     }
 
     this.state = new Proxy(initialState, {

@@ -56,6 +56,8 @@ export function initBackupSystem(): void {
       backupData['searchEnabled'] = String(state.searchEnabled);
       backupData['launcherProvider'] = state.launcherProvider;
       backupData['greetingName'] = state.greetingName;
+      backupData['greetingScale'] = String(state.greetingScale);
+      backupData['clockScale'] = String(state.clockScale);
       backupData['displayEnabled'] = String(state.displayEnabled);
       backupData['use12Hour'] = String(state.clock12hFormat);
 
@@ -134,6 +136,8 @@ export function initBackupSystem(): void {
               if (data['searchEnabled']) newState.searchEnabled = data['searchEnabled'] === 'true';
               if (data['launcherProvider']) newState.launcherProvider = data['launcherProvider'] as any;
               if (data['greetingName']) newState.greetingName = data['greetingName'];
+              if (data['greetingScale']) newState.greetingScale = parseFloat(data['greetingScale']);
+              if (data['clockScale']) newState.clockScale = parseFloat(data['clockScale']);
               if (data['displayEnabled']) newState.displayEnabled = data['displayEnabled'] === 'true';
               if (data['use12Hour']) newState.clock12hFormat = data['use12Hour'] === 'true';
 
