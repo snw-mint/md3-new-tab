@@ -110,6 +110,91 @@ export function isWallpaperCacheValid(type: string): boolean {
   }
 }
 
+export function hideCredits(): void {
+  const creditsDiv = document.getElementById('wallpaperCredits');
+  if (creditsDiv) {
+    creditsDiv.style.display = 'none';
+  }
+}
+
+function safeRenderCreditHtml(
+  container: HTMLElement,
+  htmlString: string,
+): void {
+  container.textContent = '';
+  try {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlString, 'text/html');
+    const nodes = doc.body.childNodes;
+
+    for (let i = 0; i < nodes.length; i++) {
+      const node = nodes[i];
+      if (node.nodeType === Node.TEXT_NODE) {
+        container.appendChild(document.createTextNode(node.textContent || ''));
+      } else if (
+        node.nodeType === Node.ELEMENT_NODE &&
+        node.nodeName.toLowerCase() === 'a'
+      ) {
+        const anchorNode = node as HTMLAnchorElement;
+        const href = anchorNode.getAttribute('href') || '';
+
+        if (/^https?:\/\//i.test(href)) {
+          const a = document.createElement('a');
+          a.href = href;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.className = 'wallpaper-credit-link';
+          a.textContent = anchorNode.textContent || '';
+          container.appendChild(a);
+        } else {
+          container.appendChild(
+            document.createTextNode(anchorNode.textContent || ''),
+          );
+        }
+      }
+    }
+  } catch (e) {
+    container.textContent = htmlString.replace(/<[^>]*>?/gm, '');
+  }
+}
+
+export function showCredits(provider: WallpaperProvider): void {
+  const creditsDiv = document.getElementById('wallpaperCredits');
+  const creditTextSpan = document.getElementById('wallpaperCreditText');
+  if (!creditsDiv || !creditTextSpan) return;
+
+  const cacheKey = `wallpaper_cache_${provider}`;
+  try {
+    const cached = getWallpaperCache(cacheKey) as WallpaperCacheEntry | null;
+    if (cached && (cached.creditHtml || cached.credit || cached.creditUrl)) {
+      if (cached.creditHtml) {
+        safeRenderCreditHtml(creditTextSpan, cached.creditHtml);
+      } else {
+        const text = cached.credit || 'Daily Wallpaper';
+        const url = cached.creditUrl || '';
+
+        if (url) {
+          creditTextSpan.textContent = '';
+          const a = document.createElement('a');
+          a.href = url;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.className = 'wallpaper-credit-link';
+          a.textContent = text;
+          creditTextSpan.appendChild(a);
+        } else {
+          creditTextSpan.textContent = text;
+        }
+      }
+      creditsDiv.style.display = 'flex';
+    } else {
+      creditsDiv.style.display = 'none';
+    }
+  } catch (e) {
+    creditsDiv.style.display = 'none';
+  }
+}
+
 export function clearWallpaper(): void {
   const wallpaperLayer = document.getElementById('wallpaperLayer');
   if (wallpaperLayer) {
@@ -117,6 +202,7 @@ export function clearWallpaper(): void {
   }
   document.body.classList.remove('has-wallpaper');
   updateOverlay(0, false);
+  hideCredits();
 }
 
 export async function bootWallpaper(
@@ -151,6 +237,12 @@ export async function bootWallpaper(
       wallpaperLayer.style.backgroundImage = `url('${url}')`;
     }
     document.body.classList.add('has-wallpaper');
+
+    if (provider !== 'upload') {
+      showCredits(provider);
+    } else {
+      hideCredits();
+    }
   } else if (provider === 'upload') {
     clearWallpaper();
   }

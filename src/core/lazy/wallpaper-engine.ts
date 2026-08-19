@@ -4,6 +4,8 @@ import {
   updateOverlay,
   clearWallpaper,
   extractDominantColorFromUrl,
+  showCredits,
+  hideCredits,
 } from '../boot/wallpaper-render';
 import { fetchDailyWallpaper } from './providers/wallpaper-apis';
 
@@ -22,6 +24,7 @@ export class WallpaperEngine {
   public static async render(config: WallpaperConfig): Promise<void> {
     if (!config.enabled) {
       clearWallpaper();
+      hideCredits();
       return;
     }
 
@@ -41,6 +44,7 @@ export class WallpaperEngine {
       this.applyWallpaper(targetUrl, config);
     } else {
       clearWallpaper();
+      hideCredits();
     }
   }
 
@@ -62,6 +66,12 @@ export class WallpaperEngine {
       const overlay = config.overlay ?? globalState.current.wallpaperOverlay;
       updateOverlay(overlay, config.enabled);
 
+      if (config.provider !== 'upload') {
+        showCredits(config.provider);
+      } else {
+        hideCredits();
+      }
+
       extractDominantColorFromUrl(url).then((color) => {
         if (color) {
           globalState.current.wallpaperColor = color;
@@ -71,6 +81,7 @@ export class WallpaperEngine {
 
     img.onerror = () => {
       clearWallpaper();
+      hideCredits();
     };
   }
 }
