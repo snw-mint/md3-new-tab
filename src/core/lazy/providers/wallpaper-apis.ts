@@ -22,7 +22,7 @@ async function checkHostPermission(origins: string[]): Promise<boolean> {
 export async function fetchDailyWallpaper(
   source: WallpaperProvider,
   random = false,
-): Promise<string | null> {
+): Promise<{ url: string; credit?: string; creditUrl?: string; creditHtml?: string } | null> {
   const origins = WALLPAPER_HOST_PERMISSIONS[source];
   if (origins) {
     const hasPerm = await checkHostPermission(origins);
@@ -30,23 +30,7 @@ export async function fetchDailyWallpaper(
   }
 
   const today = new Date().toISOString().slice(0, 10);
-  const cacheKey = `wallpaper_cache_${source}`;
 
-  if (!random) {
-    try {
-      const cached = getWallpaperCache(cacheKey) as WallpaperCacheEntry | null;
-      if (
-        cached &&
-        cached.url &&
-        cached.date === today &&
-        'creditUrl' in cached
-      ) {
-        return cached.url;
-      }
-    } catch (e) {
-      console.error('Error reading cache', e);
-    }
-  }
 
   let imageUrl = '';
   let creditText = '';
@@ -123,7 +107,7 @@ export async function fetchDailyWallpaper(
       }
     } else if (source === 'unsplash') {
       const url =
-        'https://unsplash.snw-mint.workers.dev/photos/random?topics=textures-patterns&orientation=landscape';
+        `https://unsplash.snw-mint.workers.dev/photos/random?topics=textures-patterns&orientation=landscape&_cb=${Date.now()}`;
       const res = await fetch(url);
       if (!res.ok) {
         throw new Error(`Unsplash Worker Error: ${res.status}`);
@@ -153,7 +137,7 @@ export async function fetchDailyWallpaper(
       }
     } else if (source === 'pexels') {
       const randomPage = Math.floor(Math.random() * 100) + 1;
-      const url = `https://pexels.snw-mint.workers.dev/curated?per_page=1&page=${randomPage}&orientation=landscape`;
+      const url = `https://pexels.snw-mint.workers.dev/curated?per_page=1&page=${randomPage}&orientation=landscape&_cb=${Date.now()}`;
       const res = await fetch(url);
       if (!res.ok) {
         throw new Error(`Pexels Worker Error: ${res.status}`);
@@ -186,14 +170,12 @@ export async function fetchDailyWallpaper(
     }
 
     if (imageUrl) {
-      setWallpaperCache(cacheKey, {
+      return {
         url: imageUrl,
-        date: today,
         credit: creditText,
         creditUrl: creditUrl,
         ...(creditHtml ? { creditHtml } : {}),
-      });
-      return imageUrl;
+      };
     }
 
     throw new Error('No image URL found in the API response.');

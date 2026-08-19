@@ -39,13 +39,18 @@ export interface AppSettings {
 
 export type WallpaperProvider = 'upload' | 'unsplash' | 'pexels' | 'media_commons' | 'bing';
 
-export interface WallpaperCacheEntry {
-  url?: string;
-  date?: string;
+export interface WallpaperCacheItem {
+  url: string;
   credit?: string;
   creditUrl?: string;
   creditHtml?: string;
   dominantColor?: string;
+}
+
+export interface WallpaperCacheQueue {
+  date: string;
+  items: WallpaperCacheItem[];
+  currentIndex: number;
 }
 
 export interface CityData {

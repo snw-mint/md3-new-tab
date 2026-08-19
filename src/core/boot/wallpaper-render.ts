@@ -6,7 +6,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { WallpaperProvider, WallpaperCacheEntry } from '../shared/types';
+import { WallpaperProvider, WallpaperCacheQueue } from '../shared/types';
 import { getWallpaperCache } from '../shared/state';
 
 export function extractDominantColor(img: HTMLImageElement): string {
@@ -106,12 +106,15 @@ export function isWallpaperCacheValid(type: string): boolean {
   const cacheKey = `wallpaper_cache_${type}`;
   const today = new Date().toISOString().slice(0, 10);
   try {
-    const cached = getWallpaperCache(cacheKey) as WallpaperCacheEntry | null;
+    const cached = getWallpaperCache(cacheKey) as WallpaperCacheQueue | null;
     return !!(
       cached &&
-      cached.url &&
       cached.date === today &&
-      'creditUrl' in cached
+      Array.isArray(cached.items) &&
+      cached.items.length > 0 &&
+      cached.currentIndex >= 0 &&
+      cached.items[cached.currentIndex] &&
+      cached.items[cached.currentIndex].url
     );
   } catch {
     return false;
@@ -173,7 +176,11 @@ export function showCredits(provider: WallpaperProvider): void {
 
   const cacheKey = `wallpaper_cache_${provider}`;
   try {
-    const cached = getWallpaperCache(cacheKey) as WallpaperCacheEntry | null;
+    const queue = getWallpaperCache(cacheKey) as WallpaperCacheQueue | null;
+    let cached = null;
+    if (queue && Array.isArray(queue.items) && queue.currentIndex >= 0) {
+      cached = queue.items[queue.currentIndex];
+    }
     if (cached && (cached.creditHtml || cached.credit || cached.creditUrl)) {
       if (cached.creditHtml) {
         safeRenderCreditHtml(creditTextSpan, cached.creditHtml);
@@ -233,10 +240,11 @@ export async function bootWallpaper(
   } else {
     const cacheKey = `wallpaper_cache_${provider}`;
     try {
-      const cached = getWallpaperCache(cacheKey) as WallpaperCacheEntry | null;
+      const queue = getWallpaperCache(cacheKey) as WallpaperCacheQueue | null;
       const today = new Date().toISOString().slice(0, 10);
-      if (cached && cached.url && cached.date === today) {
-        url = cached.url;
+      if (queue && queue.date === today && Array.isArray(queue.items) && queue.currentIndex >= 0) {
+        const item = queue.items[queue.currentIndex];
+        if (item && item.url) url = item.url;
       }
     } catch {}
   }

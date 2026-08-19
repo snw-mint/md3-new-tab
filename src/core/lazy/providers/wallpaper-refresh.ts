@@ -8,7 +8,7 @@
 
 import { WallpaperProvider } from '../../shared/types';
 import { getWallpaperCache, setWallpaperCache } from '../../shared/state';
-import { WallpaperCacheEntry } from '../../shared/types';
+import { WallpaperCacheQueue } from '../../shared/types';
 
 const INTERVAL_MS: Record<string, number> = {
   daily: 0,
@@ -46,23 +46,25 @@ export function isIntervalExpired(interval: string): boolean {
 
 export function invalidateCache(provider: WallpaperProvider): void {
   const cacheKey = `wallpaper_cache_${provider}`;
-  const cached = getWallpaperCache(cacheKey) as WallpaperCacheEntry | null;
+  const cached = getWallpaperCache(cacheKey) as WallpaperCacheQueue | null;
   if (cached) {
     setWallpaperCache(cacheKey, { ...cached, date: '' });
   }
 }
 
 export async function fetchRandomBing(): Promise<string | null> {
-  try {
-    const randomId = Math.floor(Math.random() * 55000) + 10000;
-    const res = await fetch(`https://peapix.com/${randomId}`);
-    if (!res.ok) throw new Error(`Bing random error: ${res.status}`);
-    const text = await res.text();
-    const match = text.match(/https?:\/\/img\.peapix\.com\/[^"'\s]+/);
-    return match ? match[0] : null;
-  } catch {
-    return null;
+  const MAX_TRIES = 3;
+  for (let i = 0; i < MAX_TRIES; i++) {
+    try {
+      const randomId = Math.floor(Math.random() * 55000) + 10000;
+      const res = await fetch(`https://peapix.com/${randomId}`);
+      if (!res.ok) continue;
+      const text = await res.text();
+      const match = text.match(/https?:\/\/img\.peapix\.com\/[^"'\s]+/);
+      if (match) return match[0];
+    } catch {}
   }
+  return null;
 }
 
 export async function fetchRandomWikimedia(): Promise<{ url: string; credit: string; creditUrl: string } | null> {

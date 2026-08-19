@@ -208,12 +208,13 @@ export function init(container: HTMLElement): void {
 
     const intervalCard = container.querySelector<HTMLElement>('#advWallpaperIntervalCard');
     if (intervalCard) {
+      intervalCard.style.display = isApi ? '' : 'none';
       intervalCard.classList.toggle('disabled', paused);
       intervalCard.style.pointerEvents = paused ? 'none' : '';
       intervalCard.style.opacity = paused ? '0.45' : '';
     }
 
-    if (backBtn) backBtn.disabled = paused;
+    if (backBtn) backBtn.disabled = paused || !WallpaperEngine.canGoBack();
     if (nextBtn) nextBtn.disabled = paused;
 
     updatePauseIcon();
