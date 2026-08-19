@@ -499,6 +499,9 @@
   "advancedOptionsTitle": {
     "message": "Opções avançadas"
   },
+  "visibilityTitle": {
+    "message": "Visibilidade"
+  },
   "wallpaperProviderLabel": {
     "message": "Provedor"
   },
