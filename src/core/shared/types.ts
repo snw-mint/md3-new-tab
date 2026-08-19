@@ -101,6 +101,7 @@ export interface SnackbarOptions {
   actionText?: string | null;
   duration?: number;
   onAction?: () => void;
+  priority?: number;
 }
 
 export interface WarningModalOptions {
