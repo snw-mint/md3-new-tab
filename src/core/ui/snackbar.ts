@@ -35,11 +35,14 @@ export function showSnackbar({ text, actionText, duration = 4000, onAction }: Sn
 
   if (snackbarTimeout !== null) {
     clearTimeout(snackbarTimeout);
+    snackbarTimeout = null;
   }
 
-  snackbarTimeout = window.setTimeout(() => {
-    hideSnackbar();
-  }, duration);
+  if (duration > 0) {
+    snackbarTimeout = window.setTimeout(() => {
+      hideSnackbar();
+    }, duration);
+  }
 }
 
 export function hideSnackbar(): void {

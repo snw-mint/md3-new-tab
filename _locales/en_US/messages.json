@@ -593,5 +593,13 @@
   },
   "newTabPlaceholder": {
     "message": "New Tab"
+  },
+  "fetchingImagePlaceholder": {
+    "message": "Fetching $SOURCE$ image...",
+    "placeholders": {
+      "source": {
+        "content": "$1"
+      }
+    }
   }
 }

@@ -596,5 +596,13 @@
   },
   "newTabPlaceholder": {
     "message": "Nova Guia"
+  },
+  "fetchingImagePlaceholder": {
+    "message": "Carregando a imagem da $SOURCE$...",
+    "placeholders": {
+      "source": {
+        "content": "$1"
+      }
+    }
   }
 }
