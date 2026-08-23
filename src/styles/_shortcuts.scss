@@ -261,6 +261,78 @@
   }
 }
 
+.shortcuts-area {
+  width: 100%;
+  position: relative;
+}
+
+.folder-back-wrapper {
+  display: none;
+  justify-content: flex-start;
+  width: 100%;
+  position: absolute;
+  top: calc(100% + 0.9rem);
+  left: 0;
+
+  &.visible {
+    display: flex;
+  }
+
+  &.visible.single-row {
+    width: calc(var(--shortcut-count, 10) * (100% / 10));
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.folder-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  background-color: var(--color-surface-variant);
+  color: var(--color-on-surface-variant);
+  border: none;
+  border-radius: var(--radius-full);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+
+  svg {
+    width: 1.125rem;
+    height: 1.125rem;
+    fill: currentColor;
+  }
+
+  &:hover {
+    background-color: color-mix(
+      in srgb,
+      var(--color-primary) 12%,
+      var(--color-surface-variant)
+    );
+    color: var(--color-primary);
+  }
+}
+
+.shortcut-item[data-type='folder'] {
+  .shortcut-icon {
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-on-surface-variant);
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      fill: currentColor;
+    }
+  }
+}
+
 .add-card-wrapper {
   .shortcut-card {
     background-color: transparent;
@@ -270,6 +342,17 @@
 
     &::before {
       display: none;
+    }
+  }
+
+  .shortcut-dropdown {
+    top: calc(100% + 0.25rem);
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%) translateY(-0.5rem);
+
+    &.active {
+      transform: translateX(-50%) translateY(0);
     }
   }
 
@@ -367,5 +450,8 @@
 
 .folder-drag-hover .shortcut-card {
   transform: scale(1.15);
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
   transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
 }
+
