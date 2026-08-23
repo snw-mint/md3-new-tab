@@ -1,20 +1,13 @@
-/*
- * MD3: Expressive New Tab
- * Copyright (c) 2026 SnowMint
- * Licensed under the GNU General Public License v3.0 (GPL-3.0)
- * You should have received a copy of the GNU General Public License along with this program.
- * If not, see <https://www.gnu.org/licenses/>.
- */
-
 import { globalState } from '../shared/state';
 import { t } from '../shared/i18n';
+import { ShortcutItem } from '../shared/types';
 
 export function sanitizeUrl(url: string | undefined | null): string {
   if (!url) return 'about:blank';
-  const trimmed = url.trim();
+  const tr = url.trim();
 
-  const cleanUrl = trimmed.replace(/[^\x20-\x7E]/g, '').replace(/\s+/g, '');
-  const lower = cleanUrl.toLowerCase();
+  const clean = tr.replace(/[^\x20-\x7E]/g, '').replace(/\s+/g, '');
+  const lower = clean.toLowerCase();
 
   if (
     lower.startsWith('javascript:') ||
@@ -25,15 +18,15 @@ export function sanitizeUrl(url: string | undefined | null): string {
     return 'about:blank';
   }
 
-  return trimmed;
+  return tr;
 }
 
 export function sanitizeIconUrl(url: string | undefined | null): string {
   if (!url) return '';
-  const trimmed = url.trim();
+  const tr = url.trim();
 
-  const cleanUrl = trimmed.replace(/[^\x20-\x7E]/g, '').replace(/\s+/g, '');
-  const lower = cleanUrl.toLowerCase();
+  const clean = tr.replace(/[^\x20-\x7E]/g, '').replace(/\s+/g, '');
+  const lower = clean.toLowerCase();
 
   if (
     lower.startsWith('javascript:') ||
@@ -49,18 +42,17 @@ export function sanitizeIconUrl(url: string | undefined | null): string {
     }
   }
 
-  return trimmed;
+  return tr;
 }
 
-export interface ShortcutItem {
-  id: string;
-  name: string;
-  url: string;
-  iconUrl?: string;
-}
+const FOLDER_ICON = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h207q16 0 30.5 6t25.5 17l57 57h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160zm0-80h640v-400H447l-80-80H160zm0 0v-480z"/></svg>`;
+const SHORTCUT_ICON = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M318-120q-82 0-140-58t-58-140q0-40 15-76t43-64l105-105q12-12 28.5-12t28.5 12 12 28-12 28L234-401q-17 17-25.5 38.5T200-318q0 49 34.5 83.5T318-200q23 0 45-8.5t39-25.5l105-106q12-11 28-11t28 12 12 28-12 28L458-178q-28 28-64 43t-76 15m50-248q-12-12-12-28.5t12-28.5l167-167q12-12 28.5-12t28.5 12 12 28.5-12 28.5L425-368q-12 12-28.5 12T368-368m252-29q-12-12-12-28t12-28l106-105q17-17 25-38t8-44q0-50-34-85t-84-35q-23 0-44.5 8.5T558-726L453-620q-12 12-28 12t-28-12-12-28.5 12-28.5l105-105q28-28 64-43t76-15q82 0 139.5 58T839-641q0 39-14.5 75T782-502L677-397q-12 12-28.5 12T620-397"/></svg>`;
 
 export class ShortcutsManager {
   private container!: HTMLElement;
+  private folderBackWrapper: HTMLElement | null = null;
+  private folderBackBtn: HTMLElement | null = null;
+  private currentFolderId: string | null = null;
   private shortcuts: ShortcutItem[] = [];
   private maxItems = 10;
   private editingIndex: number | null = null;
@@ -73,6 +65,8 @@ export class ShortcutsManager {
 
   constructor() {
     this.container = document.getElementById('shortcutsGrid') as HTMLElement;
+    this.folderBackWrapper = document.getElementById('folderBackWrapper');
+    this.folderBackBtn = document.getElementById('folderBackBtn');
     this.modal = document.getElementById('shortcutModal');
     this.form = document.getElementById('shortcutForm') as HTMLFormElement;
     this.inputName = document.getElementById('shortcutName') as HTMLInputElement;
@@ -94,22 +88,55 @@ export class ShortcutsManager {
 
     this.container.addEventListener('click', this.handleGridClick.bind(this));
     document.addEventListener('click', this.handleDocumentClick.bind(this));
+
+    if (this.folderBackBtn) {
+      this.folderBackBtn.addEventListener('click', () => {
+        this.currentFolderId = null;
+        this.render();
+      });
+    }
+
     this.setupModalEvents();
   }
 
   public initDragDrop(initVanillaDragAndDrop: (options: {
     gridContainer: HTMLElement;
     onReorder: (oldIndex: number, newIndex: number) => void;
+    onMoveToFolder?: (itemIndex: number, folderId: string) => void;
+    onMoveOutFolder?: (itemIndex: number) => boolean | void;
   }) => void): void {
     if (!this.container) return;
     initVanillaDragAndDrop({
       gridContainer: this.container,
       onReorder: (oldIndex: number, newIndex: number) => {
-        const item = this.shortcuts.splice(oldIndex, 1)[0];
-        this.shortcuts.splice(newIndex, 0, item);
+        const list = this.getActiveList();
+        const item = list.splice(oldIndex, 1)[0];
+        list.splice(newIndex, 0, item);
         this.saveShortcuts();
         this.render();
-      }
+      },
+      onMoveToFolder: (itemIndex: number, folderId: string) => {
+        const list = this.getActiveList();
+        const target = this.shortcuts.find((s) => s.id === folderId && s.type === 'folder');
+        if (target && list[itemIndex]) {
+          if (!target.children) target.children = [];
+          const item = list.splice(itemIndex, 1)[0];
+          target.children.push(item);
+          this.saveShortcuts();
+          this.render();
+        }
+      },
+      onMoveOutFolder: (itemIndex: number) => {
+        if (!this.currentFolderId) return;
+        const list = this.getActiveList();
+        if (list[itemIndex]) {
+          const item = list.splice(itemIndex, 1)[0];
+          this.shortcuts.push(item);
+          this.saveShortcuts();
+          this.render();
+          return true;
+        }
+      },
     });
   }
 
@@ -136,12 +163,8 @@ export class ShortcutsManager {
     const clearBtns = this.form.querySelectorAll('.clear-input-btn');
     clearBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
-        const wrapper = (e.currentTarget as HTMLElement).closest(
-          '.md3-filled-input-wrapper',
-        );
-        const input = wrapper?.querySelector(
-          '.md3-filled-input',
-        ) as HTMLInputElement;
+        const wrapper = (e.currentTarget as HTMLElement).closest('.md3-filled-input-wrapper');
+        const input = wrapper?.querySelector('.md3-filled-input') as HTMLInputElement;
         if (input) {
           input.value = '';
           input.focus();
@@ -152,31 +175,20 @@ export class ShortcutsManager {
 
     if (this.inputUrl) {
       this.inputUrl.addEventListener('focus', () => {
-        this.inputUrl!.closest('.md3-filled-input-wrapper')?.classList.remove(
-          'has-error',
-        );
+        this.inputUrl!.closest('.md3-filled-input-wrapper')?.classList.remove('has-error');
       });
-      this.inputUrl.addEventListener('blur', () =>
-        this.handleUrlValidation(this.inputUrl!, false),
-      );
+      this.inputUrl.addEventListener('blur', () => this.handleUrlValidation(this.inputUrl!, false));
     }
 
     if (this.inputIconUrl) {
       this.inputIconUrl.addEventListener('focus', () => {
-        this.inputIconUrl!.closest(
-          '.md3-filled-input-wrapper',
-        )?.classList.remove('has-error');
+        this.inputIconUrl!.closest('.md3-filled-input-wrapper')?.classList.remove('has-error');
       });
-      this.inputIconUrl.addEventListener('blur', () =>
-        this.handleUrlValidation(this.inputIconUrl!, true),
-      );
+      this.inputIconUrl.addEventListener('blur', () => this.handleUrlValidation(this.inputIconUrl!, true));
     }
   }
 
-  private handleUrlValidation(
-    input: HTMLInputElement,
-    isOptional: boolean,
-  ): boolean {
+  private handleUrlValidation(input: HTMLInputElement, isOptional: boolean): boolean {
     const wrapper = input.closest('.md3-filled-input-wrapper');
     if (!wrapper) return true;
 
@@ -213,23 +225,17 @@ export class ShortcutsManager {
   }
 
   private openModal(index: number | null) {
-    if (
-      !this.modal ||
-      !this.inputName ||
-      !this.inputUrl ||
-      !this.inputIconUrl ||
-      !this.modalTitle
-    )
-      return;
+    if (!this.modal || !this.inputName || !this.inputUrl || !this.inputIconUrl || !this.modalTitle) return;
 
     this.editingIndex = index;
+    const list = this.getActiveList();
 
-    if (index !== null && this.shortcuts[index]) {
-      const item = this.shortcuts[index];
+    if (index !== null && list[index]) {
+      const item = list[index];
       this.modalTitle.textContent = t('shortcutEditTitle', 'Edit Shortcut');
       this.inputName.value = item.name;
-      this.inputUrl.value = item.url;
-      this.inputIconUrl.value = item.iconUrl || '';
+      this.inputUrl.value = item.url || '';
+      this.inputIconUrl.value = item.customIcon || item.iconUrl || '';
     } else {
       this.modalTitle.textContent = t('shortcutAddTitle', 'Add Shortcut');
       this.inputName.value = '';
@@ -237,15 +243,9 @@ export class ShortcutsManager {
       this.inputIconUrl.value = '';
     }
 
-    this.inputName
-      .closest('.md3-filled-input-wrapper')
-      ?.classList.remove('has-error');
-    this.inputUrl
-      .closest('.md3-filled-input-wrapper')
-      ?.classList.remove('has-error');
-    this.inputIconUrl
-      .closest('.md3-filled-input-wrapper')
-      ?.classList.remove('has-error');
+    this.inputName.closest('.md3-filled-input-wrapper')?.classList.remove('has-error');
+    this.inputUrl.closest('.md3-filled-input-wrapper')?.classList.remove('has-error');
+    this.inputIconUrl.closest('.md3-filled-input-wrapper')?.classList.remove('has-error');
 
     this.modal.classList.add('active');
     setTimeout(() => this.inputUrl?.focus(), 100);
@@ -272,25 +272,29 @@ export class ShortcutsManager {
     if (!nameStr) {
       try {
         const urlObj = new URL(urlStr);
-        let generatedName = urlObj.hostname.replace(/^www\./, '');
-        generatedName =
-          generatedName.charAt(0).toUpperCase() + generatedName.slice(1);
-        nameStr = generatedName.split('.')[0];
+        let gen = urlObj.hostname.replace(/^www\./, '');
+        gen = gen.charAt(0).toUpperCase() + gen.slice(1);
+        nameStr = gen.split('.')[0];
       } catch {
         nameStr = 'New Shortcut';
       }
     }
 
-    if (this.editingIndex !== null && this.shortcuts[this.editingIndex]) {
-      this.shortcuts[this.editingIndex].name = nameStr;
-      this.shortcuts[this.editingIndex].url = urlStr;
-      this.shortcuts[this.editingIndex].iconUrl = iconUrlStr;
+    const list = this.getActiveList();
+
+    if (this.editingIndex !== null && list[this.editingIndex]) {
+      list[this.editingIndex].name = nameStr;
+      list[this.editingIndex].url = urlStr;
+      list[this.editingIndex].iconUrl = iconUrlStr;
+      list[this.editingIndex].customIcon = iconUrlStr;
     } else {
-      this.shortcuts.push({
+      list.push({
         id: 'shortcut_' + Date.now(),
+        type: 'link',
         name: nameStr,
         url: urlStr,
         iconUrl: iconUrlStr,
+        customIcon: iconUrlStr,
       });
     }
 
@@ -301,10 +305,7 @@ export class ShortcutsManager {
 
   private handleDocumentClick(e: MouseEvent) {
     const target = e.target as HTMLElement;
-    if (
-      !target.closest('.shortcut-dropdown') &&
-      !target.closest('.menu-btn')
-    ) {
+    if (!target.closest('.shortcut-dropdown') && !target.closest('.menu-btn') && !target.closest('.add-card-wrapper')) {
       this.closeAllDropdowns();
     }
   }
@@ -319,19 +320,36 @@ export class ShortcutsManager {
       const wrapper = target.closest('.menu-wrapper');
       const dropdown = wrapper?.querySelector('.shortcut-dropdown');
 
-      const isCurrentlyActive = dropdown?.classList.contains('active');
+      const isActive = dropdown?.classList.contains('active');
       this.closeAllDropdowns();
 
-      if (dropdown && !isCurrentlyActive) {
+      if (dropdown && !isActive) {
         dropdown.classList.add('active');
       }
       return;
     }
 
-    const addBtn = target.closest('.add-card-wrapper');
-    if (addBtn) {
+    const addOpt = target.closest('.add-link-option');
+    if (addOpt) {
       e.preventDefault();
+      e.stopPropagation();
+      this.closeAllDropdowns();
       this.openModal(null);
+      return;
+    }
+
+    const addCard = target.closest('.add-card-wrapper');
+    if (addCard) {
+      e.preventDefault();
+      e.stopPropagation();
+      const drop = addCard.querySelector('.shortcut-dropdown');
+      if (drop) {
+        const isActive = drop.classList.contains('active');
+        this.closeAllDropdowns();
+        if (!isActive) drop.classList.add('active');
+      } else {
+        this.openModal(null);
+      }
       return;
     }
 
@@ -346,24 +364,31 @@ export class ShortcutsManager {
     const removeBtn = target.closest('.remove-option');
     if (removeBtn) {
       e.preventDefault();
-      const index = parseInt(
-        (removeBtn as HTMLElement).dataset.index || '-1',
-        10,
-      );
+      const index = parseInt((removeBtn as HTMLElement).dataset.index || '-1', 10);
       if (index >= 0) this.removeShortcut(index);
+      return;
+    }
+
+    const folderCard = target.closest('.shortcut-item[data-type="folder"]');
+    if (folderCard && !target.closest('.menu-wrapper')) {
+      e.preventDefault();
+      const id = (folderCard as HTMLElement).dataset.id;
+      if (id) {
+        this.currentFolderId = id;
+        this.render();
+      }
       return;
     }
   }
 
   private closeAllDropdowns() {
-    const dropdowns = this.container.querySelectorAll(
-      '.shortcut-dropdown.active',
-    );
+    const dropdowns = this.container.querySelectorAll('.shortcut-dropdown.active');
     dropdowns.forEach((d) => d.classList.remove('active'));
   }
 
   private removeShortcut(index: number) {
-    this.shortcuts.splice(index, 1);
+    const list = this.getActiveList();
+    list.splice(index, 1);
     this.saveShortcuts();
     this.render();
   }
@@ -382,15 +407,26 @@ export class ShortcutsManager {
       }
     } else {
       this.shortcuts = [
-        { id: 'shortcut_1781923170642', name: 'MD3', url: 'https://m3.material.io/' },
-        { id: 'shortcut_1781923240189', name: 'Youtube', url: 'https://youtube.com' },
-        { id: 'shortcut_1781923227005', name: 'GitHub', url: 'https://github.com/snw-mint/md3-new-tab' },
-        { id: 'shortcut_1781923256701', name: 'BMC', url: 'https://buymeacoffee.com/snw.mint' },
-        { id: 'shortcut_1781923301038', name: 'Gemini', url: 'https://gemini.google.com' },
-        { id: 'shortcut_1781923355670', name: 'Reddit', url: 'https://reddit.com', iconUrl: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/reddit-icon.png' },
-        { id: 'shortcut_1781923629158', name: 'Spotify', url: 'https://spotify.com' }
+        { id: 'shortcut_1781923170642', type: 'link', name: 'MD3', url: 'https://m3.material.io/' },
+        { id: 'shortcut_1781923240189', type: 'link', name: 'Youtube', url: 'https://youtube.com' },
+        { id: 'shortcut_1781923227005', type: 'link', name: 'GitHub', url: 'https://github.com/snw-mint/md3-new-tab' },
+        { id: 'shortcut_1781923256701', type: 'link', name: 'BMC', url: 'https://buymeacoffee.com/snw.mint' },
+        { id: 'shortcut_1781923301038', type: 'link', name: 'Gemini', url: 'https://gemini.google.com' },
+        { id: 'shortcut_1781923355670', type: 'link', name: 'Reddit', url: 'https://reddit.com', iconUrl: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/reddit-icon.png' },
+        { id: 'shortcut_1781923629158', type: 'link', name: 'Spotify', url: 'https://spotify.com' }
       ];
     }
+  }
+
+  private getActiveList(): ShortcutItem[] {
+    if (this.currentFolderId) {
+      const folder = this.shortcuts.find((s) => s.id === this.currentFolderId && s.type === 'folder');
+      if (folder) {
+        if (!folder.children) folder.children = [];
+        return folder.children;
+      }
+    }
+    return this.shortcuts;
   }
 
   private updateRows(rowsStr: string) {
@@ -404,73 +440,104 @@ export class ShortcutsManager {
     if (!this.container) return;
     this.container.innerHTML = '';
 
-    const itemsToRender = this.shortcuts.slice(0, this.maxItems);
+    const list = this.getActiveList();
+    const limit = this.currentFolderId ? 40 : this.maxItems;
+    const isInside = Boolean(this.currentFolderId);
+
+    if (this.folderBackWrapper) {
+      if (isInside) {
+        this.folderBackWrapper.classList.add('visible');
+        const label = this.folderBackWrapper.querySelector('.folder-back-label');
+        if (label) label.textContent = t('backLabel', 'Back');
+      } else {
+        this.folderBackWrapper.classList.remove('visible');
+      }
+    }
+
+    const itemsToRender = list.slice(0, limit);
 
     itemsToRender.forEach((shortcut, index) => {
       this.container.appendChild(this.createShortcutElement(shortcut, index));
     });
 
-    if (this.shortcuts.length < this.maxItems) {
+    if (list.length < limit) {
       this.container.appendChild(this.createAddShortcutButton());
     }
 
-    const totalRenderedItems = this.container.children.length;
-    const actualRows = Math.ceil(totalRenderedItems / 10) || 1;
-    document.documentElement.style.setProperty('--shortcuts-reserved-rows', String(actualRows));
+    const total = this.container.children.length;
+    const rows = Math.ceil(total / 10) || 1;
+    document.documentElement.style.setProperty('--shortcuts-reserved-rows', String(rows));
 
-    if (totalRenderedItems <= 10) {
+    if (total <= 10) {
       this.container.classList.add('single-row');
+      if (this.folderBackWrapper) this.folderBackWrapper.classList.add('single-row');
     } else {
       this.container.classList.remove('single-row');
+      if (this.folderBackWrapper) this.folderBackWrapper.classList.remove('single-row');
     }
+
     if (globalState.current.hideShortcutNames) {
       this.container.setAttribute('data-hide-names', 'true');
     } else {
       this.container.removeAttribute('data-hide-names');
     }
-    this.container.style.setProperty(
-      '--shortcut-count',
-      String(totalRenderedItems),
-    );
+
+    this.container.style.setProperty('--shortcut-count', String(total));
+    if (this.folderBackWrapper) this.folderBackWrapper.style.setProperty('--shortcut-count', String(total));
   }
 
-  private createShortcutElement(
-    shortcut: ShortcutItem,
-    index: number,
-  ): HTMLElement {
+  private createShortcutElement(shortcut: ShortcutItem, index: number): HTMLElement {
+    const isFolder = shortcut.type === 'folder';
     const wrapper = document.createElement('a');
     wrapper.className = 'shortcut-item';
-    wrapper.href = sanitizeUrl(shortcut.url);
+    wrapper.href = isFolder ? '#' : sanitizeUrl(shortcut.url);
     wrapper.draggable = true;
     wrapper.dataset.index = index.toString();
+    wrapper.dataset.type = isFolder ? 'folder' : 'link';
+    if (shortcut.id) wrapper.dataset.id = shortcut.id;
 
     const card = document.createElement('div');
     card.className = 'shortcut-card';
     card.draggable = false;
 
     let iconEl: HTMLElement;
-    let finalIconUrl = shortcut.iconUrl;
+    const finalIcon = shortcut.customIcon || shortcut.iconUrl;
 
-    if (!finalIconUrl) {
-      try {
-        const urlObj = new URL(shortcut.url);
-        finalIconUrl = `https://favicon.vemetric.com/${urlObj.hostname}?size=64`;
-      } catch (e) {
+    if (isFolder) {
+      if (finalIcon) {
+        const img = document.createElement('img');
+        img.className = 'shortcut-icon loaded';
+        img.src = sanitizeIconUrl(finalIcon);
+        img.draggable = false;
+        img.onerror = () => {
+          img.replaceWith(this.createFolderFallbackIcon());
+        };
+        iconEl = img;
+      } else {
+        iconEl = this.createFolderFallbackIcon();
       }
-    }
-
-    const sanitizedIconUrl = sanitizeIconUrl(finalIconUrl);
-    if (sanitizedIconUrl) {
-      const img = document.createElement('img');
-      img.className = 'shortcut-icon loaded';
-      img.src = sanitizedIconUrl;
-      img.draggable = false;
-      img.onerror = () => {
-        img.replaceWith(this.createFallbackIcon());
-      };
-      iconEl = img;
     } else {
-      iconEl = this.createFallbackIcon();
+      let finalUrl = finalIcon;
+      if (!finalUrl && shortcut.url) {
+        try {
+          const urlObj = new URL(shortcut.url);
+          finalUrl = `https://favicon.vemetric.com/${urlObj.hostname}?size=64`;
+        } catch (e) {}
+      }
+
+      const sanitized = sanitizeIconUrl(finalUrl);
+      if (sanitized) {
+        const img = document.createElement('img');
+        img.className = 'shortcut-icon loaded';
+        img.src = sanitized;
+        img.draggable = false;
+        img.onerror = () => {
+          img.replaceWith(this.createFallbackIcon());
+        };
+        iconEl = img;
+      } else {
+        iconEl = this.createFallbackIcon();
+      }
     }
 
     card.appendChild(iconEl);
@@ -491,7 +558,7 @@ export class ShortcutsManager {
     editOption.dataset.index = index.toString();
     editOption.innerHTML = `
       <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
-      <span>Edit</span>
+      <span>${t('editLabel', 'Edit')}</span>
     `;
 
     const removeOption = document.createElement('div');
@@ -499,7 +566,7 @@ export class ShortcutsManager {
     removeOption.dataset.index = index.toString();
     removeOption.innerHTML = `
       <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
-      <span>Remove</span>
+      <span>${t('removeLabel', 'Remove')}</span>
     `;
 
     dropdown.appendChild(editOption);
@@ -520,11 +587,19 @@ export class ShortcutsManager {
     return wrapper;
   }
 
+  private createFolderFallbackIcon(): HTMLElement {
+    const span = document.createElement('span');
+    span.className = 'shortcut-icon loaded fallback-icon';
+    span.draggable = false;
+    span.innerHTML = FOLDER_ICON;
+    return span;
+  }
+
   private createFallbackIcon(): HTMLElement {
     const span = document.createElement('span');
     span.className = 'shortcut-icon loaded fallback-icon';
     span.draggable = false;
-    span.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M480-80q-83 0-156-31.5T197-197t-85.5-127T80-480t31.5-156T197-763t127-85.5T480-880t156 31.5T763-763t85.5 127T880-480t-31.5 156T763-197t-127 85.5T480-80m0-80q134 0 227-93t93-227q0-7-.5-14.5T799-507q-5 29-27 48t-52 19h-80q-33 0-56.5-23.5T560-520v-40H400v-80q0-33 23.5-56.5T480-720h40q0-23 12.5-40.5T563-789q-20-5-40.5-8t-42.5-3q-134 0-227 93t-93 227h200q66 0 113 47t47 113v40H400v110q20 5 39.5 7.5T480-160"/></svg>`;
+    span.innerHTML = SHORTCUT_ICON;
     return span;
   }
 
@@ -550,7 +625,30 @@ export class ShortcutsManager {
     title.setAttribute('data-i18n', 'shortcutAddTitle');
     title.textContent = t('shortcutAddTitle', 'Add Shortcut');
 
+    const dropdown = document.createElement('div');
+    dropdown.className = 'shortcut-dropdown';
+
+    const linkOption = document.createElement('div');
+    linkOption.className = 'menu-option add-link-option';
+    linkOption.innerHTML = `
+      ${SHORTCUT_ICON}
+      <span>${t('addShortcutTitle', 'Add Shortcut')}</span>
+    `;
+
+    const folderOption = document.createElement('div');
+    folderOption.className = 'menu-option add-folder-option';
+    folderOption.innerHTML = `
+      ${FOLDER_ICON}
+      <span>${t('addFolderTitle', 'Add Folder')}</span>
+    `;
+
+    dropdown.appendChild(linkOption);
+    if (!this.currentFolderId) {
+      dropdown.appendChild(folderOption);
+    }
+
     wrapper.appendChild(card);
+    wrapper.appendChild(dropdown);
     wrapper.appendChild(title);
 
     return wrapper;
