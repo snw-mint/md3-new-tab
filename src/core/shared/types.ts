@@ -120,3 +120,16 @@ export interface WarningModalOptions {
   onConfirm: () => void;
   onCancel?: () => void;
 }
+
+export type ShortcutItemType = 'link' | 'folder';
+
+export interface ShortcutItem {
+  id: string;
+  type?: ShortcutItemType;
+  name: string;
+  url?: string;
+  iconUrl?: string;
+  customIcon?: string | null;
+  children?: ShortcutItem[];
+}
+

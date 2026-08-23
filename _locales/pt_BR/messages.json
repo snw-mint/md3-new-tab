@@ -532,6 +532,27 @@
   "shortcutAddTitle": {
     "message": "Adicionar"
   },
+  "addShortcutTitle": {
+    "message": "Adicionar atalho"
+  },
+  "editShortcutTitle": {
+    "message": "Editar atalho"
+  },
+  "addFolderTitle": {
+    "message": "Adicionar pasta"
+  },
+  "editFolderTitle": {
+    "message": "Editar pasta"
+  },
+  "folderNameLabel": {
+    "message": "Nome da pasta"
+  },
+  "folderIconUrlLabel": {
+    "message": "URL do ícone (opcional)"
+  },
+  "backLabel": {
+    "message": "Voltar"
+  },
   "shortcutNameLabel": {
     "message": "Nome"
   },

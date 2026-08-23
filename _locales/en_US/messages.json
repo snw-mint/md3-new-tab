@@ -529,6 +529,27 @@
   "shortcutAddTitle": {
     "message": "Add"
   },
+  "addShortcutTitle": {
+    "message": "Add Shortcut"
+  },
+  "editShortcutTitle": {
+    "message": "Edit Shortcut"
+  },
+  "addFolderTitle": {
+    "message": "Add Folder"
+  },
+  "editFolderTitle": {
+    "message": "Edit Folder"
+  },
+  "folderNameLabel": {
+    "message": "Folder name"
+  },
+  "folderIconUrlLabel": {
+    "message": "Icon URL (optional)"
+  },
+  "backLabel": {
+    "message": "Back"
+  },
   "shortcutNameLabel": {
     "message": "Name"
   },
