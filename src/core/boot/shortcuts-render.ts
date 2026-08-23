@@ -62,6 +62,11 @@ export class ShortcutsManager {
   private inputUrl: HTMLInputElement | null = null;
   private inputIconUrl: HTMLInputElement | null = null;
   private modalTitle: HTMLElement | null = null;
+  private folderModal: HTMLElement | null = null;
+  private folderForm: HTMLFormElement | null = null;
+  private inputFolderName: HTMLInputElement | null = null;
+  private inputFolderIconUrl: HTMLInputElement | null = null;
+  private folderModalTitle: HTMLElement | null = null;
 
   constructor() {
     this.container = document.getElementById('shortcutsGrid') as HTMLElement;
@@ -73,6 +78,11 @@ export class ShortcutsManager {
     this.inputUrl = document.getElementById('shortcutUrl') as HTMLInputElement;
     this.inputIconUrl = document.getElementById('shortcutIconUrl') as HTMLInputElement;
     this.modalTitle = document.getElementById('shortcut-modal-title');
+    this.folderModal = document.getElementById('folderModal');
+    this.folderForm = document.getElementById('folderForm') as HTMLFormElement;
+    this.inputFolderName = document.getElementById('folderName') as HTMLInputElement;
+    this.inputFolderIconUrl = document.getElementById('folderIconUrl') as HTMLInputElement;
+    this.folderModalTitle = document.getElementById('folder-modal-title');
 
     this.loadShortcuts();
     this.init();
@@ -141,26 +151,45 @@ export class ShortcutsManager {
   }
 
   private setupModalEvents() {
-    if (!this.modal || !this.form) return;
+    if (this.form) {
+      this.form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        this.saveShortcutData();
+      });
 
-    this.form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      this.saveShortcutData();
-    });
+      this.form.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          this.saveShortcutData();
+        }
+      });
+    }
+
+    if (this.folderForm) {
+      this.folderForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        this.saveFolderData();
+      });
+
+      this.folderForm.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          this.saveFolderData();
+        }
+      });
+    }
 
     const closeBtn = document.getElementById('shortcut-btn-cancel');
     if (closeBtn) {
       closeBtn.addEventListener('click', () => this.closeModal());
     }
 
-    this.form.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        this.saveShortcutData();
-      }
-    });
+    const folderCloseBtn = document.getElementById('folder-btn-cancel');
+    if (folderCloseBtn) {
+      folderCloseBtn.addEventListener('click', () => this.closeFolderModal());
+    }
 
-    const clearBtns = this.form.querySelectorAll('.clear-input-btn');
+    const clearBtns = document.querySelectorAll('.shortcut-form .clear-input-btn');
     clearBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
         const wrapper = (e.currentTarget as HTMLElement).closest('.md3-filled-input-wrapper');
@@ -185,6 +214,13 @@ export class ShortcutsManager {
         this.inputIconUrl!.closest('.md3-filled-input-wrapper')?.classList.remove('has-error');
       });
       this.inputIconUrl.addEventListener('blur', () => this.handleUrlValidation(this.inputIconUrl!, true));
+    }
+
+    if (this.inputFolderIconUrl) {
+      this.inputFolderIconUrl.addEventListener('focus', () => {
+        this.inputFolderIconUrl!.closest('.md3-filled-input-wrapper')?.classList.remove('has-error');
+      });
+      this.inputFolderIconUrl.addEventListener('blur', () => this.handleUrlValidation(this.inputFolderIconUrl!, true));
     }
   }
 
@@ -258,6 +294,37 @@ export class ShortcutsManager {
     this.editingIndex = null;
   }
 
+  private openFolderModal(index: number | null) {
+    if (!this.folderModal || !this.inputFolderName || !this.inputFolderIconUrl || !this.folderModalTitle) return;
+
+    this.editingIndex = index;
+    const list = this.getActiveList();
+
+    if (index !== null && list[index]) {
+      const item = list[index];
+      this.folderModalTitle.textContent = t('editFolderTitle', 'Edit Folder');
+      this.inputFolderName.value = item.name;
+      this.inputFolderIconUrl.value = item.customIcon || item.iconUrl || '';
+    } else {
+      this.folderModalTitle.textContent = t('addFolderTitle', 'Add Folder');
+      this.inputFolderName.value = '';
+      this.inputFolderIconUrl.value = '';
+    }
+
+    this.inputFolderName.closest('.md3-filled-input-wrapper')?.classList.remove('has-error');
+    this.inputFolderIconUrl.closest('.md3-filled-input-wrapper')?.classList.remove('has-error');
+
+    this.folderModal.classList.add('active');
+    setTimeout(() => this.inputFolderName?.focus(), 100);
+  }
+
+  private closeFolderModal() {
+    if (this.folderModal) {
+      this.folderModal.classList.remove('active');
+    }
+    this.editingIndex = null;
+  }
+
   private saveShortcutData() {
     if (!this.inputName || !this.inputUrl || !this.inputIconUrl) return;
 
@@ -303,6 +370,37 @@ export class ShortcutsManager {
     this.closeModal();
   }
 
+  private saveFolderData() {
+    if (!this.inputFolderName || !this.inputFolderIconUrl) return;
+
+    const isIconValid = this.handleUrlValidation(this.inputFolderIconUrl, true);
+    if (!isIconValid) return;
+
+    const nameStr = this.inputFolderName.value.trim() || 'New Folder';
+    const iconUrlStr = this.inputFolderIconUrl.value.trim() || undefined;
+
+    const list = this.getActiveList();
+
+    if (this.editingIndex !== null && list[this.editingIndex]) {
+      list[this.editingIndex].name = nameStr;
+      list[this.editingIndex].iconUrl = iconUrlStr;
+      list[this.editingIndex].customIcon = iconUrlStr;
+    } else {
+      list.push({
+        id: 'folder_' + Date.now(),
+        type: 'folder',
+        name: nameStr,
+        iconUrl: iconUrlStr,
+        customIcon: iconUrlStr,
+        children: [],
+      });
+    }
+
+    this.saveShortcuts();
+    this.render();
+    this.closeFolderModal();
+  }
+
   private handleDocumentClick(e: MouseEvent) {
     const target = e.target as HTMLElement;
     if (!target.closest('.shortcut-dropdown') && !target.closest('.menu-btn') && !target.closest('.add-card-wrapper')) {
@@ -326,6 +424,15 @@ export class ShortcutsManager {
       if (dropdown && !isActive) {
         dropdown.classList.add('active');
       }
+      return;
+    }
+
+    const addFolderOpt = target.closest('.add-folder-option');
+    if (addFolderOpt) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.closeAllDropdowns();
+      this.openFolderModal(null);
       return;
     }
 
@@ -357,7 +464,14 @@ export class ShortcutsManager {
     if (editBtn) {
       e.preventDefault();
       const index = parseInt((editBtn as HTMLElement).dataset.index || '-1', 10);
-      if (index >= 0) this.openModal(index);
+      if (index >= 0) {
+        const list = this.getActiveList();
+        if (list[index]?.type === 'folder') {
+          this.openFolderModal(index);
+        } else {
+          this.openModal(index);
+        }
+      }
       return;
     }
 
