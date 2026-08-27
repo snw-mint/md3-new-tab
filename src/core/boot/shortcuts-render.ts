@@ -45,7 +45,7 @@ export function sanitizeIconUrl(url: string | undefined | null): string {
   return tr;
 }
 
-const FOLDER_ICON = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h207q16 0 30.5 6t25.5 17l57 57h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160zm0-80h640v-400H447l-80-80H160zm0 0v-480z"/></svg>`;
+const FOLDER_ICON = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h207q16 0 30.5 6t25.5 17l57 57h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160z"/></svg>`;
 const SHORTCUT_ICON = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M318-120q-82 0-140-58t-58-140q0-40 15-76t43-64l105-105q12-12 28.5-12t28.5 12 12 28-12 28L234-401q-17 17-25.5 38.5T200-318q0 49 34.5 83.5T318-200q23 0 45-8.5t39-25.5l105-106q12-11 28-11t28 12 12 28-12 28L458-178q-28 28-64 43t-76 15m50-248q-12-12-12-28.5t12-28.5l167-167q12-12 28.5-12t28.5 12 12 28.5-12 28.5L425-368q-12 12-28.5 12T368-368m252-29q-12-12-12-28t12-28l106-105q17-17 25-38t8-44q0-50-34-85t-84-35q-23 0-44.5 8.5T558-726L453-620q-12 12-28 12t-28-12-12-28.5 12-28.5l105-105q28-28 64-43t76-15q82 0 139.5 58T839-641q0 39-14.5 75T782-502L677-397q-12 12-28.5 12T620-397"/></svg>`;
 
 export class ShortcutsManager {
@@ -449,14 +449,14 @@ export class ShortcutsManager {
     if (addCard) {
       e.preventDefault();
       e.stopPropagation();
-      const drop = addCard.querySelector('.shortcut-dropdown');
-      if (drop) {
-        const isActive = drop.classList.contains('active');
+      if (this.currentFolderId) {
         this.closeAllDropdowns();
-        if (!isActive) drop.classList.add('active');
-      } else {
         this.openModal(null);
+        return;
       }
+      const isActive = addCard.classList.contains('active');
+      this.closeAllDropdowns();
+      if (!isActive) addCard.classList.add('active');
       return;
     }
 
@@ -498,6 +498,9 @@ export class ShortcutsManager {
   private closeAllDropdowns() {
     const dropdowns = this.container.querySelectorAll('.shortcut-dropdown.active');
     dropdowns.forEach((d) => d.classList.remove('active'));
+
+    const addWrappers = this.container.querySelectorAll('.add-card-wrapper.active');
+    addWrappers.forEach((w) => w.classList.remove('active'));
   }
 
   private removeShortcut(index: number) {
@@ -722,47 +725,45 @@ export class ShortcutsManager {
     wrapper.className = 'shortcut-item add-card-wrapper';
     wrapper.draggable = false;
 
-    const card = document.createElement('div');
-    card.className = 'shortcut-card';
+    const speedDial = document.createElement('div');
+    speedDial.className = 'add-fab-speed-dial';
 
-    const icon = document.createElement('span');
-    icon.className = 'add-icon-svg';
-    icon.innerHTML = `
-      <svg class="add-icon-bg" width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M338.584 190c0 39.407-15.654 77.2-43.519 105.065c-27.865 27.865-65.658 43.519-105.065 43.519c-39.407 0-77.2-15.654-105.065-43.519c-27.865-27.865-43.519-65.658-43.519-105.065c0-39.407 15.654-77.2 43.519-105.065c27.865-27.865 65.658-43.519 105.065-43.519c39.407 0 77.2 15.654 105.065 43.519c27.865 27.865 43.519 65.658 43.519 105.065" fill="currentColor"/></svg>
-      <svg class="add-icon-plus" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+    const folderPill = document.createElement('button');
+    folderPill.type = 'button';
+    folderPill.className = 'add-fab-pill add-folder-option';
+    folderPill.innerHTML = `
+      <span class="pill-icon">${FOLDER_ICON}</span>
+      <span class="pill-label">${t('addFolderTitle', 'Add Folder')}</span>
     `;
 
-    card.appendChild(icon);
+    const linkPill = document.createElement('button');
+    linkPill.type = 'button';
+    linkPill.className = 'add-fab-pill add-link-option';
+    linkPill.innerHTML = `
+      <span class="pill-icon">${SHORTCUT_ICON}</span>
+      <span class="pill-label">${t('addShortcutTitle', 'Add Shortcut')}</span>
+    `;
+
+    if (!this.currentFolderId) {
+      speedDial.appendChild(folderPill);
+    }
+    speedDial.appendChild(linkPill);
+
+    const card = document.createElement('div');
+    card.className = 'shortcut-card add-card-btn';
+    card.innerHTML = `
+      <svg class="add-icon-plus" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+        <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
+      </svg>
+    `;
 
     const title = document.createElement('span');
     title.className = 'shortcut-title';
     title.setAttribute('data-i18n', 'shortcutAddTitle');
     title.textContent = t('shortcutAddTitle', 'Add Shortcut');
 
-    const dropdown = document.createElement('div');
-    dropdown.className = 'shortcut-dropdown';
-
-    const linkOption = document.createElement('div');
-    linkOption.className = 'menu-option add-link-option';
-    linkOption.innerHTML = `
-      ${SHORTCUT_ICON}
-      <span>${t('addShortcutTitle', 'Add Shortcut')}</span>
-    `;
-
-    const folderOption = document.createElement('div');
-    folderOption.className = 'menu-option add-folder-option';
-    folderOption.innerHTML = `
-      ${FOLDER_ICON}
-      <span>${t('addFolderTitle', 'Add Folder')}</span>
-    `;
-
-    dropdown.appendChild(linkOption);
-    if (!this.currentFolderId) {
-      dropdown.appendChild(folderOption);
-    }
-
+    wrapper.appendChild(speedDial);
     wrapper.appendChild(card);
-    wrapper.appendChild(dropdown);
     wrapper.appendChild(title);
 
     return wrapper;

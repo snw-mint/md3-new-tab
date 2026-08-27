@@ -92,6 +92,13 @@ html[data-theme='dark'] {
   padding: 0;
 }
 
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
 .hidden-color-input {
   position: absolute;
   width: 1px;
