@@ -83,6 +83,10 @@ class ReactiveState {
       initialState.bingCountry = 'us';
     }
 
+    if (initialState.tempUnit !== 'C' && initialState.tempUnit !== 'F') {
+      initialState.tempUnit = 'C';
+    }
+
     this.state = new Proxy(initialState, {
       set: (target, property, value) => {
         target[property as keyof AppSettings] = value;

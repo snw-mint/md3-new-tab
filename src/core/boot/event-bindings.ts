@@ -504,13 +504,25 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
     });
   }
 
-  document.querySelectorAll('input[name="tempUnit"]').forEach((radio) => {
-    radio.addEventListener('change', (e) => {
-      const target = e.target as HTMLInputElement;
-      if (target.checked) {
-        globalState.current.tempUnit = target.value as 'C' | 'F';
+  const tuRadios = document.querySelectorAll<HTMLInputElement>('input[name="tempUnit"]');
+  const syncTu = (u: 'C' | 'F') => {
+    tuRadios.forEach((r) => {
+      r.checked = r.value === u;
+    });
+  };
+
+  syncTu(globalState.current.tempUnit);
+
+  tuRadios.forEach((r) => {
+    r.addEventListener('change', () => {
+      if (r.checked) {
+        globalState.current.tempUnit = r.value as 'C' | 'F';
       }
     });
+  });
+
+  globalState.subscribe((s) => {
+    syncTu(s.tempUnit);
   });
 
   const cityInput = document.getElementById('weatherCityInput') as HTMLInputElement;

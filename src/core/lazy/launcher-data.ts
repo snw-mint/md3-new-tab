@@ -6,7 +6,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { LauncherProviderData } from './types';
+import { LauncherProviderData } from '../shared/types';
 
 export const launcherData: Record<string, LauncherProviderData> = {
   proton: {
