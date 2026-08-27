@@ -103,10 +103,17 @@ export class ShortcutsManager {
       this.folderBackBtn.addEventListener('click', () => {
         this.currentFolderId = null;
         this.render();
+        this.triggerTransition();
       });
     }
 
     this.setupModalEvents();
+  }
+
+  private triggerTransition() {
+    this.container.classList.remove('folder-transition');
+    void this.container.offsetWidth;
+    this.container.classList.add('folder-transition');
   }
 
   public initDragDrop(initVanillaDragAndDrop: (options: {
@@ -490,6 +497,7 @@ export class ShortcutsManager {
       if (id) {
         this.currentFolderId = id;
         this.render();
+        this.triggerTransition();
       }
       return;
     }
