@@ -117,7 +117,7 @@ function showSearchSuggestionsPermissionModal(onGranted: () => void, onDenied: (
 }
 
 export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => void): void {
-  const { wallpaperToggle, wallpaperBlock, wallpaperColorToggle, weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, hideShortcutNamesToggle, searchToggle, searchBlock, searchSuggestionsToggle, launcherToggle, launcherBlock, displayToggle, displayBlock, displayStyleSelect } = DOM.settings;
+  const { wallpaperToggle, wallpaperBlock, wallpaperColorToggle, weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, searchToggle, searchBlock, searchSuggestionsToggle, launcherToggle, launcherBlock, displayToggle, displayBlock, displayStyleSelect } = DOM.settings;
   const weatherOrigins = [
     'https://geocoding-api.open-meteo.com/*',
     'https://api.open-meteo.com/*',
@@ -182,9 +182,6 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
       } else {
         shortcutsGrid.removeAttribute('data-hide-names');
       }
-    }
-    if (hideShortcutNamesToggle && hideShortcutNamesToggle.checked !== state.hideShortcutNames) {
-      hideShortcutNamesToggle.checked = state.hideShortcutNames;
     }
     if (searchSuggestionsToggle && searchSuggestionsToggle.checked !== state.searchSuggestionsEnabled) {
       searchSuggestionsToggle.checked = state.searchSuggestionsEnabled;
@@ -372,13 +369,6 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
     shortcutsToggle.addEventListener('change', (e) => {
       const target = e.target as HTMLInputElement;
       globalState.current.shortcutsEnabled = target.checked;
-    });
-  }
-
-  if (hideShortcutNamesToggle) {
-    hideShortcutNamesToggle.addEventListener('change', (e) => {
-      const target = e.target as HTMLInputElement;
-      globalState.current.hideShortcutNames = target.checked;
     });
   }
 

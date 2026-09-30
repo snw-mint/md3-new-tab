@@ -92,6 +92,12 @@
   "hideShortcutNamesLabel": {
     "message": "Hide shortcuts name"
   },
+  "shortcutsSettingsTitle": {
+    "message": "Shortcuts Settings"
+  },
+  "shortcutsShapesTitle": {
+    "message": "Shortcuts Shapes"
+  },
   "launcherEcosystemLabel": {
     "message": "Ecosystem"
   },

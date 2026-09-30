@@ -67,9 +67,6 @@ export const DOM = {
     get shortcutsBlock(): HTMLElement | null {
       return document.getElementById('shortcutsSettingsBlock');
     },
-    get hideShortcutNamesToggle(): HTMLInputElement | null {
-      return document.getElementById('hideShortcutNamesToggle') as HTMLInputElement | null;
-    },
     get searchToggle(): HTMLInputElement | null {
       return document.getElementById('searchToggle') as HTMLInputElement | null;
     },

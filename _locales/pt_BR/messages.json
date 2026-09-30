@@ -92,6 +92,12 @@
   "hideShortcutNamesLabel": {
     "message": "Ocultar nome dos atalhos"
   },
+  "shortcutsSettingsTitle": {
+    "message": "Configurações de Atalhos"
+  },
+  "shortcutsShapesTitle": {
+    "message": "Formatos dos Atalhos"
+  },
   "launcherEcosystemLabel": {
     "message": "Ecossistema"
   },

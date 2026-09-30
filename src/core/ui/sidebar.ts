@@ -121,6 +121,15 @@ export function initSidebarRouter(): void {
         init: m.init,
       })),
   });
+  router.register({
+    id: 'shortcuts-advanced',
+    keepAlive: true,
+    load: () =>
+      import('../lazy/pages/shortcuts-advanced').then((m) => ({
+        template: m.template,
+        init: m.init,
+      })),
+  });
   document.getElementById('advancedOptionsBtn')?.addEventListener('click', () => {
     router!.push('appearance-advanced');
   });
@@ -130,4 +139,8 @@ export function initSidebarRouter(): void {
   document.getElementById('advancedWallpaperOptionsBtn')?.addEventListener('click', () => {
     router!.push('wallpaper-advanced');
   });
+  document.getElementById('advancedShortcutsOptionsBtn')?.addEventListener('click', () => {
+    router!.push('shortcuts-advanced');
+  });
 }
+
