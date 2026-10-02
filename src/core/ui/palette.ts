@@ -175,6 +175,8 @@ class PaletteManager {
     root.style.setProperty('--sys-on-tertiary-light', hexFromArgb(lightScheme.onTertiary));
     root.style.setProperty('--sys-tertiary-container-light', hexFromArgb(lightScheme.tertiaryContainer));
     root.style.setProperty('--sys-on-tertiary-container-light', hexFromArgb(lightScheme.onTertiaryContainer));
+    root.style.setProperty('--sys-error-light', hexFromArgb(lightScheme.error));
+    root.style.setProperty('--sys-on-error-light', hexFromArgb(lightScheme.onError));
     root.style.setProperty('--sys-surface-variant-light', hexFromArgb(lightScheme.surfaceVariant));
     root.style.setProperty('--sys-on-surface-variant-light', hexFromArgb(lightScheme.onSurfaceVariant));
     root.style.setProperty('--sys-background-light', isDefault ? '#ffffff' : hexFromArgb(lightScheme.background));
@@ -201,6 +203,8 @@ class PaletteManager {
     root.style.setProperty('--sys-on-tertiary-dark', hexFromArgb(darkScheme.onTertiary));
     root.style.setProperty('--sys-tertiary-container-dark', hexFromArgb(darkScheme.tertiaryContainer));
     root.style.setProperty('--sys-on-tertiary-container-dark', hexFromArgb(darkScheme.onTertiaryContainer));
+    root.style.setProperty('--sys-error-dark', hexFromArgb(darkScheme.error));
+    root.style.setProperty('--sys-on-error-dark', hexFromArgb(darkScheme.onError));
 
     root.style.setProperty(
       '--sys-surface-variant-dark',

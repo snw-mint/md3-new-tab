@@ -31,6 +31,7 @@ html[data-search-enabled='false'] .search-bar {
     border-radius: 1.75rem 1.75rem 0 0;
   }
 }
+
 .search-engine-selector {
   position: relative;
   display: flex;
@@ -116,12 +117,15 @@ html[data-search-enabled='false'] .search-bar {
   transform: translateY(-0.5rem);
   transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
   z-index: 20;
+
   &::-webkit-scrollbar {
     width: 4px;
   }
+
   &::-webkit-scrollbar-track {
     margin: 0.5rem 0;
   }
+
   &::-webkit-scrollbar-thumb {
     background-color: var(--color-surface-variant);
     border-radius: var(--radius-sm);
@@ -216,9 +220,77 @@ html[data-search-enabled='false'] .search-bar {
   }
 
   svg {
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 1.45rem;
+    height: 1.45rem;
     fill: currentColor;
+  }
+}
+
+.voice-search-btn {
+  position: relative;
+  overflow: visible;
+
+  .voice-bg-wrapper {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(0.4);
+    opacity: 0;
+    transition:
+      transform 0.35s cubic-bezier(0.2, 0, 0, 1),
+      opacity 0.35s cubic-bezier(0.2, 0, 0, 1);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .voice-bg-icon {
+    width: 2.7rem;
+    height: 2.7rem;
+    color: var(--color-error);
+    transform-origin: center center;
+    flex-shrink: 0;
+  }
+
+  .voice-icon-inactive,
+  .voice-icon-active {
+    position: relative;
+    z-index: 1;
+  }
+
+  &.recording {
+    &:hover {
+      background-color: transparent;
+    }
+
+    .voice-bg-wrapper {
+      transform: scale(1.15);
+      opacity: 1;
+    }
+
+    .voice-bg-icon {
+      animation: voice-bg-spin 10s linear infinite;
+    }
+
+    .voice-icon-inactive {
+      display: none;
+    }
+
+    .voice-icon-active {
+      display: block !important;
+      color: var(--color-on-error);
+    }
+  }
+}
+
+@keyframes voice-bg-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
   }
 }
 
