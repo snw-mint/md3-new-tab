@@ -99,7 +99,6 @@ export const template = `<div class="settings-inner-card">
     <div class="settings-group-card" id="advScaleGroupCard">
       <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
         <h3 class="settings-group-title" data-i18n="scaleDisplayTitle" style="margin-bottom: 0;">Scale Display</h3>
-        <span class="new-feature-badge" data-i18n="newFeatureBadge">NEW</span>
       </div>
 
       <div class="slider-group">
