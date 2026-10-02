@@ -33,8 +33,8 @@
   --color-on-surface-variant: var(--sys-on-surface-variant-light);
 
   --color-outline: #747775;
-  --color-error: #b3261e;
-  --color-on-error: #ffffff;
+  --color-error: var(--sys-error-light, #b3261e);
+  --color-on-error: var(--sys-on-error-light, #ffffff);
   --wallpaper-overlay-color: #ffffff;
 
   --font-family: 'Google Sans', sans-serif;
@@ -71,8 +71,8 @@
   --color-on-surface-variant: var(--sys-on-surface-variant-dark);
 
   --color-outline: #8e918f;
-  --color-error: #f2b8b5;
-  --color-on-error: #601410;
+  --color-error: var(--sys-error-dark, #f2b8b5);
+  --color-on-error: var(--sys-on-error-dark, #601410);
   --wallpaper-overlay-color: #000000;
 }
 

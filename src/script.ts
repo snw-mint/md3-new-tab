@@ -186,6 +186,97 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  const voiceSearchBtn = document.getElementById('voiceSearchBtn') as HTMLButtonElement | null;
+  if (voiceSearchBtn) {
+    const hasSpeechSupport = 'SpeechRecognition' in window || 'webkitSpeechRecognition' in window;
+    const updateVoiceVisibility = (enabled: boolean) => {
+      voiceSearchBtn.style.display = enabled && hasSpeechSupport ? 'flex' : 'none';
+    };
+    updateVoiceVisibility(globalState.current.voiceSearchEnabled);
+
+    globalState.subscribe((state) => {
+      updateVoiceVisibility(state.voiceSearchEnabled);
+    });
+
+    let voiceLoaded = false;
+    let initPromise: Promise<any> | null = null;
+
+    const loadVoiceSearch = () => {
+      if (!initPromise) {
+        initPromise = import('./core/lazy/voice-search')
+          .then(({ initVoiceSearch }) => {
+            voiceLoaded = true;
+            return initVoiceSearch({
+              voiceSearchBtn,
+              searchInput: document.getElementById('searchInput') as HTMLInputElement | null,
+              searchForm: document.getElementById('searchForm') as HTMLFormElement | null,
+            });
+          })
+          .catch((e) => {
+            console.error('Failed to load voice search module', e);
+            initPromise = null;
+            voiceLoaded = false;
+          });
+      }
+      return initPromise;
+    };
+
+    voiceSearchBtn.addEventListener('pointerenter', () => loadVoiceSearch(), { once: true });
+    voiceSearchBtn.addEventListener('click', async () => {
+      if (!voiceLoaded) {
+        const handler = await loadVoiceSearch();
+        if (handler && typeof handler.trigger === 'function') {
+          handler.trigger();
+        }
+      }
+    });
+  }
+
+  const askAiBtn = document.getElementById('askAiBtn') as HTMLButtonElement | null;
+  if (askAiBtn) {
+    const updateAskAiVisibility = (enabled: boolean) => {
+      askAiBtn.style.display = enabled ? 'flex' : 'none';
+    };
+    updateAskAiVisibility(globalState.current.askAiEnabled);
+
+    globalState.subscribe((state) => {
+      updateAskAiVisibility(state.askAiEnabled);
+    });
+
+    let askAiLoaded = false;
+    let askAiPromise: Promise<any> | null = null;
+
+    const loadAskAi = () => {
+      if (!askAiPromise) {
+        askAiPromise = import('./core/lazy/ask-ai')
+          .then(({ initAskAi }) => {
+            askAiLoaded = true;
+            return initAskAi({
+              askAiBtn,
+              searchInput: document.getElementById('searchInput') as HTMLInputElement | null,
+              searchForm: document.getElementById('searchForm') as HTMLFormElement | null,
+            });
+          })
+          .catch((e) => {
+            console.error('Failed to load ask to AI module', e);
+            askAiPromise = null;
+            askAiLoaded = false;
+          });
+      }
+      return askAiPromise;
+    };
+
+    askAiBtn.addEventListener('pointerenter', () => loadAskAi(), { once: true });
+    askAiBtn.addEventListener('click', async () => {
+      if (!askAiLoaded) {
+        const handler = await loadAskAi();
+        if (handler && typeof handler.trigger === 'function') {
+          handler.trigger();
+        }
+      }
+    });
+  }
+
   const selectTriggers = document.querySelectorAll('.md3-select-trigger');
   if (selectTriggers.length > 0) {
     let selectSystemLoaded = false;

@@ -30,9 +30,17 @@ html[data-search-enabled='false'] .search-bar {
   &:has(.suggestions-container.active) {
     border-radius: 1.75rem 1.75rem 0 0;
   }
+
+  &.ask-ai-glowing {
+    .wrapper-2 {
+      opacity: 1;
+    }
+  }
 }
+
 .search-engine-selector {
   position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
 
@@ -116,12 +124,15 @@ html[data-search-enabled='false'] .search-bar {
   transform: translateY(-0.5rem);
   transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
   z-index: 20;
+
   &::-webkit-scrollbar {
     width: 4px;
   }
+
   &::-webkit-scrollbar-track {
     margin: 0.5rem 0;
   }
+
   &::-webkit-scrollbar-thumb {
     background-color: var(--color-surface-variant);
     border-radius: var(--radius-sm);
@@ -175,6 +186,8 @@ html[data-search-enabled='false'] .search-bar {
 }
 
 #searchInput {
+  position: relative;
+  z-index: 2;
   flex: 1;
   height: 100%;
   border: none;
@@ -192,6 +205,8 @@ html[data-search-enabled='false'] .search-bar {
 }
 
 .search-actions {
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
   gap: 0.25rem;
@@ -216,9 +231,183 @@ html[data-search-enabled='false'] .search-bar {
   }
 
   svg {
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 1.45rem;
+    height: 1.45rem;
     fill: currentColor;
+  }
+}
+
+.ask-ai-btn {
+  position: relative;
+
+  .ask-ai-icon-inactive {
+    fill: none;
+    stroke: currentColor;
+  }
+
+  &.active {
+    color: var(--color-primary);
+
+    .ask-ai-icon-inactive {
+      display: none;
+    }
+
+    .ask-ai-icon-active {
+      display: block !important;
+      color: var(--color-primary);
+    }
+  }
+}
+
+.voice-search-btn {
+  position: relative;
+  overflow: visible;
+
+  .voice-bg-wrapper {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(0.4);
+    opacity: 0;
+    transition:
+      transform 0.35s cubic-bezier(0.2, 0, 0, 1),
+      opacity 0.35s cubic-bezier(0.2, 0, 0, 1);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .voice-bg-icon {
+    width: 2.7rem;
+    height: 2.7rem;
+    color: var(--color-error);
+    transform-origin: center center;
+    flex-shrink: 0;
+  }
+
+  .voice-icon-inactive,
+  .voice-icon-active {
+    position: relative;
+    z-index: 1;
+  }
+
+  &.recording {
+    &:hover {
+      background-color: transparent;
+    }
+
+    .voice-bg-wrapper {
+      transform: scale(1.15);
+      opacity: 1;
+    }
+
+    .voice-bg-icon {
+      animation: voice-bg-spin 10s linear infinite;
+    }
+
+    .voice-icon-inactive {
+      display: none;
+    }
+
+    .voice-icon-active {
+      display: block !important;
+      color: var(--color-on-error);
+    }
+  }
+}
+
+@keyframes voice-bg-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.wrapper-2 {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  contain: none;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  z-index: 0;
+
+  .layer-1 {
+    filter: blur(10px);
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    contain: paint;
+  }
+
+  .layer-1::before,
+  .layer-2::before {
+    content: "";
+    position: absolute;
+    border-radius: inherit;
+    background: conic-gradient(
+        rgba(52, 168, 82, 0) 0deg,
+        rgba(52, 168, 82, 1) 38.9738deg,
+        rgba(255, 211, 20, 1) 62.3678deg,
+        rgba(255, 70, 65, 1) 87.0062deg,
+        rgba(49, 134, 255, 1) 107.428deg,
+        rgba(49, 134, 255, 0.5) 204.48deg,
+        rgba(49, 134, 255, 0) 308.88deg,
+        rgba(52, 168, 82, 0) 360deg
+      )
+      border-box;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    width: 125%;
+    aspect-ratio: 1 / 1;
+    scale: 1 0.4;
+    pointer-events: none;
+    filter: blur(20px);
+    animation: ambient-spin 7s linear infinite;
+    contain: paint;
+    transition: opacity 0.3s;
+  }
+
+  .layer-2 {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    contain: paint;
+    background-color: var(--color-surface-container-highest);
+  }
+
+  .layer-3 {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 2px solid transparent;
+    contain: paint;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background-color: var(--color-surface-container-highest);
+      contain: paint;
+    }
+  }
+}
+
+@keyframes ambient-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(1turn);
   }
 }
 
@@ -227,6 +416,7 @@ html[data-search-enabled='false'] .search-bar {
   top: 100%;
   left: 0;
   width: 100%;
+  z-index: 10;
   background-color: var(--color-surface-container-highest);
   border-radius: 0 0 1.75rem 1.75rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);

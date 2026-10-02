@@ -76,6 +76,12 @@ export const DOM = {
     get searchSuggestionsToggle(): HTMLInputElement | null {
       return document.getElementById('searchSuggestionsToggle') as HTMLInputElement | null;
     },
+    get voiceSearchToggle(): HTMLInputElement | null {
+      return document.getElementById('voiceSearchToggle') as HTMLInputElement | null;
+    },
+    get askAiToggle(): HTMLInputElement | null {
+      return document.getElementById('askAiToggle') as HTMLInputElement | null;
+    },
     get searchBlock(): HTMLElement | null {
       return document.getElementById('searchSettingsBlock');
     },

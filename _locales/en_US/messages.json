@@ -385,6 +385,12 @@
   "searchSuggestionsLabel": {
     "message": "Search Suggestions"
   },
+  "voiceSearchOption": {
+    "message": "Voice search"
+  },
+  "askAiOption": {
+    "message": "Ask to AI"
+  },
   "languageTitle": {
     "message": "Language"
   },
