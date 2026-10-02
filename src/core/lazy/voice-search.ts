@@ -1,3 +1,11 @@
+/*
+ * MD3: Expressive New Tab
+ * Copyright (c) 2026 SnowMint
+ * Licensed under the GNU General Public License v3.0 (GPL-3.0)
+ * You should have received a copy of the GNU General Public License along with this program.
+ * If not, see <https://www.gnu.org/licenses/>.
+ */
+
 interface VoiceSearchOptions {
   voiceSearchBtn: HTMLButtonElement | null;
   searchInput: HTMLInputElement | null;
@@ -7,13 +15,13 @@ interface VoiceSearchOptions {
 export function initVoiceSearch(options: VoiceSearchOptions) {
   const { voiceSearchBtn, searchInput, searchForm } = options;
   if (!voiceSearchBtn || !searchInput) {
-    return { trigger: () => {} };
+    return { trigger: () => { } };
   }
 
   const SpeechRecognition =
     (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
   if (!SpeechRecognition) {
-    return { trigger: () => {} };
+    return { trigger: () => { } };
   }
 
   let audioUrl = 'assets/sfx/mic.opus';
@@ -24,7 +32,7 @@ export function initVoiceSearch(options: VoiceSearchOptions) {
   micAudio.volume = 0.4;
   try {
     micAudio.load();
-  } catch {}
+  } catch { }
 
   let recognitionInstance: any = null;
   let isListening = false;
@@ -37,7 +45,7 @@ export function initVoiceSearch(options: VoiceSearchOptions) {
     if (recognitionInstance) {
       try {
         recognitionInstance.abort();
-      } catch {}
+      } catch { }
     }
   };
 

@@ -16,29 +16,29 @@ interface DragDropOptions {
 
 const dragDropInstances = new Map<HTMLElement, DragDropOptions>();
 
-export let activeDragOptions: DragDropOptions | null = null;
-export let draggedElement: HTMLElement | null = null;
-export let ghostNode: HTMLElement | null = null;
-export let originalParent: Node | null = null;
-export let originalNextSibling: Node | null = null;
-export let currentDropTarget: HTMLElement | null = null;
-export let dropAction: 'reorder' | 'folder' | 'out-of-folder' = 'reorder';
-export let rAF_ID: number = 0;
-export let lastSwapTime = 0;
-export let dragSuccessful = false;
+let activeDragOptions: DragDropOptions | null = null;
+let draggedElement: HTMLElement | null = null;
+let ghostNode: HTMLElement | null = null;
+let originalParent: Node | null = null;
+let originalNextSibling: Node | null = null;
+let currentDropTarget: HTMLElement | null = null;
+let dropAction: 'reorder' | 'folder' | 'out-of-folder' = 'reorder';
+let rAF_ID: number = 0;
+let lastSwapTime = 0;
+let dragSuccessful = false;
 
-export let folderEdgeTimer: number | null = null;
-export let currentEdgeItem: HTMLElement | null = null;
-export let edgeDelayPassed = false;
+let folderEdgeTimer: number | null = null;
+let currentEdgeItem: HTMLElement | null = null;
+let edgeDelayPassed = false;
 
-export let mouseX = 0;
-export let mouseY = 0;
-export let offsetX = 0;
-export let offsetY = 0;
-export let dragStartRect: DOMRect | null = null;
-export let ghostBaseX = 0;
-export let ghostBaseY = 0;
-export let ghostScale = 1;
+let mouseX = 0;
+let mouseY = 0;
+let offsetX = 0;
+let offsetY = 0;
+let dragStartRect: DOMRect | null = null;
+let ghostBaseX = 0;
+let ghostBaseY = 0;
+let ghostScale = 1;
 
 export function initVanillaDragAndDrop(options: DragDropOptions) {
   if (!options || !options.gridContainer) return;
@@ -47,7 +47,7 @@ export function initVanillaDragAndDrop(options: DragDropOptions) {
   grid.addEventListener('dragstart', handleDragStart);
 }
 
-export function handleDragStart(event: DragEvent): void {
+function handleDragStart(event: DragEvent): void {
   const target = event.target as HTMLElement;
 
   let currentGrid = target;
@@ -107,7 +107,7 @@ export function handleDragStart(event: DragEvent): void {
   }, 0);
 }
 
-export function createGhostNode(sourceItem: HTMLElement, rect: DOMRect): void {
+function createGhostNode(sourceItem: HTMLElement, rect: DOMRect): void {
   ghostNode = sourceItem.cloneNode(true) as HTMLElement;
   ghostNode.classList.add('md3-drag-ghost');
   ghostNode.style.position = 'fixed';
@@ -175,14 +175,14 @@ export function createGhostNode(sourceItem: HTMLElement, rect: DOMRect): void {
   rAF_ID = requestAnimationFrame(updateGhostPosition);
 }
 
-export function handleGlobalDragEnter(event: DragEvent): void {
+function handleGlobalDragEnter(event: DragEvent): void {
   event.preventDefault();
   if (event.dataTransfer) {
     event.dataTransfer.dropEffect = 'move';
   }
 }
 
-export function handleGlobalDragOver(event: DragEvent): void {
+function handleGlobalDragOver(event: DragEvent): void {
   event.preventDefault();
   if (event.dataTransfer) {
     event.dataTransfer.dropEffect = 'move';
@@ -368,7 +368,7 @@ export function handleGlobalDragOver(event: DragEvent): void {
   }
 }
 
-export function moveElementWithAnimation(
+function moveElementWithAnimation(
   parent: Node,
   referenceNode: Node | null,
 ): void {
@@ -408,7 +408,7 @@ export function moveElementWithAnimation(
   });
 }
 
-export function handleGlobalDrop(event: DragEvent): void {
+function handleGlobalDrop(event: DragEvent): void {
   event.preventDefault();
 
   if (draggedElement && activeDragOptions) {
@@ -457,11 +457,11 @@ export function handleGlobalDrop(event: DragEvent): void {
   cleanupDrag();
 }
 
-export function handleGlobalDragEnd(_event: DragEvent): void {
+function handleGlobalDragEnd(_event: DragEvent): void {
   cleanupDrag();
 }
 
-export function cleanupDrag(): void {
+function cleanupDrag(): void {
   if (activeDragOptions)
     activeDragOptions.gridContainer.classList.remove('sorting');
   if (rAF_ID) cancelAnimationFrame(rAF_ID);

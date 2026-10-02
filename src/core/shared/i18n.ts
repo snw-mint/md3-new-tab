@@ -1,6 +1,6 @@
 let translations: Record<string, { message: string }> = {};
 
-export function normalizeLang(lang?: string | null): string {
+function normalizeLang(lang?: string | null): string {
   if (!lang) return 'en_US';
   const clean = lang.replace('-', '_');
   if (clean.toLowerCase().startsWith('pt')) return 'pt_BR';

@@ -80,7 +80,7 @@ export interface WeatherCache {
   data: WeatherApiResponse;
 }
 
-export interface GeocodingResult {
+interface GeocodingResult {
   name: string;
   latitude: number;
   longitude: number;
@@ -91,11 +91,11 @@ export interface GeocodingResult {
   admin3?: string;
 }
 
-export interface GeocodingResponse {
+interface GeocodingResponse {
   results?: GeocodingResult[];
 }
 
-export interface LauncherApp {
+interface LauncherApp {
   name: string;
   url: string;
   icon: string;
@@ -123,7 +123,7 @@ export interface WarningModalOptions {
   onCancel?: () => void;
 }
 
-export type ShortcutItemType = 'link' | 'folder';
+type ShortcutItemType = 'link' | 'folder';
 
 export interface ShortcutItem {
   id: string;

@@ -6,7 +6,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-export interface EngineConfig {
+interface EngineConfig {
   url: string;
   icon: string;
 }

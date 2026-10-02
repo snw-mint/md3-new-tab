@@ -27,7 +27,7 @@ import {
 import { showSnackbar, hideSnackbar } from '../ui/snackbar';
 import { t } from '../shared/i18n';
 
-export interface WallpaperConfig {
+interface WallpaperConfig {
   enabled: boolean;
   provider: WallpaperProvider;
   image?: string;

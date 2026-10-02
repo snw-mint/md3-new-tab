@@ -11,7 +11,7 @@ import { WallpaperProvider } from '../../shared/types';
 import { globalState, getWallpaperCache, setWallpaperCache } from '../../shared/state';
 import { fetchRandomBing, fetchRandomWikimedia } from './wallpaper-refresh';
 
-export const WALLPAPER_HOST_PERMISSIONS: Record<string, string[]> = {
+const WALLPAPER_HOST_PERMISSIONS: Record<string, string[]> = {
   bing: ['https://peapix.com/*', 'https://img.peapix.com/*'],
   media_commons: ['https://commons.wikimedia.org/*', 'https://upload.wikimedia.org/*'],
   pexels: ['https://pexels.snw-mint.workers.dev/*'],

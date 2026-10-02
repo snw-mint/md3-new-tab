@@ -1,8 +1,16 @@
+/*
+ * MD3: Expressive New Tab
+ * Copyright (c) 2026 SnowMint
+ * Licensed under the GNU General Public License v3.0 (GPL-3.0)
+ * You should have received a copy of the GNU General Public License along with this program.
+ * If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import { globalState } from '../shared/state';
 import { t } from '../shared/i18n';
 import { ShortcutItem } from '../shared/types';
 
-export function sanitizeUrl(url: string | undefined | null): string {
+function sanitizeUrl(url: string | undefined | null): string {
   if (!url) return 'about:blank';
   const tr = url.trim();
 
@@ -21,7 +29,7 @@ export function sanitizeUrl(url: string | undefined | null): string {
   return tr;
 }
 
-export function sanitizeIconUrl(url: string | undefined | null): string {
+function sanitizeIconUrl(url: string | undefined | null): string {
   if (!url) return '';
   const tr = url.trim();
 
@@ -647,7 +655,7 @@ export class ShortcutsManager {
         try {
           const urlObj = new URL(shortcut.url);
           finalUrl = `https://favicon.vemetric.com/${urlObj.hostname}?size=64`;
-        } catch (e) {}
+        } catch (e) { }
       }
 
       const sanitized = sanitizeIconUrl(finalUrl);

@@ -37,7 +37,7 @@ function getFromCache(key: string): string[] | undefined {
   return value;
 }
 
-export function clearSuggestionsCache(): void {
+function clearSuggestionsCache(): void {
   suggestionsCache.clear();
 }
 
@@ -46,7 +46,7 @@ interface SuggestionItem {
   isFrequent: boolean;
 }
 
-export async function fetchSuggestions(query: string): Promise<string[]> {
+async function fetchSuggestions(query: string): Promise<string[]> {
   const cached = getFromCache(query);
   if (cached !== undefined) {
     return cached;

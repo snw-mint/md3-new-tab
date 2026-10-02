@@ -9,7 +9,7 @@
 import { globalState } from '../shared/state';
 import { CityData, WeatherApiResponse, WeatherCache } from '../shared/types';
 
-export async function fetchWeatherData(cityData: CityData): Promise<WeatherApiResponse | null> {
+async function fetchWeatherData(cityData: CityData): Promise<WeatherApiResponse | null> {
   const cacheKey = 'ent_weather_cache';
   try {
     const cachedString = localStorage.getItem(cacheKey);

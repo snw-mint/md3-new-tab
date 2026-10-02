@@ -11,7 +11,7 @@ export interface SidebarPageModule {
   init: (container: HTMLElement) => void;
 }
 
-export interface SidebarPageConfig {
+interface SidebarPageConfig {
   id: string;
   keepAlive?: boolean;
   load: () => Promise<SidebarPageModule>;

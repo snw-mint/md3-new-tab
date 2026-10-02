@@ -69,7 +69,7 @@ const wallpaperProviderConfigs: Record<string, { origins: string[]; name: string
   },
 };
 
-export function showWallpaperPermissionModal(
+function showWallpaperPermissionModal(
   provider: string,
   onGranted: () => void,
   onDenied: () => void
