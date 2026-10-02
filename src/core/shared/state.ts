@@ -32,6 +32,8 @@ class ReactiveState {
       weatherCity: '',
       searchEnabled: true,
       searchSuggestionsEnabled: false,
+      voiceSearchEnabled: false,
+      askAiEnabled: true,
       shortcutsEnabled: true,
       shortcutsRows: '1',
       hideShortcutNames: false,

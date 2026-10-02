@@ -22,6 +22,8 @@ export interface AppSettings {
   weatherCity: string;
   searchEnabled: boolean;
   searchSuggestionsEnabled: boolean;
+  voiceSearchEnabled: boolean;
+  askAiEnabled: boolean;
   shortcutsEnabled: boolean;
   shortcutsRows: string;
   hideShortcutNames: boolean;

@@ -117,7 +117,7 @@ function showSearchSuggestionsPermissionModal(onGranted: () => void, onDenied: (
 }
 
 export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => void): void {
-  const { wallpaperToggle, wallpaperBlock, wallpaperColorToggle, weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, hideShortcutNamesToggle, searchToggle, searchBlock, searchSuggestionsToggle, launcherToggle, launcherBlock, displayToggle, displayBlock, displayStyleSelect } = DOM.settings;
+  const { wallpaperToggle, wallpaperBlock, wallpaperColorToggle, weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, hideShortcutNamesToggle, searchToggle, searchBlock, searchSuggestionsToggle, voiceSearchToggle, askAiToggle, launcherToggle, launcherBlock, displayToggle, displayBlock, displayStyleSelect } = DOM.settings;
   const weatherOrigins = [
     'https://geocoding-api.open-meteo.com/*',
     'https://api.open-meteo.com/*',
@@ -188,6 +188,12 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
     }
     if (searchSuggestionsToggle && searchSuggestionsToggle.checked !== state.searchSuggestionsEnabled) {
       searchSuggestionsToggle.checked = state.searchSuggestionsEnabled;
+    }
+    if (voiceSearchToggle && voiceSearchToggle.checked !== state.voiceSearchEnabled) {
+      voiceSearchToggle.checked = state.voiceSearchEnabled;
+    }
+    if (askAiToggle && askAiToggle.checked !== state.askAiEnabled) {
+      askAiToggle.checked = state.askAiEnabled;
     }
     updateWeatherWidget();
 
@@ -416,6 +422,22 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
           if (searchSuggestionsToggle) searchSuggestionsToggle.checked = false;
         },
       );
+    });
+  }
+
+  if (voiceSearchToggle) {
+    voiceSearchToggle.checked = globalState.current.voiceSearchEnabled;
+    voiceSearchToggle.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      globalState.current.voiceSearchEnabled = target.checked;
+    });
+  }
+
+  if (askAiToggle) {
+    askAiToggle.checked = globalState.current.askAiEnabled;
+    askAiToggle.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      globalState.current.askAiEnabled = target.checked;
     });
   }
 
