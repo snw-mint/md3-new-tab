@@ -35,6 +35,7 @@
   --color-outline: #747775;
   --color-error: #b3261e;
   --color-on-error: #ffffff;
+  --wallpaper-overlay-color: #ffffff;
 
   --font-family: 'Google Sans', sans-serif;
   --radius-sm: 0.5rem;
@@ -72,6 +73,7 @@
   --color-outline: #8e918f;
   --color-error: #f2b8b5;
   --color-on-error: #601410;
+  --wallpaper-overlay-color: #000000;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -62,9 +62,11 @@ textarea,
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #000000;
+    background-color: var(--wallpaper-overlay-color, #ffffff);
     opacity: var(--wallpaper-overlay, 0);
-    transition: opacity 0.2s ease-in-out;
+    transition:
+      opacity 0.2s ease-in-out,
+      background-color 0.2s ease-in-out;
     z-index: -1;
   }
 
