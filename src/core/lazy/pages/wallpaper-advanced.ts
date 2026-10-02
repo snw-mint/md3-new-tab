@@ -36,6 +36,16 @@ export const template = `<div class="settings-inner-card">
         <div class="md3-slider-wrapper">
           <input type="range" id="advWallpaperOverlaySlider" class="md3-custom-slider" min="0" max="0.8" step="0.01" value="0.3" />
         </div>
+        <div class="md3-checkbox-group" style="margin-top: 1rem;">
+          <label class="md3-checkbox-label">
+            <input type="checkbox" id="advWallpaperOverlayInverted" class="md3-checkbox-input" />
+            <span class="md3-checkbox-box">
+              <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
+              <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
+            </span>
+            <span class="checkbox-text" data-i18n="wallpaperOverlayInvertedTitle">Inverted overlay (White)</span>
+          </label>
+        </div>
       </div>
     </div>
 
@@ -116,6 +126,7 @@ export const template = `<div class="settings-inner-card">
 
 export function init(container: HTMLElement): void {
   const wallpaperOverlaySlider = container.querySelector<HTMLInputElement>('#advWallpaperOverlaySlider');
+  const wallpaperOverlayInverted = container.querySelector<HTMLInputElement>('#advWallpaperOverlayInverted');
   const wallpaperIntervalSelect = container.querySelector<HTMLButtonElement>('#advWallpaperIntervalSelect');
   const wallpaperCountrySelect = container.querySelector<HTMLButtonElement>('#advWallpaperCountrySelect');
 
@@ -133,6 +144,14 @@ export function init(container: HTMLElement): void {
       const val = parseFloat(target.value);
       globalState.current.wallpaperOverlay = val;
       updateSliderProgress(val);
+    });
+  }
+
+  if (wallpaperOverlayInverted) {
+    wallpaperOverlayInverted.checked = globalState.current.wallpaperOverlayInverted;
+    wallpaperOverlayInverted.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      globalState.current.wallpaperOverlayInverted = target.checked;
     });
   }
 
@@ -237,6 +256,12 @@ export function init(container: HTMLElement): void {
         wallpaperOverlaySlider.value = state.wallpaperOverlay.toString();
         const progress = (state.wallpaperOverlay / 0.8) * 100;
         wallpaperOverlaySlider.style.setProperty('--slider-progress', `${progress}%`);
+      }
+    }
+
+    if (wallpaperOverlayInverted) {
+      if (wallpaperOverlayInverted.checked !== state.wallpaperOverlayInverted) {
+        wallpaperOverlayInverted.checked = state.wallpaperOverlayInverted;
       }
     }
 

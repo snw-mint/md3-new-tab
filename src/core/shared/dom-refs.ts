@@ -31,6 +31,9 @@ export const DOM = {
     get wallpaperOverlaySlider(): HTMLInputElement | null {
       return document.getElementById('wallpaperOverlaySlider') as HTMLInputElement | null;
     },
+    get wallpaperOverlayInvertedToggle(): HTMLInputElement | null {
+      return document.getElementById('wallpaperOverlayInvertedToggle') as HTMLInputElement | null;
+    },
     get wallpaperUploadBtn(): HTMLButtonElement | null {
       return document.getElementById('wallpaperUploadBtn') as HTMLButtonElement | null;
     },

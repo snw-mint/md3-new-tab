@@ -91,7 +91,7 @@ export async function extractDominantColorFromUrl(imageUrl: string): Promise<str
   });
 }
 
-export function updateOverlay(sliderValue: number, isEnabled: boolean): void {
+export function updateOverlay(sliderValue: number, isEnabled: boolean, inverted: boolean = false): void {
   let val = Number(sliderValue);
   if (isNaN(val)) val = 0.3;
   if (val > 1) val = val / 100;
@@ -100,6 +100,11 @@ export function updateOverlay(sliderValue: number, isEnabled: boolean): void {
     '--wallpaper-overlay',
     String(overlayOpacity),
   );
+  if (inverted) {
+    document.documentElement.classList.add('invert-overlay');
+  } else {
+    document.documentElement.classList.remove('invert-overlay');
+  }
 }
 
 export function isWallpaperCacheValid(type: string): boolean {
@@ -219,7 +224,7 @@ export function clearWallpaper(): void {
     wallpaperLayer.style.backgroundImage = 'none';
   }
   document.body.classList.remove('has-wallpaper');
-  updateOverlay(0, false);
+  updateOverlay(0, false, false);
   hideCredits();
 }
 
@@ -228,6 +233,7 @@ export async function bootWallpaper(
   provider: WallpaperProvider,
   image: string,
   overlay: number,
+  inverted: boolean = false,
 ): Promise<void> {
   if (!enabled) {
     clearWallpaper();
@@ -250,7 +256,7 @@ export async function bootWallpaper(
   }
 
   if (url) {
-    updateOverlay(overlay, true);
+    updateOverlay(overlay, true, inverted);
     const wallpaperLayer = document.getElementById('wallpaperLayer');
     if (wallpaperLayer) {
       wallpaperLayer.style.backgroundImage = `url('${url}')`;

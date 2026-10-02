@@ -45,6 +45,7 @@ class ReactiveState {
       colorFromWallpaper: false,
       wallpaperColor: '',
       wallpaperOverlay: 0.3,
+      wallpaperOverlayInverted: false,
       wallpaperRefreshInterval: 'daily',
       bingCountry: 'us',
       customTabName: '',

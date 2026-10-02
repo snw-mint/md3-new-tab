@@ -32,6 +32,7 @@ interface WallpaperConfig {
   provider: WallpaperProvider;
   image?: string;
   overlay?: number;
+  inverted?: boolean;
 }
 
 export class WallpaperEngine {
@@ -227,7 +228,8 @@ export class WallpaperEngine {
       document.body.classList.add('has-wallpaper');
 
       const overlay = config.overlay ?? globalState.current.wallpaperOverlay;
-      updateOverlay(overlay, config.enabled);
+      const inverted = config.inverted ?? globalState.current.wallpaperOverlayInverted;
+      updateOverlay(overlay, config.enabled, inverted);
 
       if (config.provider !== 'upload') {
         if (pushToQueue) {

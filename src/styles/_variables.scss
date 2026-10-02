@@ -35,7 +35,7 @@
   --color-outline: #747775;
   --color-error: var(--sys-error-light, #b3261e);
   --color-on-error: var(--sys-on-error-light, #ffffff);
-  --wallpaper-overlay-color: #ffffff;
+  --wallpaper-overlay-color: #000000;
 
   --font-family: 'Google Sans', sans-serif;
   --radius-sm: 0.5rem;
@@ -84,6 +84,10 @@
 
 html[data-theme='dark'] {
   @include dark-theme-mapping;
+}
+
+html.invert-overlay {
+  --wallpaper-overlay-color: #ffffff;
 }
 
 *,

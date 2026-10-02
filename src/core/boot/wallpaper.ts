@@ -76,6 +76,7 @@ export function initWallpaper(): void {
     globalState.current.wallpaperProvider || 'upload',
     globalState.current.wallpaperImage,
     globalState.current.wallpaperOverlay,
+    globalState.current.wallpaperOverlayInverted,
   );
 
   const initialIsUpload = (globalState.current.wallpaperProvider || 'upload') === 'upload';
@@ -85,6 +86,7 @@ export function initWallpaper(): void {
       provider: globalState.current.wallpaperProvider || 'upload',
       image: globalState.current.wallpaperImage,
       overlay: globalState.current.wallpaperOverlay,
+      inverted: globalState.current.wallpaperOverlayInverted,
     });
   }
 
@@ -129,11 +131,12 @@ export function initWallpaper(): void {
           provider: state.wallpaperProvider || 'upload',
           image: state.wallpaperImage,
           overlay: state.wallpaperOverlay,
+          inverted: state.wallpaperOverlayInverted,
         });
       }
     }
 
-    updateOverlay(state.wallpaperOverlay, state.wallpaperEnabled);
+    updateOverlay(state.wallpaperOverlay, state.wallpaperEnabled, state.wallpaperOverlayInverted);
   };
 
   globalState.subscribe(updateUI);

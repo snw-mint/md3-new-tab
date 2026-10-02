@@ -35,6 +35,7 @@ export interface AppSettings {
   colorFromWallpaper: boolean;
   wallpaperColor: string;
   wallpaperOverlay: number;
+  wallpaperOverlayInverted: boolean;
   wallpaperRefreshInterval: 'daily' | 'hourly' | '15m' | '5m';
   bingCountry: string;
   customTabName: string;
