@@ -30,10 +30,17 @@ html[data-search-enabled='false'] .search-bar {
   &:has(.suggestions-container.active) {
     border-radius: 1.75rem 1.75rem 0 0;
   }
+
+  &.ask-ai-glowing {
+    .wrapper-2 {
+      opacity: 1;
+    }
+  }
 }
 
 .search-engine-selector {
   position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
 
@@ -179,6 +186,8 @@ html[data-search-enabled='false'] .search-bar {
 }
 
 #searchInput {
+  position: relative;
+  z-index: 2;
   flex: 1;
   height: 100%;
   border: none;
@@ -196,6 +205,8 @@ html[data-search-enabled='false'] .search-bar {
 }
 
 .search-actions {
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
   gap: 0.25rem;
@@ -223,6 +234,28 @@ html[data-search-enabled='false'] .search-bar {
     width: 1.45rem;
     height: 1.45rem;
     fill: currentColor;
+  }
+}
+
+.ask-ai-btn {
+  position: relative;
+
+  .ask-ai-icon-inactive {
+    fill: none;
+    stroke: currentColor;
+  }
+
+  &.active {
+    color: var(--color-primary);
+
+    .ask-ai-icon-inactive {
+      display: none;
+    }
+
+    .ask-ai-icon-active {
+      display: block !important;
+      color: var(--color-primary);
+    }
   }
 }
 
@@ -294,11 +327,96 @@ html[data-search-enabled='false'] .search-bar {
   }
 }
 
+.wrapper-2 {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  contain: none;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  z-index: 0;
+
+  .layer-1 {
+    filter: blur(10px);
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    contain: paint;
+  }
+
+  .layer-1::before,
+  .layer-2::before {
+    content: "";
+    position: absolute;
+    border-radius: inherit;
+    background: conic-gradient(
+        rgba(52, 168, 82, 0) 0deg,
+        rgba(52, 168, 82, 1) 38.9738deg,
+        rgba(255, 211, 20, 1) 62.3678deg,
+        rgba(255, 70, 65, 1) 87.0062deg,
+        rgba(49, 134, 255, 1) 107.428deg,
+        rgba(49, 134, 255, 0.5) 204.48deg,
+        rgba(49, 134, 255, 0) 308.88deg,
+        rgba(52, 168, 82, 0) 360deg
+      )
+      border-box;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    width: 125%;
+    aspect-ratio: 1 / 1;
+    scale: 1 0.4;
+    pointer-events: none;
+    filter: blur(20px);
+    animation: ambient-spin 7s linear infinite;
+    contain: paint;
+    transition: opacity 0.3s;
+  }
+
+  .layer-2 {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    contain: paint;
+    background-color: var(--color-surface-container-highest);
+  }
+
+  .layer-3 {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 2px solid transparent;
+    contain: paint;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background-color: var(--color-surface-container-highest);
+      contain: paint;
+    }
+  }
+}
+
+@keyframes ambient-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(1turn);
+  }
+}
+
 .suggestions-container {
   position: absolute;
   top: 100%;
   left: 0;
   width: 100%;
+  z-index: 10;
   background-color: var(--color-surface-container-highest);
   border-radius: 0 0 1.75rem 1.75rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
