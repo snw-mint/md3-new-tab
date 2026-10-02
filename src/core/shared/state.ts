@@ -33,7 +33,7 @@ class ReactiveState {
       searchEnabled: true,
       searchSuggestionsEnabled: false,
       voiceSearchEnabled: false,
-      askAiEnabled: true,
+      askAiEnabled: false,
       shortcutsEnabled: true,
       shortcutsRows: '1',
       hideShortcutNames: false,
