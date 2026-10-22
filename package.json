@@ -17,7 +17,7 @@
     "sass": "^1.92.1",
     "terser": "^5.44.0",
     "typescript": "^6.0.2",
-    "vite": "^8.0.14"
+    "vite": "^8.3.5"
   },
   "dependencies": {
     "@material/material-color-utilities": "^0.2.7"
