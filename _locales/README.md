@@ -26,17 +26,6 @@ Each entry in `messages.json` follows this shape:
 
 Keys with dynamic content also include a `placeholders` block — copy it verbatim, translate only `"message"`.
 
----
-
-## Available Languages
-
-| Locale | Language | Translator |
-|--------|----------|-----------|
-| `en_US` | English | [@snw-mint](https://github.com/snw-mint) |
-| `pt_BR` | Português (BR) | [@snw-mint](https://github.com/snw-mint) |
-
----
-
 ## String Key Groups
 
 | Prefix | Area |

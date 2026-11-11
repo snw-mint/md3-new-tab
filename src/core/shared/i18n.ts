@@ -4,8 +4,9 @@ function normalizeLang(lang?: string | null): string {
   if (!lang) return 'en_US';
   const clean = lang.replace('-', '_');
   if (clean.toLowerCase().startsWith('pt')) return 'pt_BR';
+  if (clean.toLowerCase().startsWith('zh')) return 'zh_CN';
   if (clean.toLowerCase().startsWith('en')) return 'en_US';
-  if (clean === 'pt_BR' || clean === 'en_US') return clean;
+  if (clean === 'pt_BR' || clean === 'en_US' || clean === 'zh_CN') return clean;
   return 'en_US';
 }
 

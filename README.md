@@ -18,10 +18,10 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/snw-mint/md3-new-tab#installation">Add to Browser</a>  
-  <a href="https://github.com/snw-mint/md3-new-tab/releases">Installation</a>  
-  <a href="https://snw-mint.github.io/md3-new-tab/privacy.html">Privacy</a>  
-  <a href=".github/CONTRIBUTING.md">Contributing</a>  
+  <a href="https://github.com/snw-mint/md3-new-tab#installation">Add to Browser</a>
+  <a href="https://github.com/snw-mint/md3-new-tab/releases">Installation</a>
+  <a href="https://snw-mint.github.io/md3-new-tab/privacy.html">Privacy</a>
+  <a href=".github/CONTRIBUTING.md">Contributing</a>
   <a href="_locales/TRANSLATING.md">Help translate</a>
 </p>
 
@@ -83,8 +83,9 @@ MD3: Material Design 3 New Tab is available in multiple languages thanks to our 
 
 | Code    | Language     | Contributor |
 | ------- | ------------ | ----------- |
-| `en_US` | English (US) | @snw-mint   |
-| `pt_BR` | Português    | @snw-mint   |
+| `en_US` | English (US) | [@snw-mint](https://github.com/snw-mint)  |
+| `pt_BR` | Português    | [@snw-mint](https://github.com/snw-mint)   |
+| `zh_CN` | 简体中文 | [@TrueFalse](https://github.com/TrueFalse114) |
 
 See the [Translation Guide](_locales/TRANSLATING.md) for more details.
 

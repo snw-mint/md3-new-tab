@@ -1,0 +1,680 @@
+{
+  "displayTitle": {
+    "message": "显示"
+  },
+  "highlightNameLabel": {
+    "message": "高亮名字"
+  },
+  "greetingSettingTitle": {
+    "message": "问候设置"
+  },
+  "clockTitle": {
+    "message": "时钟设置"
+  },
+  "scaleDisplayTitle": {
+    "message": "比例显示"
+  },
+  "scaleDisplayLabel": {
+    "message": "字体大小"
+  },
+  "weatherTitle": {
+    "message": "天气"
+  },
+  "shortcutsTitle": {
+    "message": "快捷方式"
+  },
+  "rows1": {
+    "message": "一行"
+  },
+  "rows2": {
+    "message": "两行"
+  },
+  "rows3": {
+    "message": "三行"
+  },
+  "rows4": {
+    "message": "四行"
+  },
+  "appLauncherTitle": {
+    "message": "办公应用启动器"
+  },
+  "searchPlaceholder": {
+    "message": "在互联网上搜索"
+  },
+  "namePlaceholder": {
+    "message": "你的名字(可选)"
+  },
+  "dataBackupTitle": {
+    "message": "数据与备份"
+  },
+  "importBtn": {
+    "message": "导入"
+  },
+  "exportBtn": {
+    "message": "导出"
+  },
+  "appearanceTitle": {
+    "message": "外观"
+  },
+  "themeLight": {
+    "message": "浅色"
+  },
+  "themeDevice": {
+    "message": "跟随系统"
+  },
+  "themeDark": {
+    "message": "深色"
+  },
+  "displayGreetings": {
+    "message": "问候"
+  },
+  "displayClock": {
+    "message": "时钟"
+  },
+  "displayStyleLabel": {
+    "message": "显示小组件"
+  },
+  "clock12hLabel": {
+    "message": "12小时制"
+  },
+  "clockShowDateLabel": {
+    "message": "显示日期"
+  },
+  "clockExpressiveColorLabel": {
+    "message": "主题颜色"
+  },
+  "weatherCityLabel": {
+    "message": "城市名"
+  },
+  "shortcutsRowsLabel": {
+    "message": "行"
+  },
+  "hideShortcutNamesLabel": {
+    "message": "隐藏快捷方式名字"
+  },
+  "launcherEcosystemLabel": {
+    "message": "Ecosystem"
+  },
+  "noResultsFound": {
+    "message": "未找到结果"
+  },
+  "weekday_0": {
+    "message": "周日"
+  },
+  "weekday_1": {
+    "message": "周一"
+  },
+  "weekday_2": {
+    "message": "周二"
+  },
+  "weekday_3": {
+    "message": "周三"
+  },
+  "weekday_4": {
+    "message": "周四"
+  },
+  "weekday_5": {
+    "message": "周五"
+  },
+  "weekday_6": {
+    "message": "周六"
+  },
+  "greetMorning1": {
+    "message": "祝你$USER$拥有一个精彩的$WEEK$！",
+    "placeholders": {
+      "week": {
+        "content": "$1"
+      },
+      "user": {
+        "content": "$2",
+        "example": ", User"
+      }
+    }
+  },
+  "greetMorning2": {
+    "message": "起床啦$USER$！准备好搞定什么事情了吗？",
+    "placeholders": {
+      "week": {
+        "content": "$1"
+      },
+      "user": {
+        "content": "$2",
+        "example": ", User"
+      }
+    }
+  },
+  "greetMorning3": {
+    "message": "新鲜的咖啡和崭新的一天在等着你,$USER$.",
+    "placeholders": {
+      "week": {
+        "content": "$1"
+      },
+      "user": {
+        "content": "$2",
+        "example": ", User"
+      }
+    }
+  },
+  "greetMorning4": {
+    "message": "早上好啊$USER$! 让我们充满干劲地开始吧",
+    "placeholders": {
+      "week": {
+        "content": "$1"
+      },
+      "user": {
+        "content": "$2",
+        "example": ", User"
+      }
+    }
+  },
+  "greetMorning5": {
+    "message": "今天将有好事发生$USER$!",
+    "placeholders": {
+      "week": {
+        "content": "$1"
+      },
+      "user": {
+        "content": "$2",
+        "example": ", User"
+      }
+    }
+  },
+  "greetAfternoon1": {
+    "message": "今天$WEEK$,过得怎么样啊$USER$?",
+    "placeholders": {
+      "week": {
+        "content": "$1"
+      },
+      "user": {
+        "content": "$2",
+        "example": ", User"
+      }
+    }
+  },
+  "greetAfternoon2": {
+    "message": "中午好$USER$! 保持这股超棒的势头！.",
+    "placeholders": {
+      "week": {
+        "content": "$1"
+      },
+      "user": {
+        "content": "$2",
+        "example": ", User"
+      }
+    }
+  },
+  "greetAfternoon3": {
+    "message": "过了很久了$USER$! 别忘了喝点水",
+    "placeholders": {
+      "week": {
+        "content": "$1"
+      },
+      "user": {
+        "content": "$2",
+        "example": ", User"
+      }
+    }
+  },
+  "greetAfternoon4": {
+    "message": "下午了还在坚持吗$USER$? 加油!",
+    "placeholders": {
+      "week": {
+        "content": "$1"
+      },
+      "user": {
+        "content": "$2",
+        "example": ", User"
+      }
+    }
+  },
+  "greetAfternoon5": {
+    "message": "来个深呼吸，享受剩下的时间吧$USER$.",
+    "placeholders": {
+      "week": {
+        "content": "$1"
+      },
+      "user": {
+        "content": "$2",
+        "example": ", User"
+      }
+    }
+  },
+  "greetEvening1": {
+    "message": "希望你$WEEK$过得很充实$USER$!",
+    "placeholders": {
+      "week": {
+        "content": "$1"
+      },
+      "user": {
+        "content": "$2",
+        "example": ", User"
+      }
+    }
+  },
+  "greetEvening2": {
+    "message": "晚上好$USER$! 是时候给自己休息会充会电了",
+    "placeholders": {
+      "week": {
+        "content": "$1"
+      },
+      "user": {
+        "content": "$2",
+        "example": ", User"
+      }
+    }
+  },
+  "greetEvening3": {
+    "message": "你挺过这艰难的一天了$USER$! 好挺!",
+    "placeholders": {
+      "week": {
+        "content": "$1"
+      },
+      "user": {
+        "content": "$2",
+        "example": ", User"
+      }
+    }
+  },
+  "greetEvening4": {
+    "message": "放松,休息一下,然后享受你的夜间生活吧$USER$.",
+    "placeholders": {
+      "week": {
+        "content": "$1"
+      },
+      "user": {
+        "content": "$2",
+        "example": ", User"
+      }
+    }
+  },
+  "greetEvening5": {
+    "message": "放慢脚步，去细细品味静谧的时光吧$USER$.",
+    "placeholders": {
+      "week": {
+        "content": "$1"
+      },
+      "user": {
+        "content": "$2",
+        "example": ", User"
+      }
+    }
+  },
+  "greetNight1": {
+    "message": "又在熬夜了$USER$? 别太晚睡!",
+    "placeholders": {
+      "week": {
+        "content": "$1"
+      },
+      "user": {
+        "content": "$2",
+        "example": ", User"
+      }
+    }
+  },
+  "greetNight2": {
+    "message": "夜猫子模式开启! 享受你的安静时光吧$USER$.",
+    "placeholders": {
+      "week": {
+        "content": "$1"
+      },
+      "user": {
+        "content": "$2",
+        "example": ", User"
+      }
+    }
+  },
+  "greetNight3": {
+    "message": "还没睡? 一定要好好休息一下啊$USER$.",
+    "placeholders": {
+      "week": {
+        "content": "$1"
+      },
+      "user": {
+        "content": "$2",
+        "example": ", User"
+      }
+    }
+  },
+  "greetNight4": {
+    "message": "世界一片寂静，万物都已安睡,别太累了$USER$.",
+    "placeholders": {
+      "week": {
+        "content": "$1"
+      },
+      "user": {
+        "content": "$2",
+        "example": ", User"
+      }
+    }
+  },
+  "greetNight5": {
+    "message": "为了明天还是睡了吧$USER$. 祝你好梦",
+    "placeholders": {
+      "week": {
+        "content": "$1"
+      },
+      "user": {
+        "content": "$2",
+        "example": ", User"
+      }
+    }
+  },
+  "snackbarUpdate": {
+    "message": "MD3: Expressive New Tab 已升级到 $VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1"
+      }
+    }
+  },
+  "snackbarReleaseNotes": {
+    "message": "更新日志"
+  },
+  "snackbarSettingsExported": {
+    "message": "设置已保存到文件中"
+  },
+  "snackbarSettingsRestored": {
+    "message": "设置已重置"
+  },
+  "snackbarBackupInvalid": {
+    "message": "备份文件无效."
+  },
+  "searchTitle": {
+    "message": "搜索栏"
+  },
+  "searchSuggestionsLabel": {
+    "message": "搜索建议"
+  },
+  "voiceSearchOption": {
+    "message": "语音搜索"
+  },
+  "askAiOption": {
+    "message": "问AI"
+  },
+  "languageTitle": {
+    "message": "语言"
+  },
+  "languageLabel": {
+    "message": "语言"
+  },
+  "languageEn": {
+    "message": "English"
+  },
+  "languagePt": {
+    "message": "Portuguese"
+  },
+  "languageZh": {
+    "message": "简体中文"
+  },
+  "wizardWelcomeTitle": {
+    "message": "欢迎回家"
+  },
+  "wizardWelcomeSubtitle": {
+    "message": "你的 Expressive New Tab 已经准备完毕.选择你的下一步."
+  },
+  "wizardRestoreTitle": {
+    "message": "重置设置"
+  },
+  "wizardRestoreDesc": {
+    "message": "你有备份的配置文件吗?"
+  },
+  "wizardStartTitle": {
+    "message": "开始设置"
+  },
+  "wizardStartDesc": {
+    "message": "从几步开始."
+  },
+  "wizardSkipTitle": {
+    "message": "跳过"
+  },
+  "wizardSkipDesc": {
+    "message": "从默认设置开始."
+  },
+  "wizardAppearanceTitle": {
+    "message": "风格与主题"
+  },
+  "wizardAppearanceDesc": {
+    "message": "设置你的主题,强调色和名字."
+  },
+  "wizardThemeAuto": {
+    "message": "跟随系统"
+  },
+  "wizardThemeLight": {
+    "message": "浅色"
+  },
+  "wizardThemeDark": {
+    "message": "深色"
+  },
+  "wizardAccentLabel": {
+    "message": "强调色"
+  },
+  "wizardWidgetsTitle": {
+    "message": "小组件与工具"
+  },
+  "wizardWidgetsDesc": {
+    "message": "选择你想显示的内容."
+  },
+  "wizardFinalTitle": {
+    "message": "你已准备就绪"
+  },
+  "wizardFinalSubtitle": {
+    "message": "感谢您使用 Expressive New Tab! :D"
+  },
+  "wizardFinalGithubTitle": {
+    "message": "源代码"
+  },
+  "wizardFinalGithubDesc": {
+    "message": "在GitHub上查看仓库."
+  },
+  "wizardFinalStartTitle": {
+    "message": "开始使用"
+  },
+  "wizardFinalStartDesc": {
+    "message": "打开你的新标签页"
+  },
+  "wizardFinalSupportTitle": {
+    "message": "支持项目"
+  },
+  "wizardFinalSupportDesc": {
+    "message": "帮忙保持项目更新."
+  },
+  "btnBack": {
+    "message": "返回"
+  },
+  "btnNext": {
+    "message": "继续"
+  },
+  "greetingNameLabel": {
+    "message": "你的名字"
+  },
+  "searchEngineTitle": {
+    "message": "搜索引擎"
+  },
+  "searchEngineLabel": {
+    "message": "提供者"
+  },
+  "searchEngineSystem": {
+    "message": "系统默认"
+  },
+  "warningUnderstood": {
+    "message": "明白"
+  },
+  "wizardRestoreError": {
+    "message": "备份文件无效."
+  },
+  "sidebarTitle": {
+    "message": "自定义 Expressive New Tab"
+  },
+  "colorPickerTitle": {
+    "message": "颜色选择"
+  },
+  "newFeatureBadge": {
+    "message": "新"
+  },
+  "advancedOptionsTitle": {
+    "message": "其他设置"
+  },
+  "visibilityTitle": {
+    "message": "可见度"
+  },
+  "wallpaperProviderLabel": {
+    "message": "提供者"
+  },
+  "wallpaperUploadOption": {
+    "message": "上传图像"
+  },
+  "wallpaperOverlayTitle": {
+    "message": "壁纸遮罩"
+  },
+  "weatherCelsius": {
+    "message": "摄氏度 (°C)"
+  },
+  "weatherFahrenheit": {
+    "message": "华氏度 (°F)"
+  },
+  "shortcutEditTitle": {
+    "message": "编辑"
+  },
+  "shortcutAddTitle": {
+    "message": "添加"
+  },
+  "addShortcutTitle": {
+    "message": "添加快捷方式"
+  },
+  "editShortcutTitle": {
+    "message": "编辑快捷方式"
+  },
+  "addFolderTitle": {
+    "message": "添加文件夹"
+  },
+  "editFolderTitle": {
+    "message": "编辑文件夹"
+  },
+  "folderNameLabel": {
+    "message": "文件夹名字"
+  },
+  "folderIconUrlLabel": {
+    "message": "图标 URL（可选）"
+  },
+  "backLabel": {
+    "message": "返回"
+  },
+  "shortcutNameLabel": {
+    "message": "名字"
+  },
+  "shortcutUrlLabel": {
+    "message": "URL"
+  },
+  "shortcutIconUrlLabel": {
+    "message": "图标 URL（可选）"
+  },
+  "btnCancel": {
+    "message": "取消"
+  },
+  "btnSave": {
+    "message": "保存"
+  },
+  "warningErrorTitle": {
+    "message": "错误"
+  },
+  "wallpaperColorTitle": {
+    "message": "从壁纸中提取颜色"
+  },
+  "wallpaperTitle": {
+    "message": "壁纸"
+  },
+  "btnDeleteLocalData": {
+    "message": "删除本地数据"
+  },
+  "btnDelete": {
+    "message": "删除"
+  },
+  "warningPermissionTitle": {
+    "message": "需要权限"
+  },
+  "warningPermissionMessage": {
+    "message": "使用此功能前，需授予 MD3: Expressive New Tab 访问 $API_LINK$ 的权限，以确保你的隐私和安全.",
+    "placeholders": {
+      "api_link": {
+        "content": "$1"
+      }
+    }
+  },
+  "readPrivacyPolicy": {
+    "message": "阅读隐私政策"
+  },
+  "warningRestoreTitle": {
+    "message": "恢复备份？"
+  },
+  "warningRestoreMessage": {
+    "message": "这将用备份文件中的数据替换你当前的设置和快捷方式。"
+  },
+  "warningAgree": {
+    "message": "同意"
+  },
+  "warningRestore": {
+    "message": "恢复"
+  },
+  "tabNameLabel": {
+    "message": "标签页名字"
+  },
+  "customFaviconLabel": {
+    "message": "自定义网站图标"
+  },
+  "hideGoogleShortcutsLabel": {
+    "message": "隐藏 Google 快捷方式"
+  },
+  "colorFromWallpaperLabel": {
+    "message": "从壁纸中提取颜色"
+  },
+  "newTabPlaceholder": {
+    "message": "New Tab"
+  },
+  "fetchingImagePlaceholder": {
+    "message": "从 $SOURCE$ 寻找图像...",
+    "placeholders": {
+      "source": {
+        "content": "$1"
+      }
+    }
+  },
+  "refreshIntervalTitle": {
+    "message": "刷新间隔"
+  },
+  "refreshIntervalLabel": {
+    "message": "刷新间隔"
+  },
+  "intervalDaily": {
+    "message": "每一天"
+  },
+  "intervalHourly": {
+    "message": "每一小时"
+  },
+  "interval15m": {
+    "message": "每15分钟"
+  },
+  "interval5m": {
+    "message": "每5分钟"
+  },
+  "wallpaperCountryTitle": {
+    "message": "国家"
+  },
+  "wallpaperCountryLabel": {
+    "message": "国家"
+  },
+  "countryUS": {
+    "message": "United States"
+  },
+  "countryBR": {
+    "message": "Brazil"
+  },
+  "countryJP": {
+    "message": "Japan"
+  },
+  "countryIT": {
+    "message": "Italy"
+  },
+  "countryES": {
+    "message": "Spain"
+  }
+}

@@ -403,6 +403,9 @@
   "languagePt": {
     "message": "Português"
   },
+  "languageZh": {
+    "message": "Chinês (Simplificado)"
+  },
   "wizardWelcomeTitle": {
     "message": "Boas-vindas"
   },
