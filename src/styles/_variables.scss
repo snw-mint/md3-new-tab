@@ -26,6 +26,7 @@
   --color-surface-container-high: var(--sys-surface-container-high-light, var(--color-surface));
   --color-surface-container-highest: var(--color-surface);
   --color-shortcut-bg: var(--sys-surface-container-high-light, var(--color-surface-variant));
+  --color-input-filled-bg: var(--color-surface-variant);
   --color-weather-shape: var(--color-secondary-container);
   --color-sidebar-bg: var(--color-surface);
   --color-sidebar-inner: var(--sys-surface-container-high-light, var(--color-surface-variant));
@@ -67,6 +68,7 @@
   --color-surface-container-high: var(--sys-surface-container-high-dark, #242424);
   --color-surface-container-highest: var(--sys-surface-container-highest-dark, #282828);
   --color-shortcut-bg: var(--color-surface-container-highest);
+  --color-input-filled-bg: var(--color-surface-container-highest);
   --color-weather-shape: var(--color-surface-container);
   --color-sidebar-bg: var(--color-surface);
   --color-sidebar-inner: var(--color-surface-container-highest);
