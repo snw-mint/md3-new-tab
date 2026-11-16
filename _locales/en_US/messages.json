@@ -679,5 +679,32 @@
   },
   "countryES": {
     "message": "Spain"
+  },
+  "shortcutShapeTitle": {
+    "message": "Shortcut shape"
+  },
+  "shortcutShapeLabel": {
+    "message": "Shape"
+  },
+  "shapeCircle": {
+    "message": "Circle"
+  },
+  "shapeSquircle": {
+    "message": "Squircle"
+  },
+  "shapeCookie": {
+    "message": "Cookie"
+  },
+  "shapeClover": {
+    "message": "Leaf Clover"
+  },
+  "shapeSidedCookie": {
+    "message": "Sided Cookie"
+  },
+  "shapeSunny": {
+    "message": "Sunny"
+  },
+  "shapeVerySunny": {
+    "message": "Very Sunny"
   }
 }

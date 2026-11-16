@@ -89,10 +89,32 @@ export function initCustomSelectSystem(): void {
 
       const item = document.createElement('div');
       item.className = 'md3-custom-select-item';
-      item.textContent = i18nKey ? t(i18nKey, text) : text;
+      const labelText = i18nKey ? t(i18nKey, text.trim()) : text.trim();
+      const optionIcon = optionData.querySelector('svg');
+      const badgeKey = optionData.getAttribute('data-badge');
+      if (optionIcon || badgeKey) {
+        if (optionIcon) {
+          const iconClone = optionIcon.cloneNode(true) as SVGElement;
+          iconClone.classList.add('md3-select-option-icon');
+          item.appendChild(iconClone);
+        }
+        const labelSpan = document.createElement('span');
+        labelSpan.textContent = labelText;
+        if (i18nKey) labelSpan.setAttribute('data-i18n', i18nKey);
+        item.appendChild(labelSpan);
+        if (badgeKey) {
+          const badge = document.createElement('span');
+          badge.className = 'new-feature-badge';
+          badge.setAttribute('data-i18n', badgeKey);
+          badge.textContent = t(badgeKey, 'NEW');
+          item.appendChild(badge);
+        }
+      } else {
+        item.textContent = labelText;
+        if (i18nKey) item.setAttribute('data-i18n', i18nKey);
+      }
       item.setAttribute('role', 'option');
       item.setAttribute('data-value', val);
-      if (i18nKey) item.setAttribute('data-i18n', i18nKey);
 
       if (trigger.value === val) {
         item.classList.add('selected');
@@ -203,7 +225,15 @@ export function syncTriggerText(trigger: HTMLButtonElement): void {
 
   if (selectedOption) {
     const i18nKey = selectedOption.getAttribute('data-i18n');
-    const fallbackText = selectedOption.textContent || '';
+    const fallbackText = (selectedOption.textContent || '').trim();
+    const existingIcon = trigger.querySelector('.md3-select-option-icon');
+    if (existingIcon) existingIcon.remove();
+    const optionIcon = selectedOption.querySelector('svg');
+    if (optionIcon) {
+      const iconClone = optionIcon.cloneNode(true) as SVGElement;
+      iconClone.classList.add('md3-select-option-icon');
+      trigger.insertBefore(iconClone, valueDisplay);
+    }
     if (i18nKey) {
       valueDisplay.setAttribute('data-i18n', i18nKey);
       valueDisplay.textContent = t(i18nKey, fallbackText);

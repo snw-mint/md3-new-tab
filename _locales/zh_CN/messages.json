@@ -679,5 +679,32 @@
   },
   "countryES": {
     "message": "Spain"
+  },
+  "shortcutShapeTitle": {
+    "message": "快捷方式形状"
+  },
+  "shortcutShapeLabel": {
+    "message": "形状"
+  },
+  "shapeCircle": {
+    "message": "圆形"
+  },
+  "shapeSquircle": {
+    "message": "圆角方形"
+  },
+  "shapeCookie": {
+    "message": "曲奇"
+  },
+  "shapeClover": {
+    "message": "四叶草"
+  },
+  "shapeSidedCookie": {
+    "message": "四边曲奇"
+  },
+  "shapeSunny": {
+    "message": "阳光"
+  },
+  "shapeVerySunny": {
+    "message": "光芒"
   }
 }

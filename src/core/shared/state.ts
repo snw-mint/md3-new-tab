@@ -37,6 +37,7 @@ class ReactiveState {
       shortcutsEnabled: true,
       shortcutsRows: '1',
       hideShortcutNames: false,
+      shortcutShape: 'circle',
       launcherEnabled: true,
       launcherProvider: 'google',
       wallpaperEnabled: false,
@@ -84,6 +85,20 @@ class ReactiveState {
 
     if (!initialState.bingCountry) {
       initialState.bingCountry = 'us';
+    }
+
+    const validShortcutShapes = [
+      'circle',
+      'squircle',
+      'cookie',
+      'clover',
+      'sided_cookie',
+      'sunny',
+      'very_sunny',
+    ];
+
+    if (!validShortcutShapes.includes(initialState.shortcutShape)) {
+      initialState.shortcutShape = 'circle';
     }
 
     if (initialState.tempUnit !== 'C' && initialState.tempUnit !== 'F') {

@@ -46,7 +46,6 @@ export const template = `<div class="settings-inner-card">
             </span>
             <span style="position: relative; display: inline-flex; align-items: center">
               <span class="checkbox-text" data-i18n="wallpaperOverlayInvertedTitle">Inverted overlay (White)</span>
-              <span class="new-feature-badge" data-i18n="newFeatureBadge">NEW</span>
             </span>
           </label>
         </div>
@@ -54,7 +53,10 @@ export const template = `<div class="settings-inner-card">
     </div>
 
     <div class="settings-group-card" id="advWallpaperIntervalCard">
-      <h3 class="settings-group-title" data-i18n="refreshIntervalTitle">Refresh interval</h3>
+      <div class="group-title-wrapper" style="margin-bottom: 0.75rem;">
+        <h3 class="settings-group-title" data-i18n="refreshIntervalTitle">Refresh interval</h3>
+        <span class="new-feature-badge" data-i18n="newFeatureBadge">NEW</span>
+      </div>
 
       <div class="md3-outlined-select-wrapper" style="margin-top: 1rem;">
         <button type="button" id="advWallpaperIntervalSelect" class="md3-outlined-select md3-select-trigger" aria-label="Refresh interval" value="daily">

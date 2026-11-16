@@ -22,7 +22,7 @@ import {
 } from '../shared/permissions';
 
 export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => void): void {
-  const { wallpaperToggle, wallpaperBlock, wallpaperColorToggle, weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, hideShortcutNamesToggle, searchToggle, searchBlock, searchSuggestionsToggle, voiceSearchToggle, askAiToggle, launcherToggle, launcherBlock, displayToggle, displayBlock, displayStyleSelect } = DOM.settings;
+  const { wallpaperToggle, wallpaperBlock, wallpaperColorToggle, weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, searchToggle, searchBlock, searchSuggestionsToggle, voiceSearchToggle, askAiToggle, launcherToggle, launcherBlock, displayToggle, displayBlock, displayStyleSelect } = DOM.settings;
 
   updateWeatherWidget();
 
@@ -76,8 +76,10 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
         shortcutsGrid.removeAttribute('data-hide-names');
       }
     }
-    if (hideShortcutNamesToggle && hideShortcutNamesToggle.checked !== state.hideShortcutNames) {
-      hideShortcutNamesToggle.checked = state.hideShortcutNames;
+    if (state.shortcutShape && state.shortcutShape !== 'circle') {
+      document.documentElement.setAttribute('data-shortcut-shape', state.shortcutShape);
+    } else {
+      document.documentElement.removeAttribute('data-shortcut-shape');
     }
     if (searchSuggestionsToggle && searchSuggestionsToggle.checked !== state.searchSuggestionsEnabled) {
       searchSuggestionsToggle.checked = state.searchSuggestionsEnabled;
@@ -271,13 +273,6 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
     shortcutsToggle.addEventListener('change', (e) => {
       const target = e.target as HTMLInputElement;
       globalState.current.shortcutsEnabled = target.checked;
-    });
-  }
-
-  if (hideShortcutNamesToggle) {
-    hideShortcutNamesToggle.addEventListener('change', (e) => {
-      const target = e.target as HTMLInputElement;
-      globalState.current.hideShortcutNames = target.checked;
     });
   }
 

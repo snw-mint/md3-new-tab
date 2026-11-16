@@ -223,7 +223,6 @@
             <button type="button" class="settings-button-card" id="advancedWallpaperOptionsBtn">
               <span style="position: relative; display: inline-flex; align-items: center">
                 <span class="button-card-title" data-i18n="advancedOptionsTitle">Advanced options</span>
-                <span class="new-feature-badge" data-i18n="newFeatureBadge">NEW</span>
               </span>
               <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor">
                 <use href="#icon-chevron-right" />
@@ -366,22 +365,13 @@
               </svg>
             </div>
             <hr class="settings-divider" />
-            <div class="md3-checkbox-group">
-              <label class="md3-checkbox-label">
-                <input type="checkbox" id="hideShortcutNamesToggle" class="md3-checkbox-input" />
-                <span class="md3-checkbox-box">
-                  <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24"
-                    width="24" fill="currentColor">
-                    <use href="#icon-checkbox-off" />
-                  </svg>
-                  <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24"
-                    width="24" fill="currentColor">
-                    <use href="#icon-checkbox-on" />
-                  </svg>
-                </span>
-                <span class="checkbox-text" data-i18n="hideShortcutNamesLabel">Hide shortcuts name</span>
-              </label>
-            </div>
+            <button type="button" class="settings-button-card" id="advancedShortcutsOptionsBtn">
+              <span style="position: relative; display: inline-flex; align-items: center">
+                <span class="button-card-title" data-i18n="advancedOptionsTitle">Advanced options</span>
+                <span class="new-feature-badge" data-i18n="newFeatureBadge">NEW</span>
+              </span>
+              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><use href="#icon-chevron-right" /></svg>
+            </button>
           </div>
         </div>
 
@@ -429,7 +419,6 @@
                 </span>
                 <span style="position: relative; display: inline-flex; align-items: center">
                   <span class="checkbox-text" data-i18n="voiceSearchOption">Voice search</span>
-                  <span class="new-feature-badge" data-i18n="newFeatureBadge">NEW</span>
                 </span>
               </label>
               <label class="md3-checkbox-label">
@@ -446,7 +435,6 @@
                 </span>
                 <span style="position: relative; display: inline-flex; align-items: center">
                   <span class="checkbox-text" data-i18n="askAiOption">Ask to AI</span>
-                  <span class="new-feature-badge" data-i18n="newFeatureBadge">NEW</span>
                 </span>
               </label>
             </div>
@@ -502,7 +490,7 @@
                 <template class="md3-select-options">
                   <div data-value="en_US">English</div>
                   <div data-value="pt_BR">Português (BR)</div>
-                  <div data-value="zh_CN">简体中文</div>
+                  <div data-value="zh_CN" data-badge="newFeatureBadge">简体中文</div>
                 </template>
               </button>
               <label for="languageSelect" class="md3-select-label" data-i18n="languageLabel">Language</label>

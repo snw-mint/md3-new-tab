@@ -682,5 +682,32 @@
   },
   "countryES": {
     "message": "Espanha"
+  },
+  "shortcutShapeTitle": {
+    "message": "Formato dos atalhos"
+  },
+  "shortcutShapeLabel": {
+    "message": "Formato"
+  },
+  "shapeCircle": {
+    "message": "Círculo"
+  },
+  "shapeSquircle": {
+    "message": "Quadrado arredondado"
+  },
+  "shapeCookie": {
+    "message": "Biscoito"
+  },
+  "shapeClover": {
+    "message": "Trevo"
+  },
+  "shapeSidedCookie": {
+    "message": "Biscoito de 4 lados"
+  },
+  "shapeSunny": {
+    "message": "Sol"
+  },
+  "shapeVerySunny": {
+    "message": "Sol definido"
   }
 }

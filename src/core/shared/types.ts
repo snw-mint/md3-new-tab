@@ -27,6 +27,7 @@ export interface AppSettings {
   shortcutsEnabled: boolean;
   shortcutsRows: string;
   hideShortcutNames: boolean;
+  shortcutShape: ShortcutShape;
   launcherEnabled: boolean;
   launcherProvider: 'google' | 'microsoft' | 'proton';
   wallpaperEnabled: boolean;
@@ -44,6 +45,15 @@ export interface AppSettings {
 }
 
 export type WallpaperProvider = 'upload' | 'pexels' | 'media_commons' | 'bing';
+
+export type ShortcutShape =
+  | 'circle'
+  | 'squircle'
+  | 'cookie'
+  | 'clover'
+  | 'sided_cookie'
+  | 'sunny'
+  | 'very_sunny';
 
 export interface WallpaperCacheItem {
   url: string;

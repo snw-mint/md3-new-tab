@@ -1311,6 +1311,9 @@ body {
     outline: none;
     box-sizing: border-box;
     appearance: none;
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
     text-align: left;
     transition:
       border-color 0.2s ease,
@@ -1354,6 +1357,13 @@ body {
   }
 }
 
+.md3-select-option-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+
 .md3-custom-select-popup {
   position: fixed;
   background-color: var(--color-surface);
@@ -1388,7 +1398,7 @@ body {
       margin: 0.3rem 0;
     }
     &::-webkit-scrollbar-thumb {
-      background-color: var(--color-surface-variant);
+      background-color: color-mix(in srgb, var(--color-on-surface-variant) 30%, transparent);
       border-radius: var(--radius-sm);
     }
   }
@@ -1398,6 +1408,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  flex-shrink: 0;
   gap: 0.75rem;
   padding: 0.8rem 1rem;
   font-size: 0.85rem;
@@ -1406,17 +1417,18 @@ body {
   border-radius: var(--radius-sm);
   cursor: pointer;
   color: var(--color-on-surface);
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 
   &:hover:not(.empty) {
-    background-color: var(--color-surface-variant);
+    background-color: color-mix(in srgb, var(--color-primary) 12%, transparent);
   }
 
   &.selected {
     color: var(--color-primary);
+    background-color: color-mix(in srgb, var(--color-primary) 8%, transparent);
   }
 
   &.empty {

@@ -62,6 +62,10 @@
       root.setAttribute('data-hide-google-shortcuts', 'true');
     }
 
+    if (settings.shortcutShape && settings.shortcutShape !== 'circle') {
+      root.setAttribute('data-shortcut-shape', settings.shortcutShape);
+    }
+
     if (settings.wallpaperEnabled === true) {
       var rawOverlay = Number(settings.wallpaperOverlay);
       if (isNaN(rawOverlay)) rawOverlay = 0.3;
