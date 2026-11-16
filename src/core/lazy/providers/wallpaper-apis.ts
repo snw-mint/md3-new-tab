@@ -8,32 +8,17 @@
 
 
 import { WallpaperProvider } from '../../shared/types';
-import { globalState, getWallpaperCache, setWallpaperCache } from '../../shared/state';
+import { globalState } from '../../shared/state';
+import { HOST_PERMISSIONS, checkPermission } from '../../shared/permissions';
 import { fetchRandomBing, fetchRandomWikimedia } from './wallpaper-refresh';
-
-const WALLPAPER_HOST_PERMISSIONS: Record<string, string[]> = {
-  bing: ['https://peapix.com/*', 'https://img.peapix.com/*'],
-  media_commons: ['https://commons.wikimedia.org/*', 'https://upload.wikimedia.org/*'],
-  pexels: ['https://pexels.snw-mint.workers.dev/*'],
-};
-
-async function checkHostPermission(origins: string[]): Promise<boolean> {
-  return new Promise((resolve) => {
-    const chromeApi = (window as any).chrome;
-    if (!chromeApi?.permissions?.contains) return resolve(false);
-    chromeApi.permissions.contains({ origins }, (result: boolean) => {
-      resolve(Boolean(result));
-    });
-  });
-}
 
 export async function fetchDailyWallpaper(
   source: WallpaperProvider,
   random = false,
 ): Promise<{ url: string; credit?: string; creditUrl?: string; creditHtml?: string } | null> {
-  const origins = WALLPAPER_HOST_PERMISSIONS[source];
+  const origins = HOST_PERMISSIONS[source];
   if (origins) {
-    const hasPerm = await checkHostPermission(origins);
+    const hasPerm = await checkPermission(origins);
     if (!hasPerm) return null;
   }
 

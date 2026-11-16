@@ -4,14 +4,84 @@ import { bindGlobalEvents } from './core/boot/event-bindings';
 import { initDisplay } from './core/boot/display';
 import { DOM } from './core/shared/dom-refs';
 import { initWallpaper } from './core/boot/wallpaper';
+import { initShortcuts } from './core/boot/shortcuts-render';
 import { showSnackbar } from './core/ui/snackbar';
 import { globalState } from './core/shared/state';
 import { getSavedEngine, applyEngineToForm, bindSearchForm } from './core/boot/search';
 import { loadTranslations } from './core/shared/i18n';
 
-document.addEventListener('DOMContentLoaded', () => {
-  loadTranslations();
+let searchInitialized = false;
+let suggestionsBound = false;
+let decayScheduled = false;
 
+function initSearchFeatures(): void {
+  if (!searchInitialized) {
+    searchInitialized = true;
+    applyEngineToForm(getSavedEngine());
+    bindSearchForm();
+  }
+
+  if (!decayScheduled) {
+    decayScheduled = true;
+    setTimeout(() => {
+      import('./core/lazy/frequent-searches').then(({ decayFrequentSearches }) => decayFrequentSearches());
+    }, 0);
+  }
+
+  const searchInput = document.getElementById('searchInput') as HTMLInputElement | null;
+  if (searchInput && !suggestionsBound) {
+    let loadingSuggestions = false;
+    const loadSuggestions = () => {
+      if (suggestionsBound || loadingSuggestions) return;
+      loadingSuggestions = true;
+      import('./core/lazy/search-suggestions')
+        .then(({ bindSearchSuggestions }) => {
+          suggestionsBound = true;
+          bindSearchSuggestions();
+        })
+        .catch(() => {
+          loadingSuggestions = false;
+        });
+    };
+    searchInput.addEventListener('focus', loadSuggestions, { once: true });
+    searchInput.addEventListener('input', loadSuggestions, { once: true });
+  }
+}
+
+function applyRootLayoutAttributes(): void {
+  const state = globalState.current;
+  document.title = state.customTabName || 'New Tab';
+
+  if (state.hideGoogleShortcuts) {
+    document.documentElement.setAttribute('data-hide-google-shortcuts', 'true');
+  } else {
+    document.documentElement.removeAttribute('data-hide-google-shortcuts');
+  }
+
+  if (!state.launcherEnabled) {
+    document.documentElement.setAttribute('data-hide-app-launcher', 'true');
+  } else {
+    document.documentElement.removeAttribute('data-hide-app-launcher');
+  }
+}
+
+function bootCritical(): void {
+  void loadTranslations();
+  applyRootLayoutAttributes();
+  initDisplay();
+
+  if (globalState.current.searchEnabled) {
+    initSearchFeatures();
+  }
+
+  if (globalState.current.shortcutsEnabled) {
+    initShortcuts();
+  }
+
+  initWallpaper();
+}
+
+function bootInteractive(): void {
   if (sessionStorage.getItem('md3_settings_restored') === 'true') {
     showSnackbar({ text: chrome.i18n.getMessage('snackbarSettingsRestored'), duration: 4000 });
     sessionStorage.removeItem('md3_settings_restored');
@@ -24,15 +94,13 @@ document.addEventListener('DOMContentLoaded', () => {
     languageSelect.addEventListener('change', (e: any) => {
       const newLang = e.detail?.value || languageSelect.value;
       localStorage.setItem('userLanguage', newLang);
-      loadTranslations();
+      void loadTranslations();
     });
   }
 
-  initDisplay();
   initSidebarControls();
   initThemeControls();
   initSidebarRouter();
-  initWallpaper();
 
   const settingsBtn = document.getElementById('settingsBtn');
   if (settingsBtn) {
@@ -50,63 +118,11 @@ document.addEventListener('DOMContentLoaded', () => {
     settingsBtn.addEventListener('click', loadBackupSystem, { once: true });
   }
 
-  let searchInitialized = globalState.current.searchEnabled;
-  let suggestionsBound = false;
-  let decayScheduled = false;
-
-  const initSearchFeatures = () => {
-    applyEngineToForm(getSavedEngine());
-    bindSearchForm();
-
-    if (!decayScheduled) {
-      decayScheduled = true;
-      setTimeout(() => {
-        import('./core/lazy/frequent-searches').then(({ decayFrequentSearches }) => decayFrequentSearches());
-      }, 0);
-    }
-
-    const searchInput = document.getElementById('searchInput') as HTMLInputElement | null;
-    if (searchInput && !suggestionsBound) {
-      let loadingSuggestions = false;
-      const loadSuggestions = () => {
-        if (suggestionsBound || loadingSuggestions) return;
-        loadingSuggestions = true;
-        import('./core/lazy/search-suggestions')
-          .then(({ bindSearchSuggestions }) => {
-            suggestionsBound = true;
-            bindSearchSuggestions();
-          })
-          .catch(() => {
-            loadingSuggestions = false;
-          });
-      };
-      searchInput.addEventListener('focus', loadSuggestions, { once: true });
-      searchInput.addEventListener('input', loadSuggestions, { once: true });
-    }
-  };
-
-  if (searchInitialized) {
-    initSearchFeatures();
-  }
-
   globalState.subscribe((state) => {
     if (state.searchEnabled && !searchInitialized) {
-      searchInitialized = true;
       initSearchFeatures();
     }
-    document.title = state.customTabName || 'New Tab';
-
-    if (state.hideGoogleShortcuts) {
-      document.documentElement.setAttribute('data-hide-google-shortcuts', 'true');
-    } else {
-      document.documentElement.removeAttribute('data-hide-google-shortcuts');
-    }
-
-    if (!state.launcherEnabled) {
-      document.documentElement.setAttribute('data-hide-app-launcher', 'true');
-    } else {
-      document.documentElement.removeAttribute('data-hide-app-launcher');
-    }
+    applyRootLayoutAttributes();
   });
 
   bindGlobalEvents((shortcutsGrid) => {
@@ -118,7 +134,6 @@ document.addEventListener('DOMContentLoaded', () => {
         dragInitialized = true;
         try {
           const { initVanillaDragAndDrop } = await import('./core/lazy/drag-drop');
-          const { initShortcuts } = await import('./core/boot/shortcuts-render');
           const manager = initShortcuts();
           manager.initDragDrop(initVanillaDragAndDrop);
         } catch (e) {
@@ -371,4 +386,15 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-});
+}
+
+function bootstrap(): void {
+  bootCritical();
+  setTimeout(bootInteractive, 0);
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', bootstrap);
+} else {
+  bootstrap();
+}

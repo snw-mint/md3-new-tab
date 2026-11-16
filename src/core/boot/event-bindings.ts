@@ -10,137 +10,30 @@ import { DOM } from '../shared/dom-refs';
 import { DOMUnits } from '../shared/dom-units';
 import { globalState } from '../shared/state';
 import { updateWeatherWidget } from './weather';
-import { showWarningModal } from '../ui/modals';
+import { initShortcuts } from './shortcuts-render';
 import { t } from '../shared/i18n';
-
-async function checkPermission(origins: string[]): Promise<boolean> {
-  return new Promise((resolve) => {
-    const chromeApi = (window as any).chrome;
-    if (!chromeApi?.permissions?.contains) return resolve(false);
-    chromeApi.permissions.contains({ origins }, (result: boolean) => {
-      resolve(Boolean(result));
-    });
-  });
-}
-
-async function requestPermission(origins: string[]): Promise<boolean> {
-  return new Promise((resolve) => {
-    const chromeApi = (window as any).chrome;
-    if (!chromeApi?.permissions?.request) return resolve(false);
-    chromeApi.permissions.request({ origins }, (granted: boolean) => {
-      resolve(Boolean(granted));
-    });
-  });
-}
-
-function showPermissionModal(onGranted: () => void, onDenied: () => void) {
-  const privacyLink = `<a href="https://snw-mint.github.io/md3-new-tab/privacy.html" target="_blank" rel="noopener noreferrer">${t('readPrivacyPolicy', 'Read privacy policy')}</a>`;
-  showWarningModal({
-    title: t('warningPermissionTitle', 'Permission Required'),
-    messageHtml: `${t('warningPermissionMessage', 'This feature requires permissions to access $API_LINK$.').replace('$API_LINK$', 'Open-Meteo API')} ${privacyLink}`,
-    confirmText: t('warningAgree', 'Allow'),
-    cancelText: t('btnCancel', 'Cancel'),
-    onConfirm: async () => {
-      const granted = await requestPermission([
-        'https://geocoding-api.open-meteo.com/*',
-        'https://api.open-meteo.com/*',
-      ]);
-      if (granted) onGranted();
-      else onDenied();
-    },
-    onCancel: () => {
-      onDenied();
-    }
-  });
-}
-
-const wallpaperProviderConfigs: Record<string, { origins: string[]; name: string }> = {
-  pexels: {
-    origins: ['https://pexels.snw-mint.workers.dev/*'],
-    name: 'Pexels API',
-  },
-  media_commons: {
-    origins: ['https://commons.wikimedia.org/*', 'https://upload.wikimedia.org/*'],
-    name: 'Wikimedia Commons API',
-  },
-  bing: {
-    origins: ['https://peapix.com/*', 'https://img.peapix.com/*'],
-    name: 'Bing Wallpaper API',
-  },
-};
-
-function showWallpaperPermissionModal(
-  provider: string,
-  onGranted: () => void,
-  onDenied: () => void
-): void {
-  const config = wallpaperProviderConfigs[provider];
-  if (!config) {
-    onGranted();
-    return;
-  }
-
-  const privacyLink = `<a href="https://snw-mint.github.io/md3-new-tab/privacy.html" target="_blank" rel="noopener noreferrer">${t('readPrivacyPolicy', 'Read privacy policy')}</a>`;
-  showWarningModal({
-    title: t('warningPermissionTitle', 'Permission Required'),
-    messageHtml: `${t('warningPermissionMessage', 'This feature requires permissions to access $API_LINK$. This ensures your privacy and security.').replace('$API_LINK$', config.name)} ${privacyLink}`,
-    confirmText: t('warningAgree', 'Allow'),
-    cancelText: t('btnCancel', 'Cancel'),
-    onConfirm: async () => {
-      const granted = await requestPermission(config.origins);
-      if (granted) onGranted();
-      else onDenied();
-    },
-    onCancel: () => {
-      onDenied();
-    }
-  });
-}
-
-function showSearchSuggestionsPermissionModal(onGranted: () => void, onDenied: () => void) {
-  showWarningModal({
-    title: t('warningPermissionTitle', 'Permission Required'),
-    messageHtml: t('warningPermissionMessage', 'This feature requires permissions to access $API_LINK$.').replace('$API_LINK$', '<a href="https://duckduckgo.com" target="_blank">DuckDuckGo API</a>'),
-    confirmText: t('warningAgree', 'Allow'),
-    cancelText: t('btnCancel', 'Cancel'),
-    onConfirm: async () => {
-      const granted = await requestPermission([
-        'https://duckduckgo.com/*'
-      ]);
-      if (granted) onGranted();
-      else onDenied();
-    },
-    onCancel: () => {
-      onDenied();
-    }
-  });
-}
+import {
+  HOST_PERMISSIONS,
+  WALLPAPER_PROVIDER_CONFIGS,
+  checkPermission,
+  showWeatherPermissionModal,
+  showWallpaperPermissionModal,
+  showSearchSuggestionsPermissionModal,
+} from '../shared/permissions';
 
 export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => void): void {
   const { wallpaperToggle, wallpaperBlock, wallpaperColorToggle, weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, hideShortcutNamesToggle, searchToggle, searchBlock, searchSuggestionsToggle, voiceSearchToggle, askAiToggle, launcherToggle, launcherBlock, displayToggle, displayBlock, displayStyleSelect } = DOM.settings;
-  const weatherOrigins = [
-    'https://geocoding-api.open-meteo.com/*',
-    'https://api.open-meteo.com/*',
-  ];
-  const searchSuggestionsOrigins = [
-    'https://duckduckgo.com/*'
-  ];
 
   updateWeatherWidget();
 
-  let shortcutsLoaded = false;
-  const loadShortcutsModule = async () => {
-    if (shortcutsLoaded) return;
-    shortcutsLoaded = true;
-    try {
-      const { initShortcuts } = await import('./shortcuts-render');
-      const manager = initShortcuts();
-      const grid = document.getElementById('shortcutsGrid');
-      if (grid) onShortcutsReady(grid);
-      return manager;
-    } catch (e) {
-      console.error('Failed to load shortcuts module', e);
-      shortcutsLoaded = false;
+  let shortcutsNotified = false;
+  const ensureShortcutsReady = () => {
+    initShortcuts();
+    if (shortcutsNotified) return;
+    const grid = document.getElementById('shortcutsGrid');
+    if (grid) {
+      shortcutsNotified = true;
+      onShortcutsReady(grid);
     }
   };
 
@@ -198,7 +91,7 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
     updateWeatherWidget();
 
     if (state.shortcutsEnabled) {
-      loadShortcutsModule();
+      ensureShortcutsReady();
     }
     if (wallpaperColorToggle) {
       const canEnable = state.wallpaperEnabled && (state.wallpaperProvider !== 'upload' || !!state.wallpaperImage);
@@ -234,7 +127,7 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
       }
 
       const currentProvider = globalState.current.wallpaperProvider || 'upload';
-      const config = wallpaperProviderConfigs[currentProvider];
+      const config = WALLPAPER_PROVIDER_CONFIGS[currentProvider];
 
       if (config) {
         const hasPerm = await checkPermission(config.origins);
@@ -268,7 +161,7 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
       const target = e.target as HTMLSelectElement;
       const selectedProvider = target.value as 'upload' | 'pexels' | 'media_commons' | 'bing';
       const prevProvider = globalState.current.wallpaperProvider || 'upload';
-      const config = wallpaperProviderConfigs[selectedProvider];
+      const config = WALLPAPER_PROVIDER_CONFIGS[selectedProvider];
 
       if (!config) {
         globalState.current.wallpaperProvider = selectedProvider;
@@ -356,14 +249,14 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
         return;
       }
 
-      const hasPerm = await checkPermission(weatherOrigins);
+      const hasPerm = await checkPermission(HOST_PERMISSIONS.weather);
       if (hasPerm) {
         globalState.current.weatherEnabled = true;
         return;
       }
 
       target.checked = false;
-      showPermissionModal(
+      showWeatherPermissionModal(
         () => {
           globalState.current.weatherEnabled = true;
         },
@@ -405,7 +298,7 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
         return;
       }
 
-      const hasPerm = await checkPermission(searchSuggestionsOrigins);
+      const hasPerm = await checkPermission(HOST_PERMISSIONS.suggestions);
       if (hasPerm) {
         globalState.current.searchSuggestionsEnabled = true;
         return;

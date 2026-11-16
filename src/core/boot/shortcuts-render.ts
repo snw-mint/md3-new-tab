@@ -1,15 +1,6 @@
-/*
- * MD3: Expressive New Tab
- * Copyright (c) 2026 SnowMint
- * Licensed under the GNU General Public License v3.0 (GPL-3.0)
- * You should have received a copy of the GNU General Public License along with this program.
- * If not, see <https://www.gnu.org/licenses/>.
- */
-
 import { globalState } from '../shared/state';
 import { t } from '../shared/i18n';
 import { ShortcutItem } from '../shared/types';
-import { mountTemplate } from '../shared/dom-units';
 
 function sanitizeUrl(url: string | undefined | null): string {
   if (!url) return 'about:blank';
@@ -45,10 +36,8 @@ function sanitizeIconUrl(url: string | undefined | null): string {
     return '';
   }
 
-  if (lower.startsWith('data:')) {
-    if (!lower.startsWith('data:image/')) {
-      return '';
-    }
+  if (lower.startsWith('data:') && !lower.startsWith('data:image/')) {
+    return '';
   }
 
   return tr;
@@ -57,6 +46,55 @@ function sanitizeIconUrl(url: string | undefined | null): string {
 const FOLDER_ICON = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><use href="#icon-folder" /></svg>`;
 const SHORTCUT_ICON = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><use href="#icon-link" /></svg>`;
 
+let shortcutItemTemplate: HTMLAnchorElement | null = null;
+
+function getShortcutItemTemplate(): HTMLAnchorElement {
+  if (!shortcutItemTemplate) {
+    const wrapper = document.createElement('a');
+    wrapper.className = 'shortcut-item';
+    wrapper.draggable = true;
+
+    const card = document.createElement('div');
+    card.className = 'shortcut-card';
+    card.draggable = false;
+
+    const menuWrapper = document.createElement('div');
+    menuWrapper.className = 'menu-wrapper';
+
+    const menuBtn = document.createElement('button');
+    menuBtn.className = 'menu-btn';
+    menuBtn.title = 'More options';
+    menuBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><use href="#icon-more-vert" /></svg>`;
+
+    const dropdown = document.createElement('div');
+    dropdown.className = 'shortcut-dropdown';
+
+    const editOption = document.createElement('div');
+    editOption.className = 'menu-option edit-option';
+    editOption.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><use href="#icon-edit" /></svg><span>${t('editLabel', 'Edit')}</span>`;
+
+    const removeOption = document.createElement('div');
+    removeOption.className = 'menu-option remove-option';
+    removeOption.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><use href="#icon-delete" /></svg><span>${t('removeLabel', 'Remove')}</span>`;
+
+    dropdown.appendChild(editOption);
+    dropdown.appendChild(removeOption);
+    menuWrapper.appendChild(menuBtn);
+    menuWrapper.appendChild(dropdown);
+
+    const title = document.createElement('span');
+    title.className = 'shortcut-title';
+    title.draggable = false;
+
+    wrapper.appendChild(card);
+    wrapper.appendChild(menuWrapper);
+    wrapper.appendChild(title);
+
+    shortcutItemTemplate = wrapper;
+  }
+  return shortcutItemTemplate;
+}
+
 export class ShortcutsManager {
   private container!: HTMLElement;
   private folderBackWrapper: HTMLElement | null = null;
@@ -64,19 +102,6 @@ export class ShortcutsManager {
   private currentFolderId: string | null = null;
   private shortcuts: ShortcutItem[] = [];
   private maxItems = 10;
-  private editingIndex: number | null = null;
-  private modal: HTMLElement | null = null;
-  private form: HTMLFormElement | null = null;
-  private inputName: HTMLInputElement | null = null;
-  private inputUrl: HTMLInputElement | null = null;
-  private inputIconUrl: HTMLInputElement | null = null;
-  private modalTitle: HTMLElement | null = null;
-  private folderModal: HTMLElement | null = null;
-  private folderForm: HTMLFormElement | null = null;
-  private inputFolderName: HTMLInputElement | null = null;
-  private inputFolderIconUrl: HTMLInputElement | null = null;
-  private folderModalTitle: HTMLElement | null = null;
-  private modalsInitialized = false;
 
   constructor() {
     this.container = document.getElementById('shortcutsGrid') as HTMLElement;
@@ -91,38 +116,16 @@ export class ShortcutsManager {
     });
   }
 
-  private ensureModalsMounted(): void {
-    if (this.modalsInitialized) return;
-    this.modalsInitialized = true;
-
-    if (!document.getElementById('shortcutModal')) {
-      mountTemplate('tpl-shortcut-modal');
-    }
-    if (!document.getElementById('folderModal')) {
-      mountTemplate('tpl-folder-modal');
-    }
-
-    this.modal = document.getElementById('shortcutModal');
-    this.form = document.getElementById('shortcutForm') as HTMLFormElement;
-    this.inputName = document.getElementById('shortcutName') as HTMLInputElement;
-    this.inputUrl = document.getElementById('shortcutUrl') as HTMLInputElement;
-    this.inputIconUrl = document.getElementById('shortcutIconUrl') as HTMLInputElement;
-    this.modalTitle = document.getElementById('shortcut-modal-title');
-    this.folderModal = document.getElementById('folderModal');
-    this.folderForm = document.getElementById('folderForm') as HTMLFormElement;
-    this.inputFolderName = document.getElementById('folderName') as HTMLInputElement;
-    this.inputFolderIconUrl = document.getElementById('folderIconUrl') as HTMLInputElement;
-    this.folderModalTitle = document.getElementById('folder-modal-title');
-
-    this.setupModalEvents();
-  }
-
-  private init() {
+  private init(): void {
     if (!this.container) return;
     this.render();
 
     this.container.addEventListener('click', this.handleGridClick.bind(this));
     document.addEventListener('click', this.handleDocumentClick.bind(this));
+    document.addEventListener('i18nReady', () => {
+      shortcutItemTemplate = null;
+      this.render();
+    });
 
     if (this.folderBackBtn) {
       this.folderBackBtn.addEventListener('click', () => {
@@ -133,7 +136,7 @@ export class ShortcutsManager {
     }
   }
 
-  private triggerTransition() {
+  private triggerTransition(): void {
     this.container.classList.remove('folder-transition');
     void this.container.offsetWidth;
     this.container.classList.add('folder-transition');
@@ -180,267 +183,14 @@ export class ShortcutsManager {
     });
   }
 
-  private setupModalEvents() {
-    if (this.form) {
-      this.form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        this.saveShortcutData();
-      });
-
-      this.form.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          this.saveShortcutData();
-        }
-      });
-    }
-
-    if (this.folderForm) {
-      this.folderForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        this.saveFolderData();
-      });
-
-      this.folderForm.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          this.saveFolderData();
-        }
-      });
-    }
-
-    const closeBtn = document.getElementById('shortcut-btn-cancel');
-    if (closeBtn) {
-      closeBtn.addEventListener('click', () => this.closeModal());
-    }
-
-    const folderCloseBtn = document.getElementById('folder-btn-cancel');
-    if (folderCloseBtn) {
-      folderCloseBtn.addEventListener('click', () => this.closeFolderModal());
-    }
-
-    const clearBtns = document.querySelectorAll('.shortcut-form .clear-input-btn');
-    clearBtns.forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        const wrapper = (e.currentTarget as HTMLElement).closest('.md3-filled-input-wrapper');
-        const input = wrapper?.querySelector('.md3-filled-input') as HTMLInputElement;
-        if (input) {
-          input.value = '';
-          input.focus();
-          wrapper?.classList.remove('has-error');
-        }
-      });
-    });
-
-    if (this.inputUrl) {
-      this.inputUrl.addEventListener('focus', () => {
-        this.inputUrl!.closest('.md3-filled-input-wrapper')?.classList.remove('has-error');
-      });
-      this.inputUrl.addEventListener('blur', () => this.handleUrlValidation(this.inputUrl!, false));
-    }
-
-    if (this.inputIconUrl) {
-      this.inputIconUrl.addEventListener('focus', () => {
-        this.inputIconUrl!.closest('.md3-filled-input-wrapper')?.classList.remove('has-error');
-      });
-      this.inputIconUrl.addEventListener('blur', () => this.handleUrlValidation(this.inputIconUrl!, true));
-    }
-
-    if (this.inputFolderIconUrl) {
-      this.inputFolderIconUrl.addEventListener('focus', () => {
-        this.inputFolderIconUrl!.closest('.md3-filled-input-wrapper')?.classList.remove('has-error');
-      });
-      this.inputFolderIconUrl.addEventListener('blur', () => this.handleUrlValidation(this.inputFolderIconUrl!, true));
-    }
-  }
-
-  private handleUrlValidation(input: HTMLInputElement, isOptional: boolean): boolean {
-    const wrapper = input.closest('.md3-filled-input-wrapper');
-    if (!wrapper) return true;
-
-    const val = input.value.trim();
-
-    if (!val) {
-      if (isOptional) {
-        wrapper.classList.remove('has-error');
-        return true;
-      } else {
-        wrapper.classList.add('has-error');
-        return false;
-      }
-    }
-
-    let urlStr = val;
-    if (!urlStr.startsWith('http://') && !urlStr.startsWith('https://')) {
-      urlStr = 'https://' + urlStr;
-    }
-
-    try {
-      const urlObj = new URL(urlStr);
-      if (!urlObj.hostname.includes('.') && urlObj.hostname !== 'localhost') {
-        throw new Error('Invalid domain structure');
-      }
-
-      input.value = urlStr;
-      wrapper.classList.remove('has-error');
-      return true;
-    } catch (e) {
-      wrapper.classList.add('has-error');
-      return false;
-    }
-  }
-
-  private openModal(index: number | null) {
-    this.ensureModalsMounted();
-    if (!this.modal || !this.inputName || !this.inputUrl || !this.inputIconUrl || !this.modalTitle) return;
-
-    this.editingIndex = index;
-    const list = this.getActiveList();
-
-    if (index !== null && list[index]) {
-      const item = list[index];
-      this.modalTitle.textContent = t('shortcutEditTitle', 'Edit Shortcut');
-      this.inputName.value = item.name;
-      this.inputUrl.value = item.url || '';
-      this.inputIconUrl.value = item.customIcon || item.iconUrl || '';
-    } else {
-      this.modalTitle.textContent = t('shortcutAddTitle', 'Add Shortcut');
-      this.inputName.value = '';
-      this.inputUrl.value = '';
-      this.inputIconUrl.value = '';
-    }
-
-    this.inputName.closest('.md3-filled-input-wrapper')?.classList.remove('has-error');
-    this.inputUrl.closest('.md3-filled-input-wrapper')?.classList.remove('has-error');
-    this.inputIconUrl.closest('.md3-filled-input-wrapper')?.classList.remove('has-error');
-
-    this.modal.classList.add('active');
-    setTimeout(() => this.inputUrl?.focus(), 100);
-  }
-
-  private closeModal() {
-    if (this.modal) {
-      this.modal.classList.remove('active');
-    }
-    this.editingIndex = null;
-  }
-
-  private openFolderModal(index: number | null) {
-    this.ensureModalsMounted();
-    if (!this.folderModal || !this.inputFolderName || !this.inputFolderIconUrl || !this.folderModalTitle) return;
-
-    this.editingIndex = index;
-    const list = this.getActiveList();
-
-    if (index !== null && list[index]) {
-      const item = list[index];
-      this.folderModalTitle.textContent = t('editFolderTitle', 'Edit Folder');
-      this.inputFolderName.value = item.name;
-      this.inputFolderIconUrl.value = item.customIcon || item.iconUrl || '';
-    } else {
-      this.folderModalTitle.textContent = t('addFolderTitle', 'Add Folder');
-      this.inputFolderName.value = '';
-      this.inputFolderIconUrl.value = '';
-    }
-
-    this.inputFolderName.closest('.md3-filled-input-wrapper')?.classList.remove('has-error');
-    this.inputFolderIconUrl.closest('.md3-filled-input-wrapper')?.classList.remove('has-error');
-
-    this.folderModal.classList.add('active');
-    setTimeout(() => this.inputFolderName?.focus(), 100);
-  }
-
-  private closeFolderModal() {
-    if (this.folderModal) {
-      this.folderModal.classList.remove('active');
-    }
-    this.editingIndex = null;
-  }
-
-  private saveShortcutData() {
-    if (!this.inputName || !this.inputUrl || !this.inputIconUrl) return;
-
-    const isUrlValid = this.handleUrlValidation(this.inputUrl, false);
-    const isIconUrlValid = this.handleUrlValidation(this.inputIconUrl, true);
-    if (!isUrlValid || !isIconUrlValid) return;
-
-    const urlStr = this.inputUrl.value.trim();
-    let nameStr = this.inputName.value.trim();
-    const iconUrlStr = this.inputIconUrl.value.trim() || undefined;
-
-    if (!nameStr) {
-      try {
-        const urlObj = new URL(urlStr);
-        let gen = urlObj.hostname.replace(/^www\./, '');
-        gen = gen.charAt(0).toUpperCase() + gen.slice(1);
-        nameStr = gen.split('.')[0];
-      } catch {
-        nameStr = 'New Shortcut';
-      }
-    }
-
-    const list = this.getActiveList();
-
-    if (this.editingIndex !== null && list[this.editingIndex]) {
-      list[this.editingIndex].name = nameStr;
-      list[this.editingIndex].url = urlStr;
-      list[this.editingIndex].iconUrl = iconUrlStr;
-      list[this.editingIndex].customIcon = iconUrlStr;
-    } else {
-      list.push({
-        id: 'shortcut_' + Date.now(),
-        type: 'link',
-        name: nameStr,
-        url: urlStr,
-        iconUrl: iconUrlStr,
-        customIcon: iconUrlStr,
-      });
-    }
-
-    this.saveShortcuts();
-    this.render();
-    this.closeModal();
-  }
-
-  private saveFolderData() {
-    if (!this.inputFolderName || !this.inputFolderIconUrl) return;
-
-    const isIconValid = this.handleUrlValidation(this.inputFolderIconUrl, true);
-    if (!isIconValid) return;
-
-    const nameStr = this.inputFolderName.value.trim() || 'New Folder';
-    const iconUrlStr = this.inputFolderIconUrl.value.trim() || undefined;
-
-    const list = this.getActiveList();
-
-    if (this.editingIndex !== null && list[this.editingIndex]) {
-      list[this.editingIndex].name = nameStr;
-      list[this.editingIndex].iconUrl = iconUrlStr;
-      list[this.editingIndex].customIcon = iconUrlStr;
-    } else {
-      list.push({
-        id: 'folder_' + Date.now(),
-        type: 'folder',
-        name: nameStr,
-        iconUrl: iconUrlStr,
-        customIcon: iconUrlStr,
-        children: [],
-      });
-    }
-
-    this.saveShortcuts();
-    this.render();
-    this.closeFolderModal();
-  }
-
-  private handleDocumentClick(e: MouseEvent) {
+  private handleDocumentClick(e: MouseEvent): void {
     const target = e.target as HTMLElement;
     if (!target.closest('.shortcut-dropdown') && !target.closest('.menu-btn') && !target.closest('.add-card-wrapper')) {
       this.closeAllDropdowns();
     }
   }
 
-  private handleGridClick(e: MouseEvent) {
+  private handleGridClick(e: MouseEvent): void {
     const target = e.target as HTMLElement;
 
     if (target.closest('.menu-btn')) {
@@ -464,7 +214,12 @@ export class ShortcutsManager {
       e.preventDefault();
       e.stopPropagation();
       this.closeAllDropdowns();
-      this.openFolderModal(null);
+      import('../lazy/shortcuts-modals').then(({ openFolderModal }) => {
+        openFolderModal(null, () => this.getActiveList(), () => {
+          this.saveShortcuts();
+          this.render();
+        });
+      });
       return;
     }
 
@@ -473,7 +228,12 @@ export class ShortcutsManager {
       e.preventDefault();
       e.stopPropagation();
       this.closeAllDropdowns();
-      this.openModal(null);
+      import('../lazy/shortcuts-modals').then(({ openShortcutModal }) => {
+        openShortcutModal(null, () => this.getActiveList(), () => {
+          this.saveShortcuts();
+          this.render();
+        });
+      });
       return;
     }
 
@@ -483,7 +243,12 @@ export class ShortcutsManager {
       e.stopPropagation();
       if (this.currentFolderId) {
         this.closeAllDropdowns();
-        this.openModal(null);
+        import('../lazy/shortcuts-modals').then(({ openShortcutModal }) => {
+          openShortcutModal(null, () => this.getActiveList(), () => {
+            this.saveShortcuts();
+            this.render();
+          });
+        });
         return;
       }
       const isActive = addCard.classList.contains('active');
@@ -498,11 +263,18 @@ export class ShortcutsManager {
       const index = parseInt((editBtn as HTMLElement).dataset.index || '-1', 10);
       if (index >= 0) {
         const list = this.getActiveList();
-        if (list[index]?.type === 'folder') {
-          this.openFolderModal(index);
-        } else {
-          this.openModal(index);
-        }
+        const isFolder = list[index]?.type === 'folder';
+        import('../lazy/shortcuts-modals').then(({ openFolderModal, openShortcutModal }) => {
+          const onSave = () => {
+            this.saveShortcuts();
+            this.render();
+          };
+          if (isFolder) {
+            openFolderModal(index, () => this.getActiveList(), onSave);
+          } else {
+            openShortcutModal(index, () => this.getActiveList(), onSave);
+          }
+        });
       }
       return;
     }
@@ -528,7 +300,7 @@ export class ShortcutsManager {
     }
   }
 
-  private closeAllDropdowns() {
+  private closeAllDropdowns(): void {
     const dropdowns = this.container.querySelectorAll('.shortcut-dropdown.active');
     dropdowns.forEach((d) => d.classList.remove('active'));
 
@@ -536,23 +308,23 @@ export class ShortcutsManager {
     addWrappers.forEach((w) => w.classList.remove('active'));
   }
 
-  private removeShortcut(index: number) {
+  private removeShortcut(index: number): void {
     const list = this.getActiveList();
     list.splice(index, 1);
     this.saveShortcuts();
     this.render();
   }
 
-  private saveShortcuts() {
+  private saveShortcuts(): void {
     localStorage.setItem('ent_shortcuts', JSON.stringify(this.shortcuts));
   }
 
-  private loadShortcuts() {
+  private loadShortcuts(): void {
     const saved = localStorage.getItem('ent_shortcuts');
     if (saved) {
       try {
         this.shortcuts = JSON.parse(saved);
-      } catch (e) {
+      } catch {
         this.shortcuts = [];
       }
     } else {
@@ -563,7 +335,7 @@ export class ShortcutsManager {
         { id: 'shortcut_1781923256701', type: 'link', name: 'BMC', url: 'https://buymeacoffee.com/snw.mint' },
         { id: 'shortcut_1781923301038', type: 'link', name: 'Gemini', url: 'https://gemini.google.com' },
         { id: 'shortcut_1781923355670', type: 'link', name: 'Reddit', url: 'https://reddit.com', iconUrl: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/reddit-icon.png' },
-        { id: 'shortcut_1781923629158', type: 'link', name: 'Spotify', url: 'https://spotify.com' }
+        { id: 'shortcut_1781923629158', type: 'link', name: 'Spotify', url: 'https://spotify.com' },
       ];
     }
   }
@@ -579,16 +351,15 @@ export class ShortcutsManager {
     return this.shortcuts;
   }
 
-  private updateRows(rowsStr: string) {
+  private updateRows(rowsStr: string): void {
     if (!this.container) return;
     const rows = parseInt(rowsStr, 10) || 1;
     this.maxItems = rows * 10;
     this.render();
   }
 
-  public render() {
+  public render(): void {
     if (!this.container) return;
-    this.container.innerHTML = '';
 
     const list = this.getActiveList();
     const limit = this.currentFolderId ? 40 : this.maxItems;
@@ -604,15 +375,18 @@ export class ShortcutsManager {
       }
     }
 
+    const fragment = document.createDocumentFragment();
     const itemsToRender = list.slice(0, limit);
 
-    itemsToRender.forEach((shortcut, index) => {
-      this.container.appendChild(this.createShortcutElement(shortcut, index));
-    });
+    for (let index = 0; index < itemsToRender.length; index++) {
+      fragment.appendChild(this.createShortcutElement(itemsToRender[index], index));
+    }
 
     if (list.length < limit) {
-      this.container.appendChild(this.createAddShortcutButton());
+      fragment.appendChild(this.createAddShortcutButton());
     }
+
+    this.container.replaceChildren(fragment);
 
     const total = this.container.children.length;
     const rows = Math.ceil(total / 10) || 1;
@@ -638,17 +412,13 @@ export class ShortcutsManager {
 
   private createShortcutElement(shortcut: ShortcutItem, index: number): HTMLElement {
     const isFolder = shortcut.type === 'folder';
-    const wrapper = document.createElement('a');
-    wrapper.className = 'shortcut-item';
+    const wrapper = getShortcutItemTemplate().cloneNode(true) as HTMLAnchorElement;
     wrapper.href = isFolder ? '#' : sanitizeUrl(shortcut.url);
-    wrapper.draggable = true;
     wrapper.dataset.index = index.toString();
     wrapper.dataset.type = isFolder ? 'folder' : 'link';
     if (shortcut.id) wrapper.dataset.id = shortcut.id;
 
-    const card = document.createElement('div');
-    card.className = 'shortcut-card';
-    card.draggable = false;
+    const card = wrapper.querySelector('.shortcut-card') as HTMLDivElement;
 
     let iconEl: HTMLElement;
     const finalIcon = shortcut.customIcon || shortcut.iconUrl;
@@ -672,7 +442,7 @@ export class ShortcutsManager {
         try {
           const urlObj = new URL(shortcut.url);
           finalUrl = `https://favicon.vemetric.com/${urlObj.hostname}?size=64`;
-        } catch (e) { }
+        } catch {}
       }
 
       const sanitized = sanitizeIconUrl(finalUrl);
@@ -692,47 +462,13 @@ export class ShortcutsManager {
 
     card.appendChild(iconEl);
 
-    const menuWrapper = document.createElement('div');
-    menuWrapper.className = 'menu-wrapper';
+    const editOption = wrapper.querySelector('.edit-option') as HTMLElement | null;
+    const removeOption = wrapper.querySelector('.remove-option') as HTMLElement | null;
+    if (editOption) editOption.dataset.index = index.toString();
+    if (removeOption) removeOption.dataset.index = index.toString();
 
-    const menuBtn = document.createElement('button');
-    menuBtn.className = 'menu-btn';
-    menuBtn.title = 'More options';
-    menuBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><use href="#icon-more-vert" /></svg>`;
-
-    const dropdown = document.createElement('div');
-    dropdown.className = 'shortcut-dropdown';
-
-    const editOption = document.createElement('div');
-    editOption.className = 'menu-option edit-option';
-    editOption.dataset.index = index.toString();
-    editOption.innerHTML = `
-      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><use href="#icon-edit" /></svg>
-      <span>${t('editLabel', 'Edit')}</span>
-    `;
-
-    const removeOption = document.createElement('div');
-    removeOption.className = 'menu-option remove-option';
-    removeOption.dataset.index = index.toString();
-    removeOption.innerHTML = `
-      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><use href="#icon-delete" /></svg>
-      <span>${t('removeLabel', 'Remove')}</span>
-    `;
-
-    dropdown.appendChild(editOption);
-    dropdown.appendChild(removeOption);
-
-    menuWrapper.appendChild(menuBtn);
-    menuWrapper.appendChild(dropdown);
-
-    const title = document.createElement('span');
-    title.className = 'shortcut-title';
-    title.textContent = shortcut.name;
-    title.draggable = false;
-
-    wrapper.appendChild(card);
-    wrapper.appendChild(menuWrapper);
-    wrapper.appendChild(title);
+    const title = wrapper.querySelector('.shortcut-title') as HTMLElement | null;
+    if (title) title.textContent = shortcut.name;
 
     return wrapper;
   }
