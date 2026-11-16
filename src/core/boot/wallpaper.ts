@@ -119,11 +119,6 @@ export function initWallpaper(): void {
         wallpaperUploadBtn.classList.add('active-state');
         wallpaperAddIcon.style.display = 'none';
         wallpaperRemoveIcon.style.display = '';
-
-        if (state.wallpaperImage.startsWith('data:') || state.wallpaperImage.startsWith('blob:')) {
-          wallpaperLayer.style.backgroundImage = `url(${state.wallpaperImage})`;
-          document.body.classList.add('has-wallpaper');
-        }
       } else {
         wallpaperUploadBtn.classList.remove('active-state');
         wallpaperAddIcon.style.display = '';
@@ -204,13 +199,20 @@ export function initWallpaper(): void {
       const { saveWallpaperToDB } = await import('../lazy/wallpaper-storage');
       await saveWallpaperToDB(blob);
 
+      globalState.current.wallpaperImage = 'idb';
+      globalState.current.wallpaperColor = dominantColor;
+
       const blobUrl = URL.createObjectURL(blob);
       setTrackedWallpaperObjectUrl(blobUrl);
       wallpaperLayer.style.backgroundImage = `url('${blobUrl}')`;
-      document.body.classList.add('has-wallpaper');
-
-      globalState.current.wallpaperColor = dominantColor;
-      globalState.current.wallpaperImage = 'idb';
+      updateOverlay(
+        globalState.current.wallpaperOverlay,
+        globalState.current.wallpaperEnabled,
+        globalState.current.wallpaperOverlayInverted,
+      );
+      requestAnimationFrame(() => {
+        document.body.classList.add('has-wallpaper');
+      });
     } catch (error) {
       console.error('Failed to compress and save wallpaper:', error);
       alert('Failed to process image. It might be too large or corrupted.');

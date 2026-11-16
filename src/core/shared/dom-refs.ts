@@ -13,9 +13,6 @@ export const DOM = {
     },
   },
   settings: {
-    get wallpaperColorToggle(): HTMLInputElement | null {
-      return document.getElementById('wallpaperColorToggle') as HTMLInputElement | null;
-    },
     get wallpaperToggle(): HTMLInputElement | null {
       return document.getElementById('wallpaperToggle') as HTMLInputElement | null;
     },
@@ -27,12 +24,6 @@ export const DOM = {
     },
     get wallpaperUploadWrapper(): HTMLElement | null {
       return document.getElementById('wallpaperUploadWrapper');
-    },
-    get wallpaperOverlaySlider(): HTMLInputElement | null {
-      return document.getElementById('wallpaperOverlaySlider') as HTMLInputElement | null;
-    },
-    get wallpaperOverlayInvertedToggle(): HTMLInputElement | null {
-      return document.getElementById('wallpaperOverlayInvertedToggle') as HTMLInputElement | null;
     },
     get wallpaperUploadBtn(): HTMLButtonElement | null {
       return document.getElementById('wallpaperUploadBtn') as HTMLButtonElement | null;

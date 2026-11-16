@@ -10,14 +10,37 @@ import { globalState } from '../shared/state';
 import { t } from '../shared/i18n';
 
 let lastMessageBase = '';
+let lastClockKey = '';
+let lastDateKey = '';
 let currentPeriod = '';
 let currentGreetingIndex = 0;
 
-function getRandomGreetingIndex(period: string, max: number = 5): number {
-  const storageKey = `last_greet_index_${period}`;
+const GREETING_CACHE_KEY = 'ent_greeting_cache';
+const GREETING_CACHE_TTL = 15 * 60 * 1000;
+
+function getCachedGreetingIndex(period: string, max: number = 5): number {
+  const now = Date.now();
   let lastIndex = 0;
+
   try {
-    lastIndex = parseInt(localStorage.getItem(storageKey) || '0', 10);
+    const raw = localStorage.getItem(GREETING_CACHE_KEY);
+    if (raw) {
+      const cached = JSON.parse(raw) as { period?: string; index?: number; ts?: number };
+      if (
+        cached &&
+        cached.period === period &&
+        typeof cached.index === 'number' &&
+        cached.index >= 1 &&
+        cached.index <= max &&
+        typeof cached.ts === 'number' &&
+        now - cached.ts < GREETING_CACHE_TTL
+      ) {
+        return cached.index;
+      }
+      if (typeof cached?.index === 'number') {
+        lastIndex = cached.index;
+      }
+    }
   } catch {}
 
   const available: number[] = [];
@@ -27,7 +50,10 @@ function getRandomGreetingIndex(period: string, max: number = 5): number {
 
   const selected = available[Math.floor(Math.random() * available.length)] || 1;
   try {
-    localStorage.setItem(storageKey, selected.toString());
+    localStorage.setItem(
+      GREETING_CACHE_KEY,
+      JSON.stringify({ period, index: selected, ts: now }),
+    );
   } catch {}
 
   return selected;
@@ -52,7 +78,7 @@ function tick(): void {
 
       if (period !== currentPeriod || currentGreetingIndex === 0) {
         currentPeriod = period;
-        currentGreetingIndex = getRandomGreetingIndex(period, 5);
+        currentGreetingIndex = getCachedGreetingIndex(period, 5);
       }
 
       const dayOfWeek = t(`weekday_${now.getDay()}`);
@@ -129,15 +155,13 @@ function tick(): void {
       
       const hStr = h.toString().padStart(2, '0');
       const mStr = now.getMinutes().toString().padStart(2, '0');
-      
       const clockStyle = globalState.current.clockStyle || 'Expressive Clock';
-      
-      const d1 = hStr[0];
-      const d2 = hStr[1];
-      const d3 = mStr[0];
-      const d4 = mStr[1];
-      
-      clockDisplay.innerHTML = `<span class="clock-digit digit-1">${d1}</span><span class="clock-digit digit-2">${d2}</span><span class="clock-colon">:</span><span class="clock-digit digit-3">${d3}</span><span class="clock-digit digit-4">${d4}</span>`;
+      const clockKey = `${hStr}:${mStr}`;
+
+      if (clockKey !== lastClockKey) {
+        lastClockKey = clockKey;
+        clockDisplay.innerHTML = `<span class="clock-digit digit-1">${hStr[0]}</span><span class="clock-digit digit-2">${hStr[1]}</span><span class="clock-colon">:</span><span class="clock-digit digit-3">${mStr[0]}</span><span class="clock-digit digit-4">${mStr[1]}</span>`;
+      }
       clockDisplay.style.fontFamily = `"${clockStyle}", sans-serif`;
       clockDisplay.setAttribute('data-clock-style', clockStyle);
 
@@ -157,11 +181,15 @@ function tick(): void {
     if (clockShowDate && displayStyle === 'clock') {
       dateEl.style.display = '';
       const userLang = (localStorage.getItem('userLanguage') || navigator.language || 'en-US').replace('_', '-');
-      dateEl.textContent = now.toLocaleDateString(userLang, {
-        weekday: 'long',
-        month: 'short',
-        day: 'numeric',
-      });
+      const dateKey = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}-${userLang}`;
+      if (dateKey !== lastDateKey) {
+        lastDateKey = dateKey;
+        dateEl.textContent = now.toLocaleDateString(userLang, {
+          weekday: 'long',
+          month: 'short',
+          day: 'numeric',
+        });
+      }
     } else {
       dateEl.style.display = 'none';
     }
@@ -192,10 +220,6 @@ function applyDisplaySettings() {
   const widget = document.getElementById('displayWidget');
   if (widget) {
     widget.style.display = displayEnabled ? '' : 'none';
-    widget.classList.remove('simple_clock', 'expressive_clock', 'greetings', 'style1', 'style2');
-    if (displayStyle) {
-      widget.classList.add(displayStyle);
-    }
   }
   tick();
 }
@@ -203,6 +227,7 @@ function applyDisplaySettings() {
 export function initDisplay(): void {
   tick();
   setInterval(tick, 1000);
+  document.addEventListener('i18nReady', tick);
 
   applyDisplaySettings();
   globalState.subscribe(() => {

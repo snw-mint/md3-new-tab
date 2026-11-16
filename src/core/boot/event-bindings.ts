@@ -22,7 +22,7 @@ import {
 } from '../shared/permissions';
 
 export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => void): void {
-  const { wallpaperToggle, wallpaperBlock, wallpaperColorToggle, weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, searchToggle, searchBlock, searchSuggestionsToggle, voiceSearchToggle, askAiToggle, launcherToggle, launcherBlock, displayToggle, displayBlock, displayStyleSelect } = DOM.settings;
+  const { wallpaperToggle, wallpaperBlock, weatherToggle, weatherBlock, shortcutsToggle, shortcutsBlock, searchToggle, searchBlock, searchSuggestionsToggle, voiceSearchToggle, askAiToggle, launcherToggle, launcherBlock, displayToggle, displayBlock, displayStyleSelect } = DOM.settings;
 
   updateWeatherWidget();
 
@@ -95,28 +95,7 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
     if (state.shortcutsEnabled) {
       ensureShortcutsReady();
     }
-    if (wallpaperColorToggle) {
-      const canEnable = state.wallpaperEnabled && (state.wallpaperProvider !== 'upload' || !!state.wallpaperImage);
-      if (!canEnable) {
-        wallpaperColorToggle.disabled = true;
-        wallpaperColorToggle.checked = false;
-        const group = wallpaperColorToggle.closest('.md3-checkbox-group');
-        if (group) group.classList.add('disabled');
-      } else {
-        wallpaperColorToggle.disabled = false;
-        wallpaperColorToggle.checked = state.colorFromWallpaper;
-        const group = wallpaperColorToggle.closest('.md3-checkbox-group');
-        if (group) group.classList.remove('disabled');
-      }
-    }
   });
-
-  if (wallpaperColorToggle) {
-    wallpaperColorToggle.addEventListener('change', (e) => {
-      const target = e.target as HTMLInputElement;
-      globalState.current.colorFromWallpaper = target.checked;
-    });
-  }
 
   if (wallpaperToggle) {
     wallpaperToggle.addEventListener('change', async (e) => {
@@ -201,42 +180,6 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
       }
       if (wallpaperProviderSelect.getAttribute('value') !== prov) {
         wallpaperProviderSelect.setAttribute('value', prov);
-      }
-    });
-  }
-
-  const { wallpaperOverlaySlider } = DOM.settings;
-  if (wallpaperOverlaySlider) {
-    const updateSliderProgress = (value: number) => {
-      const progress = (value / 0.8) * 100;
-      wallpaperOverlaySlider.style.setProperty('--slider-progress', `${progress}%`);
-    };
-
-    wallpaperOverlaySlider.value = globalState.current.wallpaperOverlay.toString();
-    updateSliderProgress(globalState.current.wallpaperOverlay);
-
-    wallpaperOverlaySlider.addEventListener('input', (e) => {
-      const target = e.target as HTMLInputElement;
-      const val = parseFloat(target.value);
-      globalState.current.wallpaperOverlay = val;
-      updateSliderProgress(val);
-    });
-    globalState.subscribe((state) => {
-      const isDisabled = !state.wallpaperEnabled || (state.wallpaperProvider === 'upload' && !state.wallpaperImage);
-      wallpaperOverlaySlider.disabled = isDisabled;
-      
-      const sliderGroup = wallpaperOverlaySlider.closest('.slider-group');
-      if (sliderGroup) {
-        if (isDisabled) {
-          sliderGroup.classList.add('disabled');
-        } else {
-          sliderGroup.classList.remove('disabled');
-        }
-      }
-
-      if (wallpaperOverlaySlider.value !== state.wallpaperOverlay.toString()) {
-        wallpaperOverlaySlider.value = state.wallpaperOverlay.toString();
-        updateSliderProgress(state.wallpaperOverlay);
       }
     });
   }

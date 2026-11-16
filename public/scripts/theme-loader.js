@@ -82,26 +82,47 @@
 
       var applyEarlyWallpaper = function (url) {
         if (!url) return Promise.resolve(null);
+        var setBg = function () {
+          var layer = document.getElementById('wallpaperLayer');
+          if (layer) {
+            layer.style.backgroundImage = "url('" + url + "')";
+          }
+        };
+        var showBg = function () {
+          setBg();
+          if (document.body) {
+            requestAnimationFrame(function () {
+              document.body.classList.add('has-wallpaper');
+            });
+          }
+        };
+        if (document.body && document.getElementById('wallpaperLayer')) {
+          setBg();
+        } else {
+          document.addEventListener('DOMContentLoaded', setBg, { once: true });
+        }
         var img = new Image();
         img.src = url;
-        var finalize = function () {
-          var applyDom = function () {
-            var layer = document.getElementById('wallpaperLayer');
-            if (layer) {
-              layer.style.backgroundImage = "url('" + url + "')";
-            }
-            if (document.body) {
-              document.body.classList.add('has-wallpaper');
-            }
-          };
-          if (document.body && document.getElementById('wallpaperLayer')) {
-            applyDom();
+        if (img.complete) {
+          if (document.body) {
+            showBg();
           } else {
-            document.addEventListener('DOMContentLoaded', applyDom, { once: true });
+            document.addEventListener('DOMContentLoaded', showBg, { once: true });
           }
-          return { url: url };
-        };
-        return (img.decode ? img.decode() : Promise.resolve()).then(finalize, finalize);
+          return Promise.resolve({ url: url });
+        }
+        return new Promise(function (resolve) {
+          var done = function () {
+            if (document.body) {
+              showBg();
+            } else {
+              document.addEventListener('DOMContentLoaded', showBg, { once: true });
+            }
+            resolve({ url: url });
+          };
+          img.onload = done;
+          img.onerror = done;
+        });
       };
 
       var provider = settings.wallpaperProvider || 'upload';

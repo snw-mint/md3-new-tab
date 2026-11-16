@@ -110,6 +110,7 @@
 .shortcut-icon {
   width: 1.5rem;
   height: 1.5rem;
+  border-radius: var(--radius-full);
   object-fit: contain;
   opacity: 0;
   transition: opacity 0.2s ease;
@@ -119,6 +120,7 @@
   }
 
   &.fallback-icon {
+    border-radius: 0;
     display: flex;
     justify-content: center;
     align-items: center;

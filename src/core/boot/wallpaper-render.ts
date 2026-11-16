@@ -188,25 +188,6 @@ export function updateOverlay(sliderValue: number, isEnabled: boolean, inverted:
   }
 }
 
-export function isWallpaperCacheValid(type: string): boolean {
-  const cacheKey = `wallpaper_cache_${type}`;
-  const today = new Date().toISOString().slice(0, 10);
-  try {
-    const cached = getWallpaperCache(cacheKey) as WallpaperCacheQueue | null;
-    return !!(
-      cached &&
-      cached.date === today &&
-      Array.isArray(cached.items) &&
-      cached.items.length > 0 &&
-      cached.currentIndex >= 0 &&
-      cached.items[cached.currentIndex] &&
-      cached.items[cached.currentIndex].url
-    );
-  } catch {
-    return false;
-  }
-}
-
 export function hideCredits(): void {
   const creditsDiv = document.getElementById('wallpaperCredits');
   if (creditsDiv) {
@@ -306,8 +287,6 @@ export function clearWallpaper(): void {
     wallpaperLayer.style.backgroundImage = 'none';
   }
   document.body.classList.remove('has-wallpaper');
-  const earlyStyle = document.getElementById('early-wallpaper-style');
-  if (earlyStyle) earlyStyle.remove();
   updateOverlay(0, false, false);
   hideCredits();
 }
@@ -323,6 +302,8 @@ export async function bootWallpaper(
     clearWallpaper();
     return;
   }
+
+  updateOverlay(overlay, true, inverted);
 
   let url = '';
   let appliedEarly = false;
@@ -363,13 +344,14 @@ export async function bootWallpaper(
   }
 
   if (url) {
-    updateOverlay(overlay, true, inverted);
     if (!appliedEarly) {
       const wallpaperLayer = document.getElementById('wallpaperLayer');
       if (wallpaperLayer) {
         wallpaperLayer.style.backgroundImage = `url('${url}')`;
       }
-      document.body.classList.add('has-wallpaper');
+      requestAnimationFrame(() => {
+        document.body.classList.add('has-wallpaper');
+      });
     }
 
     if (provider !== 'upload') {
@@ -377,6 +359,8 @@ export async function bootWallpaper(
     } else {
       hideCredits();
     }
+  } else if (provider === 'upload' && !image) {
+    clearWallpaper();
   } else if (provider === 'upload') {
     clearWallpaper();
   }
