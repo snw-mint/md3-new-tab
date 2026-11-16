@@ -6,7 +6,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { recordSearch } from '../boot/frequent-searches';
+import { recordSearch } from './frequent-searches';
 import { t } from '../shared/i18n';
 
 interface AskAiOptions {

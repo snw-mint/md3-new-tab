@@ -22,7 +22,7 @@ export function initSearchEngineDropdown(): void {
       const engineKey = target.getAttribute('data-engine');
       if (engineKey && engines[engineKey]) {
         setSavedEngine(engineKey);
-        applyEngineToForm(engineKey);
+        applyEngineToForm(engineKey, engines[engineKey].icon);
         engineDropdown.classList.remove('active');
       }
     });

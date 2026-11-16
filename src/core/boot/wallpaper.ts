@@ -1,17 +1,14 @@
-/*
- * MD3: Expressive New Tab
- * Copyright (c) 2026 SnowMint
- * Licensed under the GNU General Public License v3.0 (GPL-3.0)
- * You should have received a copy of the GNU General Public License along with this program.
- * If not, see <https://www.gnu.org/licenses/>.
- */
-
 import { DOM } from '../shared/dom-refs';
 import { globalState } from '../shared/state';
-import { bootWallpaper, extractDominantColor, updateOverlay } from './wallpaper-render';
-import { WallpaperEngine } from '../lazy/wallpaper-engine';
+import {
+  bootWallpaper,
+  clearWallpaper,
+  extractDominantColor,
+  setTrackedWallpaperObjectUrl,
+  updateOverlay,
+} from './wallpaper-render';
 
-async function compressImageToWebP(file: File): Promise<{ dataUrl: string; dominantColor: string }> {
+async function compressImageToWebP(file: File): Promise<{ blob: Blob; dominantColor: string }> {
   return new Promise((resolve, reject) => {
     const url = URL.createObjectURL(file);
     const img = new Image();
@@ -49,9 +46,19 @@ async function compressImageToWebP(file: File): Promise<{ dataUrl: string; domin
       ctx.fillStyle = '#000000';
       ctx.fillRect(0, 0, width, height);
       ctx.drawImage(img, 0, 0, width, height);
-      const dataUrl = canvas.toDataURL('image/webp', 0.85);
       const dominantColor = extractDominantColor(img);
-      resolve({ dataUrl, dominantColor });
+
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) {
+            reject(new Error('Failed to encode image as WebP'));
+            return;
+          }
+          resolve({ blob, dominantColor });
+        },
+        'image/webp',
+        0.85,
+      );
     };
 
     img.onerror = () => {
@@ -64,8 +71,14 @@ async function compressImageToWebP(file: File): Promise<{ dataUrl: string; domin
 }
 
 export function initWallpaper(): void {
-  const { wallpaperUploadBtn, wallpaperFileInput, wallpaperAddIcon, wallpaperRemoveIcon, wallpaperLayer, wallpaperUploadWrapper } =
-    DOM.settings;
+  const {
+    wallpaperUploadBtn,
+    wallpaperFileInput,
+    wallpaperAddIcon,
+    wallpaperRemoveIcon,
+    wallpaperLayer,
+    wallpaperUploadWrapper,
+  } = DOM.settings;
 
   if (!wallpaperUploadBtn || !wallpaperFileInput || !wallpaperAddIcon || !wallpaperRemoveIcon || !wallpaperLayer) {
     return;
@@ -81,12 +94,14 @@ export function initWallpaper(): void {
 
   const initialIsUpload = (globalState.current.wallpaperProvider || 'upload') === 'upload';
   if (globalState.current.wallpaperEnabled && !initialIsUpload) {
-    WallpaperEngine.render({
-      enabled: true,
-      provider: globalState.current.wallpaperProvider || 'upload',
-      image: globalState.current.wallpaperImage,
-      overlay: globalState.current.wallpaperOverlay,
-      inverted: globalState.current.wallpaperOverlayInverted,
+    import('../lazy/wallpaper-engine').then(({ WallpaperEngine }) => {
+      WallpaperEngine.render({
+        enabled: true,
+        provider: globalState.current.wallpaperProvider || 'upload',
+        image: globalState.current.wallpaperImage,
+        overlay: globalState.current.wallpaperOverlay,
+        inverted: globalState.current.wallpaperOverlayInverted,
+      });
     });
   }
 
@@ -105,8 +120,10 @@ export function initWallpaper(): void {
         wallpaperAddIcon.style.display = 'none';
         wallpaperRemoveIcon.style.display = '';
 
-        wallpaperLayer.style.backgroundImage = `url(${state.wallpaperImage})`;
-        document.body.classList.add('has-wallpaper');
+        if (state.wallpaperImage.startsWith('data:') || state.wallpaperImage.startsWith('blob:')) {
+          wallpaperLayer.style.backgroundImage = `url(${state.wallpaperImage})`;
+          document.body.classList.add('has-wallpaper');
+        }
       } else {
         wallpaperUploadBtn.classList.remove('active-state');
         wallpaperAddIcon.style.display = '';
@@ -118,21 +135,30 @@ export function initWallpaper(): void {
       }
     }
 
-    if (
-      state.wallpaperProvider !== lastProvider ||
-      state.wallpaperEnabled !== lastEnabled
-    ) {
+    if (state.wallpaperProvider !== lastProvider || state.wallpaperEnabled !== lastEnabled) {
+      const enabledJustTurnedOn = !lastEnabled && state.wallpaperEnabled;
+      const switchedToUpload = lastProvider !== 'upload' && isUpload;
       lastProvider = state.wallpaperProvider || 'upload';
       lastEnabled = state.wallpaperEnabled;
 
       if (!isUpload || !state.wallpaperEnabled) {
-        WallpaperEngine.render({
-          enabled: state.wallpaperEnabled,
-          provider: state.wallpaperProvider || 'upload',
-          image: state.wallpaperImage,
-          overlay: state.wallpaperOverlay,
-          inverted: state.wallpaperOverlayInverted,
+        import('../lazy/wallpaper-engine').then(({ WallpaperEngine }) => {
+          WallpaperEngine.render({
+            enabled: state.wallpaperEnabled,
+            provider: state.wallpaperProvider || 'upload',
+            image: state.wallpaperImage,
+            overlay: state.wallpaperOverlay,
+            inverted: state.wallpaperOverlayInverted,
+          });
         });
+      } else if (enabledJustTurnedOn || switchedToUpload) {
+        bootWallpaper(
+          state.wallpaperEnabled,
+          'upload',
+          state.wallpaperImage,
+          state.wallpaperOverlay,
+          state.wallpaperOverlayInverted,
+        );
       }
     }
 
@@ -145,6 +171,8 @@ export function initWallpaper(): void {
   wallpaperUploadBtn.addEventListener('click', () => {
     if (globalState.current.wallpaperImage) {
       globalState.current.wallpaperImage = '';
+      clearWallpaper();
+      import('../lazy/wallpaper-storage').then(({ deleteWallpaperFromDB }) => deleteWallpaperFromDB());
     } else {
       wallpaperFileInput.click();
     }
@@ -161,9 +189,17 @@ export function initWallpaper(): void {
       wallpaperUploadBtn.style.opacity = '0.7';
       wallpaperUploadBtn.style.pointerEvents = 'none';
 
-      const { dataUrl, dominantColor } = await compressImageToWebP(file);
-      globalState.current.wallpaperImage = dataUrl;
+      const { blob, dominantColor } = await compressImageToWebP(file);
+      const { saveWallpaperToDB } = await import('../lazy/wallpaper-storage');
+      await saveWallpaperToDB(blob);
+
+      const blobUrl = URL.createObjectURL(blob);
+      setTrackedWallpaperObjectUrl(blobUrl);
+      wallpaperLayer.style.backgroundImage = `url('${blobUrl}')`;
+      document.body.classList.add('has-wallpaper');
+
       globalState.current.wallpaperColor = dominantColor;
+      globalState.current.wallpaperImage = 'idb';
     } catch (error) {
       console.error('Failed to compress and save wallpaper:', error);
       alert('Failed to process image. It might be too large or corrupted.');

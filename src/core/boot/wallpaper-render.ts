@@ -1,13 +1,87 @@
-/*
- * MD3: Expressive New Tab
- * Copyright (c) 2026 SnowMint
- * Licensed under the GNU General Public License v3.0 (GPL-3.0)
- * You should have received a copy of the GNU General Public License along with this program.
- * If not, see <https://www.gnu.org/licenses/>.
- */
-
 import { WallpaperProvider, WallpaperCacheQueue } from '../shared/types';
-import { getWallpaperCache } from '../shared/state';
+import { globalState, getWallpaperCache } from '../shared/state';
+
+export const WALLPAPER_DB_NAME = 'MD3NewTabDB';
+const WALLPAPER_DB_VERSION = 1;
+export const WALLPAPER_STORE_NAME = 'wallpapers';
+
+let dbPromise: Promise<IDBDatabase> | null = null;
+let currentWallpaperObjectUrl: string | null = null;
+
+export function setTrackedWallpaperObjectUrl(nextUrl: string | null): void {
+  if (currentWallpaperObjectUrl && currentWallpaperObjectUrl !== nextUrl) {
+    URL.revokeObjectURL(currentWallpaperObjectUrl);
+  }
+  currentWallpaperObjectUrl = nextUrl && nextUrl.startsWith('blob:') ? nextUrl : null;
+}
+
+export function openWallpaperDB(): Promise<IDBDatabase> {
+  if (dbPromise) return dbPromise;
+  dbPromise = new Promise((resolve, reject) => {
+    const request = indexedDB.open(WALLPAPER_DB_NAME, WALLPAPER_DB_VERSION);
+
+    request.onupgradeneeded = (event) => {
+      const db = (event.target as IDBOpenDBRequest).result;
+      if (!db.objectStoreNames.contains(WALLPAPER_STORE_NAME)) {
+        db.createObjectStore(WALLPAPER_STORE_NAME);
+      }
+    };
+
+    request.onsuccess = (event) => {
+      const db = (event.target as IDBOpenDBRequest).result;
+      db.onclose = () => {
+        dbPromise = null;
+      };
+      resolve(db);
+    };
+
+    request.onerror = (event) => {
+      dbPromise = null;
+      const errorMsg = (event.target as IDBOpenDBRequest).error?.name || 'UnknownError';
+      reject('Error opening database: ' + errorMsg);
+    };
+  });
+  return dbPromise;
+}
+
+export async function getWallpaperFromDB(keyName = 'custom_wallpaper'): Promise<Blob | null> {
+  try {
+    const db = await openWallpaperDB();
+
+    const blob = await new Promise<Blob | null>((resolve, reject) => {
+      const transaction = db.transaction([WALLPAPER_STORE_NAME], 'readonly');
+      const store = transaction.objectStore(WALLPAPER_STORE_NAME);
+      const request = store.get(keyName);
+
+      request.onsuccess = (event) => resolve((event.target as IDBRequest<Blob | undefined>).result ?? null);
+      request.onerror = () => reject(new Error('Error reading from DB'));
+    });
+
+    if (blob) {
+      return blob;
+    }
+
+    if (keyName === 'custom_wallpaper') {
+      const legacyBase64 = globalState.current.wallpaperImage;
+      if (legacyBase64 && legacyBase64.startsWith('data:image/')) {
+        const res = await fetch(legacyBase64);
+        const migratedBlob = await res.blob();
+        await new Promise<void>((resolve) => {
+          const tx = db.transaction([WALLPAPER_STORE_NAME], 'readwrite');
+          tx.objectStore(WALLPAPER_STORE_NAME).put(migratedBlob, 'custom_wallpaper');
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => resolve();
+        });
+        globalState.current.wallpaperImage = 'idb';
+        return migratedBlob;
+      }
+    }
+
+    return null;
+  } catch {
+    return null;
+  }
+}
 
 export function extractDominantColor(img: HTMLImageElement): string {
   const canvas = document.createElement('canvas');
@@ -219,11 +293,14 @@ export function showCredits(provider: WallpaperProvider): void {
 }
 
 export function clearWallpaper(): void {
+  setTrackedWallpaperObjectUrl(null);
   const wallpaperLayer = document.getElementById('wallpaperLayer');
   if (wallpaperLayer) {
     wallpaperLayer.style.backgroundImage = 'none';
   }
   document.body.classList.remove('has-wallpaper');
+  const earlyStyle = document.getElementById('early-wallpaper-style');
+  if (earlyStyle) earlyStyle.remove();
   updateOverlay(0, false, false);
   hideCredits();
 }
@@ -241,27 +318,52 @@ export async function bootWallpaper(
   }
 
   let url = '';
-  if (provider === 'upload') {
-    url = image || '';
-  } else {
-    const cacheKey = `wallpaper_cache_${provider}`;
+  let appliedEarly = false;
+
+  const earlyPromise = (window as any).__earlyWallpaperPromise as Promise<{ url: string } | null> | undefined;
+  if (earlyPromise) {
     try {
-      const queue = getWallpaperCache(cacheKey) as WallpaperCacheQueue | null;
-      const today = new Date().toISOString().slice(0, 10);
-      if (queue && queue.date === today && Array.isArray(queue.items) && queue.currentIndex >= 0) {
-        const item = queue.items[queue.currentIndex];
-        if (item && item.url) url = item.url;
+      const earlyResult = await earlyPromise;
+      if (earlyResult && earlyResult.url) {
+        url = earlyResult.url;
+        appliedEarly = true;
+        setTrackedWallpaperObjectUrl(url);
       }
     } catch {}
+    delete (window as any).__earlyWallpaperPromise;
+  }
+
+  if (!url) {
+    if (provider === 'upload') {
+      if (image) {
+        const blob = await getWallpaperFromDB('custom_wallpaper');
+        if (blob) {
+          url = URL.createObjectURL(blob);
+          setTrackedWallpaperObjectUrl(url);
+        }
+      }
+    } else {
+      const cacheKey = `wallpaper_cache_${provider}`;
+      try {
+        const queue = getWallpaperCache(cacheKey) as WallpaperCacheQueue | null;
+        const today = new Date().toISOString().slice(0, 10);
+        if (queue && queue.date === today && Array.isArray(queue.items) && queue.currentIndex >= 0) {
+          const item = queue.items[queue.currentIndex];
+          if (item && item.url) url = item.url;
+        }
+      } catch {}
+    }
   }
 
   if (url) {
     updateOverlay(overlay, true, inverted);
-    const wallpaperLayer = document.getElementById('wallpaperLayer');
-    if (wallpaperLayer) {
-      wallpaperLayer.style.backgroundImage = `url('${url}')`;
+    if (!appliedEarly) {
+      const wallpaperLayer = document.getElementById('wallpaperLayer');
+      if (wallpaperLayer) {
+        wallpaperLayer.style.backgroundImage = `url('${url}')`;
+      }
+      document.body.classList.add('has-wallpaper');
     }
-    document.body.classList.add('has-wallpaper');
 
     if (provider !== 'upload') {
       showCredits(provider);

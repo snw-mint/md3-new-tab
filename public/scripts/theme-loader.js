@@ -1,11 +1,3 @@
-/*
- * MD3: Expressive New Tab
- * Copyright (c) 2026 SnowMint
- * Licensed under the GNU General Public License v3.0 (GPL-3.0)
- * You should have received a copy of the GNU General Public License along with this program.
- * If not, see <https://www.gnu.org/licenses/>.
- */
-
 (function () {
   var root = document.documentElement;
 
@@ -38,18 +30,18 @@
   try {
     var settings = JSON.parse(localStorage.getItem('ent_global_settings') || '{}');
     var maxRows = parseInt(settings.shortcutsRows || '1', 10) || 1;
-    
+
     var shortcutsStr = localStorage.getItem('ent_shortcuts');
     var shortcutsCount = 7;
     if (shortcutsStr) {
       try {
         shortcutsCount = JSON.parse(shortcutsStr).length;
-      } catch(e) {}
+      } catch (e) {}
     }
-    
+
     var totalRenderedItems = shortcutsCount < maxRows * 10 ? shortcutsCount + 1 : maxRows * 10;
     var actualRows = Math.ceil(totalRenderedItems / 10) || 1;
-    
+
     root.style.setProperty('--shortcuts-reserved-rows', String(actualRows));
 
     if (settings.shortcutsEnabled === false) {
@@ -68,6 +60,90 @@
 
     if (settings.hideGoogleShortcuts === true) {
       root.setAttribute('data-hide-google-shortcuts', 'true');
+    }
+
+    if (settings.wallpaperEnabled === true) {
+      var rawOverlay = Number(settings.wallpaperOverlay);
+      if (isNaN(rawOverlay)) rawOverlay = 0.3;
+      if (rawOverlay > 1) rawOverlay = rawOverlay / 100;
+      root.style.setProperty('--wallpaper-overlay', String(rawOverlay));
+      if (settings.wallpaperOverlayInverted) {
+        root.classList.add('invert-overlay');
+      }
+
+      var applyEarlyWallpaper = function (url) {
+        if (!url) return Promise.resolve(null);
+        var img = new Image();
+        img.src = url;
+        var finalize = function () {
+          var applyDom = function () {
+            var layer = document.getElementById('wallpaperLayer');
+            if (layer) {
+              layer.style.backgroundImage = "url('" + url + "')";
+            }
+            if (document.body) {
+              document.body.classList.add('has-wallpaper');
+            }
+          };
+          if (document.body && document.getElementById('wallpaperLayer')) {
+            applyDom();
+          } else {
+            document.addEventListener('DOMContentLoaded', applyDom, { once: true });
+          }
+          return { url: url };
+        };
+        return (img.decode ? img.decode() : Promise.resolve()).then(finalize, finalize);
+      };
+
+      var provider = settings.wallpaperProvider || 'upload';
+      if (provider === 'upload' && settings.wallpaperImage) {
+        window.__earlyWallpaperPromise = new Promise(function (resolve) {
+          try {
+            var req = indexedDB.open('MD3NewTabDB', 1);
+            req.onerror = function () {
+              resolve(null);
+            };
+            req.onsuccess = function (e) {
+              var db = e.target.result;
+              if (!db.objectStoreNames.contains('wallpapers')) {
+                resolve(null);
+                return;
+              }
+              var tx = db.transaction(['wallpapers'], 'readonly');
+              var store = tx.objectStore('wallpapers');
+              var getReq = store.get('custom_wallpaper');
+              getReq.onerror = function () {
+                resolve(null);
+              };
+              getReq.onsuccess = function () {
+                var blob = getReq.result;
+                if (blob) {
+                  applyEarlyWallpaper(URL.createObjectURL(blob)).then(resolve);
+                } else {
+                  resolve(null);
+                }
+              };
+            };
+          } catch (err) {
+            resolve(null);
+          }
+        });
+      } else if (provider !== 'upload') {
+        try {
+          var queue = JSON.parse(localStorage.getItem('wallpaper_cache_' + provider) || 'null');
+          var today = new Date().toISOString().slice(0, 10);
+          if (
+            queue &&
+            queue.date === today &&
+            Array.isArray(queue.items) &&
+            queue.currentIndex >= 0 &&
+            queue.items[queue.currentIndex] &&
+            queue.items[queue.currentIndex].url
+          ) {
+            window.__earlyWallpaperPromise = applyEarlyWallpaper(queue.items[queue.currentIndex].url);
+          }
+        } catch (err) {}
+      }
     }
   } catch (e) {}
 

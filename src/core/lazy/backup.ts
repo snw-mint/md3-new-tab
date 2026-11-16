@@ -7,8 +7,8 @@
  */
 
 import { globalState } from '../shared/state';
-import { showSnackbar } from './snackbar';
-import { showWarningModal } from './modals';
+import { showSnackbar } from '../ui/snackbar';
+import { showWarningModal } from '../ui/modals';
 
 function isValidBackupPayload(data: unknown): boolean {
   if (!data || typeof data !== 'object' || Array.isArray(data)) {
@@ -26,11 +26,6 @@ function isValidBackupPayload(data: unknown): boolean {
 }
 
 export function initBackupSystem(): void {
-  if (sessionStorage.getItem('md3_settings_restored') === 'true') {
-    showSnackbar({ text: chrome.i18n.getMessage('snackbarSettingsRestored'), duration: 4000 });
-    sessionStorage.removeItem('md3_settings_restored');
-  }
-
   const exportBtn = document.getElementById('exportBtn');
   const importBtn = document.getElementById('importBtn');
   const importInput = document.getElementById('importInput') as HTMLInputElement | null;

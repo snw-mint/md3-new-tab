@@ -1,13 +1,7 @@
-/*
- * MD3: Expressive New Tab
- * Copyright (c) 2026 SnowMint
- * Licensed under the GNU General Public License v3.0 (GPL-3.0)
- * You should have received a copy of the GNU General Public License along with this program.
- * If not, see <https://www.gnu.org/licenses/>.
- */
-
-import { hexFromArgb, argbFromHex, Scheme, Hct } from '@material/material-color-utilities';
 import { globalState } from '../shared/state';
+
+const DEFAULT_PALETTE = 'expressive';
+const DEFAULT_COLOR = '#65558F';
 
 export function updateFavicon(): void {
   const root = document.documentElement;
@@ -30,39 +24,57 @@ export function updateFavicon(): void {
   }
 }
 
-const PREDEFINED_SOURCES: Record<string, string> = {
-  default: '#0B57D0',
-  expressive: '#65558F',
-  leaf: '#518242',
-  gold: '#797A1E',
-  sun: '#D87739',
-  candy: '#B90063',
-  love: '#C0001B',
-};
-
 class PaletteManager {
   private buttons: NodeListOf<HTMLButtonElement>;
-  private storageKey: string = 'ent_selected_palette';
-  private customColorKey: string = 'ent_custom_color';
+  private storageKey = 'ent_selected_palette';
+  private customColorKey = 'ent_custom_color';
+  private lastAppliedSig: string | null = null;
+  private pickerInitialized = false;
 
   constructor() {
     this.buttons = document.querySelectorAll<HTMLButtonElement>('.color-circle-btn[data-palette]');
     this.init();
-    this.initColorPicker();
+    this.initColorPickerTrigger();
+  }
+
+  private getSignature(paletteId: string, color: string): string {
+    const surfaceTint = localStorage.getItem('ent_surface_tint') ?? 'm3';
+    return `${paletteId}:${paletteId === 'wallpaper' || paletteId === 'custom' ? color : ''}:${surfaceTint}`;
+  }
+
+  private isCacheValid(sig: string): boolean {
+    return (
+      Boolean(localStorage.getItem('ent_cached_palette_vars')) &&
+      localStorage.getItem('ent_cached_palette_sig') === sig
+    );
+  }
+
+  private async applyTheme(paletteId: string, customColorHex: string): Promise<void> {
+    const sig = this.getSignature(paletteId, customColorHex);
+    this.updateActiveUI(paletteId);
+
+    if (this.lastAppliedSig === sig || this.isCacheValid(sig)) {
+      this.lastAppliedSig = sig;
+      document.documentElement.setAttribute('data-palette', paletteId);
+      updateFavicon();
+      return;
+    }
+
+    const { applyDynamicPalette } = await import('../lazy/palette-engine');
+    applyDynamicPalette(paletteId, customColorHex, sig);
+    this.lastAppliedSig = sig;
+    setTimeout(() => updateFavicon(), 0);
   }
 
   private init(): void {
     globalState.subscribe((state) => {
       if (state.colorFromWallpaper && state.wallpaperEnabled && state.wallpaperColor) {
-        this.processTheme('wallpaper', state.wallpaperColor);
-        this.updateActiveUI('wallpaper');
+        void this.applyTheme('wallpaper', state.wallpaperColor);
       } else {
-        const savedPalette = localStorage.getItem(this.storageKey) || 'expressive';
-        const savedCustomColor = localStorage.getItem(this.customColorKey) || PREDEFINED_SOURCES['expressive'];
-        this.processTheme(savedPalette, savedCustomColor);
-        this.updateActiveUI(savedPalette);
+        const savedPalette = localStorage.getItem(this.storageKey) || DEFAULT_PALETTE;
+        const savedCustomColor = localStorage.getItem(this.customColorKey) || DEFAULT_COLOR;
+        void this.applyTheme(savedPalette, savedCustomColor);
       }
-      updateFavicon();
     });
 
     this.buttons.forEach((btn) => {
@@ -72,200 +84,77 @@ class PaletteManager {
 
         if (palette && palette !== 'custom') {
           globalState.current.colorFromWallpaper = false;
-          
-          const customColor = localStorage.getItem(this.customColorKey) || PREDEFINED_SOURCES['expressive'];
-          this.processTheme(palette, customColor);
-          this.updateActiveUI(palette);
+          const customColor = localStorage.getItem(this.customColorKey) || DEFAULT_COLOR;
           localStorage.setItem(this.storageKey, palette);
+          void this.applyTheme(palette, customColor);
         }
       });
     });
   }
 
-  private initColorPicker(): void {
-    const modal = document.getElementById('customColorModal');
-    const overlay = document.getElementById('colorPickerOverlay');
-    const slider = document.getElementById('hueSlider') as HTMLInputElement;
-    const closeBtn = document.getElementById('closeColorPickerBtn');
+  private initColorPickerTrigger(): void {
     const customBtn = document.getElementById('customColorPickerBtn');
+    if (!customBtn) return;
 
-    if (!modal || !overlay || !slider || !closeBtn || !customBtn) return;
+    const setupColorPicker = async () => {
+      if (this.pickerInitialized) return;
+      this.pickerInitialized = true;
 
-    const toggleModal = (show: boolean) => {
-      if (show) {
-        modal.classList.add('active');
-        overlay.classList.add('active');
+      const modal = document.getElementById('customColorModal');
+      const overlay = document.getElementById('colorPickerOverlay');
+      const slider = document.getElementById('hueSlider') as HTMLInputElement | null;
+      const closeBtn = document.getElementById('closeColorPickerBtn');
+      if (!modal || !overlay || !slider || !closeBtn) return;
+
+      const { getHueFromHex, getHexFromHue } = await import('../lazy/palette-engine');
+
+      const toggleModal = (show: boolean) => {
+        modal.classList.toggle('active', show);
+        overlay.classList.toggle('active', show);
+      };
+
+      const applyHue = (save = false) => {
+        const hue = parseFloat(slider.value);
+        slider.style.setProperty('--current-hue', hue.toString());
+
+        if (save) {
+          const hex = getHexFromHue(hue);
+          localStorage.setItem(this.customColorKey, hex);
+          localStorage.setItem(this.storageKey, 'custom');
+          globalState.current.colorFromWallpaper = false;
+          void this.applyTheme('custom', hex);
+        }
+      };
+
+      const savedCustomColor = localStorage.getItem(this.customColorKey) || '#0B57D0';
+      const initialHue = getHueFromHex(savedCustomColor);
+      slider.value = initialHue.toString();
+      slider.style.setProperty('--current-hue', initialHue.toString());
+
+      closeBtn.addEventListener('click', () => {
+        applyHue(true);
+        toggleModal(false);
+      });
+
+      overlay.addEventListener('click', () => {
+        applyHue(true);
+        toggleModal(false);
+      });
+
+      slider.addEventListener('input', () => applyHue(false));
+      slider.addEventListener('change', () => applyHue(true));
+
+      toggleModal(true);
+    };
+
+    customBtn.addEventListener('click', () => {
+      if (!this.pickerInitialized) {
+        void setupColorPicker();
       } else {
-        modal.classList.remove('active');
-        overlay.classList.remove('active');
+        document.getElementById('customColorModal')?.classList.add('active');
+        document.getElementById('colorPickerOverlay')?.classList.add('active');
       }
-    };
-
-    const applyHue = (save: boolean = false) => {
-      const hue = parseFloat(slider.value);
-      slider.style.setProperty('--current-hue', hue.toString());
-
-      if (save) {
-        const argb = Hct.from(hue, 100, 50).toInt();
-        const hex = hexFromArgb(argb);
-        localStorage.setItem(this.customColorKey, hex);
-        localStorage.setItem(this.storageKey, 'custom');
-        
-        globalState.current.colorFromWallpaper = false;
-        
-        this.processTheme('custom', hex);
-        this.updateActiveUI('custom');
-      }
-    };
-
-    const savedCustomColor = localStorage.getItem(this.customColorKey) || PREDEFINED_SOURCES['default'];
-    const initialHct = Hct.fromInt(argbFromHex(savedCustomColor));
-    slider.value = initialHct.hue.toString();
-    slider.style.setProperty('--current-hue', initialHct.hue.toString());
-
-    customBtn.addEventListener('click', () => toggleModal(true));
-
-    closeBtn.addEventListener('click', () => {
-      applyHue(true);
-      toggleModal(false);
     });
-
-    overlay.addEventListener('click', () => {
-      applyHue(true);
-      toggleModal(false);
-    });
-
-    slider.addEventListener('input', () => applyHue(false));
-    slider.addEventListener('change', () => applyHue(true));
-  }
-
-  private processTheme(palette: string, customColorHex: string): void {
-    let sourceHex = PREDEFINED_SOURCES[palette];
-
-    if (palette === 'wallpaper') {
-      sourceHex = customColorHex;
-    } else if (!sourceHex && palette === 'custom') {
-      sourceHex = customColorHex;
-    } else if (!sourceHex) {
-      sourceHex = PREDEFINED_SOURCES['default'];
-      palette = 'default';
-    }
-
-    const argb = argbFromHex(sourceHex);
-    this.applyDynamicRoles(argb, palette);
-  }
-
-  private applyDynamicRoles(argb: number, paletteId: string): void {
-    const isDefault = paletteId === 'default';
-    const lightScheme = Scheme.light(argb);
-    const darkScheme = Scheme.dark(argb);
-
-    const hctSource = Hct.fromInt(argb);
-    const baseHue = hctSource.hue;
-
-    const root = document.documentElement;
-
-    root.style.setProperty('--sys-primary-light', hexFromArgb(lightScheme.primary));
-    root.style.setProperty('--sys-on-primary-light', hexFromArgb(lightScheme.onPrimary));
-    root.style.setProperty('--sys-primary-container-light', hexFromArgb(lightScheme.primaryContainer));
-    root.style.setProperty('--sys-on-primary-container-light', hexFromArgb(lightScheme.onPrimaryContainer));
-    root.style.setProperty('--sys-secondary-container-light', hexFromArgb(lightScheme.secondaryContainer));
-    root.style.setProperty('--sys-on-secondary-container-light', hexFromArgb(lightScheme.onSecondaryContainer));
-    root.style.setProperty('--sys-tertiary-light', hexFromArgb(lightScheme.tertiary));
-    root.style.setProperty('--sys-on-tertiary-light', hexFromArgb(lightScheme.onTertiary));
-    root.style.setProperty('--sys-tertiary-container-light', hexFromArgb(lightScheme.tertiaryContainer));
-    root.style.setProperty('--sys-on-tertiary-container-light', hexFromArgb(lightScheme.onTertiaryContainer));
-    root.style.setProperty('--sys-error-light', hexFromArgb(lightScheme.error));
-    root.style.setProperty('--sys-on-error-light', hexFromArgb(lightScheme.onError));
-    root.style.setProperty('--sys-surface-variant-light', hexFromArgb(lightScheme.surfaceVariant));
-    root.style.setProperty('--sys-on-surface-variant-light', hexFromArgb(lightScheme.onSurfaceVariant));
-    root.style.setProperty('--sys-background-light', isDefault ? '#ffffff' : hexFromArgb(lightScheme.background));
-    root.style.setProperty(
-      '--sys-surface-light',
-      isDefault ? '#ffffff' : hexFromArgb(Hct.from(baseHue, 4, 98).toInt()),
-    );
-    root.style.setProperty(
-      '--sys-surface-container-light',
-      isDefault ? '#ffffff' : hexFromArgb(Hct.from(baseHue, 4, 94).toInt()),
-    );
-    root.style.setProperty(
-      '--sys-surface-container-highest-light',
-      isDefault ? '#ffffff' : hexFromArgb(Hct.from(baseHue, 4, 90).toInt()),
-    );
-
-    root.style.setProperty('--sys-primary-dark', hexFromArgb(darkScheme.primary));
-    root.style.setProperty('--sys-on-primary-dark', hexFromArgb(darkScheme.onPrimary));
-    root.style.setProperty('--sys-primary-container-dark', hexFromArgb(darkScheme.primaryContainer));
-    root.style.setProperty('--sys-on-primary-container-dark', hexFromArgb(darkScheme.onPrimaryContainer));
-    root.style.setProperty('--sys-secondary-container-dark', hexFromArgb(darkScheme.secondaryContainer));
-    root.style.setProperty('--sys-on-secondary-container-dark', hexFromArgb(darkScheme.onSecondaryContainer));
-    root.style.setProperty('--sys-tertiary-dark', hexFromArgb(darkScheme.tertiary));
-    root.style.setProperty('--sys-on-tertiary-dark', hexFromArgb(darkScheme.onTertiary));
-    root.style.setProperty('--sys-tertiary-container-dark', hexFromArgb(darkScheme.tertiaryContainer));
-    root.style.setProperty('--sys-on-tertiary-container-dark', hexFromArgb(darkScheme.onTertiaryContainer));
-    root.style.setProperty('--sys-error-dark', hexFromArgb(darkScheme.error));
-    root.style.setProperty('--sys-on-error-dark', hexFromArgb(darkScheme.onError));
-
-    root.style.setProperty(
-      '--sys-surface-variant-dark',
-      isDefault ? '#444444' : hexFromArgb(darkScheme.surfaceVariant),
-    );
-    root.style.setProperty('--sys-on-surface-variant-dark', hexFromArgb(darkScheme.onSurfaceVariant));
-    root.style.setProperty('--sys-background-dark', isDefault ? '#282828' : hexFromArgb(darkScheme.background));
-    root.style.setProperty('--sys-surface-dark', isDefault ? '#282828' : hexFromArgb(darkScheme.surface));
-    root.style.setProperty(
-      '--sys-surface-container-dark',
-      isDefault ? '#323232' : hexFromArgb(Hct.from(baseHue, 4, 12).toInt()),
-    );
-    root.style.setProperty(
-      '--sys-surface-container-highest-dark',
-      isDefault ? '#3c3c3c' : hexFromArgb(Hct.from(baseHue, 4, 22).toInt()),
-    );
-
-    root.setAttribute('data-palette', paletteId);
-    setTimeout(() => updateFavicon(), 0);
-
-    const cssVarNames = [
-      '--sys-primary-light',
-      '--sys-on-primary-light',
-      '--sys-primary-container-light',
-      '--sys-on-primary-container-light',
-      '--sys-secondary-container-light',
-      '--sys-on-secondary-container-light',
-      '--sys-tertiary-light',
-      '--sys-on-tertiary-light',
-      '--sys-tertiary-container-light',
-      '--sys-on-tertiary-container-light',
-      '--sys-surface-variant-light',
-      '--sys-on-surface-variant-light',
-      '--sys-background-light',
-      '--sys-surface-light',
-      '--sys-surface-container-light',
-      '--sys-surface-container-highest-light',
-      '--sys-primary-dark',
-      '--sys-on-primary-dark',
-      '--sys-primary-container-dark',
-      '--sys-on-primary-container-dark',
-      '--sys-secondary-container-dark',
-      '--sys-on-secondary-container-dark',
-      '--sys-tertiary-dark',
-      '--sys-on-tertiary-dark',
-      '--sys-tertiary-container-dark',
-      '--sys-on-tertiary-container-dark',
-      '--sys-surface-variant-dark',
-      '--sys-on-surface-variant-dark',
-      '--sys-background-dark',
-      '--sys-surface-dark',
-      '--sys-surface-container-dark',
-      '--sys-surface-container-highest-dark',
-    ];
-    const cache: Record<string, string> = {};
-    const computed = getComputedStyle(root);
-    cssVarNames.forEach((name) => {
-      const val = root.style.getPropertyValue(name) || computed.getPropertyValue(name).trim();
-      if (val) cache[name] = val;
-    });
-    localStorage.setItem('ent_cached_palette_vars', JSON.stringify(cache));
   }
 
   private updateActiveUI(paletteId: string): void {

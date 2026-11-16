@@ -1,26 +1,21 @@
-/*
- * MD3: Expressive New Tab
- * Copyright (c) 2026 SnowMint
- * Licensed under the GNU General Public License v3.0 (GPL-3.0)
- * You should have received a copy of the GNU General Public License along with this program.
- * If not, see <https://www.gnu.org/licenses/>.
- */
-
 import './core/ui/palette';
 import { initSidebarControls, initThemeControls, initSidebarRouter } from './core/ui/sidebar';
 import { bindGlobalEvents } from './core/boot/event-bindings';
 import { initDisplay } from './core/boot/display';
 import { DOM } from './core/shared/dom-refs';
-import { initBackupSystem } from './core/ui/backup';
 import { initWallpaper } from './core/boot/wallpaper';
 import { showSnackbar } from './core/ui/snackbar';
 import { globalState } from './core/shared/state';
 import { getSavedEngine, applyEngineToForm, bindSearchForm } from './core/boot/search';
-import { bindSearchSuggestions } from './core/boot/search-suggestions';
 import { loadTranslations } from './core/shared/i18n';
 
 document.addEventListener('DOMContentLoaded', () => {
   loadTranslations();
+
+  if (sessionStorage.getItem('md3_settings_restored') === 'true') {
+    showSnackbar({ text: chrome.i18n.getMessage('snackbarSettingsRestored'), duration: 4000 });
+    sessionStorage.removeItem('md3_settings_restored');
+  }
 
   const languageSelect = document.getElementById('languageSelect') as HTMLButtonElement | null;
   if (languageSelect) {
@@ -37,22 +32,67 @@ document.addEventListener('DOMContentLoaded', () => {
   initSidebarControls();
   initThemeControls();
   initSidebarRouter();
-  initBackupSystem();
   initWallpaper();
 
+  const settingsBtn = document.getElementById('settingsBtn');
+  if (settingsBtn) {
+    let backupLoaded = false;
+    const loadBackupSystem = () => {
+      if (backupLoaded) return;
+      backupLoaded = true;
+      import('./core/lazy/backup')
+        .then(({ initBackupSystem }) => initBackupSystem())
+        .catch(() => {
+          backupLoaded = false;
+        });
+    };
+    settingsBtn.addEventListener('pointerenter', loadBackupSystem, { once: true });
+    settingsBtn.addEventListener('click', loadBackupSystem, { once: true });
+  }
+
   let searchInitialized = globalState.current.searchEnabled;
-  if (searchInitialized) {
+  let suggestionsBound = false;
+  let decayScheduled = false;
+
+  const initSearchFeatures = () => {
     applyEngineToForm(getSavedEngine());
     bindSearchForm();
-    bindSearchSuggestions();
+
+    if (!decayScheduled) {
+      decayScheduled = true;
+      setTimeout(() => {
+        import('./core/lazy/frequent-searches').then(({ decayFrequentSearches }) => decayFrequentSearches());
+      }, 0);
+    }
+
+    const searchInput = document.getElementById('searchInput') as HTMLInputElement | null;
+    if (searchInput && !suggestionsBound) {
+      let loadingSuggestions = false;
+      const loadSuggestions = () => {
+        if (suggestionsBound || loadingSuggestions) return;
+        loadingSuggestions = true;
+        import('./core/lazy/search-suggestions')
+          .then(({ bindSearchSuggestions }) => {
+            suggestionsBound = true;
+            bindSearchSuggestions();
+          })
+          .catch(() => {
+            loadingSuggestions = false;
+          });
+      };
+      searchInput.addEventListener('focus', loadSuggestions, { once: true });
+      searchInput.addEventListener('input', loadSuggestions, { once: true });
+    }
+  };
+
+  if (searchInitialized) {
+    initSearchFeatures();
   }
 
   globalState.subscribe((state) => {
     if (state.searchEnabled && !searchInitialized) {
       searchInitialized = true;
-      applyEngineToForm(getSavedEngine());
-      bindSearchForm();
-      bindSearchSuggestions();
+      initSearchFeatures();
     }
     document.title = state.customTabName || 'New Tab';
 
@@ -325,7 +365,7 @@ document.addEventListener('DOMContentLoaded', () => {
           priority: 1,
           onAction: () => {
             window.open('https://github.com/snw-mint/md3-new-tab/releases', '_blank');
-          }
+          },
         });
         chrome.storage.local.remove('extension_updated_version');
       }

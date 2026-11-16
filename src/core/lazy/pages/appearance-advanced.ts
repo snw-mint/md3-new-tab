@@ -143,14 +143,24 @@ export function init(container: HTMLElement): void {
       const state = globalState.current;
       let url = state.wallpaperImage;
       if (!url && state.wallpaperProvider !== 'upload') {
-        const cache = getWallpaperCache(`wallpaper_cache_${state.wallpaperProvider}`);
-        if (cache?.url) url = cache.url;
+        const queue = getWallpaperCache(`wallpaper_cache_${state.wallpaperProvider}`);
+        if (queue?.items && queue.currentIndex >= 0 && queue.items[queue.currentIndex]?.url) {
+          url = queue.items[queue.currentIndex].url;
+        }
       }
       if (url) {
-        import('../../boot/wallpaper-render').then(({ extractDominantColorFromUrl }) => {
-          extractDominantColorFromUrl(url).then((color) => {
-            if (color) globalState.current.wallpaperColor = color;
-          });
+        import('../../boot/wallpaper-render').then(async ({ extractDominantColorFromUrl, getWallpaperFromDB }) => {
+          let targetUrl = url;
+          let revokedUrl: string | null = null;
+          if (state.wallpaperProvider === 'upload' && url === 'idb') {
+            const blob = await getWallpaperFromDB('custom_wallpaper');
+            if (!blob) return;
+            revokedUrl = URL.createObjectURL(blob);
+            targetUrl = revokedUrl;
+          }
+          const color = await extractDominantColorFromUrl(targetUrl);
+          if (revokedUrl) URL.revokeObjectURL(revokedUrl);
+          if (color) globalState.current.wallpaperColor = color;
         });
       }
     }

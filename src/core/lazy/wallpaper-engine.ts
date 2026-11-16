@@ -14,7 +14,8 @@ import {
   extractDominantColorFromUrl,
   showCredits,
   hideCredits,
-  isWallpaperCacheValid,
+  getWallpaperFromDB,
+  setTrackedWallpaperObjectUrl,
 } from '../boot/wallpaper-render';
 import { fetchDailyWallpaper } from './providers/wallpaper-apis';
 import {
@@ -158,7 +159,16 @@ export class WallpaperEngine {
     try {
       if (config.provider === 'upload') {
         const img = config.image || globalState.current.wallpaperImage || null;
-        if (img) targetItem = { url: img };
+        if (img === 'idb') {
+          const blob = await getWallpaperFromDB('custom_wallpaper');
+          if (blob) {
+            const blobUrl = URL.createObjectURL(blob);
+            setTrackedWallpaperObjectUrl(blobUrl);
+            targetItem = { url: blobUrl };
+          }
+        } else if (img) {
+          targetItem = { url: img };
+        }
       } else {
         const queue = WallpaperEngine._getQueue(config.provider);
         const needsApiFetch = (!paused || fromTimer) && (queue.items.length === 0 || intervalExpired || fromTimer);

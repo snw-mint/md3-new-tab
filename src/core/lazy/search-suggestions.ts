@@ -161,7 +161,6 @@ export function bindSearchSuggestions(): void {
       const combined: SuggestionItem[] = [];
       const seen = new Set<string>();
 
-      // Add frequent first (up to 2)
       for (const phrase of matchingFrequent) {
         if (!seen.has(phrase)) {
           seen.add(phrase);
@@ -180,6 +179,10 @@ export function bindSearchSuggestions(): void {
       renderSuggestions(suggestionsContainer, combined, searchInput);
     }, 300);
   };
+
+  if (globalState.current.searchSuggestionsEnabled) {
+    handleInput();
+  }
 
   searchInput.addEventListener('input', handleInput);
 
