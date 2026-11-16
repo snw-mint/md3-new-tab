@@ -81,7 +81,7 @@
 .shortcut-card {
   width: 2.8125rem;
   height: 2.8125rem;
-  background-color: var(--color-surface-variant);
+  background-color: var(--color-shortcut-bg);
   border-radius: var(--radius-full);
   display: flex;
   justify-content: center;
@@ -95,14 +95,14 @@
     content: '';
     position: absolute;
     inset: 0;
-    background-color: var(--color-primary);
-    opacity: 0.08;
+    background-color: var(--color-on-surface);
+    opacity: 0;
     transition: opacity 0.2s ease;
   }
 
   &:hover {
     &::before {
-      opacity: 0.12;
+      opacity: 0.08;
     }
   }
 }
@@ -353,7 +353,7 @@
   position: relative;
 
   .shortcut-card {
-    background-color: var(--color-surface-variant);
+    background-color: var(--color-shortcut-bg);
     border-radius: var(--radius-full);
     display: flex;
     justify-content: center;
@@ -371,8 +371,8 @@
     &:hover {
       background-color: color-mix(
         in srgb,
-        var(--color-primary) 12%,
-        var(--color-surface-variant)
+        var(--color-on-surface) 8%,
+        var(--color-shortcut-bg)
       );
     }
   }

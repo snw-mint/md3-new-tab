@@ -39,7 +39,7 @@ class PaletteManager {
   }
 
   private getSignature(paletteId: string, color: string): string {
-    const surfaceTint = localStorage.getItem('ent_surface_tint') ?? 'm3';
+    const surfaceTint = localStorage.getItem('ent_surface_tint') ?? 'chrome';
     return `${paletteId}:${paletteId === 'wallpaper' || paletteId === 'custom' ? color : ''}:${surfaceTint}`;
   }
 

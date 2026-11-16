@@ -570,7 +570,7 @@ body {
 }
 
 .palette-card {
-  background-color: color-mix(in srgb, var(--color-surface-variant) 40%, transparent);
+  background-color: color-mix(in srgb, var(--color-sidebar-inner) 50%, var(--color-sidebar-card));
   border-radius: var(--radius-md);
   padding: 0.5rem;
   display: flex;

@@ -70,7 +70,7 @@ export function applyDynamicPalette(paletteId: string, customColorHex: string, s
   root.style.setProperty('--sys-surface-variant-light', hexFromArgb(lightScheme.surfaceVariant));
   root.style.setProperty('--sys-on-surface-variant-light', hexFromArgb(lightScheme.onSurfaceVariant));
 
-  const profile = SURFACE_PROFILES[localStorage.getItem('ent_surface_tint') ?? 'm3'] ?? SURFACE_PROFILES.m3;
+  const profile = SURFACE_PROFILES[localStorage.getItem('ent_surface_tint') ?? 'chrome'] ?? SURFACE_PROFILES.chrome;
   const n = ([c, t]: Tier) => hexFromArgb(Hct.from(baseHue, c, t).toInt());
   const L = profile.light;
   const D = profile.dark;
@@ -99,11 +99,11 @@ export function applyDynamicPalette(paletteId: string, customColorHex: string, s
     isDefault ? '#444444' : hexFromArgb(darkScheme.surfaceVariant),
   );
   root.style.setProperty('--sys-on-surface-variant-dark', hexFromArgb(darkScheme.onSurfaceVariant));
-  root.style.setProperty('--sys-background-dark', isDefault ? '#282828' : n(D[0]));
-  root.style.setProperty('--sys-surface-dark', isDefault ? '#282828' : n(D[0]));
-  root.style.setProperty('--sys-surface-container-dark', isDefault ? '#323232' : n(D[1]));
-  root.style.setProperty('--sys-surface-container-high-dark', isDefault ? '#373737' : n(D[2]));
-  root.style.setProperty('--sys-surface-container-highest-dark', isDefault ? '#3c3c3c' : n(D[3]));
+  root.style.setProperty('--sys-background-dark', isDefault ? '#3c3c3c' : n(D[0]));
+  root.style.setProperty('--sys-surface-dark', isDefault ? '#3c3c3c' : n(D[0]));
+  root.style.setProperty('--sys-surface-container-dark', isDefault ? '#1f1f1f' : n(D[1]));
+  root.style.setProperty('--sys-surface-container-high-dark', isDefault ? '#242424' : n(D[2]));
+  root.style.setProperty('--sys-surface-container-highest-dark', isDefault ? '#282828' : n(D[3]));
 
   root.setAttribute('data-palette', paletteId);
 
