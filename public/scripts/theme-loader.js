@@ -150,6 +150,10 @@
   try {
     var engineIcon = localStorage.getItem('ent_engine_icon_cache');
     if (engineIcon) {
+      if (engineIcon.indexOf('0 -960 960 960') !== -1 && engineIcon.indexOf('<use') !== -1) {
+        engineIcon = engineIcon.replace('0 -960 960 960', '0 0 24 24');
+        localStorage.setItem('ent_engine_icon_cache', engineIcon);
+      }
       document.addEventListener(
         'DOMContentLoaded',
         function () {

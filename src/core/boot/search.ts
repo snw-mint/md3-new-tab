@@ -40,8 +40,17 @@ export function applyEngineToForm(engineKey: string, iconSvg?: string): void {
     } else {
       const cachedIcon = localStorage.getItem('ent_engine_icon_cache');
       if (cachedIcon) {
+        const normalizedIcon =
+          cachedIcon.includes('0 -960 960 960') && cachedIcon.includes('<use')
+            ? cachedIcon.replace('0 -960 960 960', '0 0 24 24')
+            : cachedIcon;
+        if (normalizedIcon !== cachedIcon) {
+          try {
+            localStorage.setItem('ent_engine_icon_cache', normalizedIcon);
+          } catch {}
+        }
         if (!currentEngineIcon.hasChildNodes()) {
-          currentEngineIcon.innerHTML = cachedIcon;
+          currentEngineIcon.innerHTML = normalizedIcon;
         }
       } else if (engineKey === 'system') {
         currentEngineIcon.innerHTML = SYSTEM_ENGINE_ICON;

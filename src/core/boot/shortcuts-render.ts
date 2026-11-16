@@ -62,18 +62,18 @@ function getShortcutItemTemplate(): HTMLAnchorElement {
     const menuBtn = document.createElement('button');
     menuBtn.className = 'menu-btn';
     menuBtn.title = 'More options';
-    menuBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><use href="#icon-more-vert" /></svg>`;
+    menuBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><use href="#icon-more-vert" /></svg>`;
 
     const dropdown = document.createElement('div');
     dropdown.className = 'shortcut-dropdown';
 
     const editOption = document.createElement('div');
     editOption.className = 'menu-option edit-option';
-    editOption.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><use href="#icon-edit" /></svg><span>${t('editLabel', 'Edit')}</span>`;
+    editOption.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><use href="#icon-edit" /></svg><span>${t('editLabel', 'Edit')}</span>`;
 
     const removeOption = document.createElement('div');
     removeOption.className = 'menu-option remove-option';
-    removeOption.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><use href="#icon-delete" /></svg><span>${t('removeLabel', 'Remove')}</span>`;
+    removeOption.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><use href="#icon-delete" /></svg><span>${t('removeLabel', 'Remove')}</span>`;
 
     dropdown.appendChild(editOption);
     dropdown.appendChild(removeOption);
@@ -519,7 +519,7 @@ export class ShortcutsManager {
     const card = document.createElement('div');
     card.className = 'shortcut-card add-card-btn';
     card.innerHTML = `
-      <svg class="add-icon-plus" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+      <svg class="add-icon-plus" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor">
         <use href="#icon-add" />
       </svg>
     `;

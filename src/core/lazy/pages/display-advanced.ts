@@ -15,7 +15,7 @@ export const template = `<div class="settings-inner-card">
     <div class="settings-back-card">
       <div class="back-card-header">
         <button type="button" class="back-chevron-btn" data-sidebar-back aria-label="Back to Display">
-          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
             <use href="#icon-chevron-left" />
           </svg>
         </button>
@@ -37,8 +37,8 @@ export const template = `<div class="settings-inner-card">
           <label class="md3-checkbox-label">
             <input type="checkbox" id="advGreetingHighlightNameCheckbox" class="md3-checkbox-input" />
             <span class="md3-checkbox-box">
-              <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><use href="#icon-checkbox-off" /></svg>
-              <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><use href="#icon-checkbox-on" /></svg>
+              <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><use href="#icon-checkbox-off" /></svg>
+              <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><use href="#icon-checkbox-on" /></svg>
             </span>
             <span class="checkbox-text" data-i18n="highlightNameLabel">Highlight name</span>
           </label>
@@ -61,7 +61,7 @@ export const template = `<div class="settings-inner-card">
           </template>
         </button>
         <label for="advClockStyleSelect" class="md3-select-label" data-i18n="clockStyleLabel">Clock Style</label>
-        <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+        <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor">
           <use href="#icon-dropdown-arrow" />
         </svg>
       </div>
@@ -70,8 +70,8 @@ export const template = `<div class="settings-inner-card">
         <label class="md3-checkbox-label">
           <input type="checkbox" id="advClock12hFormat" class="md3-checkbox-input" />
           <span class="md3-checkbox-box">
-            <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
-            <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
+            <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><use href="#icon-checkbox-off" /></svg>
+            <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><use href="#icon-checkbox-on" /></svg>
           </span>
           <span class="checkbox-text" data-i18n="clock12hLabel">12h Format</span>
         </label>
@@ -79,8 +79,8 @@ export const template = `<div class="settings-inner-card">
         <label class="md3-checkbox-label">
           <input type="checkbox" id="advClockShowDate" class="md3-checkbox-input" checked />
           <span class="md3-checkbox-box">
-            <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
-            <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
+            <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><use href="#icon-checkbox-off" /></svg>
+            <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><use href="#icon-checkbox-on" /></svg>
           </span>
           <span class="checkbox-text" data-i18n="clockShowDateLabel">Show Date</span>
         </label>
@@ -88,8 +88,8 @@ export const template = `<div class="settings-inner-card">
         <label class="md3-checkbox-label">
           <input type="checkbox" id="advClockExpressiveColor" class="md3-checkbox-input" />
           <span class="md3-checkbox-box">
-            <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
-            <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
+            <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><use href="#icon-checkbox-off" /></svg>
+            <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><use href="#icon-checkbox-on" /></svg>
           </span>
           <span class="checkbox-text" data-i18n="clockExpressiveColorLabel">Expressive Color</span>
         </label>

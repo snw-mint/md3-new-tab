@@ -17,7 +17,7 @@ export const template = `<div class="settings-inner-card">
     <div class="settings-back-card">
       <div class="back-card-header">
         <button type="button" class="back-chevron-btn" data-sidebar-back aria-label="Back to Wallpaper">
-          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
             <use href="#icon-chevron-left" />
           </svg>
         </button>
@@ -41,8 +41,8 @@ export const template = `<div class="settings-inner-card">
           <label class="md3-checkbox-label">
             <input type="checkbox" id="advWallpaperOverlayInverted" class="md3-checkbox-input" />
             <span class="md3-checkbox-box">
-              <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><use href="#icon-checkbox-off" /></svg>
-              <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><use href="#icon-checkbox-on" /></svg>
+              <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><use href="#icon-checkbox-off" /></svg>
+              <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><use href="#icon-checkbox-on" /></svg>
             </span>
             <span style="position: relative; display: inline-flex; align-items: center">
               <span class="checkbox-text" data-i18n="wallpaperOverlayInvertedTitle">Inverted overlay (White)</span>
@@ -61,7 +61,7 @@ export const template = `<div class="settings-inner-card">
             <svg width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M230.389 50.473c62.72-27.24 126.378 36.418 99.138 99.138l-4.504 10.37a75.36 75.36 0 0 0 0 60.038l4.504 10.37c27.24 62.72-36.418 126.378-99.138 99.138l-10.37-4.504a75.36 75.36 0 0 0-60.038 0l-10.37 4.504c-62.72 27.24-126.378-36.418-99.138-99.138l4.504-10.37a75.36 75.36 0 0 0 0-60.038l-4.504-10.37c-27.24-62.72 36.418-126.378 99.138-99.138l10.37 4.504a75.36 75.36 0 0 0 60.038 0z" fill="currentColor"/></svg>
           </span>
           <span class="wallpaper-ctrl-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><use href="#icon-arrow-back" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><use href="#icon-arrow-back" /></svg>
           </span>
         </button>
 
@@ -70,7 +70,7 @@ export const template = `<div class="settings-inner-card">
             <svg width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M338.584 189.998c25.843 48.166 6.318 91.773-43.518 105.063-13.295 49.841-56.902 69.361-105.068 43.523-48.167 25.843-91.773 6.318-105.064-43.518-49.836-13.295-69.361-56.902-43.518-105.068-25.843-48.167-6.318-91.773 43.518-105.064 13.29-49.836 56.897-69.361 105.064-43.518 48.166-25.843 91.773-6.318 105.063 43.518 49.841 13.29 69.361 56.897 43.523 105.064" fill="currentColor"/></svg>
           </span>
           <span class="wallpaper-ctrl-icon" id="advWallpaperPauseIcon">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><use href="#icon-pause" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><use href="#icon-pause" /></svg>
           </span>
         </button>
 
@@ -79,7 +79,7 @@ export const template = `<div class="settings-inner-card">
             <svg width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M230.389 50.473c62.72-27.24 126.378 36.418 99.138 99.138l-4.504 10.37a75.36 75.36 0 0 0 0 60.038l4.504 10.37c27.24 62.72-36.418 126.378-99.138 99.138l-10.37-4.504a75.36 75.36 0 0 0-60.038 0l-10.37 4.504c-62.72 27.24-126.378-36.418-99.138-99.138l4.504-10.37a75.36 75.36 0 0 0 0-60.038l-4.504-10.37c-27.24-62.72 36.418-126.378 99.138-99.138l10.37 4.504a75.36 75.36 0 0 0 60.038 0z" fill="currentColor"/></svg>
           </span>
           <span class="wallpaper-ctrl-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><use href="#icon-arrow-forward" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><use href="#icon-arrow-forward" /></svg>
           </span>
         </button>
       </div>
@@ -99,7 +99,7 @@ export const template = `<div class="settings-inner-card">
           </template>
         </button>
         <label for="advWallpaperIntervalSelect" class="md3-select-label" data-i18n="refreshIntervalLabel">Time</label>
-        <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+        <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor">
           <use href="#icon-dropdown-arrow" />
         </svg>
       </div>
@@ -120,7 +120,7 @@ export const template = `<div class="settings-inner-card">
           </template>
         </button>
         <label for="advWallpaperCountrySelect" class="md3-select-label" data-i18n="wallpaperCountryLabel">Country</label>
-        <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+        <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor">
           <use href="#icon-dropdown-arrow" />
         </svg>
       </div>

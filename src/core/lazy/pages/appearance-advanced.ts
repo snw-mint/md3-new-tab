@@ -14,7 +14,7 @@ export const template = `<div class="settings-inner-card">
     <div class="settings-back-card">
       <div class="back-card-header">
         <button type="button" class="back-chevron-btn" data-sidebar-back aria-label="Back to Appearance">
-          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
             <use href="#icon-chevron-left" />
           </svg>
         </button>
@@ -37,7 +37,7 @@ export const template = `<div class="settings-inner-card">
               </div>
               <span class="tab-title">New Tab</span>
               <div class="tab-close-btn">
-                <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+                <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                   <use href="#icon-close" />
                 </svg>
               </div>
@@ -63,8 +63,8 @@ export const template = `<div class="settings-inner-card">
         <label class="md3-checkbox-label">
           <input type="checkbox" id="advCustomFaviconToggle" class="md3-checkbox-input" />
           <span class="md3-checkbox-box">
-            <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><use href="#icon-checkbox-off" /></svg>
-            <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><use href="#icon-checkbox-on" /></svg>
+            <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><use href="#icon-checkbox-off" /></svg>
+            <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><use href="#icon-checkbox-on" /></svg>
           </span>
           <span class="checkbox-text" data-i18n="customFaviconLabel">Custom favicon</span>
         </label>
@@ -74,8 +74,8 @@ export const template = `<div class="settings-inner-card">
         <label class="md3-checkbox-label">
           <input type="checkbox" id="advHideGoogleShortcutsToggle" class="md3-checkbox-input" />
           <span class="md3-checkbox-box">
-            <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><use href="#icon-checkbox-off" /></svg>
-            <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><use href="#icon-checkbox-on" /></svg>
+            <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><use href="#icon-checkbox-off" /></svg>
+            <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><use href="#icon-checkbox-on" /></svg>
           </span>
           <span class="checkbox-text" data-i18n="hideGoogleShortcutsLabel">Hide Google shortcuts</span>
         </label>
@@ -85,8 +85,8 @@ export const template = `<div class="settings-inner-card">
         <label class="md3-checkbox-label">
           <input type="checkbox" id="advWallpaperColorToggle" class="md3-checkbox-input" />
           <span class="md3-checkbox-box">
-            <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><use href="#icon-checkbox-off" /></svg>
-            <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><use href="#icon-checkbox-on" /></svg>
+            <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><use href="#icon-checkbox-off" /></svg>
+            <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><use href="#icon-checkbox-on" /></svg>
           </span>
           <span class="checkbox-text" data-i18n="colorFromWallpaperLabel">Color from wallpaper</span>
         </label>
