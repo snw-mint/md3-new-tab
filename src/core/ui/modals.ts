@@ -1,14 +1,11 @@
-/*
- * MD3: Expressive New Tab
- * Copyright (c) 2026 SnowMint
- * Licensed under the GNU General Public License v3.0 (GPL-3.0)
- * You should have received a copy of the GNU General Public License along with this program.
- * If not, see <https://www.gnu.org/licenses/>.
- */
-
 import { WarningModalOptions } from '../shared/types';
+import { mountTemplate } from '../shared/dom-units';
 
 export function showWarningModal(options: WarningModalOptions) {
+  if (!document.getElementById('warningModal')) {
+    mountTemplate('tpl-warning-modal');
+  }
+
   const overlay = document.getElementById('warningModal');
   const titleEl = document.getElementById('warning-modal-title');
   const msgEl = document.getElementById('warning-modal-message');

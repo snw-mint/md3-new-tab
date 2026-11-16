@@ -16,7 +16,7 @@ export const template = `<div class="settings-inner-card">
       <div class="back-card-header">
         <button type="button" class="back-chevron-btn" data-sidebar-back aria-label="Back to Display">
           <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
-            <path d="m432-480 156 156q11 11 11 28t-11 28q-11 11-28 11t-28-11L348-452q-6-6-8.5-13t-2.5-15q0-8 2.5-15t8.5-13l184-184q11-11 28-11t28 11q11 11 11 28t-11 28L432-480Z"/>
+            <use href="#icon-chevron-left" />
           </svg>
         </button>
         <span class="back-card-label" data-i18n="displayTitle">Display</span>
@@ -37,8 +37,8 @@ export const template = `<div class="settings-inner-card">
           <label class="md3-checkbox-label">
             <input type="checkbox" id="advGreetingHighlightNameCheckbox" class="md3-checkbox-input" />
             <span class="md3-checkbox-box">
-              <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120zm0-80h560v-560H200z" /></svg>
-              <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="m424-424-86-86q-11-11-28-11t-28 11-11 28 11 28l114 114q12 12 28 12t28-12l226-226q11-11 11-28t-11-28-28-11-28 11zM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120z" /></svg>
+              <svg class="checkbox-inactive" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><use href="#icon-checkbox-off" /></svg>
+              <svg class="checkbox-active" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><use href="#icon-checkbox-on" /></svg>
             </span>
             <span class="checkbox-text" data-i18n="highlightNameLabel">Highlight name</span>
           </label>
@@ -62,7 +62,7 @@ export const template = `<div class="settings-inner-card">
         </button>
         <label for="advClockStyleSelect" class="md3-select-label" data-i18n="clockStyleLabel">Clock Style</label>
         <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-          <path d="M459-381 314-526q-3-3-4.5-6.5T308-540q0-8 5.5-14t14.5-6h304q9 0 14.5 6t5.5 14q0 2-6 14L501-381q-5 5-10 7t-11 2-11-2-10-7" />
+          <use href="#icon-dropdown-arrow" />
         </svg>
       </div>
 

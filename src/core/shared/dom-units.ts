@@ -1,12 +1,16 @@
-/*
- * MD3: Expressive New Tab
- * Copyright (c) 2026 SnowMint
- * Licensed under the GNU General Public License v3.0 (GPL-3.0)
- * You should have received a copy of the GNU General Public License along with this program.
- * If not, see <https://www.gnu.org/licenses/>.
- */
-
 import { AppSettings } from './types';
+import { applyTranslations } from './i18n';
+
+export function mountTemplate(templateId: string, container: HTMLElement = document.body): HTMLElement | null {
+  const tpl = document.getElementById(templateId) as HTMLTemplateElement | null;
+  if (!tpl) return null;
+  const clone = tpl.content.cloneNode(true) as DocumentFragment;
+  applyTranslations(clone);
+  const firstChild = clone.firstElementChild as HTMLElement | null;
+  container.appendChild(clone);
+  tpl.remove();
+  return firstChild;
+}
 
 export const DOMUnits = {
   syncExpandableGroup(

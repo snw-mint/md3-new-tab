@@ -21,7 +21,7 @@ export function t(key: string, fallback?: string): string {
   return fallback !== undefined ? fallback : key;
 }
 
-export function applyTranslations(root: Document | HTMLElement = document) {
+export function applyTranslations(root: Document | HTMLElement | DocumentFragment = document) {
   root.querySelectorAll<HTMLElement>('[data-i18n]').forEach((el) => {
     const key = el.getAttribute('data-i18n');
     if (!key) return;

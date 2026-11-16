@@ -1,4 +1,5 @@
 import { globalState } from '../shared/state';
+import { mountTemplate } from '../shared/dom-units';
 
 const DEFAULT_PALETTE = 'expressive';
 const DEFAULT_COLOR = '#65558F';
@@ -99,6 +100,10 @@ class PaletteManager {
     const setupColorPicker = async () => {
       if (this.pickerInitialized) return;
       this.pickerInitialized = true;
+
+      if (!document.getElementById('customColorModal')) {
+        mountTemplate('tpl-color-picker-modal', document.getElementById('sidebarRootPage') || document.body);
+      }
 
       const modal = document.getElementById('customColorModal');
       const overlay = document.getElementById('colorPickerOverlay');

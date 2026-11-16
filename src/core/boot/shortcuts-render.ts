@@ -9,6 +9,7 @@
 import { globalState } from '../shared/state';
 import { t } from '../shared/i18n';
 import { ShortcutItem } from '../shared/types';
+import { mountTemplate } from '../shared/dom-units';
 
 function sanitizeUrl(url: string | undefined | null): string {
   if (!url) return 'about:blank';
@@ -53,8 +54,8 @@ function sanitizeIconUrl(url: string | undefined | null): string {
   return tr;
 }
 
-const FOLDER_ICON = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h207q16 0 30.5 6t25.5 17l57 57h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160z"/></svg>`;
-const SHORTCUT_ICON = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M318-120q-82 0-140-58t-58-140q0-40 15-76t43-64l105-105q12-12 28.5-12t28.5 12 12 28-12 28L234-401q-17 17-25.5 38.5T200-318q0 49 34.5 83.5T318-200q23 0 45-8.5t39-25.5l105-106q12-11 28-11t28 12 12 28-12 28L458-178q-28 28-64 43t-76 15m50-248q-12-12-12-28.5t12-28.5l167-167q12-12 28.5-12t28.5 12 12 28.5-12 28.5L425-368q-12 12-28.5 12T368-368m252-29q-12-12-12-28t12-28l106-105q17-17 25-38t8-44q0-50-34-85t-84-35q-23 0-44.5 8.5T558-726L453-620q-12 12-28 12t-28-12-12-28.5 12-28.5l105-105q28-28 64-43t76-15q82 0 139.5 58T839-641q0 39-14.5 75T782-502L677-397q-12 12-28.5 12T620-397"/></svg>`;
+const FOLDER_ICON = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><use href="#icon-folder" /></svg>`;
+const SHORTCUT_ICON = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><use href="#icon-link" /></svg>`;
 
 export class ShortcutsManager {
   private container!: HTMLElement;
@@ -75,11 +76,32 @@ export class ShortcutsManager {
   private inputFolderName: HTMLInputElement | null = null;
   private inputFolderIconUrl: HTMLInputElement | null = null;
   private folderModalTitle: HTMLElement | null = null;
+  private modalsInitialized = false;
 
   constructor() {
     this.container = document.getElementById('shortcutsGrid') as HTMLElement;
     this.folderBackWrapper = document.getElementById('folderBackWrapper');
     this.folderBackBtn = document.getElementById('folderBackBtn');
+
+    this.loadShortcuts();
+    this.init();
+
+    globalState.subscribe((state) => {
+      this.updateRows(state.shortcutsRows);
+    });
+  }
+
+  private ensureModalsMounted(): void {
+    if (this.modalsInitialized) return;
+    this.modalsInitialized = true;
+
+    if (!document.getElementById('shortcutModal')) {
+      mountTemplate('tpl-shortcut-modal');
+    }
+    if (!document.getElementById('folderModal')) {
+      mountTemplate('tpl-folder-modal');
+    }
+
     this.modal = document.getElementById('shortcutModal');
     this.form = document.getElementById('shortcutForm') as HTMLFormElement;
     this.inputName = document.getElementById('shortcutName') as HTMLInputElement;
@@ -92,12 +114,7 @@ export class ShortcutsManager {
     this.inputFolderIconUrl = document.getElementById('folderIconUrl') as HTMLInputElement;
     this.folderModalTitle = document.getElementById('folder-modal-title');
 
-    this.loadShortcuts();
-    this.init();
-
-    globalState.subscribe((state) => {
-      this.updateRows(state.shortcutsRows);
-    });
+    this.setupModalEvents();
   }
 
   private init() {
@@ -114,8 +131,6 @@ export class ShortcutsManager {
         this.triggerTransition();
       });
     }
-
-    this.setupModalEvents();
   }
 
   private triggerTransition() {
@@ -276,6 +291,7 @@ export class ShortcutsManager {
   }
 
   private openModal(index: number | null) {
+    this.ensureModalsMounted();
     if (!this.modal || !this.inputName || !this.inputUrl || !this.inputIconUrl || !this.modalTitle) return;
 
     this.editingIndex = index;
@@ -310,6 +326,7 @@ export class ShortcutsManager {
   }
 
   private openFolderModal(index: number | null) {
+    this.ensureModalsMounted();
     if (!this.folderModal || !this.inputFolderName || !this.inputFolderIconUrl || !this.folderModalTitle) return;
 
     this.editingIndex = index;
@@ -681,7 +698,7 @@ export class ShortcutsManager {
     const menuBtn = document.createElement('button');
     menuBtn.className = 'menu-btn';
     menuBtn.title = 'More options';
-    menuBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"/></svg>`;
+    menuBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><use href="#icon-more-vert" /></svg>`;
 
     const dropdown = document.createElement('div');
     dropdown.className = 'shortcut-dropdown';
@@ -690,7 +707,7 @@ export class ShortcutsManager {
     editOption.className = 'menu-option edit-option';
     editOption.dataset.index = index.toString();
     editOption.innerHTML = `
-      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><use href="#icon-edit" /></svg>
       <span>${t('editLabel', 'Edit')}</span>
     `;
 
@@ -698,7 +715,7 @@ export class ShortcutsManager {
     removeOption.className = 'menu-option remove-option';
     removeOption.dataset.index = index.toString();
     removeOption.innerHTML = `
-      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><use href="#icon-delete" /></svg>
       <span>${t('removeLabel', 'Remove')}</span>
     `;
 
@@ -769,7 +786,7 @@ export class ShortcutsManager {
     card.className = 'shortcut-card add-card-btn';
     card.innerHTML = `
       <svg class="add-icon-plus" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
-        <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
+        <use href="#icon-add" />
       </svg>
     `;
 

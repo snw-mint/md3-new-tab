@@ -1,0 +1,123 @@
+<template id="tpl-warning-modal">
+  <div id="warningModal" class="md3-dialog-overlay">
+    <div class="md3-dialog">
+      <h2 id="warning-modal-title" class="md3-dialog-title"></h2>
+      <div class="md3-dialog-content">
+        <p id="warning-modal-message" class="md3-dialog-text"></p>
+      </div>
+
+      <div class="md3-dialog-actions">
+        <button id="warning-btn-cancel" class="md3-text-btn"></button>
+        <button id="warning-btn-confirm" class="md3-filled-btn"></button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template id="tpl-shortcut-modal">
+  <div id="shortcutModal" class="md3-dialog-overlay">
+    <div class="md3-dialog">
+      <h2 id="shortcut-modal-title" class="md3-dialog-title" data-i18n="shortcutAddTitle">Add</h2>
+      <div class="md3-dialog-content">
+        <form id="shortcutForm" class="shortcut-form">
+          <div class="md3-filled-input-wrapper">
+            <input type="text" id="shortcutName" class="md3-filled-input" placeholder=" " />
+            <label for="shortcutName" class="md3-filled-label" data-i18n="shortcutNameLabel">Name</label>
+            <div class="md3-filled-indicator"></div>
+          </div>
+
+          <div class="md3-filled-input-wrapper">
+            <input type="url" id="shortcutUrl" class="md3-filled-input" placeholder=" " required />
+            <label for="shortcutUrl" class="md3-filled-label" data-i18n="shortcutUrlLabel">URL</label>
+            <button type="button" class="clear-input-btn" tabindex="-1">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+                <use href="#icon-clear-circle" />
+              </svg>
+            </button>
+            <svg class="error-icon-svg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+              <use href="#icon-error-circle" />
+            </svg>
+            <div class="md3-filled-indicator"></div>
+          </div>
+
+          <div class="md3-filled-input-wrapper">
+            <input type="url" id="shortcutIconUrl" class="md3-filled-input" placeholder=" " />
+            <label for="shortcutIconUrl" class="md3-filled-label" data-i18n="shortcutIconUrlLabel">Icon URL (optional)</label>
+            <button type="button" class="clear-input-btn" tabindex="-1">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+                <use href="#icon-clear-circle" />
+              </svg>
+            </button>
+            <svg class="error-icon-svg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+              <use href="#icon-error-circle" />
+            </svg>
+            <div class="md3-filled-indicator"></div>
+          </div>
+        </form>
+      </div>
+
+      <div class="md3-dialog-actions">
+        <button type="button" id="shortcut-btn-cancel" class="md3-text-btn" data-i18n="btnCancel">Cancel</button>
+        <button type="submit" form="shortcutForm" id="shortcut-btn-confirm" class="md3-filled-btn" data-i18n="btnSave">Save</button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template id="tpl-folder-modal">
+  <div id="folderModal" class="md3-dialog-overlay">
+    <div class="md3-dialog">
+      <h2 id="folder-modal-title" class="md3-dialog-title" data-i18n="addFolderTitle">Add Folder</h2>
+      <div class="md3-dialog-content">
+        <form id="folderForm" class="shortcut-form">
+          <div class="md3-filled-input-wrapper">
+            <input type="text" id="folderName" class="md3-filled-input" placeholder=" " required />
+            <label for="folderName" class="md3-filled-label" data-i18n="folderNameLabel">Folder name</label>
+            <button type="button" class="clear-input-btn" tabindex="-1">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+                <use href="#icon-clear-circle" />
+              </svg>
+            </button>
+            <div class="md3-filled-indicator"></div>
+          </div>
+
+          <div class="md3-filled-input-wrapper">
+            <input type="url" id="folderIconUrl" class="md3-filled-input" placeholder=" " />
+            <label for="folderIconUrl" class="md3-filled-label" data-i18n="folderIconUrlLabel">Icon URL (optional)</label>
+            <button type="button" class="clear-input-btn" tabindex="-1">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+                <use href="#icon-clear-circle" />
+              </svg>
+            </button>
+            <svg class="error-icon-svg" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+              <use href="#icon-error-circle" />
+            </svg>
+            <div class="md3-filled-indicator"></div>
+          </div>
+        </form>
+      </div>
+
+      <div class="md3-dialog-actions">
+        <button type="button" id="folder-btn-cancel" class="md3-text-btn" data-i18n="btnCancel">Cancel</button>
+        <button type="submit" form="folderForm" id="folder-btn-confirm" class="md3-filled-btn" data-i18n="btnSave">Save</button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template id="tpl-color-picker-modal">
+  <div id="colorPickerOverlay" class="color-picker-overlay"></div>
+  <div id="customColorModal" class="color-picker-modal">
+    <div class="color-picker-header">
+      <span class="color-picker-title" data-i18n="colorPickerTitle">Color picker</span>
+      <button id="closeColorPickerBtn" class="icon-btn" aria-label="Close">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
+          <use href="#icon-close" />
+        </svg>
+      </button>
+    </div>
+    <div class="color-picker-body">
+      <input type="range" id="hueSlider" class="hue-slider" min="0" max="360" value="0" />
+    </div>
+  </div>
+</template>

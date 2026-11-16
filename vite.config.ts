@@ -5,6 +5,40 @@ import manifest from './manifest.json';
 import { transform } from 'esbuild';
 import fs from 'fs';
 
+const htmlPartials = () => ({
+  name: 'html-partials',
+  transformIndexHtml: {
+    order: 'pre' as const,
+    handler(html: string, ctx: any) {
+      const includeRegex = /<include\s+src=["']([^"']+)["']\s*(?:\/>|><\/include>)/gi;
+      let depth = 0;
+      while (includeRegex.test(html) && depth < 10) {
+        html = html.replace(includeRegex, (_match, src) => {
+          const filePath = resolve(__dirname, src);
+          if (fs.existsSync(filePath)) {
+            if (ctx?.server) {
+              ctx.server.watcher.add(filePath);
+            }
+            return fs.readFileSync(filePath, 'utf-8');
+          }
+          console.warn(`[html-partials] File not found: ${filePath}`);
+          return '';
+        });
+        depth++;
+      }
+      return html;
+    },
+  },
+  handleHotUpdate({ file, server }: any) {
+    if (
+      file.endsWith('.html') &&
+      (file.includes(path.normalize('src/html')) || file.includes(path.normalize('src/icons')))
+    ) {
+      server.ws.send({ type: 'full-reload' });
+    }
+  },
+});
+
 const forceScriptToBottom = () => ({
   name: 'force-script-to-bottom',
   enforce: 'post' as const,
@@ -32,7 +66,6 @@ const minifyPostBuild = () => ({
   closeBundle: async () => {
     const outDir = resolve(__dirname, './dist');
 
-    // 1. Minify JSON files in _locales
     const localesDir = path.join(outDir, '_locales');
     if (fs.existsSync(localesDir)) {
       const traverseAndMinifyJson = (dir: string) => {
@@ -55,7 +88,6 @@ const minifyPostBuild = () => ({
       traverseAndMinifyJson(localesDir);
     }
 
-    // 2. Minify manifest.json
     const manifestPath = path.join(outDir, 'manifest.json');
     if (fs.existsSync(manifestPath)) {
       try {
@@ -67,8 +99,7 @@ const minifyPostBuild = () => ({
       }
     }
 
-    // 3. Minify JS files in setup directory (Vite handles and minifies src files automatically)
-    const jsDirs = [path.join(outDir, 'setup')];
+    const jsDirs = [path.join(outDir, 'setup'), path.join(outDir, 'scripts')];
     for (const dir of jsDirs) {
       if (fs.existsSync(dir)) {
         const files = fs.readdirSync(dir);
@@ -90,7 +121,6 @@ const minifyPostBuild = () => ({
       }
     }
 
-    // 4. Minify CSS files in setup directory
     const setupDir = path.join(outDir, 'setup');
     if (fs.existsSync(setupDir)) {
       const files = fs.readdirSync(setupDir);
@@ -111,7 +141,6 @@ const minifyPostBuild = () => ({
       }
     }
 
-    // 5. Minify HTML files: main index.html and setup/setup.html
     const htmlFiles = [
       path.join(outDir, 'index.html'),
       path.join(outDir, 'setup/setup.html'),
@@ -121,10 +150,8 @@ const minifyPostBuild = () => ({
         try {
           let content = fs.readFileSync(fullPath, 'utf-8');
 
-          // Remove comments
           content = content.replace(/<!--[\s\S]*?-->/g, '');
 
-          // Minify inline style tags
           const styleRegex = /(<style[^>]*>)([\s\S]*?)(<\/style>)/gi;
           const styleMatches = [...content.matchAll(styleRegex)];
           for (const match of styleMatches) {
@@ -141,7 +168,6 @@ const minifyPostBuild = () => ({
             }
           }
 
-          // Minify inline script tags
           const scriptRegex = /(<script[^>]*>)([\s\S]*?)(<\/script>)/gi;
           const scriptMatches = [...content.matchAll(scriptRegex)];
           for (const match of scriptMatches) {
@@ -159,7 +185,6 @@ const minifyPostBuild = () => ({
             }
           }
 
-          // Collapse whitespace
           content = content.replace(/\s+/g, ' ');
           content = content.replace(/>\s+</g, '><');
 
@@ -170,7 +195,6 @@ const minifyPostBuild = () => ({
       }
     }
 
-    // 6. Remove README.md from build (root, src/, and _locales/)
     const readmePaths = [
       path.join(outDir, 'README.md'),
       path.join(outDir, 'src/README.md'),
@@ -185,7 +209,7 @@ const minifyPostBuild = () => ({
 });
 
 export default defineConfig({
-  plugins: [crx({ manifest }), forceScriptToBottom(), minifyPostBuild()],
+  plugins: [htmlPartials(), crx({ manifest }), forceScriptToBottom(), minifyPostBuild()],
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),
