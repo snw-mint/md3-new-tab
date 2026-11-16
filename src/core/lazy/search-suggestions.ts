@@ -7,10 +7,8 @@
  */
 
 import { globalState } from '../shared/state';
+import { SEARCH_ICON, FREQUENT_ICON } from '../shared/icons';
 import { getFrequentSearches } from './frequent-searches';
-
-const SEARCH_ICON = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M380-320q-109 0-184.5-75.5T120-580t75.5-184.5T380-840t184.5 75.5T640-580q0 44-14 83t-38 69l224 224q11 11 11 28t-11 28-28 11-28-11L532-372q-30 24-69 38t-83 14m0-80q75 0 127.5-52.5T560-580t-52.5-127.5T380-760t-127.5 52.5T200-580t52.5 127.5T380-400"/></svg>`;
-const FREQUENT_ICON = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M480-120q-126 0-223-76.5T131-392q-4-15 6-27.5t27-14.5q16-2 29 6t18 24q24 90 99 147t170 57q117 0 198.5-81.5T760-480t-81.5-198.5T480-760q-69 0-129 32t-101 88h70q17 0 28.5 11.5T360-600t-11.5 28.5T320-560H160q-17 0-28.5-11.5T120-600v-160q0-17 11.5-28.5T160-800t28.5 11.5T200-760v54q51-64 124.5-99T480-840q75 0 140.5 28.5t114 77 77 114T840-480t-28.5 140.5-77 114-114 77T480-120m40-376 100 100q11 11 11 28t-11 28-28 11-28-11L452-452q-6-6-9-13.5t-3-15.5v-159q0-17 11.5-28.5T480-680t28.5 11.5T520-640z"/></svg>`;
 
 let debounceTimer: number | undefined;
 

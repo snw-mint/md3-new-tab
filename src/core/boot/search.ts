@@ -1,3 +1,5 @@
+import { SEARCH_ICON } from '../shared/icons';
+
 const ENGINE_URLS: Record<string, string> = {
   system: '',
   bing: 'https://www.bing.com/search',
@@ -9,8 +11,7 @@ const ENGINE_URLS: Record<string, string> = {
   kagi: 'https://kagi.com/search',
 };
 
-const SYSTEM_ENGINE_ICON =
-  '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><path d="M380-320q-109 0-184.5-75.5T120-580t75.5-184.5T380-840t184.5 75.5T640-580q0 44-14 83t-38 69l224 224q11 11 11 28t-11 28-28 11-28-11L532-372q-30 24-69 38t-83 14m0-80q75 0 127.5-52.5T560-580t-52.5-127.5T380-760t-127.5 52.5T200-580t52.5 127.5T380-400"/></svg>';
+const SYSTEM_ENGINE_ICON = SEARCH_ICON;
 
 export function getSavedEngine(): string {
   return localStorage.getItem('searchEngine') || 'system';

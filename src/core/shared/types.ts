@@ -81,7 +81,7 @@ export interface WeatherCache {
   data: WeatherApiResponse;
 }
 
-interface GeocodingResult {
+export interface GeocodingResult {
   name: string;
   latitude: number;
   longitude: number;
@@ -92,7 +92,7 @@ interface GeocodingResult {
   admin3?: string;
 }
 
-interface GeocodingResponse {
+export interface GeocodingResponse {
   results?: GeocodingResult[];
 }
 

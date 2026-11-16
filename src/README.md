@@ -2,13 +2,12 @@
 
 ## Entry Points
 
-These three files live at the root of `src/` because they are registered directly as build entry points — either referenced in `manifest.json` or `index.html`. Moving them inside `core/` would break the build.
-
 | File | Role |
 |---|---|
-| `script.ts` | Main page entry point. Orchestrates boot sequence and registers all lazy loaders. |
+| `script.ts` | Main page entry point. Runs two-stage startup (`bootCritical()` and `bootInteractive()`) and registers lazy loaders. |
 | `background.ts` | Service worker entry point, registered in `manifest.json`. |
 | `style.scss` | Global stylesheet entry point, imported by `index.html`. |
+| `public/scripts/theme-loader.js` | Pre-paint `<head>` script restoring cached theme colors, wallpaper preview, and search engine icon. |
 
 ---
 
@@ -20,104 +19,131 @@ src/
 ├── background.ts
 ├── style.scss
 ├── styles/
+├── icons/
+│   └── symbols.html
+├── html/
+│   ├── components/
+│   │   ├── header.html
+│   │   └── settings-sidebar.html
+│   └── templates/
+│       └── modals.html
 └── core/
     ├── shared/
-    │   ├── types.ts
-    │   ├── state.ts
     │   ├── dom-refs.ts
-    │   └── dom-units.ts
+    │   ├── dom-units.ts
+    │   ├── i18n.ts
+    │   ├── icons.ts
+    │   ├── permissions.ts
+    │   ├── state.ts
+    │   └── types.ts
     ├── boot/
     │   ├── display.ts
-    │   ├── weather.ts
+    │   ├── event-bindings.ts
     │   ├── search.ts
     │   ├── shortcuts-render.ts
-    │   └── event-bindings.ts
-    ├── lazy/
-    │   ├── drag-drop.ts
-    │   ├── launcher.ts
-    │   ├── launcher-data.ts
-    │   ├── md3-select.ts
-    │   ├── search-engine-data.ts
-    │   └── search-engine-dropdown.ts
-    └── ui/
-        ├── palette.ts
-        ├── sidebar.ts
-        ├── snackbar.ts
-        ├── modals.ts
-        └── backup.ts
+    │   ├── wallpaper.ts
+    │   ├── wallpaper-render.ts
+    │   └── weather.ts
+    ├── ui/
+    │   ├── modals.ts
+    │   ├── palette.ts
+    │   ├── sidebar-router.ts
+    │   ├── sidebar.ts
+    │   └── snackbar.ts
+    └── lazy/
+        ├── ask-ai.ts
+        ├── backup.ts
+        ├── drag-drop.ts
+        ├── frequent-searches.ts
+        ├── launcher-data.ts
+        ├── launcher.ts
+        ├── md3-select.ts
+        ├── palette-engine.ts
+        ├── search-engine-data.ts
+        ├── search-engine-dropdown.ts
+        ├── search-suggestions.ts
+        ├── shortcuts-modals.ts
+        ├── voice-search.ts
+        ├── wallpaper-engine.ts
+        ├── wallpaper-storage.ts
+        ├── pages/
+        │   ├── appearance-advanced.ts
+        │   ├── display-advanced.ts
+        │   └── wallpaper-advanced.ts
+        └── providers/
+            ├── wallpaper-apis.ts
+            ├── wallpaper-refresh.ts
+            └── weather-api.ts
 ```
+
+---
+
+## HTML Partials & SVG Symbols
+
+Built-in HTML composition handled by `htmlPartials()` in `vite.config.ts`:
+
+| File | Purpose |
+|---|---|
+| `icons/symbols.html` | Unified SVG `<symbol>` sprite referenced via `<use href="#icon-..." />`. |
+| `html/components/header.html` | Top bar, weather widget, app launcher popup shell, and settings trigger. |
+| `html/components/settings-sidebar.html` | Root settings panel markup. |
+| `html/templates/modals.html` | `<template>` definitions cloned lazily via `mountTemplate()` when dialogs are opened. |
 
 ---
 
 ## core/shared
 
-Stateless utilities and data structures with no side effects. Imported by every other layer.
+Stateless helpers, constants, and core state imported across layers.
 
 | Module | Description |
 |---|---|
-| `types.ts` | All shared TypeScript interfaces (`AppSettings`, `CityData`, `WeatherApiResponse`, `LauncherApp`, `SnackbarOptions`, `WarningModalOptions`, etc.). |
-| `state.ts` | Reactive global state powered by a `Proxy`. Persists to `localStorage` on every mutation and notifies all subscribers synchronously. |
-| `dom-refs.ts` | Typed DOM getters grouped by section (`header`, `settings`). Always resolves fresh references to avoid stale element issues. |
-| `dom-units.ts` | DOM helpers for animated collapsible groups (`syncExpandableGroup`, `syncWeatherGroup`). |
+| `dom-refs.ts` | Fresh typed DOM getters grouped by section (`header`, `settings`). |
+| `dom-units.ts` | Collapsible group sync helpers (`syncExpandableGroup`, `syncWeatherGroup`) and `<template>` cloning (`mountTemplate`). |
+| `i18n.ts` | Async translation loader (`loadTranslations`, `applyTranslations`, `t`). |
+| `icons.ts` | Shared `<svg><use ... /></svg>` HTML strings referencing `icons/symbols.html`. |
+| `permissions.ts` | Chrome optional host permission checks and prompts. |
+| `state.ts` | Reactive `Proxy` state syncing mutations to `localStorage` and notifying subscribers. |
+| `types.ts` | Shared TypeScript interfaces (`AppSettings`, `CityData`, `WeatherApiResponse`, `GeocodingResult`, etc.). |
 
 ---
 
 ## core/boot
 
-Modules loaded synchronously at `DOMContentLoaded`. Each one runs exactly once during startup, conditional only on feature flags from the reactive state.
+Critical startup modules executed synchronously during initialization.
 
 | Module | Description |
 |---|---|
-| `display.ts` | Initializes the clock/greetings widget and starts the 1-second interval tick. Subscribes to state changes to switch between display styles. |
-| `weather.ts` | Renders the weather widget on boot if enabled. Fetches weather data from the Open-Meteo API and maps weather codes to icon filenames. |
-| `search.ts` | Applies the saved search engine to the form on boot (`applyEngineToForm`) and binds the native search fallback (`bindSearchForm`). Dropdown initialization is deferred to `lazy/`. |
-| `shortcuts-render.ts` | Contains the `ShortcutsManager` class responsible for rendering, adding, editing, and removing shortcuts. Drag-and-drop is not initialized here — it is injected lazily via the public `initDragDrop()` method. |
-| `event-bindings.ts` | Binds all settings panel controls (toggles, selects, inputs) to the reactive state. Also handles the weather city search flow and the permission modal for the weather feature. Geocoding fetch is handled inline here. |
-
----
-
-## core/lazy
-
-Modules loaded on demand, triggered by user interaction. Vite splits each of these into a separate chunk at build time.
-
-| Module | Loaded when |
-|---|---|
-| `drag-drop.ts` | First `pointerover` on `#shortcutsGrid` or `#launcherGrid`. |
-| `launcher.ts` | First `pointerenter` or `click` on the launcher button. Renders launcher apps and sets up the drag handler for the launcher grid. |
-| `launcher-data.ts` | Loaded together with `launcher.ts`. Contains the static app lists for Google, Microsoft, and Proton providers. |
-| `md3-select.ts` | First `pointerenter` or `click` on any `.md3-select-trigger`. Initializes the custom dropdown popup system. |
-| `search-engine-data.ts` | Loaded together with `search-engine-dropdown.ts`. Contains SVG icons and URLs for all supported search engines. |
-| `search-engine-dropdown.ts` | First `pointerenter` or `click` on `#engineBtn`. Binds click handlers to dropdown items. |
+| `display.ts` | Clock/greetings widget and 1-second timer tick. |
+| `event-bindings.ts` | Settings controls bindings, weather permission flow, and city search wiring (loads `weather-api.ts` lazily). |
+| `search.ts` | Applies saved search engine form action/icon and binds submit fallback. |
+| `shortcuts-render.ts` | Renders shortcuts grid using cached DOM `cloneNode(true)` templates and `DocumentFragment`; delegates modals/drag-drop lazily. |
+| `wallpaper.ts` | Orchestrates boot wallpaper display and delegates refresh/engine work lazily. |
+| `wallpaper-render.ts` | Minimal DOM layer applier for instant wallpaper rendering. |
+| `weather.ts` | Reads fresh cached weather synchronously and only imports `providers/weather-api.ts` when needed. |
 
 ---
 
 ## core/ui
 
-UI components that are always present and initialized at boot, but do not belong to any specific feature domain.
+Persistent chrome and overlay controllers initialized on demand or at startup.
 
 | Module | Description |
 |---|---|
-| `palette.ts` | Manages the Material You color palette. Reads the saved palette from `localStorage`, generates light and dark CSS custom properties via `@material/material-color-utilities`, and handles the custom hue picker modal. Self-initializes on `DOMContentLoaded`. |
-| `sidebar.ts` | Toggles the `sidebar-open` class on `document.body` for the settings panel. Also manages the theme segmented button (light / dark / device). |
-| `snackbar.ts` | Imperative snackbar controller. Exposes `showSnackbar()` and `hideSnackbar()`. Manages an internal timeout to auto-dismiss. |
-| `modals.ts` | Imperative warning dialog controller. Exposes `showWarningModal()` and wires confirm/cancel button handlers dynamically on each call. |
-| `backup.ts` | Export and import of all user settings as a JSON file. Validates the payload structure before restoring. Uses `showWarningModal` for confirmation and `showSnackbar` for feedback. |
+| `modals.ts` | Imperative confirmation/warning modal cloned from `<template>` on first use. |
+| `palette.ts` | Applies cached palette vars immediately and loads `palette-engine.ts` lazily for color generation. |
+| `sidebar.ts` | Opens/closes settings drawer and binds theme segmented controls. |
+| `sidebar-router.ts` | Navigates between main settings and lazy-loaded subpages (`lazy/pages/`). |
+| `snackbar.ts` | Toast notification controller (`showSnackbar`, `hideSnackbar`). |
 
 ---
 
-## Post-build Output
+## core/lazy
 
-After running `npm run build`, Vite emits the following chunks inside `dist/assets/`:
+On-demand chunks split by Vite and loaded upon interaction or cache miss:
 
-| Chunk | Content |
-|---|---|
-| `index.html.js` | Main bundle — all `boot/`, `shared/`, and `ui/` modules bundled together with `script.ts`. |
-| `shortcuts-render.js` | Loaded when shortcuts are enabled and the grid is present. |
-| `drag-drop.js` | Loaded on first pointer interaction with a sortable grid. |
-| `launcher.js` | Loaded on first interaction with the launcher button. |
-| `launcher-data.js` | Loaded together with `launcher.js`. |
-| `md3-select.js` | Loaded on first interaction with any custom select trigger. |
-| `search-engine-dropdown.js` | Loaded on first interaction with the engine button. |
-| `background.ts.js` | Compiled service worker. |
+- **Interactions & Inputs**: `ask-ai.ts`, `drag-drop.ts`, `launcher.ts` (+ `launcher-data.ts`), `md3-select.ts`, `search-engine-dropdown.ts` (+ `search-engine-data.ts`), `search-suggestions.ts` (+ `frequent-searches.ts`), `shortcuts-modals.ts`, `voice-search.ts`, `backup.ts`.
+- **Engines & Storage**: `palette-engine.ts` (`@material/material-color-utilities`), `wallpaper-engine.ts`, `wallpaper-storage.ts` (IndexedDB).
+- **Subpages (`pages/`)**: `appearance-advanced.ts`, `display-advanced.ts`, `wallpaper-advanced.ts`.
+- **Network Providers (`providers/`)**: `wallpaper-apis.ts`, `wallpaper-refresh.ts`, `weather-api.ts` (Open-Meteo weather forecast & geocoding).
 
-The HTML, CSS, JSON, and JS output is minified as a post-build step defined in `vite.config.ts`.
+`vite.config.ts` resolves `<include>` partials during HTML transform and minifies emitted HTML, CSS, JSON, and `dist/scripts/` assets in `closeBundle()`.

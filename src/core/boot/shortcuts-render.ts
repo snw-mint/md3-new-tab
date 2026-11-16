@@ -1,6 +1,7 @@
 import { globalState } from '../shared/state';
 import { t } from '../shared/i18n';
 import { ShortcutItem } from '../shared/types';
+import { FOLDER_ICON, SHORTCUT_ICON } from '../shared/icons';
 
 function sanitizeUrl(url: string | undefined | null): string {
   if (!url) return 'about:blank';
@@ -42,9 +43,6 @@ function sanitizeIconUrl(url: string | undefined | null): string {
 
   return tr;
 }
-
-const FOLDER_ICON = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><use href="#icon-folder" /></svg>`;
-const SHORTCUT_ICON = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor"><use href="#icon-link" /></svg>`;
 
 let shortcutItemTemplate: HTMLAnchorElement | null = null;
 

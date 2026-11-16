@@ -513,14 +513,13 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
         if (!cityAutocompleteList || !cityAutocompletePopup) return;
         
         try {
-          const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=3&language=en&format=json`;
-          const response = await fetch(url);
-          const data = await response.json();
+          const { fetchCitySuggestions } = await import('../lazy/providers/weather-api');
+          const results = await fetchCitySuggestions(query);
           
           cityAutocompleteList.innerHTML = '';
           
-          if (data.results && data.results.length > 0) {
-            data.results.forEach((res: any) => {
+          if (results.length > 0) {
+            results.forEach((res) => {
               const item = document.createElement('div');
               item.className = 'md3-custom-select-item';
               item.textContent = [res.name, res.admin1].filter(Boolean).join(', ');
