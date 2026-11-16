@@ -97,6 +97,7 @@ body.has-wallpaper {
   .main-header {
     color: #ffffff;
     --color-secondary-container: color-mix(in srgb, var(--sys-primary-dark, #ffffff) 80%, black);
+    --color-weather-shape: var(--color-secondary-container);
     .weather-temp,
     .weather-city,
     .greetings-text,

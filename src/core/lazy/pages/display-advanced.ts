@@ -24,10 +24,10 @@ export const template = `<div class="settings-inner-card">
     </div>
 
     <div class="settings-group-card" id="advGreetingGroupCard">
-      <h3 class="settings-group-title" data-i18n="greetingSettingTitle" style="margin-bottom: 1.5rem;">Greeting setting</h3>
+      <h3 class="settings-group-title" data-i18n="greetingSettingTitle">Greeting setting</h3>
 
       <div id="advGreetingNameInputWrapper">
-        <div class="input-with-action-row" style="margin-top: 0.25rem; margin-bottom: 1.25rem;">
+        <div class="input-with-action-row" style="margin-top: 1rem; margin-bottom: 1.25rem;">
           <div class="md3-outlined-text-field" id="advGreetingNameFieldWrapper">
             <input type="text" id="advGreetingNameInput" class="md3-input" placeholder=" " autocomplete="off" />
             <label for="advGreetingNameInput" class="md3-label" data-i18n="namePlaceholder">Your Name (optional)</label>
@@ -47,9 +47,9 @@ export const template = `<div class="settings-inner-card">
     </div>
 
     <div class="settings-group-card" id="advClockGroupCard">
-      <h3 class="settings-group-title" data-i18n="clockTitle" style="margin-bottom: 1.5rem;">Clock Settings</h3>
+      <h3 class="settings-group-title" data-i18n="clockTitle">Clock Settings</h3>
 
-      <div class="md3-outlined-select-wrapper" style="margin-bottom: 1.25rem;">
+      <div class="md3-outlined-select-wrapper" style="margin-top: 1rem; margin-bottom: 1.25rem;">
         <button type="button" id="advClockStyleSelect" class="md3-outlined-select md3-select-trigger" aria-label="Clock Style" value="Expressive Clock">
           <span class="md3-select-value">Expressive Clock</span>
           <template class="md3-select-options">

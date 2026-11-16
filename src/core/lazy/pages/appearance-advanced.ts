@@ -52,7 +52,7 @@ export const template = `<div class="settings-inner-card">
     <div class="settings-group-card">
       <h3 class="settings-group-title" data-i18n="advancedOptionsTitle">Advanced options</h3>
 
-      <div class="input-with-action-row" style="margin-bottom: 1.25rem;">
+      <div class="input-with-action-row" style="margin-top: 1rem; margin-bottom: 1.25rem;">
         <div class="md3-outlined-text-field" id="advTabNameFieldWrapper">
           <input type="text" id="advTabNameInput" class="md3-input" placeholder=" " autocomplete="off" />
           <label for="advTabNameInput" class="md3-label" data-i18n="tabNameLabel">Tab name</label>

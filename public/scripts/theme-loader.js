@@ -67,7 +67,12 @@
       if (isNaN(rawOverlay)) rawOverlay = 0.3;
       if (rawOverlay > 1) rawOverlay = rawOverlay / 100;
       root.style.setProperty('--wallpaper-overlay', String(rawOverlay));
-      if (settings.wallpaperOverlayInverted) {
+      var isDark =
+        root.getAttribute('data-theme') === 'dark' ||
+        (root.getAttribute('data-theme') !== 'light' &&
+          window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches);
+      if (settings.wallpaperOverlayInverted && !isDark) {
         root.classList.add('invert-overlay');
       }
 

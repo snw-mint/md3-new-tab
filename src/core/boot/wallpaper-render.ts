@@ -165,6 +165,13 @@ export async function extractDominantColorFromUrl(imageUrl: string): Promise<str
   });
 }
 
+export function isDarkModeActive(): boolean {
+  const theme = document.documentElement.getAttribute('data-theme');
+  if (theme === 'dark') return true;
+  if (theme === 'light') return false;
+  return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
+}
+
 export function updateOverlay(sliderValue: number, isEnabled: boolean, inverted: boolean = false): void {
   let val = Number(sliderValue);
   if (isNaN(val)) val = 0.3;
@@ -174,7 +181,7 @@ export function updateOverlay(sliderValue: number, isEnabled: boolean, inverted:
     '--wallpaper-overlay',
     String(overlayOpacity),
   );
-  if (inverted) {
+  if (inverted && !isDarkModeActive()) {
     document.documentElement.classList.add('invert-overlay');
   } else {
     document.documentElement.classList.remove('invert-overlay');

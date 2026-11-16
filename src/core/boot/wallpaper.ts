@@ -168,6 +168,17 @@ export function initWallpaper(): void {
   globalState.subscribe(updateUI);
   updateUI(globalState.current);
 
+  const syncThemeOverlay = () => {
+    const state = globalState.current;
+    updateOverlay(state.wallpaperOverlay, state.wallpaperEnabled, state.wallpaperOverlayInverted);
+  };
+
+  window.matchMedia?.('(prefers-color-scheme: dark)').addEventListener('change', syncThemeOverlay);
+  new MutationObserver(syncThemeOverlay).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-theme'],
+  });
+
   wallpaperUploadBtn.addEventListener('click', () => {
     if (globalState.current.wallpaperImage) {
       globalState.current.wallpaperImage = '';

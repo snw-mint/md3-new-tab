@@ -52,21 +52,6 @@ export function invalidateCache(provider: WallpaperProvider): void {
   }
 }
 
-export async function fetchRandomBing(): Promise<string | null> {
-  const MAX_TRIES = 3;
-  for (let i = 0; i < MAX_TRIES; i++) {
-    try {
-      const randomId = Math.floor(Math.random() * 55000) + 10000;
-      const res = await fetch(`https://peapix.com/${randomId}`);
-      if (!res.ok) continue;
-      const text = await res.text();
-      const match = text.match(/https?:\/\/img\.peapix\.com\/[^"'\s]+/);
-      if (match) return match[0];
-    } catch {}
-  }
-  return null;
-}
-
 export async function fetchRandomWikimedia(): Promise<{ url: string; credit: string; creditUrl: string } | null> {
   const IMAGE_EXTS = /\.(jpe?g|png|webp)(\?|$)/i;
   const MAX_TRIES = 5;

@@ -8,10 +8,10 @@
 
 import type { SidebarPageModule } from '../../ui/sidebar-router';
 import { globalState, setWallpaperCache } from '../../shared/state';
-import { PAUSE_SVG, PLAY_SVG } from '../../shared/icons';
 import { applyTranslations } from '../../shared/i18n';
 import { WallpaperEngine } from '../wallpaper-engine';
 import { setLastRefreshTs } from '../providers/wallpaper-refresh';
+import { isDarkModeActive } from '../../boot/wallpaper-render';
 
 export const template = `<div class="settings-inner-card">
     <div class="settings-back-card">
@@ -53,42 +53,10 @@ export const template = `<div class="settings-inner-card">
       </div>
     </div>
 
-    <div class="settings-group-card" id="advWallpaperControlsCard">
-      <div class="wallpaper-controls-row">
-        <h3 class="settings-group-title" data-i18n="wallpaperControlsTitle" style="margin-bottom: 0; flex: 1;">Playback controls</h3>
-        <button type="button" id="advWallpaperBack" class="wallpaper-ctrl-btn" aria-label="Previous wallpaper">
-          <span class="wallpaper-ctrl-bg wallpaper-ctrl-bg--tilt">
-            <svg width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M230.389 50.473c62.72-27.24 126.378 36.418 99.138 99.138l-4.504 10.37a75.36 75.36 0 0 0 0 60.038l4.504 10.37c27.24 62.72-36.418 126.378-99.138 99.138l-10.37-4.504a75.36 75.36 0 0 0-60.038 0l-10.37 4.504c-62.72 27.24-126.378-36.418-99.138-99.138l4.504-10.37a75.36 75.36 0 0 0 0-60.038l-4.504-10.37c-27.24-62.72 36.418-126.378 99.138-99.138l10.37 4.504a75.36 75.36 0 0 0 60.038 0z" fill="currentColor"/></svg>
-          </span>
-          <span class="wallpaper-ctrl-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><use href="#icon-arrow-back" /></svg>
-          </span>
-        </button>
-
-        <button type="button" id="advWallpaperPause" class="wallpaper-ctrl-btn wallpaper-ctrl-btn--pause" aria-label="Keep current wallpaper">
-          <span class="wallpaper-ctrl-bg wallpaper-ctrl-bg--spin">
-            <svg width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M338.584 189.998c25.843 48.166 6.318 91.773-43.518 105.063-13.295 49.841-56.902 69.361-105.068 43.523-48.167 25.843-91.773 6.318-105.064-43.518-49.836-13.295-69.361-56.902-43.518-105.068-25.843-48.167-6.318-91.773 43.518-105.064 13.29-49.836 56.897-69.361 105.064-43.518 48.166-25.843 91.773-6.318 105.063 43.518 49.841 13.29 69.361 56.897 43.523 105.064" fill="currentColor"/></svg>
-          </span>
-          <span class="wallpaper-ctrl-icon" id="advWallpaperPauseIcon">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><use href="#icon-pause" /></svg>
-          </span>
-        </button>
-
-        <button type="button" id="advWallpaperNext" class="wallpaper-ctrl-btn" aria-label="Next wallpaper">
-          <span class="wallpaper-ctrl-bg wallpaper-ctrl-bg--tilt">
-            <svg width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M230.389 50.473c62.72-27.24 126.378 36.418 99.138 99.138l-4.504 10.37a75.36 75.36 0 0 0 0 60.038l4.504 10.37c27.24 62.72-36.418 126.378-99.138 99.138l-10.37-4.504a75.36 75.36 0 0 0-60.038 0l-10.37 4.504c-62.72 27.24-126.378-36.418-99.138-99.138l4.504-10.37a75.36 75.36 0 0 0 0-60.038l-4.504-10.37c-27.24-62.72 36.418-126.378 99.138-99.138l10.37 4.504a75.36 75.36 0 0 0 60.038 0z" fill="currentColor"/></svg>
-          </span>
-          <span class="wallpaper-ctrl-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor"><use href="#icon-arrow-forward" /></svg>
-          </span>
-        </button>
-      </div>
-    </div>
-
     <div class="settings-group-card" id="advWallpaperIntervalCard">
-      <h3 class="settings-group-title" data-i18n="refreshIntervalTitle" style="margin-bottom: 1.5rem;">Refresh interval</h3>
+      <h3 class="settings-group-title" data-i18n="refreshIntervalTitle">Refresh interval</h3>
 
-      <div class="md3-outlined-select-wrapper">
+      <div class="md3-outlined-select-wrapper" style="margin-top: 1rem;">
         <button type="button" id="advWallpaperIntervalSelect" class="md3-outlined-select md3-select-trigger" aria-label="Refresh interval" value="daily">
           <span class="md3-select-value" data-i18n="intervalDaily">Every Day</span>
           <template class="md3-select-options">
@@ -103,12 +71,19 @@ export const template = `<div class="settings-inner-card">
           <use href="#icon-dropdown-arrow" />
         </svg>
       </div>
+
+      <button type="button" id="advWallpaperShuffleBtn" class="wallpaper-shuffle-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="currentColor">
+          <use href="#icon-shuffle" />
+        </svg>
+        <span data-i18n="wallpaperShuffleBtn">Shuffle wallpaper</span>
+      </button>
     </div>
 
     <div class="settings-group-card" id="advWallpaperCountryCard">
-      <h3 class="settings-group-title" data-i18n="wallpaperCountryTitle" style="margin-bottom: 1.5rem;">Country</h3>
+      <h3 class="settings-group-title" data-i18n="wallpaperCountryTitle">Country</h3>
 
-      <div class="md3-outlined-select-wrapper">
+      <div class="md3-outlined-select-wrapper" style="margin-top: 1rem;">
         <button type="button" id="advWallpaperCountrySelect" class="md3-outlined-select md3-select-trigger" aria-label="Country" value="us">
           <span class="md3-select-value" data-i18n="countryUS">United States</span>
           <template class="md3-select-options">
@@ -197,49 +172,18 @@ export function init(container: HTMLElement): void {
     });
   }
 
-  const controlsCard = container.querySelector<HTMLElement>('#advWallpaperControlsCard');
-  const backBtn = container.querySelector<HTMLButtonElement>('#advWallpaperBack');
-  const pauseBtn = container.querySelector<HTMLButtonElement>('#advWallpaperPause');
-  const nextBtn = container.querySelector<HTMLButtonElement>('#advWallpaperNext');
-  const pauseIcon = container.querySelector<HTMLElement>('#advWallpaperPauseIcon');
+  const shuffleBtn = container.querySelector<HTMLButtonElement>('#advWallpaperShuffleBtn');
 
-  const updatePauseIcon = () => {
-    if (!pauseIcon) return;
-    const isPaused = WallpaperEngine.isPaused();
-    pauseIcon.innerHTML = isPaused ? PLAY_SVG : PAUSE_SVG;
-    pauseBtn?.classList.toggle('is-paused', isPaused);
-    pauseBtn?.setAttribute('aria-label', isPaused ? 'Resume wallpaper' : 'Keep current wallpaper');
-  };
-
-  if (backBtn) {
-    backBtn.addEventListener('click', () => {
-      const bg = backBtn.querySelector<HTMLElement>('.wallpaper-ctrl-bg--tilt');
-      bg?.classList.add('tilt-once');
-      bg?.addEventListener('animationend', () => bg.classList.remove('tilt-once'), { once: true });
-      WallpaperEngine.prevWallpaper();
+  if (shuffleBtn) {
+    shuffleBtn.addEventListener('click', async () => {
+      shuffleBtn.disabled = true;
+      try {
+        await WallpaperEngine.shuffle();
+      } finally {
+        shuffleBtn.disabled = false;
+      }
     });
   }
-
-  if (pauseBtn) {
-    pauseBtn.addEventListener('click', () => {
-      const bg = pauseBtn.querySelector<HTMLElement>('.wallpaper-ctrl-bg--spin');
-      bg?.classList.add('spin-once');
-      bg?.addEventListener('animationend', () => bg.classList.remove('spin-once'), { once: true });
-      WallpaperEngine.togglePause();
-      updatePauseIcon();
-    });
-  }
-
-  if (nextBtn) {
-    nextBtn.addEventListener('click', () => {
-      const bg = nextBtn.querySelector<HTMLElement>('.wallpaper-ctrl-bg--tilt');
-      bg?.classList.add('tilt-once');
-      bg?.addEventListener('animationend', () => bg.classList.remove('tilt-once'), { once: true });
-      WallpaperEngine.nextWallpaper();
-    });
-  }
-
-  window.addEventListener('wallpaper-controls-update', () => syncState && syncState());
 
   const syncState = () => {
     const state = globalState.current;
@@ -261,9 +205,9 @@ export function init(container: HTMLElement): void {
     }
 
     if (wallpaperOverlayInverted) {
-      if (wallpaperOverlayInverted.checked !== state.wallpaperOverlayInverted) {
-        wallpaperOverlayInverted.checked = state.wallpaperOverlayInverted;
-      }
+      const isDark = isDarkModeActive();
+      wallpaperOverlayInverted.disabled = isDark;
+      wallpaperOverlayInverted.checked = isDark ? false : state.wallpaperOverlayInverted;
     }
 
     if (wallpaperIntervalSelect) {
@@ -283,39 +227,29 @@ export function init(container: HTMLElement): void {
     }
 
     const isApi = state.wallpaperEnabled && state.wallpaperProvider !== 'upload';
-    if (controlsCard) controlsCard.style.display = isApi ? '' : 'none';
-
-    const paused = WallpaperEngine.isPaused();
 
     const intervalCard = container.querySelector<HTMLElement>('#advWallpaperIntervalCard');
     if (intervalCard) {
       intervalCard.style.display = isApi ? '' : 'none';
-      intervalCard.classList.toggle('disabled', paused);
-      intervalCard.style.pointerEvents = paused ? 'none' : '';
-      intervalCard.style.opacity = paused ? '0.45' : '';
+    }
+
+    if (shuffleBtn) {
+      shuffleBtn.style.display = isApi && state.wallpaperProvider !== 'bing' ? '' : 'none';
     }
 
     const countryCard = container.querySelector<HTMLElement>('#advWallpaperCountryCard');
     if (countryCard) {
       countryCard.style.display = (state.wallpaperEnabled && state.wallpaperProvider === 'bing') ? '' : 'none';
     }
-
-    const hideNavigation = state.wallpaperProvider === 'bing';
-
-    if (backBtn) {
-      backBtn.style.display = hideNavigation ? 'none' : '';
-      backBtn.disabled = paused || !WallpaperEngine.canGoBack();
-    }
-    if (nextBtn) {
-      nextBtn.style.display = hideNavigation ? 'none' : '';
-      nextBtn.disabled = paused;
-    }
-
-    updatePauseIcon();
   };
 
   syncState();
   globalState.subscribe(syncState);
+  window.matchMedia?.('(prefers-color-scheme: dark)').addEventListener('change', syncState);
+  new MutationObserver(syncState).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-theme'],
+  });
 
   applyTranslations(container);
 }

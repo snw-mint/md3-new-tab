@@ -656,6 +656,9 @@
   "interval5m": {
     "message": "每5分钟"
   },
+  "wallpaperShuffleBtn": {
+    "message": "随机切换壁纸"
+  },
   "wallpaperCountryTitle": {
     "message": "国家"
   },

@@ -27,7 +27,7 @@
 .weather-shape-layer {
   position: absolute;
   inset: 0;
-  color: var(--color-secondary-container);
+  color: var(--color-weather-shape);
   animation: weather-shape-spin 20s linear infinite;
   will-change: transform;
 

@@ -10,7 +10,7 @@
 import { WallpaperProvider } from '../../shared/types';
 import { globalState } from '../../shared/state';
 import { HOST_PERMISSIONS, checkPermission } from '../../shared/permissions';
-import { fetchRandomBing, fetchRandomWikimedia } from './wallpaper-refresh';
+import { fetchRandomWikimedia } from './wallpaper-refresh';
 
 export async function fetchDailyWallpaper(
   source: WallpaperProvider,
@@ -31,27 +31,20 @@ export async function fetchDailyWallpaper(
 
   try {
     if (source === 'bing') {
-      if (random) {
-        imageUrl = (await fetchRandomBing()) || '';
-        creditText = 'Bing Daily Image';
-        creditUrl = 'https://www.bing.com';
-      }
-      if (!imageUrl) {
-        const country = globalState.current.bingCountry || 'us';
-        const res = await fetch(`https://peapix.com/bing/feed?country=${country}&n=1`, { cache: 'no-store' });
-        if (!res.ok) throw new Error(`Bing Error: ${res.status}`);
-        const data = (await res.json()) as any[];
+      const country = globalState.current.bingCountry || 'us';
+      const res = await fetch(`https://peapix.com/bing/feed?country=${country}&n=1`, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`Bing Error: ${res.status}`);
+      const data = (await res.json()) as any[];
 
-        if (data && data.length > 0) {
-          const img = data[0];
-          imageUrl = img.fullUrl || img.imageUrl || img.url || '';
-          let rawCredit = `Bing: ${img.copyright || 'Daily Image'}`;
-          if (rawCredit.length > 30) {
-            rawCredit = rawCredit.substring(0, 30).trim() + '...';
-          }
-          creditText = rawCredit;
-          creditUrl = img.copyrightLink || img.copyrightlink || img.url || '';
+      if (data && data.length > 0) {
+        const img = data[0];
+        imageUrl = img.fullUrl || img.imageUrl || img.url || '';
+        let rawCredit = `Bing: ${img.copyright || 'Daily Image'}`;
+        if (rawCredit.length > 30) {
+          rawCredit = rawCredit.substring(0, 30).trim() + '...';
         }
+        creditText = rawCredit;
+        creditUrl = img.copyrightLink || img.copyrightlink || img.url || '';
       }
     } else if (source === 'media_commons') {
       if (random) {

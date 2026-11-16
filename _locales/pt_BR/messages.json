@@ -659,6 +659,9 @@
   "interval5m": {
     "message": "A cada 5 minutos"
   },
+  "wallpaperShuffleBtn": {
+    "message": "Trocar papel de parede"
+  },
   "wallpaperCountryTitle": {
     "message": "País"
   },

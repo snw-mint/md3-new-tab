@@ -39,7 +39,6 @@ interface WallpaperConfig {
 export class WallpaperEngine {
   private static _refreshTimer: ReturnType<typeof setTimeout> | null = null;
   private static _actionTimer: ReturnType<typeof setTimeout> | null = null;
-  private static _paused = localStorage.getItem('wallpaper_paused') === '1';
   private static _lastConfig: WallpaperConfig | null = null;
 
   private static _getQueue(provider: WallpaperProvider): WallpaperCacheQueue {
@@ -95,22 +94,11 @@ export class WallpaperEngine {
     setWallpaperCache(cacheKey, queue);
   }
 
-  public static isPaused(): boolean {
-    return WallpaperEngine._paused;
-  }
-
-  public static canGoBack(): boolean {
-    if (!WallpaperEngine._lastConfig || WallpaperEngine._lastConfig.provider === 'upload') return false;
-    const queue = WallpaperEngine._getQueue(WallpaperEngine._lastConfig.provider);
-    return queue.currentIndex > 0;
-  }
-
   public static updateOverlay(opacity: number, enabled: boolean): void {
     updateOverlay(opacity, enabled);
   }
 
   public static scheduleRefresh(config: WallpaperConfig): void {
-    if (WallpaperEngine._paused) return;
     if (WallpaperEngine._refreshTimer !== null) {
       clearTimeout(WallpaperEngine._refreshTimer);
       WallpaperEngine._refreshTimer = null;
@@ -153,7 +141,6 @@ export class WallpaperEngine {
     }
 
     let targetItem: WallpaperCacheItem | null = null;
-    const paused = WallpaperEngine._paused;
     let isNewFetch = false;
 
     try {
@@ -171,7 +158,7 @@ export class WallpaperEngine {
         }
       } else {
         const queue = WallpaperEngine._getQueue(config.provider);
-        const needsApiFetch = (!paused || fromTimer) && (queue.items.length === 0 || intervalExpired || fromTimer);
+        const needsApiFetch = queue.items.length === 0 || intervalExpired || fromTimer;
         const random = (needsApiFetch && interval !== 'daily') || fromTimer;
 
         if (needsApiFetch) {
@@ -212,7 +199,7 @@ export class WallpaperEngine {
     if (targetItem) {
       WallpaperEngine._lastConfig = config;
       this.applyWallpaper(targetItem, config, isNewFetch);
-      if (!paused && interval !== 'daily') WallpaperEngine.scheduleRefresh(config);
+      if (interval !== 'daily') WallpaperEngine.scheduleRefresh(config);
     } else {
       hideSnackbar();
       clearWallpaper();
@@ -243,11 +230,12 @@ export class WallpaperEngine {
 
       if (config.provider !== 'upload') {
         if (pushToQueue) {
-          const queue = WallpaperEngine._getQueue(config.provider);
-          queue.items = queue.items.slice(0, queue.currentIndex + 1);
-          queue.items.push(item);
-          queue.currentIndex = queue.items.length - 1;
-          WallpaperEngine._saveQueue(config.provider, queue);
+          const today = new Date().toISOString().slice(0, 10);
+          WallpaperEngine._saveQueue(config.provider, {
+            date: today,
+            items: [item],
+            currentIndex: 0,
+          });
         }
         showCredits(config.provider);
       } else {
@@ -255,7 +243,6 @@ export class WallpaperEngine {
       }
 
       WallpaperEngine._lastConfig = config;
-      WallpaperEngine._dispatchControlsUpdate();
 
       extractDominantColorFromUrl(item.url).then((color) => {
         if (color) {
@@ -280,54 +267,15 @@ export class WallpaperEngine {
     };
   }
 
-  public static togglePause(): void {
-    WallpaperEngine._paused = !WallpaperEngine._paused;
-    localStorage.setItem('wallpaper_paused', WallpaperEngine._paused ? '1' : '0');
+  public static async shuffle(): Promise<void> {
+    if (WallpaperEngine._actionTimer) return;
     const config = WallpaperEngine._lastConfig;
-    if (!WallpaperEngine._paused && config) {
-      setLastRefreshTs(Date.now());
-      WallpaperEngine.scheduleRefresh(config);
-    } else if (WallpaperEngine._refreshTimer !== null) {
-      clearTimeout(WallpaperEngine._refreshTimer);
-      WallpaperEngine._refreshTimer = null;
-    }
-    WallpaperEngine._dispatchControlsUpdate();
-  }
-
-  public static async prevWallpaper(): Promise<void> {
-    if (WallpaperEngine._paused || WallpaperEngine._actionTimer) return;
-    const config = WallpaperEngine._lastConfig;
-    if (!config || config.provider === 'upload') return;
-
-    const queue = WallpaperEngine._getQueue(config.provider);
-    if (queue.currentIndex <= 0) return;
-
-    queue.currentIndex--;
-    WallpaperEngine._saveQueue(config.provider, queue);
-
-    WallpaperEngine.applyWallpaper(queue.items[queue.currentIndex], config, false);
-    WallpaperEngine._actionTimer = setTimeout(() => { WallpaperEngine._actionTimer = null; }, 800);
-  }
-
-  public static async nextWallpaper(): Promise<void> {
-    if (WallpaperEngine._paused || WallpaperEngine._actionTimer) return;
-    const config = WallpaperEngine._lastConfig;
-    if (!config || config.provider === 'upload') return;
-
-    const queue = WallpaperEngine._getQueue(config.provider);
-    if (queue.currentIndex < queue.items.length - 1) {
-      queue.currentIndex++;
-      WallpaperEngine._saveQueue(config.provider, queue);
-      WallpaperEngine.applyWallpaper(queue.items[queue.currentIndex], config, false);
-      WallpaperEngine._actionTimer = setTimeout(() => { WallpaperEngine._actionTimer = null; }, 800);
-      return;
-    }
+    if (!config || config.provider === 'upload' || config.provider === 'bing') return;
 
     const interval = globalState.current.wallpaperRefreshInterval || 'daily';
 
     if (interval === 'daily') {
       const providerNames: Record<string, string> = {
-        bing: 'Bing',
         media_commons: 'Media Commons',
         pexels: 'Pexels',
       };
@@ -344,7 +292,7 @@ export class WallpaperEngine {
       if (fetched) {
         WallpaperEngine.applyWallpaper(fetched, config, true);
         setLastRefreshTs(Date.now());
-        if (!WallpaperEngine._paused) WallpaperEngine.scheduleRefresh(config);
+        WallpaperEngine.scheduleRefresh(config);
       } else {
         hideSnackbar();
         showSnackbar({ text: t('wallpaperFetchFailed', 'Failed to fetch new image.'), duration: 3000 });
@@ -358,9 +306,5 @@ export class WallpaperEngine {
       }
       WallpaperEngine._actionTimer = setTimeout(() => { WallpaperEngine._actionTimer = null; }, 1000);
     }
-  }
-
-  private static _dispatchControlsUpdate(): void {
-    window.dispatchEvent(new CustomEvent('wallpaper-controls-update'));
   }
 }
