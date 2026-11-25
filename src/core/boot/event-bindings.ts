@@ -135,8 +135,30 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
 
   const { wallpaperProviderSelect } = DOM.settings;
   if (wallpaperProviderSelect) {
-    wallpaperProviderSelect.value = globalState.current.wallpaperProvider || 'upload';
-    wallpaperProviderSelect.setAttribute('value', globalState.current.wallpaperProvider || 'upload');
+    const syncProviderSelectDisplay = (prov: string) => {
+      if (wallpaperProviderSelect.value !== prov) {
+        wallpaperProviderSelect.value = prov;
+      }
+      if (wallpaperProviderSelect.getAttribute('value') !== prov) {
+        wallpaperProviderSelect.setAttribute('value', prov);
+      }
+      const valEl = wallpaperProviderSelect.querySelector<HTMLElement>('.md3-select-value');
+      const tpl = wallpaperProviderSelect.querySelector<HTMLTemplateElement>('.md3-select-options');
+      const optEl = tpl?.content.querySelector<HTMLElement>(`[data-value="${prov}"]`);
+      if (valEl && optEl) {
+        const i18nKey = optEl.getAttribute('data-i18n');
+        const text = (optEl.textContent || '').trim();
+        if (i18nKey) {
+          valEl.setAttribute('data-i18n', i18nKey);
+          valEl.textContent = t(i18nKey, text);
+        } else {
+          valEl.removeAttribute('data-i18n');
+          valEl.textContent = text;
+        }
+      }
+    };
+
+    syncProviderSelectDisplay(globalState.current.wallpaperProvider || 'upload');
 
     wallpaperProviderSelect.addEventListener('change', async (e) => {
       const target = e.target as HTMLSelectElement;
@@ -162,25 +184,13 @@ export function bindGlobalEvents(onShortcutsReady: (container: HTMLElement) => v
         },
         () => {
           globalState.current.wallpaperProvider = prevProvider;
-          wallpaperProviderSelect.value = prevProvider;
-          wallpaperProviderSelect.setAttribute('value', prevProvider);
-          const valEl = wallpaperProviderSelect.querySelector('.md3-select-value');
-          const optEl = wallpaperProviderSelect.querySelector(`[data-value="${prevProvider}"]`);
-          if (valEl && optEl) {
-            valEl.textContent = optEl.textContent;
-          }
+          syncProviderSelectDisplay(prevProvider);
         }
       );
     });
 
     globalState.subscribe((state) => {
-      const prov = state.wallpaperProvider || 'upload';
-      if (wallpaperProviderSelect.value !== prov) {
-        wallpaperProviderSelect.value = prov;
-      }
-      if (wallpaperProviderSelect.getAttribute('value') !== prov) {
-        wallpaperProviderSelect.setAttribute('value', prov);
-      }
+      syncProviderSelectDisplay(state.wallpaperProvider || 'upload');
     });
   }
 
