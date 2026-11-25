@@ -39,6 +39,11 @@ function clearSuggestionsCache(): void {
   suggestionsCache.clear();
 }
 
+function capitalizeFirstLetter(text: string): string {
+  if (!text) return text;
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
 interface SuggestionItem {
   phrase: string;
   isFrequent: boolean;
@@ -90,13 +95,14 @@ function renderSuggestions(container: HTMLElement, items: SuggestionItem[], sear
 
     const textSpan = document.createElement('span');
     textSpan.className = 'suggestion-text';
-    textSpan.textContent = item.phrase;
+    const displayPhrase = capitalizeFirstLetter(item.phrase);
+    textSpan.textContent = displayPhrase;
 
     div.appendChild(iconDiv);
     div.appendChild(textSpan);
 
     div.addEventListener('click', () => {
-      searchInput.value = item.phrase;
+      searchInput.value = displayPhrase;
       container.classList.remove('active');
       const form = searchInput.closest('form');
       if (form) {
@@ -121,16 +127,61 @@ function renderSuggestions(container: HTMLElement, items: SuggestionItem[], sear
 export function bindSearchSuggestions(): void {
   const searchInput = document.getElementById('searchInput') as HTMLInputElement;
   const suggestionsContainer = document.getElementById('suggestionsContainer');
+  const autocompleteGhost = document.getElementById('searchAutocompleteGhost');
 
   if (!searchInput || !suggestionsContainer) return;
+
+  let currentCompletion = '';
+
+  const clearGhost = () => {
+    currentCompletion = '';
+    if (autocompleteGhost) {
+      autocompleteGhost.textContent = '';
+    }
+  };
+
+  const updateGhost = (rawValue: string, items: SuggestionItem[]) => {
+    if (!autocompleteGhost || !rawValue || document.activeElement !== searchInput) {
+      clearGhost();
+      return;
+    }
+
+    const lowerRaw = rawValue.toLowerCase();
+    const match = items.find((item) => {
+      const lowerPhrase = item.phrase.toLowerCase();
+      return lowerPhrase.startsWith(lowerRaw) && item.phrase.length > rawValue.length;
+    });
+
+    if (!match) {
+      clearGhost();
+      return;
+    }
+
+    const suffix = match.phrase.slice(rawValue.length);
+    currentCompletion = rawValue + suffix;
+
+    autocompleteGhost.textContent = '';
+    const typedSpan = document.createElement('span');
+    typedSpan.className = 'ghost-typed';
+    typedSpan.textContent = rawValue;
+
+    const completionSpan = document.createElement('span');
+    completionSpan.className = 'ghost-completion';
+    completionSpan.textContent = suffix;
+
+    autocompleteGhost.appendChild(typedSpan);
+    autocompleteGhost.appendChild(completionSpan);
+  };
 
   const handleInput = async () => {
     if (!globalState.current.searchSuggestionsEnabled) {
       suggestionsContainer.classList.remove('active');
+      clearGhost();
       return;
     }
 
-    const query = searchInput.value.trim().toLowerCase();
+    const rawValue = searchInput.value;
+    const query = rawValue.trim().toLowerCase();
 
     const frequentList = getFrequentSearches();
     let matchingFrequent = frequentList;
@@ -139,13 +190,16 @@ export function bindSearchSuggestions(): void {
       matchingFrequent = frequentList.filter((f) => f.toLowerCase().includes(query));
     }
 
+    const frequentItems = matchingFrequent.map((phrase) => ({
+      phrase: capitalizeFirstLetter(phrase),
+      isFrequent: true,
+    }));
+
+    updateGhost(rawValue, frequentItems);
+
     if (query.length < 3) {
-      if (matchingFrequent.length > 0) {
-        renderSuggestions(
-          suggestionsContainer,
-          matchingFrequent.map((phrase) => ({ phrase, isFrequent: true })),
-          searchInput,
-        );
+      if (frequentItems.length > 0) {
+        renderSuggestions(suggestionsContainer, frequentItems, searchInput);
       } else {
         suggestionsContainer.classList.remove('active');
       }
@@ -155,25 +209,30 @@ export function bindSearchSuggestions(): void {
     clearTimeout(debounceTimer);
     debounceTimer = window.setTimeout(async () => {
       const apiSuggestions = await fetchSuggestions(query);
+      if (searchInput.value !== rawValue) return;
 
       const combined: SuggestionItem[] = [];
       const seen = new Set<string>();
 
-      for (const phrase of matchingFrequent) {
-        if (!seen.has(phrase)) {
-          seen.add(phrase);
-          combined.push({ phrase, isFrequent: true });
+      for (const item of frequentItems) {
+        const key = item.phrase.toLowerCase();
+        if (!seen.has(key)) {
+          seen.add(key);
+          combined.push(item);
         }
       }
 
       for (const phrase of apiSuggestions) {
         if (combined.length >= 6) break;
-        if (!seen.has(phrase)) {
-          seen.add(phrase);
-          combined.push({ phrase, isFrequent: false });
+        const formatted = capitalizeFirstLetter(phrase);
+        const key = formatted.toLowerCase();
+        if (!seen.has(key)) {
+          seen.add(key);
+          combined.push({ phrase: formatted, isFrequent: false });
         }
       }
 
+      updateGhost(rawValue, combined);
       renderSuggestions(suggestionsContainer, combined, searchInput);
     }, 300);
   };
@@ -184,15 +243,43 @@ export function bindSearchSuggestions(): void {
 
   searchInput.addEventListener('input', handleInput);
 
+  searchInput.addEventListener('keydown', (e) => {
+    if (!currentCompletion) {
+      if (e.key === 'Escape') {
+        suggestionsContainer.classList.remove('active');
+      }
+      return;
+    }
+
+    const atEnd =
+      searchInput.selectionStart === searchInput.value.length &&
+      searchInput.selectionEnd === searchInput.value.length;
+
+    if (e.key === 'Tab' || (e.key === 'ArrowRight' && atEnd)) {
+      e.preventDefault();
+      searchInput.value = capitalizeFirstLetter(currentCompletion);
+      clearGhost();
+      handleInput();
+    } else if (e.key === 'Escape') {
+      clearGhost();
+      suggestionsContainer.classList.remove('active');
+    }
+  });
+
   searchInput.addEventListener('focus', () => {
     if (globalState.current.searchSuggestionsEnabled) {
       handleInput();
     }
   });
 
+  searchInput.addEventListener('blur', () => {
+    clearGhost();
+  });
+
   document.addEventListener('click', (e) => {
     if (!searchInput.contains(e.target as Node) && !suggestionsContainer.contains(e.target as Node)) {
       suggestionsContainer.classList.remove('active');
+      clearGhost();
     }
   });
 }

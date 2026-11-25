@@ -92,7 +92,10 @@
             </div>
           </div>
         </div>
-        <input type="text" name="q" id="searchInput" placeholder="Search the web" autocomplete="off" data-i18n="searchPlaceholder" />
+        <div class="search-input-wrapper">
+          <div id="searchAutocompleteGhost" class="search-autocomplete-ghost" aria-hidden="true"></div>
+          <input type="text" name="q" id="searchInput" placeholder="Search the web" autocomplete="off" data-i18n="searchPlaceholder" />
+        </div>
         <div class="search-actions">
           <button type="button" id="askAiBtn" class="action-btn ask-ai-btn" title="Ask to AI" aria-label="Ask to AI" style="display: none">
             <svg class="ask-ai-icon-inactive" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3 12a9 9 0 0 0 9-9 9 9 0 0 0 9 9 9 9 0 0 0-9 9 9 9 0 0 0-9-9Z"/></svg>
