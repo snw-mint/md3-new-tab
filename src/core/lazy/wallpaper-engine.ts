@@ -40,6 +40,21 @@ export class WallpaperEngine {
   private static _refreshTimer: ReturnType<typeof setTimeout> | null = null;
   private static _actionTimer: ReturnType<typeof setTimeout> | null = null;
   private static _lastConfig: WallpaperConfig | null = null;
+  private static _visibilityBound = false;
+
+  private static _ensureVisibilityListener(): void {
+    if (WallpaperEngine._visibilityBound) return;
+    WallpaperEngine._visibilityBound = true;
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState !== 'visible') return;
+      const config = WallpaperEngine._lastConfig;
+      if (!config || !config.enabled || config.provider === 'upload') return;
+      const interval = globalState.current.wallpaperRefreshInterval || 'daily';
+      if (isIntervalExpired(interval)) {
+        WallpaperEngine.render({ ...config });
+      }
+    });
+  }
 
   private static _getQueue(provider: WallpaperProvider): WallpaperCacheQueue {
     const today = new Date().toISOString().slice(0, 10);
@@ -108,18 +123,23 @@ export class WallpaperEngine {
     const ms = getIntervalMs(interval);
     if (!ms || !config.enabled || config.provider === 'upload') return;
 
+    WallpaperEngine._ensureVisibilityListener();
+
     const elapsed = Date.now() - getLastRefreshTs();
     const remaining = Math.max(ms - elapsed, 0);
 
     WallpaperEngine._refreshTimer = setTimeout(() => {
       invalidateCache(config.provider);
-      setLastRefreshTs(Date.now());
       WallpaperEngine.render({ ...config }, true);
     }, remaining);
   }
 
   public static async render(config: WallpaperConfig, fromTimer = false): Promise<void> {
     if (!config.enabled) {
+      if (WallpaperEngine._refreshTimer !== null) {
+        clearTimeout(WallpaperEngine._refreshTimer);
+        WallpaperEngine._refreshTimer = null;
+      }
       hideSnackbar();
       clearWallpaper();
       hideCredits();
@@ -137,7 +157,6 @@ export class WallpaperEngine {
 
     if (isApi && intervalExpired && !fromTimer) {
       invalidateCache(config.provider);
-      setLastRefreshTs(Date.now());
     }
 
     let targetItem: WallpaperCacheItem | null = null;
@@ -198,8 +217,11 @@ export class WallpaperEngine {
 
     if (targetItem) {
       WallpaperEngine._lastConfig = config;
+      if (isNewFetch) {
+        setLastRefreshTs(Date.now());
+      }
       this.applyWallpaper(targetItem, config, isNewFetch);
-      if (interval !== 'daily') WallpaperEngine.scheduleRefresh(config);
+      WallpaperEngine.scheduleRefresh(config);
     } else {
       hideSnackbar();
       clearWallpaper();

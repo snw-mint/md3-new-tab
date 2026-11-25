@@ -107,9 +107,11 @@ export function initWallpaper(): void {
 
   let lastProvider = globalState.current.wallpaperProvider || 'upload';
   let lastEnabled = globalState.current.wallpaperEnabled;
+  let lastRefreshInterval = globalState.current.wallpaperRefreshInterval || 'daily';
 
   const updateUI = (state: typeof globalState.current) => {
     const isUpload = (state.wallpaperProvider || 'upload') === 'upload';
+    const currentInterval = state.wallpaperRefreshInterval || 'daily';
     if (wallpaperUploadWrapper) {
       wallpaperUploadWrapper.style.display = isUpload ? '' : 'none';
     }
@@ -130,11 +132,16 @@ export function initWallpaper(): void {
       }
     }
 
-    if (state.wallpaperProvider !== lastProvider || state.wallpaperEnabled !== lastEnabled) {
+    if (
+      state.wallpaperProvider !== lastProvider ||
+      state.wallpaperEnabled !== lastEnabled ||
+      currentInterval !== lastRefreshInterval
+    ) {
       const enabledJustTurnedOn = !lastEnabled && state.wallpaperEnabled;
       const switchedToUpload = lastProvider !== 'upload' && isUpload;
       lastProvider = state.wallpaperProvider || 'upload';
       lastEnabled = state.wallpaperEnabled;
+      lastRefreshInterval = currentInterval;
 
       if (!isUpload || !state.wallpaperEnabled) {
         import('../lazy/wallpaper-engine').then(({ WallpaperEngine }) => {
