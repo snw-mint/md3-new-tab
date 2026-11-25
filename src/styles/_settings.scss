@@ -125,6 +125,7 @@ body {
   from {
     transform: translateX(100%);
   }
+
   to {
     transform: translateX(0);
   }
@@ -134,6 +135,7 @@ body {
   from {
     transform: translateX(0);
   }
+
   to {
     transform: translateX(100%);
   }
@@ -144,6 +146,7 @@ body {
     transform: translateX(-15%);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
@@ -512,6 +515,7 @@ body {
   .icon-default {
     display: none;
   }
+
   .icon-check {
     display: block;
   }
@@ -556,12 +560,10 @@ body {
   height: 3rem;
   border-radius: var(--radius-full);
   border: none;
-  background: conic-gradient(
-    from 90deg,
-    var(--theme-c3) 0 90deg,
-    var(--theme-c1) 90deg 180deg,
-    var(--theme-c2) 180deg 360deg
-  );
+  background: conic-gradient(from 90deg,
+      var(--theme-c3) 0 90deg,
+      var(--theme-c1) 90deg 180deg,
+      var(--theme-c2) 180deg 360deg);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -743,11 +745,9 @@ body {
   width: 100%;
   height: 16px;
   border-radius: var(--radius-full);
-  background: linear-gradient(
-    to right,
-    var(--color-primary) var(--slider-progress, 0%),
-    var(--color-surface-variant) var(--slider-progress, 0%)
-  );
+  background: linear-gradient(to right,
+      var(--color-primary) var(--slider-progress, 0%),
+      var(--color-surface-variant) var(--slider-progress, 0%));
   outline: none;
   margin: 0;
 
@@ -838,25 +838,25 @@ body {
     background-color 0.2s cubic-bezier(0.2, 0, 0, 1);
 }
 
-.md3-switch:hover input:not(:checked) + .switch-track .switch-thumb {
+.md3-switch:hover input:not(:checked)+.switch-track .switch-thumb {
   width: 0.8rem;
   height: 0.8rem;
   transform: translateX(0.1875rem);
 }
 
-.md3-switch input:checked + .switch-track {
+.md3-switch input:checked+.switch-track {
   background-color: var(--color-primary);
   border-color: var(--color-primary);
 }
 
-.md3-switch input:checked + .switch-track .switch-thumb {
+.md3-switch input:checked+.switch-track .switch-thumb {
   width: 0.875rem;
   height: 0.875rem;
   background-color: var(--color-on-primary);
   transform: translateX(1.0625rem);
 }
 
-.md3-switch:hover input:checked + .switch-track .switch-thumb {
+.md3-switch:hover input:checked+.switch-track .switch-thumb {
   background-color: var(--color-primary-container);
 }
 
@@ -974,14 +974,14 @@ body {
     transform-origin: left center;
   }
 
-  .md3-input:focus ~ .md3-label,
-  .md3-input:not(:placeholder-shown) ~ .md3-label {
+  .md3-input:focus~.md3-label,
+  .md3-input:not(:placeholder-shown)~.md3-label {
     top: 0;
     transform: translateY(-50%) scale(0.8);
     color: var(--color-primary);
   }
 
-  .md3-input:not(:focus):not(:placeholder-shown) ~ .md3-label {
+  .md3-input:not(:focus):not(:placeholder-shown)~.md3-label {
     color: var(--color-on-surface-variant);
   }
 
@@ -1014,7 +1014,7 @@ body {
     }
   }
 
-  .md3-input:not(:placeholder-shown) ~ .clear-input-btn {
+  .md3-input:not(:placeholder-shown)~.clear-input-btn {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
@@ -1120,33 +1120,41 @@ body {
   font-weight: 500;
 }
 
-.radio-outer {
+.md3-radio-icon {
   position: relative;
-  width: 1.125rem;
-  height: 1.125rem;
-  border-radius: 50%;
-  border: 2px solid var(--color-on-surface-variant);
+  width: 1.5rem;
+  height: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: border-color 0.2s ease;
+  color: var(--color-on-surface-variant);
+  transition: color 0.2s ease;
   flex-shrink: 0;
+
+  svg {
+    position: absolute;
+    width: 1.5rem;
+    height: 1.5rem;
+    transition: opacity 0.2s ease;
+  }
+
+  .radio-inactive {
+    opacity: 1;
+  }
+
+  .radio-active {
+    opacity: 0;
+    color: var(--color-primary);
+  }
 }
 
-.radio-inner {
-  width: 0.625rem;
-  height: 0.625rem;
-  border-radius: 50%;
-  background-color: var(--color-primary);
-  transform: scale(0);
-  transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
-}
+.md3-radio input:checked~.md3-radio-icon {
+  .radio-inactive {
+    opacity: 0;
+  }
 
-.md3-radio input:checked ~ .radio-outer {
-  border-color: var(--color-primary);
-
-  .radio-inner {
-    transform: scale(1);
+  .radio-active {
+    opacity: 1;
   }
 }
 
@@ -1207,7 +1215,7 @@ body {
   }
 }
 
-.md3-checkbox-input:checked + .md3-checkbox-box {
+.md3-checkbox-input:checked+.md3-checkbox-box {
   .checkbox-inactive {
     opacity: 0;
     transform: scale(0.5);
@@ -1341,7 +1349,7 @@ body {
     transition: color 0.2s ease;
   }
 
-  .md3-outlined-select:focus ~ .md3-select-label {
+  .md3-outlined-select:focus~.md3-select-label {
     color: var(--color-primary);
   }
 
@@ -1391,12 +1399,15 @@ body {
     gap: 0.5rem;
     overflow-y: auto;
     max-height: 13rem;
+
     &::-webkit-scrollbar {
       width: 4px;
     }
+
     &::-webkit-scrollbar-track {
       margin: 0.3rem 0;
     }
+
     &::-webkit-scrollbar-thumb {
       background-color: color-mix(in srgb, var(--color-on-surface-variant) 30%, transparent);
       border-radius: var(--radius-sm);
@@ -1458,21 +1469,21 @@ body {
     color: var(--color-on-surface);
     outline: none;
 
-    &:placeholder-shown ~ .md3-filled-label {
+    &:placeholder-shown~.md3-filled-label {
       top: 50%;
       transform: translateY(-50%);
       font-size: 1rem;
     }
 
-    &:focus ~ .md3-filled-label,
-    &:not(:placeholder-shown) ~ .md3-filled-label {
+    &:focus~.md3-filled-label,
+    &:not(:placeholder-shown)~.md3-filled-label {
       top: 0.5rem;
       transform: translateY(0);
       font-size: 0.75rem;
       color: var(--color-primary);
     }
 
-    &:not(:focus):not(:placeholder-shown) ~ .md3-filled-label {
+    &:not(:focus):not(:placeholder-shown)~.md3-filled-label {
       color: var(--color-on-surface-variant);
     }
   }
@@ -1512,7 +1523,7 @@ body {
     }
   }
 
-  .md3-filled-input:not(:placeholder-shown) ~ .clear-input-btn {
+  .md3-filled-input:not(:placeholder-shown)~.clear-input-btn {
     opacity: 1;
     pointer-events: auto;
   }
@@ -1542,7 +1553,7 @@ body {
     }
   }
 
-  .md3-filled-input:focus ~ .md3-filled-indicator::after {
+  .md3-filled-input:focus~.md3-filled-indicator::after {
     width: 100%;
     left: 0;
   }
@@ -1568,6 +1579,7 @@ body {
 
     .md3-filled-indicator {
       background-color: var(--color-error);
+
       &::after {
         background-color: var(--color-error);
       }
