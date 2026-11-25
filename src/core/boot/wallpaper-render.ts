@@ -172,6 +172,8 @@ export function isDarkModeActive(): boolean {
   return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
 }
 
+const DARK_TEXT_OVERLAY_THRESHOLD = 0.4;
+
 export function updateOverlay(sliderValue: number, isEnabled: boolean, inverted: boolean = false): void {
   let val = Number(sliderValue);
   if (isNaN(val)) val = 0.3;
@@ -181,11 +183,12 @@ export function updateOverlay(sliderValue: number, isEnabled: boolean, inverted:
     '--wallpaper-overlay',
     String(overlayOpacity),
   );
-  if (inverted && !isDarkModeActive()) {
-    document.documentElement.classList.add('invert-overlay');
-  } else {
-    document.documentElement.classList.remove('invert-overlay');
-  }
+  const isInverted = inverted && !isDarkModeActive();
+  document.documentElement.classList.toggle('invert-overlay', isInverted);
+  document.documentElement.classList.toggle(
+    'invert-overlay-dark-text',
+    isInverted && overlayOpacity >= DARK_TEXT_OVERLAY_THRESHOLD,
+  );
 }
 
 export function hideCredits(): void {

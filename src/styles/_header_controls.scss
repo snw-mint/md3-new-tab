@@ -30,7 +30,9 @@
   font-size: 0.875rem;
   color: var(--color-on-surface);
   text-decoration: none;
-  transition: text-decoration 0.2s ease;
+  transition:
+    text-decoration 0.2s ease,
+    color 0.2s ease-in-out;
   padding: 0 0.5rem;
 
   &:hover {
@@ -116,7 +118,9 @@
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
-  transition: background-color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease-in-out;
 
   &:hover {
     background-color: var(--color-secondary-container);

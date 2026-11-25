@@ -78,6 +78,9 @@
           window.matchMedia('(prefers-color-scheme: dark)').matches);
       if (settings.wallpaperOverlayInverted && !isDark) {
         root.classList.add('invert-overlay');
+        if (rawOverlay >= 0.4) {
+          root.classList.add('invert-overlay-dark-text');
+        }
       }
 
       var applyEarlyWallpaper = function (url) {

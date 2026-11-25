@@ -138,6 +138,12 @@ body.has-wallpaper .clock-display {
   --color-background: var(--sys-background-dark, #1f1f1f);
 }
 
+html.invert-overlay-dark-text body.has-wallpaper .clock-display {
+  --color-primary: var(--sys-primary-light);
+  --color-tertiary: var(--sys-tertiary-light);
+  --color-background: var(--sys-background-light, #ffffff);
+}
+
 html[data-display-style='clock'] #clockDisplay {
   display: block !important;
 }

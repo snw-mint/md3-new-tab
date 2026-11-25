@@ -105,6 +105,13 @@ body.has-wallpaper {
     .engine-circle-btn {
       color: #ffffff !important;
     }
+    .weather-temp,
+    .weather-city,
+    .greetings-text,
+    .date-display,
+    .engine-circle-btn {
+      transition: color 0.2s ease-in-out;
+    }
   }
   .menu-btn {
     color: #ffffff !important;
@@ -113,6 +120,43 @@ body.has-wallpaper {
     color: var(--sys-primary-dark, #ffffff) !important;
     .name-sparkle-svg {
       color: var(--sys-primary-dark, #ffffff) !important;
+    }
+  }
+}
+
+html.invert-overlay-dark-text body.has-wallpaper {
+  .weather-widget,
+  .shortcut-title,
+  .display-widget,
+  .main-header {
+    color: var(--color-on-surface, #1f1f1f);
+    --color-secondary-container: var(--sys-secondary-container-light);
+    --color-weather-shape: var(--color-secondary-container);
+    .weather-temp,
+    .weather-city,
+    .greetings-text,
+    .date-display,
+    .header-link,
+    .icon-btn,
+    .engine-circle-btn {
+      color: var(--color-on-surface, #1f1f1f) !important;
+    }
+  }
+  .menu-btn {
+    color: var(--color-on-surface, #1f1f1f) !important;
+  }
+  .highlighted-name.active {
+    color: var(--sys-primary-light, var(--color-primary)) !important;
+    .name-sparkle-svg {
+      color: var(--sys-primary-light, var(--color-primary)) !important;
+    }
+  }
+  .wallpaper-credits {
+    color: var(--color-on-surface, #1f1f1f);
+    text-shadow: none;
+
+    .wallpaper-credits-icon {
+      filter: none;
     }
   }
 }
@@ -136,7 +180,9 @@ body.has-wallpaper {
   text-overflow: ellipsis;
   transition:
     right 0.3s cubic-bezier(0.2, 0, 0, 1),
-    max-width 0.3s cubic-bezier(0.2, 0, 0, 1);
+    max-width 0.3s cubic-bezier(0.2, 0, 0, 1),
+    color 0.2s ease-in-out,
+    text-shadow 0.2s ease-in-out;
 
   body.sidebar-open & {
     right: calc(22rem + 1.25rem);
