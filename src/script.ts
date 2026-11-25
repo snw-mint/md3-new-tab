@@ -165,6 +165,8 @@ function bootInteractive(): void {
           renderLauncherApps(data, {
             launcherGrid: document.getElementById('launcherGrid'),
             launcherAllAppsLink: document.getElementById('launcherAllAppsLink') as HTMLAnchorElement | null,
+            launcherWorkspaceTitle: document.getElementById('launcherWorkspaceTitle'),
+            provider,
           });
         };
 

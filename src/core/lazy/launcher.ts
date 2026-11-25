@@ -9,9 +9,17 @@
 import { LauncherProviderData } from '../shared/types';
 import { initVanillaDragAndDrop } from './drag-drop';
 
+const WORKSPACE_TITLES: Record<string, string> = {
+  google: 'Google Workspace',
+  microsoft: 'Microsoft 365',
+  proton: 'Proton AG',
+};
+
 interface LauncherRenderRefs {
   launcherGrid: HTMLElement | null;
   launcherAllAppsLink: HTMLAnchorElement | null;
+  launcherWorkspaceTitle?: HTMLElement | null;
+  provider?: string;
 }
 
 export function renderLauncherApps(
@@ -19,6 +27,11 @@ export function renderLauncherApps(
   renderRefs: LauncherRenderRefs,
 ): void {
   if (!data || !renderRefs.launcherGrid) return;
+
+  if (renderRefs.launcherWorkspaceTitle && renderRefs.provider) {
+    renderRefs.launcherWorkspaceTitle.textContent =
+      WORKSPACE_TITLES[renderRefs.provider] || renderRefs.provider;
+  }
 
   const orderString = localStorage.getItem('launcherOrder');
   let orderedApps = [...data.apps];

@@ -161,6 +161,26 @@ html.invert-overlay-dark-text body.has-wallpaper {
   }
 }
 
+@mixin dark-wallpaper-surface {
+  .weather-widget,
+  .shortcut-title,
+  .display-widget,
+  .main-header {
+    --color-secondary-container: color-mix(in srgb, var(--sys-primary-dark, #ffffff) 35%, black);
+    --color-weather-shape: var(--color-secondary-container);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) body.has-wallpaper {
+    @include dark-wallpaper-surface;
+  }
+}
+
+html[data-theme='dark'] body.has-wallpaper {
+  @include dark-wallpaper-surface;
+}
+
 .wallpaper-credits {
   position: fixed;
   bottom: 1.25rem;

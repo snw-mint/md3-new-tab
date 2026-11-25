@@ -123,7 +123,7 @@
     color 0.2s ease-in-out;
 
   &:hover {
-    background-color: var(--color-secondary-container);
+    background-color: var(--color-weather-shape);
   }
 
   svg {
@@ -162,7 +162,7 @@
 }
 
 .shape-layer {
-  color: var(--color-secondary-container);
+  color: var(--color-weather-shape);
   transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
 
   svg {
