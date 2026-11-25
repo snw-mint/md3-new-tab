@@ -71,6 +71,37 @@ export function applyEngineToForm(engineKey: string, iconSvg?: string): void {
   }
 }
 
+function resolveDirectUrl(rawInput: string): string | null {
+  const trimmed = rawInput.trim();
+  if (!trimmed || /\s/.test(trimmed)) return null;
+
+  if (/^(https?|ftp):\/\/\S+$/i.test(trimmed)) {
+    try {
+      return new URL(trimmed).href;
+    } catch {
+      return null;
+    }
+  }
+
+  if (/^(localhost|(\d{1,3}\.){3}\d{1,3})(:\d{1,5})?([/?#]\S*)?$/i.test(trimmed)) {
+    try {
+      return new URL(`http://${trimmed}`).href;
+    } catch {
+      return null;
+    }
+  }
+
+  if (/^([a-z0-9-]+\.)+[a-z]{2,63}(:\d{1,5})?([/?#]\S*)?$/i.test(trimmed)) {
+    try {
+      return new URL(`https://${trimmed}`).href;
+    } catch {
+      return null;
+    }
+  }
+
+  return null;
+}
+
 export function bindSearchForm(): void {
   const searchForm = document.getElementById('searchForm') as HTMLFormElement | null;
   if (!searchForm) return;
@@ -79,6 +110,13 @@ export function bindSearchForm(): void {
     const currentEngine = getSavedEngine();
     const input = searchForm.querySelector('input[name="q"]') as HTMLInputElement | null;
     const query = input?.value || '';
+
+    const directUrl = resolveDirectUrl(query);
+    if (directUrl) {
+      e.preventDefault();
+      window.location.href = directUrl;
+      return;
+    }
 
     if (query.trim()) {
       import('../lazy/frequent-searches').then(({ recordSearch }) => recordSearch(query));
